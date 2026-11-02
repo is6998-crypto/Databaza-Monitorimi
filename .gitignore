@@ -1,0 +1,48 @@
+# --- Laravel defaults ---
+*.log
+.DS_Store
+.phpactor.json
+.phpunit.result.cache
+/.codex
+/.cursor/
+/.idea
+/.nova
+/.phpunit.cache
+/.vscode
+/.zed
+/auth.json
+/node_modules
+/public/build
+/public/fonts-manifest.dev.json
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+/vendor
+_ide_helper.php
+_ide_helper_models.php
+.phpstorm.meta.php
+Homestead.json
+Homestead.yaml
+Thumbs.db
+
+# --- Environment files: never commit secrets (only .env.example is tracked) ---
+.env*
+!.env.example
+!.env.production.example
+
+# --- Database dumps, backups and exports: never commit real data ---
+*.sql
+*.sql.gz
+*.dump
+*.bak
+/migration/data/
+/backups/
+/exports/
+
+# --- Tooling ---
+.claude/settings.local.json
+/test-results/
+/playwright-report/
+/e2e/.auth/
+/storage/app/private/scribe/*.tmp

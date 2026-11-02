@@ -1,0 +1,33 @@
+{
+    "name": "CourtWatch",
+    "dockerComposeFile": ["../docker-compose.yml"],
+    "service": "app",
+    "runServices": ["app", "horizon", "scheduler", "postgres", "redis", "minio", "createbuckets", "mailpit"],
+    "workspaceFolder": "/var/www/html",
+    "shutdownAction": "stopCompose",
+    "overrideCommand": false,
+    "forwardPorts": [8000, 8025, 9001],
+    "portsAttributes": {
+        "8000": { "label": "CourtWatch app", "onAutoForward": "openBrowser" },
+        "8025": { "label": "Mailpit (dev email)", "onAutoForward": "silent" },
+        "9001": { "label": "MinIO console", "onAutoForward": "silent" }
+    },
+    "postAttachCommand": "echo 'CourtWatch starts automatically (see the app container log). Demo logins are in README.md.'",
+    "customizations": {
+        "codespaces": {
+            "openFiles": ["README.md"]
+        },
+        "vscode": {
+            "extensions": [
+                "bmewburn.vscode-intelephense-client",
+                "open-southeners.laravel-pint",
+                "bradlc.vscode-tailwindcss",
+                "editorconfig.editorconfig"
+            ]
+        }
+    },
+    "hostRequirements": {
+        "cpus": 2,
+        "memory": "4gb"
+    }
+}
