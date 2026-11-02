@@ -22,7 +22,7 @@ jobs:
     name: Pint (code style)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ env.PHP_VERSION }}
@@ -39,7 +39,7 @@ jobs:
     name: Larastan (static analysis)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ env.PHP_VERSION }}
@@ -66,7 +66,7 @@ jobs:
         ports:
           - 5432:5432
         options: >-
-          --health-cmd "pg_isready -U courtwatch"
+          --health-cmd "pg_isready -U courtwatch -d courtwatch_test"
           --health-interval 5s
           --health-timeout 5s
           --health-retries 20
@@ -78,7 +78,7 @@ jobs:
       DB_USERNAME: courtwatch
       DB_PASSWORD: secret
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ env.PHP_VERSION }}
