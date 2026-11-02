@@ -24,3 +24,14 @@ added at the bottom of each section. Format: **decision** — reason.
 - **Filament's default avatar provider (ui-avatars.com) is replaced by locally generated initials.** — The default would send staff names to a third party.
 - **Audit log = spatie/laravel-activitylog with log names per area (`auth`, `permissions`, `cases`, `exports`…). Party names are never written to the audit log; only a `name_changed` flag.** — Otherwise the log would hold personal names in clear text, defeating encryption at rest.
 - **Tests seed roles and the public reference structure once per run (`TestingSeeder`) and run each test in a transaction.** — Keeps the suite fast on PostgreSQL.
+
+## Reference data
+
+- **One generic Filament resource base (`ReferenceResource`) with a modal "manage" page per table.** — Sixteen tables share CRUD, bilingual names, search, soft delete/restore, merge and CSV import; each table only declares its extra fields.
+- **`name_en` is nullable like `name_sr`; labels fall back to Albanian.** — Legacy and CSV data often lack English names; Albanian is the default language.
+- **People tables (judges, prosecutors) have a single `name` column, not translated names; monitors take their name from the linked user.** — Personal names are not translated. These names are internal and never published.
+- **Merge = pick the record to keep among the selected rows; every foreign key (listed in each model's `references()`) is re-pointed, rows that would break a unique constraint are dropped, duplicates are deactivated and soft-deleted, and the merge is audited.** — Matches "re-points all references" and keeps history recoverable.
+- **Deleting reference rows is reserved to Super Admin; Editors deactivate or merge.** — Prevents accidental loss of data used by historical cases.
+- **CSV import matches existing rows by Albanian name (or code / article number where they exist), updates them, creates the rest, and reports skipped rows with line numbers. Related tables are resolved by code or name. Comma or semicolon delimiters are detected.** — Excel in the region often saves CSV with semicolons.
+- **The seeded court structure (7 basic courts with branches, Court of Appeals, Supreme Court), departments, prosecution offices, criminal codes and a *sample* of articles come from public sources and should be verified by the organization.** — The proposal asks for the real public structure; editors can correct it in the panel or by CSV.
+- **No Commercial Court is seeded.** — B6.3 lists only basic courts, the Court of Appeals and the Supreme Court; it can be added in the panel.
