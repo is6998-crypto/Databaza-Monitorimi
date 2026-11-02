@@ -40,7 +40,8 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
-            "Migration\\": "migration/src/"
+            "Migration\\": "migration/src/",
+            "Database\\Faker\\": "database/Faker/"
         }
     },
     "autoload-dev": {

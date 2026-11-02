@@ -27,7 +27,7 @@ return [
             'pages' => true,
             'widgets' => true,
             'resources' => true,
-            'custom_permissions' => false,
+            'custom_permissions' => true,
         ],
     ],
 
@@ -87,7 +87,7 @@ return [
     */
 
     'panel_user' => [
-        'enabled' => true,
+        'enabled' => false,
         'name' => 'panel_user',
     ],
 
@@ -120,7 +120,7 @@ return [
         'separator' => ':',
         'case' => 'pascal',
         'generate' => true,
-        'format_custom_permission_keys' => true,
+        'format_custom_permission_keys' => false,
     ],
 
     /*
@@ -141,7 +141,8 @@ return [
     'policies' => [
         'path' => app_path('Policies'),
         'merge' => true,
-        'generate' => true,
+        // Policies are hand-written (record-level rules for monitors and workflow states).
+        'generate' => false,
         'methods' => [
             'viewAny', 'view', 'create', 'update', 'delete', 'deleteAny', 'restore',
             'forceDelete', 'forceDeleteAny', 'restoreAny', 'replicate', 'reorder',
@@ -252,7 +253,17 @@ return [
     |
     */
 
-    'custom_permissions' => [],
+    'custom_permissions' => [
+        'Review:Workflow' => 'Review, approve or return submissions',
+        'Publish:Workflow' => 'Publish approved records and reports',
+        'Merge:Reference' => 'Merge duplicate reference data',
+        'Import:Reference' => 'Import reference data from CSV',
+        'Export:Data' => 'Export data (CSV/XLSX)',
+        'Assign:Monitor' => 'Assign monitors to cases',
+        'View:Analytics' => 'View analytics dashboards',
+        'Approve:Researcher' => 'Approve researcher accounts',
+        'Manage:Settings' => 'Manage system settings',
+    ],
 
     /*
     |--------------------------------------------------------------------------

@@ -2,24 +2,30 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
     /**
-     * Seed the application's database.
+     * Roles and the public court/criminal-code structure are always seeded.
+     * Fake demo accounts and records only outside production (SEED_DEMO_DATA=true).
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $this->call([
+            RolesAndPermissionsSeeder::class,
+            ReferenceDataSeeder::class,
+        ]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        if (app()->isProduction() || ! config('courtwatch.seed_demo_data')) {
+            return;
+        }
+
+        $this->call([
+            DemoUsersSeeder::class,
+            DemoReferenceSeeder::class,
+            DemoCasesSeeder::class,
+            DemoPublicationsSeeder::class,
         ]);
     }
 }

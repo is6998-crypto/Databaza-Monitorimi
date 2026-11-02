@@ -2,16 +2,22 @@
 
 namespace App\Providers\Filament;
 
+use App\Enums\NavigationGroup;
+use App\Filament\Admin\Pages\Dashboard;
+use App\Filament\Support\InitialsAvatarProvider;
+use App\Http\Middleware\SetLocale;
+use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
+use Filament\Actions\Action;
+use Filament\Auth\MultiFactor\App\AppAuthentication;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Filament\Widgets\AccountWidget;
-use Filament\Widgets\FilamentInfoWidget;
+use Filament\Support\Icons\Heroicon;
+use Filament\View\PanelsRenderHook;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
@@ -19,6 +25,9 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
+/**
+ * Staff panel (/admin): Super Admin, Editor, Monitor, Analyst. TOTP 2FA is mandatory here.
+ */
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
@@ -27,20 +36,59 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
+            ->brandName('CourtWatch')
+            ->favicon(asset('icons/favicon.svg'))
+            ->defaultAvatarProvider(InitialsAvatarProvider::class)
             ->login()
+            ->passwordReset()
+            ->profile(isSimple: false)
+            ->multiFactorAuthentication(
+                [AppAuthentication::make()->recoverable()->brandName('CourtWatch')],
+                isRequired: true,
+            )
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Indigo,
+                'gray' => Color::Slate,
             ])
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
+            ->viteTheme('resources/css/filament/admin/theme.css')
+            ->databaseNotifications()
+            ->databaseNotificationsPolling('60s')
+            ->navigationGroups(NavigationGroup::class)
+            ->sidebarCollapsibleOnDesktop()
+            ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
+            ->unsavedChangesAlerts()
+            ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\Filament\Admin\Resources')
+            ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\Filament\Admin\Pages')
+            ->discoverWidgets(in: app_path('Filament/Admin/Widgets'), for: 'App\Filament\Admin\Widgets')
             ->pages([
                 Dashboard::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
-            ->widgets([
-                AccountWidget::class,
-                FilamentInfoWidget::class,
+            ->widgets([])
+            ->plugins([
+                FilamentShieldPlugin::make()
+                    ->navigationGroup(NavigationGroup::Administration)
+                    ->navigationSort(20),
             ])
+            ->userMenuItems([
+                Action::make('locale-sq')
+                    ->label('Shqip')
+                    ->icon(Heroicon::OutlinedLanguage)
+                    ->url(fn (): string => route('locale.switch', 'sq'))
+                    ->visible(fn (): bool => app()->getLocale() !== 'sq'),
+                Action::make('locale-en')
+                    ->label('English')
+                    ->icon(Heroicon::OutlinedLanguage)
+                    ->url(fn (): string => route('locale.switch', 'en'))
+                    ->visible(fn (): bool => app()->getLocale() !== 'en'),
+                Action::make('monitor-app')
+                    ->label(fn (): string => __('app.monitor_app'))
+                    ->icon(Heroicon::OutlinedDevicePhoneMobile)
+                    ->url(fn (): string => route('monitor.app')),
+            ])
+            ->renderHook(PanelsRenderHook::BODY_END, fn () => view('partials.idle-timeout', [
+                'logoutUrl' => route('filament.admin.auth.logout'),
+                'loginUrl' => route('filament.admin.auth.login'),
+            ]))
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -51,6 +99,7 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                SetLocale::class,
             ])
             ->authMiddleware([
                 Authenticate::class,
