@@ -35,3 +35,23 @@ added at the bottom of each section. Format: **decision** — reason.
 - **CSV import matches existing rows by Albanian name (or code / article number where they exist), updates them, creates the rest, and reports skipped rows with line numbers. Related tables are resolved by code or name. Comma or semicolon delimiters are detected.** — Excel in the region often saves CSV with semicolons.
 - **The seeded court structure (7 basic courts with branches, Court of Appeals, Supreme Court), departments, prosecution offices, criminal codes and a *sample* of articles come from public sources and should be verified by the organization.** — The proposal asks for the real public structure; editors can correct it in the panel or by CSV.
 - **No Commercial Court is seeded.** — B6.3 lists only basic courts, the Court of Appeals and the Supreme Court; it can be added in the panel.
+
+## Cases and hearings
+
+- **Model `CourtCase` on table `cases`.** — `Case` is a reserved word in PHP.
+- **Each case and hearing has a random `public_ref` (ULID).** — Public pages, the researcher area and the API use it instead of the database id or the court case number, so records cannot be enumerated or matched to court registers.
+- **Party names are a single encrypted `name` column with an HMAC blind index (full name + one hash per name token).** — Encryption at rest prevents SQL search; the blind index allows exact search by full name or surname without storing plaintext. Fuzzy (trigram) search is used only for non-personal fields.
+- **Multi-select hearing answers (postponement reasons, phone users, participants) are JSONB arrays of enum values.** — The proposal forbids JSON only for type-specific case fields; JSONB keeps the hearing in one row and PostgreSQL aggregates it easily.
+- **Hearing booleans default to "no", and follow-up answers are cleared on save when their trigger question is "no".** — Keeps the data consistent with what the form showed.
+- **Stage dates are checked against a predecessor graph (`StageType::predecessors()`), not a strict linear order.** — Real cases skip stages (direct indictment, plea agreement) and some stages are parallel (execution vs. extraordinary remedies).
+- **Stage dates may be planned dates; only hearing dates are refused in the future.** — B5 restricts only hearing dates.
+- **Duplicate case numbers (same court, case-insensitive, trimmed) show a warning with a link to the existing case, but never block saving.** — B5 says "warn … and offer to open the existing case".
+- **The case workspace is the Filament view page with relation-manager tabs (Overview · Parties & charges · Stages timeline · Hearings · Measures & sentences · Documents · History). Rows inside the case are edited in place there.** — One screen per case instead of the legacy 580-field form.
+- **"Add hearing" opens the full hearing page (`/admin/hearings/create?case=ID`) rather than a modal.** — Pre-filled court/judge/prosecutor/parties, autosave and phone-friendly layout work better on a page.
+- **Autosave stores encrypted form drafts (`form_drafts`) every 20 seconds and right before an idle logout; drafts are restored on the next visit and deleted after saving.** — Avoids the legacy problem of losing work when a session ends.
+- **"Recently used" values are recorded per user and field (`user_recent_values`) and shown as the first group of searchable selects.** — Works for every reference select without per-field queries.
+- **Monitor PWA at `/m` (Blade + Alpine, not Filament): IndexedDB drafts and outbox, service worker caching the app shell, idempotent sync by client UUID.** — Livewire pages need the network; a small standalone page can work fully offline.
+- **On the device the PWA stores party role + initials only, never full names.** — Minimises personal data on phones; monitors can still tick who was present.
+- **While offline the idle-timeout timer pauses; when the session has expired the PWA keeps drafts and asks the monitor to sign in again before syncing.** — Monitors in courtrooms without signal must not lose their notes.
+- **Attachments: PDF/JPG/PNG up to 20 MB on the private attachments disk, downloaded only through a 10-minute signed URL plus a policy check, every download audited.** — B5/B7.
+- **Guests are redirected to the login page of their area (`/admin/login` or `/research/login`); there is no generic `/login`.** — Filament panels own the login pages.

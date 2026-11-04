@@ -40,6 +40,11 @@ Thumbs.db
 /backups/
 /exports/
 
+# --- Local service data (Redis/PostgreSQL files written in the working directory) ---
+*.rdb
+*.aof
+appendonlydir/
+
 # --- Tooling ---
 .claude/settings.local.json
 /test-results/

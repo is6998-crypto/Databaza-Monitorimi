@@ -80,5 +80,6 @@ return [
 
     'seed_demo_data' => (bool) env('SEED_DEMO_DATA', false),
     'demo_password' => env('DEMO_PASSWORD', 'password'),
+    'demo_cases' => (int) env('DEMO_CASES', 200),
 
 ];

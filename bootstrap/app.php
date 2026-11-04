@@ -13,7 +13,8 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // There is no generic /login route: guests go to the login page of their area.
+        $middleware->redirectGuestsTo(fn (Request $request): string => $request->is('research', 'research/*') ? '/research/login' : '/admin/login');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

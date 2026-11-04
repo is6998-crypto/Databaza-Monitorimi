@@ -58,6 +58,9 @@
             },
 
             tick() {
+                // Offline (e.g. the monitor app in a courtroom without signal): drafts stay on the
+                // device, so there is nothing to protect by forcing a logout we cannot perform.
+                if (!navigator.onLine) { this.warning = false; return; }
                 const remaining = this.remaining();
                 if (remaining <= 0) { this.logout(true); return; }
                 if (remaining <= config.warning) {

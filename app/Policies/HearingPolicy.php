@@ -42,6 +42,19 @@ class HearingPolicy extends PermissionPolicy
         return true;
     }
 
+    /**
+     * Removing attachments of a hearing: whoever may edit it; monitors only while it is a draft or returned.
+     */
+    public function removeChildren(User $user, Hearing $hearing): bool
+    {
+        if (! $this->update($user, $hearing)) {
+            return false;
+        }
+
+        return ! $user->isMonitorOnly()
+            || in_array($hearing->status, [WorkflowStatus::Draft, WorkflowStatus::Returned], true);
+    }
+
     public function submit(User $user, Hearing $hearing): bool
     {
         return in_array($hearing->status, [WorkflowStatus::Draft, WorkflowStatus::Returned], true)

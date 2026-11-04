@@ -1,6 +1,8 @@
 <?php
 
 use App\Enums\Role;
+use App\Models\Reference\Court;
+use App\Models\Reference\Monitor;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -49,4 +51,23 @@ function actingAsRole(Role $role, bool $mfa = true): User
     test()->actingAs($user);
 
     return $user;
+}
+
+/**
+ * A monitor (with 2FA) scoped to the given courts.
+ *
+ * @param  list<int>  $courtIds
+ */
+function monitorUser(array $courtIds = []): User
+{
+    $user = userWithRole(Role::Monitor);
+    $monitor = Monitor::query()->create(['user_id' => $user->id, 'code' => 'T-'.$user->id]);
+    $monitor->courts()->sync($courtIds);
+
+    return $user->fresh();
+}
+
+function basicCourt(int $index = 0): Court
+{
+    return Court::query()->where('level', 'basic')->orderBy('id')->skip($index)->firstOrFail();
 }
