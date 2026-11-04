@@ -30,3 +30,7 @@ All notable changes to this project are documented here. The format follows
 - Public portal at `/sq` and `/en`: home with headline statistics and interactive charts by year, court and case type (Apache ECharts), anonymized case search and case pages, reports & publications, methodology, about and data-protection pages, open-data CSV downloads, language switcher, SEO meta tags, `hreflang` and a sitemap. Every aggregate under 5 is suppressed; no personal names are ever shown.
 - Publications management for editors.
 - Automated privacy test that crawls every public route and component and fails if a personal name or case number appears.
+- Researcher area at `/research`: self-registration with institution and research purpose, approval status page, versioned data-use agreement, anonymized dataset downloads (cases, parties, hearings; CSV/XLSX) and personal API tokens. Every download is logged.
+- "Researchers" screen in the staff panel to approve, reject or suspend researcher accounts, with e-mail notifications; suspension revokes all tokens.
+- Read-only researcher API at `/api/v1` (cases, parties, hearings, aggregate statistics, reference lists) with Sanctum tokens, rate limiting, filters, pagination, Albanian/English labels and logging of every request; OpenAPI docs at `/docs/api`.
+- The privacy test now also crawls every researcher page, every API endpoint, the research downloads and the API docs.

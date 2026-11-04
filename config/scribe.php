@@ -11,29 +11,42 @@ use function Knuckles\Scribe\Config\removeStrategies;
 
 return [
     // The HTML <title> for the generated documentation.
-    'title' => config('app.name').' API Documentation',
+    'title' => 'CourtWatch Researcher API',
 
     // A short description of your API. Will be included in the docs webpage, Postman collection and OpenAPI spec.
-    'description' => '',
+    'description' => 'Read-only API with anonymized, verified court-monitoring data from Kosovo, for approved researchers.',
 
     // Text to place in the "Introduction" section, right after the `description`. Markdown and HTML are supported.
     'intro_text' => <<<'INTRO'
-            This documentation aims to provide all the information you need to work with our API.
+            The researcher API gives approved researchers read-only access to **anonymized** record-level data
+            (cases, parties, hearings) and to the same suppressed aggregate statistics as the public portal.
 
-            <aside>As you scroll, you'll see code examples for working with the API in different programming languages in the dark area to the right (or as part of the content on mobile).
-            You can switch the language used with the tabs at the top right (or from the nav menu at the top left on mobile).</aside>
+            **Who can use it.** Register in the researcher area (`/research/register`). After an administrator approves
+            the account and you accept the data-use agreement, create a token under **API tokens** (`/research/api-tokens`)
+            and send it in the `Authorization: Bearer <token>` header. Tokens carry the `research:read` ability and expire.
+
+            **What you get.** Only verified (approved or published) records. Never names, case numbers, judges,
+            prosecutors, monitors or free-text notes. Cases and hearings are identified by stable references (ULIDs),
+            parties by stable pseudonyms. Aggregate values under 5 are `null` (small-cell suppression).
+
+            **Conventions.** Lists are paginated (`page`, `per_page` up to 100). Dates are `Y-m-d`. Labels follow `?lang=sq|en`
+            or the `Accept-Language` header (Albanian by default); codes never change. Requests are rate limited
+            (60 per minute by default; `429` when exceeded). Every request that returns records is logged.
+
+            <aside>Errors: <code>401</code> missing or invalid token, <code>403</code> account not approved, agreement not accepted
+            or token without the <code>research:read</code> ability, <code>422</code> invalid filter, <code>429</code> too many requests.</aside>
         INTRO,
 
     // The base URL displayed in the docs.
     // If you're using `laravel` type, you can set this to a dynamic string, like '{{ config("app.tenant_url") }}' to get a dynamic base URL.
-    'base_url' => config('app.url'),
+    'base_url' => '{{ config("app.url") }}',
 
     // Routes to include in the docs
     'routes' => [
         [
             'match' => [
                 // Match only routes whose paths match this pattern (use * as a wildcard to match any characters). Example: 'users/*'.
-                'prefixes' => ['api/*'],
+                'prefixes' => ['api/v1/*'],
 
                 // Match only routes whose domains match this pattern (use * as a wildcard to match any characters). Example: 'api.*'.
                 'domains' => ['*'],
@@ -68,11 +81,12 @@ return [
 
     'laravel' => [
         // Whether to automatically create a docs route for you to view your generated docs. You can still set up routing manually.
-        'add_routes' => true,
+        // Routes are registered in routes/web.php (App\Http\Controllers\ApiDocsController).
+        'add_routes' => false,
 
         // URL path to use for the docs endpoint (if `add_routes` is true).
         // By default, `/docs` opens the HTML page, `/docs.postman` opens the Postman collection, and `/docs.openapi` the OpenAPI spec.
-        'docs_url' => '/docs',
+        'docs_url' => '/docs/api',
 
         // Directory within `public` in which to store CSS and JS assets.
         // By default, assets are stored in `public/vendor/scribe`.
@@ -105,17 +119,17 @@ return [
     // How is your API authenticated? This information will be used in the displayed docs, generated examples and response calls.
     'auth' => [
         // Set this to true if ANY endpoints in your API use authentication.
-        'enabled' => false,
+        'enabled' => true,
 
         // Set this to true if your API should be authenticated by default. If so, you must also set `enabled` (above) to true.
         // You can then use @unauthenticated or @authenticated on individual endpoints to change their status from the default.
-        'default' => false,
+        'default' => true,
 
         // Where is the auth value meant to be sent in a request?
         'in' => AuthIn::BEARER->value,
 
         // The name of the auth parameter (e.g. token, key, apiKey) or header (e.g. Authorization, Api-Key).
-        'name' => 'key',
+        'name' => 'Authorization',
 
         // The value of the parameter to be used by Scribe to authenticate response calls.
         // This will NOT be included in the generated documentation. If empty, Scribe will use a random value.
@@ -123,10 +137,10 @@ return [
 
         // Placeholder your users will see for the auth parameter in the example requests.
         // Set this to null if you want Scribe to use a random value as placeholder instead.
-        'placeholder' => '{YOUR_AUTH_KEY}',
+        'placeholder' => '{YOUR_API_TOKEN}',
 
         // Any extra authentication-related info for your users. Markdown and HTML are supported.
-        'extra_info' => 'You can retrieve your token by visiting your dashboard and clicking <b>Generate API token</b>.',
+        'extra_info' => 'Create a token in the researcher area under <b>API tokens</b> (<code>/research/api-tokens</code>). Only approved researchers who accepted the data-use agreement can create one.',
     ],
 
     // Example requests for each endpoint will be shown in each of these languages.
@@ -136,6 +150,7 @@ return [
     'example_languages' => [
         'bash',
         'javascript',
+        'python',
     ],
 
     // Generate a Postman collection (v2.1.0) in addition to HTML docs.
@@ -179,7 +194,7 @@ return [
         // You can override this by listing the groups, subgroups and endpoints here in the order you want them.
         // See https://scribe.knuckles.wtf/blog/laravel-v4#easier-sorting and https://scribe.knuckles.wtf/laravel/reference/config#order for details
         // Note: does not work for `external` docs types
-        'order' => [],
+        'order' => ['Cases', 'Parties', 'Hearings', 'Statistics', 'Reference data'],
     ],
 
     // Custom logo path. This will be used as the value of the src attribute for the <img> tag,
@@ -197,7 +212,7 @@ return [
     // The format you pass to `date` will be passed to PHP's `date()` function.
     // The format you pass to `git` can be either "short" or "long".
     // Note: does not work for `external` docs types
-    'last_updated' => 'Last updated: {date:F j, Y}',
+    'last_updated' => 'Last updated: {date:d.m.Y}',
 
     'examples' => [
         // Set this to any number to generate the same example values for parameters on each run,
@@ -206,7 +221,7 @@ return [
         // With API resources and transformers, Scribe tries to generate example models to use in your API responses.
         // By default, Scribe will try the model's factory, and if that fails, try fetching the first from the database.
         // You can reorder or remove strategies here.
-        'models_source' => ['factoryCreate', 'factoryMake', 'databaseFirst'],
+        'models_source' => ['factoryMake'],
     ],
 
     // The strategies Scribe will use to extract information about your routes at each stage.
@@ -232,15 +247,11 @@ return [
         'bodyParameters' => [
             ...Defaults::BODY_PARAMETERS_STRATEGIES,
         ],
-        'responses' => configureStrategy(
+        // No response calls: the documented examples are written by hand (@response), so generating
+        // the docs never touches the database or needs a real token.
+        'responses' => removeStrategies(
             Defaults::RESPONSES_STRATEGIES,
-            Strategies\Responses\ResponseCalls::withSettings(
-                only: ['GET *'],
-                // Recommended: disable debug mode in response calls to avoid error stack traces in responses
-                config: [
-                    'app.debug' => false,
-                ]
-            )
+            [Strategies\Responses\ResponseCalls::class],
         ),
         'responseFields' => [
             ...Defaults::RESPONSE_FIELDS_STRATEGIES,

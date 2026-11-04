@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApiDocsController;
 use App\Http\Controllers\AttachmentController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\Monitor\MonitorAppController;
@@ -24,6 +25,16 @@ Route::middleware(['auth', SetLocale::class])->group(function (): void {
         ->middleware('signed')
         ->name('attachments.download');
 });
+
+/*
+|--------------------------------------------------------------------------
+| Researcher API documentation (Scribe output, regenerate with `composer docs:api`)
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/docs/api', [ApiDocsController::class, 'show'])->name('scribe');
+Route::get('/docs/api.openapi', [ApiDocsController::class, 'openapi'])->name('scribe.openapi');
+Route::get('/docs/api.postman', [ApiDocsController::class, 'postman'])->name('scribe.postman');
 
 /*
 |--------------------------------------------------------------------------

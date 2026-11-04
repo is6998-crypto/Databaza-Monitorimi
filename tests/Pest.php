@@ -1,8 +1,10 @@
 <?php
 
+use App\Enums\ResearcherStatus;
 use App\Enums\Role;
 use App\Models\Reference\Court;
 use App\Models\Reference\Monitor;
+use App\Models\ResearcherProfile;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -70,4 +72,27 @@ function monitorUser(array $courtIds = []): User
 function basicCourt(int $index = 0): Court
 {
     return Court::query()->where('level', 'basic')->orderBy('id')->skip($index)->firstOrFail();
+}
+
+/**
+ * A researcher account with a profile in the given status; approved researchers have
+ * accepted the current data-use agreement unless $agreement is false.
+ */
+function researcher(ResearcherStatus $status = ResearcherStatus::Approved, bool $agreement = true, array $attributes = []): User
+{
+    $user = userWithRole(Role::Researcher, mfa: false, attributes: $attributes);
+    $accepted = $agreement && $status === ResearcherStatus::Approved;
+
+    ResearcherProfile::query()->create([
+        'user_id' => $user->id,
+        'institution' => 'Test University',
+        'position' => 'Researcher',
+        'research_purpose' => 'Testing access to anonymized court-monitoring data.',
+        'status' => $status,
+        'reviewed_at' => $status === ResearcherStatus::Pending ? null : now(),
+        'agreement_version' => $accepted ? config('courtwatch.data_use_agreement_version') : null,
+        'agreement_accepted_at' => $accepted ? now() : null,
+    ]);
+
+    return $user->fresh();
 }

@@ -51,3 +51,6 @@ appendonlydir/
 /playwright-report/
 /e2e/.auth/
 /storage/app/private/scribe/*.tmp
+
+# Scribe intermediate files (the published docs are committed: resources/views/scribe, public/vendor/scribe, storage/app/private/scribe)
+/.scribe/

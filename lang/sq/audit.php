@@ -55,5 +55,10 @@ return [
         'imported' => 'Import CSV',
         'transition' => 'Ndryshim statusi',
         'downloaded' => 'Shkarkim dokumenti',
+        'approved' => 'Miratuar',
+        'rejected' => 'Refuzuar',
+        'suspended' => 'Pezulluar',
+        'token_created' => 'Token API u krijua',
+        'token_revoked' => 'Token API u revokua',
     ],
 ];

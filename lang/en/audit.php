@@ -55,5 +55,10 @@ return [
         'imported' => 'CSV import',
         'transition' => 'Status change',
         'downloaded' => 'File downloaded',
+        'approved' => 'Approved',
+        'rejected' => 'Rejected',
+        'suspended' => 'Suspended',
+        'token_created' => 'API token created',
+        'token_revoked' => 'API token revoked',
     ],
 ];

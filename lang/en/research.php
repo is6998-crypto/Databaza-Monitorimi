@@ -1,0 +1,134 @@
+<?php
+
+return [
+    'panel' => 'Researchers',
+
+    'register' => [
+        'institution' => 'Institution',
+        'position' => 'Position',
+        'purpose' => 'Research purpose',
+        'purpose_help' => 'Briefly describe the project, how you will use the data and who will have access to it (at least 30 characters).',
+    ],
+
+    'dashboard' => [
+        'title' => 'Home',
+        'no_profile' => 'This account has no researcher profile.',
+        'pending_title' => 'Your account is waiting for approval',
+        'pending_body' => 'Thank you for registering. An administrator will review your application and tell you the outcome by e-mail. Once approved, you will be asked to accept the data-use agreement.',
+        'rejected_title' => 'Access is not available',
+        'rejected_body' => 'Your application was not approved or your access has been suspended. Contact the organization if you have questions.',
+        'agreement_title' => 'Accept the data-use agreement',
+        'agreement_body' => 'Your account has been approved. Before you can download data or create API tokens, read and accept the data-use agreement.',
+        'approved_title' => 'Your access is active',
+        'approved_body' => 'You can download the anonymized datasets and use the read-only API. Every download and API request is logged.',
+        'api_docs' => 'API documentation',
+        'rules_title' => 'Rules for using the data',
+        'rules' => [
+            'The data is anonymized: it contains no names, no case numbers and nothing about judges, prosecutors or monitors.',
+            'Do not try to identify people or specific cases, including by combining the data with other sources.',
+            'Publish only aggregate results; never publish a table cell based on fewer than 5 records.',
+            'Do not share the data or your API tokens with anyone else.',
+            'Every download and API request is logged with the date, the account and the filters used.',
+        ],
+    ],
+
+    'agreement' => [
+        'title' => 'Data-use agreement',
+        'version' => 'Version :version',
+        'clauses' => [
+            'The data is provided only for the research purpose described in your application, for non-commercial research, journalism or policy work.',
+            'The data is anonymized. You will not try to identify any person, court case, judge, prosecutor or monitor, including by linking the data with other sources.',
+            'You will publish only aggregate results and will not publish any table cell based on fewer than 5 records.',
+            'You will store the data securely, will not pass it or your API tokens to anyone else, and will delete it when the research ends.',
+            'You will cite the source as "CourtWatch court-monitoring data" and share a copy of any publication based on it with the organization.',
+            'Processing follows Kosovo Law No. 06/L-082 on Protection of Personal Data, with the GDPR as the reference. Every download and API request is logged, and access can be suspended if these terms are broken.',
+        ],
+        'accept' => 'Accept the agreement',
+        'confirm' => 'I have read the agreement and accept its terms.',
+        'accepted' => 'Agreement accepted.',
+        'accepted_on' => 'You accepted this agreement on :date.',
+    ],
+
+    'datasets' => [
+        'title' => 'Datasets',
+        'intro' => 'Anonymized record-level data, from verified (approved or published) cases only. Identifiers are stable pseudonyms, so the tables can be linked without revealing anyone\'s identity.',
+        'download' => 'Download',
+        'logged' => 'Every download is recorded in the export log.',
+        'cases' => [
+            'title' => 'Cases',
+            'description' => 'One row per case: type, court, department, articles, stage dates and outcomes, number of monitored hearings.',
+        ],
+        'parties' => [
+            'title' => 'Parties',
+            'description' => 'One row per party: role, gender, nationality, economic status, position held, counsel, charged articles and sentences. No names.',
+        ],
+        'hearings' => [
+            'title' => 'Hearings',
+            'description' => 'One row per hearing: date, type, venue, openness, delays, postponements and reasons, recording, interpretation and participants.',
+        ],
+    ],
+
+    'tokens' => [
+        'title' => 'API tokens',
+        'create' => 'Create token',
+        'name' => 'Token name',
+        'expires' => 'Expires after (days)',
+        'created' => 'Token created. Copy it now: it will not be shown again.',
+        'created_at' => 'Created',
+        'last_used' => 'Last used',
+        'expires_at' => 'Expires',
+        'revoke' => 'Revoke',
+        'empty' => 'You have no API tokens yet.',
+        'copy_now' => 'Copy your token now',
+        'usage' => 'Send it in the header "Authorization: Bearer <token>", for example to :url',
+        'docs' => 'Full API documentation:',
+    ],
+
+    'api' => [
+        'not_approved' => 'API access requires an approved researcher account that has accepted the current data-use agreement.',
+        'missing_ability' => 'This token does not have the "research:read" ability.',
+    ],
+
+    'notifications' => [
+        'registered' => 'New researcher waiting for approval: :name',
+        'review' => 'Review',
+        'approved' => 'Your researcher account has been approved',
+        'approved_body' => 'Your application for access has been approved. Log in and accept the data-use agreement to get started.',
+        'not_approved' => 'An update on your researcher account',
+        'not_approved_body' => 'Your access to the researcher area is not active.',
+        'open' => 'Open the researcher area',
+    ],
+
+    'admin' => [
+        'model' => 'Researcher',
+        'plural' => 'Researchers',
+        'note_help' => 'Sent to the researcher by e-mail.',
+        'fields' => [
+            'name' => 'Name',
+            'email' => 'E-mail',
+            'status' => 'Status',
+            'agreement' => 'Agreement accepted',
+            'registered_at' => 'Registered',
+            'reviewed_at' => 'Reviewed',
+            'reviewer' => 'Reviewed by',
+            'note' => 'Note to the researcher',
+            'agreement_accepted_at' => 'Agreement accepted on',
+            'tokens' => 'Active API tokens',
+        ],
+        'sections' => [
+            'applicant' => 'Applicant',
+            'review' => 'Review',
+        ],
+        'actions' => [
+            'approve' => 'Approve',
+            'approve_description' => 'The researcher is told by e-mail and, after accepting the data-use agreement, gets access to the anonymized data and the API.',
+            'approve_done' => 'Researcher approved.',
+            'reject' => 'Reject',
+            'reject_description' => 'The researcher is told by e-mail. Give the reason.',
+            'reject_done' => 'Application rejected.',
+            'suspend' => 'Suspend',
+            'suspend_description' => 'Access ends immediately and every API token is revoked. The researcher is told by e-mail.',
+            'suspend_done' => 'Access suspended.',
+        ],
+    ],
+];

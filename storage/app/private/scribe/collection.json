@@ -1,0 +1,477 @@
+{
+    "variable": [
+        {
+            "id": "baseUrl",
+            "key": "baseUrl",
+            "type": "string",
+            "name": "string",
+            "value": "{{ config(\"app.url\") }}"
+        }
+    ],
+    "info": {
+        "name": "CourtWatch Researcher API",
+        "_postman_id": "33738323-b985-41d2-a54f-b063c107a399",
+        "description": "Read-only API with anonymized, verified court-monitoring data from Kosovo, for approved researchers.",
+        "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
+    },
+    "item": [
+        {
+            "name": "Cases",
+            "description": "\nAnonymized, verified (approved or published) monitored cases.",
+            "item": [
+                {
+                    "name": "List cases",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/cases",
+                            "query": [
+                                {
+                                    "key": "type",
+                                    "value": "criminal_corruption",
+                                    "description": "Case type (e.g. criminal_corruption, civil).",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "court_id",
+                                    "value": "1",
+                                    "description": "Court id (see \/reference\/courts).",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "year",
+                                    "value": "2024",
+                                    "description": "Year in which any stage took place.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "per_page",
+                                    "value": "25",
+                                    "description": "Items per page (max 100).",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "page",
+                                    "value": "1",
+                                    "description": "Page number.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "lang",
+                                    "value": "en",
+                                    "description": "Language of the labels: sq (default) or en.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/cases?type=criminal_corruption&court_id=1&year=2024&per_page=25&page=1&lang=en"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"data\":[{\"ref\":\"01JD8Z6Y5P4S7T6W2Q9R1M3K5N\",\"code\":\"CW-Q9R1M3K5N\",\"type\":{\"value\":\"criminal_corruption\",\"label\":\"Criminal \u2013 Corruption\"},\"court\":{\"id\":1,\"label\":\"Basic Court of Prishtina\",\"level\":\"basic\"},\"department\":\"Serious Crimes Department\",\"status\":\"approved\",\"parties\":{\"total\":3,\"accused\":2},\"stages\":[{\"stage\":\"criminal_report_filed\",\"label\":\"Criminal report filed\",\"date\":\"2023-01-10\",\"outcome\":null,\"is_direct_indictment\":false,\"appellant\":null}],\"offences\":[{\"stage\":\"indictment\",\"code\":\"KPRK-2019\",\"article\":\"414\",\"title\":\"KPRK-2019 art. 414 \u2014 Abuse of official position or authority\",\"category\":\"Corruption\"}],\"hearings\":{\"total\":5,\"postponed\":2}}],\"links\":{\"first\":\"...\",\"last\":\"...\",\"prev\":null,\"next\":\"...\"},\"meta\":{\"current_page\":1,\"per_page\":25,\"total\":120}}",
+                            "name": "Success"
+                        }
+                    ]
+                },
+                {
+                    "name": "Show a case",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/cases\/:ref",
+                            "query": [
+                                {
+                                    "key": "lang",
+                                    "value": "en",
+                                    "description": "Language of the labels: sq (default) or en.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/cases\/:ref?lang=en",
+                            "variable": [
+                                {
+                                    "id": "ref",
+                                    "key": "ref",
+                                    "value": "01JD8Z6Y5P4S7T6W2Q9R1M3K5N",
+                                    "description": "The case reference (ULID) from the list."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"data\":{\"ref\":\"01JD8Z6Y5P4S7T6W2Q9R1M3K5N\",\"code\":\"CW-Q9R1M3K5N\",\"type\":{\"value\":\"criminal_corruption\",\"label\":\"Criminal \u2013 Corruption\"},\"court\":{\"id\":1,\"label\":\"Basic Court of Prishtina\",\"level\":\"basic\"},\"department\":\"Serious Crimes Department\",\"status\":\"published\",\"parties\":{\"total\":3,\"accused\":2},\"stages\":[{\"stage\":\"indictment_filed\",\"label\":\"Indictment filed\",\"date\":\"2023-05-02\",\"outcome\":null,\"is_direct_indictment\":false,\"appellant\":null}],\"offences\":[{\"stage\":\"indictment\",\"code\":\"KPRK-2019\",\"article\":\"414\",\"title\":\"KPRK-2019 art. 414 \u2014 Abuse of official position or authority\",\"category\":\"Corruption\"}],\"hearings\":{\"total\":5,\"postponed\":2}}}",
+                            "name": "Success"
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\"message\":\"Not Found\"}",
+                            "name": "Unknown or unverified case"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Parties",
+            "description": "\nAnonymized parties of verified cases: pseudonymous id, role, gender, nationality,\neconomic status, position held, counsel, charges and sentences. Never names.",
+            "item": [
+                {
+                    "name": "List parties",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/parties",
+                            "query": [
+                                {
+                                    "key": "type",
+                                    "value": "criminal_corruption",
+                                    "description": "Case type.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "court_id",
+                                    "value": "1",
+                                    "description": "Court id.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "per_page",
+                                    "value": "50",
+                                    "description": "Items per page (max 100).",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "page",
+                                    "value": "1",
+                                    "description": "Page number.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "lang",
+                                    "value": "en",
+                                    "description": "Language of the labels: sq (default) or en.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/parties?type=criminal_corruption&court_id=1&per_page=50&page=1&lang=en"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"data\":[{\"id\":\"P-3f9a1c0b2e4d\",\"case_ref\":\"01JD8Z6Y5P4S7T6W2Q9R1M3K5N\",\"case_type\":\"criminal_corruption\",\"role\":\"accused\",\"gender\":\"male\",\"nationality\":\"Albanian\",\"economic_status\":\"Employed\",\"position_held\":\"Mayor\",\"counsel_type\":\"retained\",\"counsel_at_police\":true,\"charges\":[{\"stage\":\"indictment\",\"code\":\"KPRK-2019\",\"article\":\"414\",\"category\":\"Corruption\"}],\"sentences\":[{\"kind\":\"imposed\",\"instance\":\"first_instance\",\"prison_months\":24,\"suspended_months\":0,\"fine_eur\":1000}]}],\"links\":{},\"meta\":{\"current_page\":1,\"per_page\":50,\"total\":300}}",
+                            "name": "Success"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Hearings",
+            "description": "\nAnonymized, verified monitored hearings (structured answers only).",
+            "item": [
+                {
+                    "name": "List hearings",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/hearings",
+                            "query": [
+                                {
+                                    "key": "type",
+                                    "value": "criminal_general",
+                                    "description": "Case type.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "court_id",
+                                    "value": "1",
+                                    "description": "Court id.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "from",
+                                    "value": "2024-01-01",
+                                    "description": "Hearings on or after this date (Y-m-d).",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "until",
+                                    "value": "2024-12-31",
+                                    "description": "Hearings on or before this date (Y-m-d).",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "per_page",
+                                    "value": "50",
+                                    "description": "Items per page (max 100).",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "page",
+                                    "value": "1",
+                                    "description": "Page number.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "lang",
+                                    "value": "en",
+                                    "description": "Language of the labels: sq (default) or en.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/hearings?type=criminal_general&court_id=1&from=2024-01-01&until=2024-12-31&per_page=50&page=1&lang=en"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"data\":[{\"ref\":\"01JD8Z6Y5P4S7T6W2Q9R1M3K5N\",\"case_ref\":\"01JD8Z6Y5P4S7T6W2Q9R1M3K5A\",\"case_type\":\"criminal_corruption\",\"court\":{\"id\":1,\"label\":\"Basic Court of Prishtina\"},\"date\":\"2024-03-12\",\"hearing_type\":\"main_trial\",\"venue\":\"courtroom\",\"is_public\":true,\"started_late\":true,\"delay_minutes\":25,\"delay_cause\":\"panel\",\"was_postponed\":true,\"postponement_reasons\":[\"defence_lawyer\"],\"recording\":\"audio\",\"interpretation_needed\":false,\"interpretation_provided\":null,\"phone_used\":false,\"phone_users\":[],\"security_adequate\":true,\"participants\":[\"judge\",\"prosecutor\",\"accused\"]}],\"links\":{},\"meta\":{\"current_page\":1,\"per_page\":50,\"total\":700}}",
+                            "name": "Success"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Statistics",
+            "description": "\nAggregate indicators (the same suppressed figures as the public portal: values under 5 are null).",
+            "item": [
+                {
+                    "name": "Aggregate statistics",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/statistics",
+                            "query": [
+                                {
+                                    "key": "from",
+                                    "value": "2024-01-01",
+                                    "description": "Start date (Y-m-d).",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "until",
+                                    "value": "2024-12-31",
+                                    "description": "End date (Y-m-d).",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "court_id",
+                                    "value": "1",
+                                    "description": "Court id.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "case_type",
+                                    "value": "criminal_corruption",
+                                    "description": "Case type.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "lang",
+                                    "value": "en",
+                                    "description": "Language of the labels: sq (default) or en.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/statistics?from=2024-01-01&until=2024-12-31&court_id=1&case_type=criminal_corruption&lang=en"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"headline\":{\"cases\":156,\"hearings\":507,\"postponement_rate\":31,\"late_rate\":29.4,\"public_rate\":83,\"conviction_rate\":55.9},\"hearings_by_year\":{\"2024\":99,\"2025\":119},\"cases_by_type\":{\"Criminal \u2013 Corruption\":55},\"postponement_by_court\":[{\"court\":\"Basic Court of Prishtina\",\"hearings\":225,\"postponed\":63,\"rate\":28}],\"postponement_reasons\":{\"Defence lawyer\":61},\"verdicts\":{\"Convicting\":33},\"stage_durations\":[{\"label\":\"Criminal report filed \u2192 Indictment filed\",\"median\":329,\"cases\":103}]}",
+                            "name": "Success"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Reference data",
+            "description": "\nCode lists used by the other endpoints (no personal data: judges and prosecutors are not exposed).",
+            "item": [
+                {
+                    "name": "Courts",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/reference\/courts",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/reference\/courts"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"data\":[{\"id\":1,\"code\":\"GJTH-PR\",\"label\":\"Basic Court of Prishtina\",\"level\":\"basic\",\"city\":\"Prishtina\"}]}",
+                            "name": "Success"
+                        }
+                    ]
+                },
+                {
+                    "name": "Criminal offences",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/reference\/offences",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/reference\/offences"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"data\":[{\"id\":1,\"code\":\"KPRK-2019\",\"article\":\"414\",\"title\":\"Abuse of official position or authority\",\"category\":\"Corruption\"}]}",
+                            "name": "Success"
+                        }
+                    ]
+                },
+                {
+                    "name": "Code lists (enumerations)",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/reference\/codes",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/reference\/codes"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"case_types\":{\"criminal_corruption\":\"Criminal \u2013 Corruption\"},\"stage_types\":{\"criminal_report_filed\":\"Criminal report filed\"}}",
+                            "name": "Success"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "auth": {
+        "type": "bearer",
+        "bearer": [
+            {
+                "key": "Authorization",
+                "type": "string"
+            }
+        ]
+    }
+}

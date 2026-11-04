@@ -1,0 +1,1311 @@
+openapi: 3.0.3
+info:
+  title: 'CourtWatch Researcher API'
+  description: 'Read-only API with anonymized, verified court-monitoring data from Kosovo, for approved researchers.'
+  version: 1.0.0
+servers:
+  -
+    url: '{{ config("app.url") }}'
+tags:
+  -
+    name: Cases
+    description: "\nAnonymized, verified (approved or published) monitored cases."
+  -
+    name: Parties
+    description: "\nAnonymized parties of verified cases: pseudonymous id, role, gender, nationality,\neconomic status, position held, counsel, charges and sentences. Never names."
+  -
+    name: Hearings
+    description: "\nAnonymized, verified monitored hearings (structured answers only)."
+  -
+    name: Statistics
+    description: "\nAggregate indicators (the same suppressed figures as the public portal: values under 5 are null)."
+  -
+    name: 'Reference data'
+    description: "\nCode lists used by the other endpoints (no personal data: judges and prosecutors are not exposed)."
+components:
+  securitySchemes:
+    default:
+      type: http
+      scheme: bearer
+      description: 'Create a token in the researcher area under <b>API tokens</b> (<code>/research/api-tokens</code>). Only approved researchers who accepted the data-use agreement can create one.'
+security:
+  -
+    default: []
+paths:
+  /api/v1/cases:
+    get:
+      summary: 'List cases'
+      operationId: listCases
+      description: ''
+      parameters:
+        -
+          in: query
+          name: type
+          description: 'Case type (e.g. criminal_corruption, civil).'
+          example: criminal_corruption
+          required: false
+          schema:
+            type: string
+            description: 'Case type (e.g. criminal_corruption, civil).'
+            example: criminal_corruption
+        -
+          in: query
+          name: court_id
+          description: 'Court id (see /reference/courts).'
+          example: 1
+          required: false
+          schema:
+            type: integer
+            description: 'Court id (see /reference/courts).'
+            example: 1
+        -
+          in: query
+          name: year
+          description: 'Year in which any stage took place.'
+          example: 2024
+          required: false
+          schema:
+            type: integer
+            description: 'Year in which any stage took place.'
+            example: 2024
+        -
+          in: query
+          name: per_page
+          description: 'Items per page (max 100).'
+          example: 25
+          required: false
+          schema:
+            type: integer
+            description: 'Items per page (max 100).'
+            example: 25
+        -
+          in: query
+          name: page
+          description: 'Page number.'
+          example: 1
+          required: false
+          schema:
+            type: integer
+            description: 'Page number.'
+            example: 1
+        -
+          in: query
+          name: lang
+          description: 'Language of the labels: sq (default) or en.'
+          example: en
+          required: false
+          schema:
+            type: string
+            description: 'Language of the labels: sq (default) or en.'
+            example: en
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    -
+                      ref: 01JD8Z6Y5P4S7T6W2Q9R1M3K5N
+                      code: CW-Q9R1M3K5N
+                      type:
+                        value: criminal_corruption
+                        label: 'Criminal – Corruption'
+                      court:
+                        id: 1
+                        label: 'Basic Court of Prishtina'
+                        level: basic
+                      department: 'Serious Crimes Department'
+                      status: approved
+                      parties:
+                        total: 3
+                        accused: 2
+                      stages:
+                        -
+                          stage: criminal_report_filed
+                          label: 'Criminal report filed'
+                          date: '2023-01-10'
+                          outcome: null
+                          is_direct_indictment: false
+                          appellant: null
+                      offences:
+                        -
+                          stage: indictment
+                          code: KPRK-2019
+                          article: '414'
+                          title: 'KPRK-2019 art. 414 — Abuse of official position or authority'
+                          category: Corruption
+                      hearings:
+                        total: 5
+                        postponed: 2
+                  links:
+                    first: '...'
+                    last: '...'
+                    prev: null
+                    next: '...'
+                  meta:
+                    current_page: 1
+                    per_page: 25
+                    total: 120
+                properties:
+                  data:
+                    type: array
+                    example:
+                      -
+                        ref: 01JD8Z6Y5P4S7T6W2Q9R1M3K5N
+                        code: CW-Q9R1M3K5N
+                        type:
+                          value: criminal_corruption
+                          label: 'Criminal – Corruption'
+                        court:
+                          id: 1
+                          label: 'Basic Court of Prishtina'
+                          level: basic
+                        department: 'Serious Crimes Department'
+                        status: approved
+                        parties:
+                          total: 3
+                          accused: 2
+                        stages:
+                          -
+                            stage: criminal_report_filed
+                            label: 'Criminal report filed'
+                            date: '2023-01-10'
+                            outcome: null
+                            is_direct_indictment: false
+                            appellant: null
+                        offences:
+                          -
+                            stage: indictment
+                            code: KPRK-2019
+                            article: '414'
+                            title: 'KPRK-2019 art. 414 — Abuse of official position or authority'
+                            category: Corruption
+                        hearings:
+                          total: 5
+                          postponed: 2
+                    items:
+                      type: object
+                      properties:
+                        ref:
+                          type: string
+                          example: 01JD8Z6Y5P4S7T6W2Q9R1M3K5N
+                        code:
+                          type: string
+                          example: CW-Q9R1M3K5N
+                        type:
+                          type: object
+                          properties:
+                            value:
+                              type: string
+                              example: criminal_corruption
+                            label:
+                              type: string
+                              example: 'Criminal – Corruption'
+                        court:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              example: 1
+                            label:
+                              type: string
+                              example: 'Basic Court of Prishtina'
+                            level:
+                              type: string
+                              example: basic
+                        department:
+                          type: string
+                          example: 'Serious Crimes Department'
+                        status:
+                          type: string
+                          example: approved
+                        parties:
+                          type: object
+                          properties:
+                            total:
+                              type: integer
+                              example: 3
+                            accused:
+                              type: integer
+                              example: 2
+                        stages:
+                          type: array
+                          example:
+                            -
+                              stage: criminal_report_filed
+                              label: 'Criminal report filed'
+                              date: '2023-01-10'
+                              outcome: null
+                              is_direct_indictment: false
+                              appellant: null
+                          items:
+                            type: object
+                            properties:
+                              stage:
+                                type: string
+                                example: criminal_report_filed
+                              label:
+                                type: string
+                                example: 'Criminal report filed'
+                              date:
+                                type: string
+                                example: '2023-01-10'
+                              outcome:
+                                type: string
+                                example: null
+                                nullable: true
+                              is_direct_indictment:
+                                type: boolean
+                                example: false
+                              appellant:
+                                type: string
+                                example: null
+                                nullable: true
+                        offences:
+                          type: array
+                          example:
+                            -
+                              stage: indictment
+                              code: KPRK-2019
+                              article: '414'
+                              title: 'KPRK-2019 art. 414 — Abuse of official position or authority'
+                              category: Corruption
+                          items:
+                            type: object
+                            properties:
+                              stage:
+                                type: string
+                                example: indictment
+                              code:
+                                type: string
+                                example: KPRK-2019
+                              article:
+                                type: string
+                                example: '414'
+                              title:
+                                type: string
+                                example: 'KPRK-2019 art. 414 — Abuse of official position or authority'
+                              category:
+                                type: string
+                                example: Corruption
+                        hearings:
+                          type: object
+                          properties:
+                            total:
+                              type: integer
+                              example: 5
+                            postponed:
+                              type: integer
+                              example: 2
+                  links:
+                    type: object
+                    properties:
+                      first:
+                        type: string
+                        example: '...'
+                      last:
+                        type: string
+                        example: '...'
+                      prev:
+                        type: string
+                        example: null
+                        nullable: true
+                      next:
+                        type: string
+                        example: '...'
+                  meta:
+                    type: object
+                    properties:
+                      current_page:
+                        type: integer
+                        example: 1
+                      per_page:
+                        type: integer
+                        example: 25
+                      total:
+                        type: integer
+                        example: 120
+      tags:
+        - Cases
+  '/api/v1/cases/{ref}':
+    get:
+      summary: 'Show a case'
+      operationId: showACase
+      description: ''
+      parameters:
+        -
+          in: query
+          name: lang
+          description: 'Language of the labels: sq (default) or en.'
+          example: en
+          required: false
+          schema:
+            type: string
+            description: 'Language of the labels: sq (default) or en.'
+            example: en
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    ref: 01JD8Z6Y5P4S7T6W2Q9R1M3K5N
+                    code: CW-Q9R1M3K5N
+                    type:
+                      value: criminal_corruption
+                      label: 'Criminal – Corruption'
+                    court:
+                      id: 1
+                      label: 'Basic Court of Prishtina'
+                      level: basic
+                    department: 'Serious Crimes Department'
+                    status: published
+                    parties:
+                      total: 3
+                      accused: 2
+                    stages:
+                      -
+                        stage: indictment_filed
+                        label: 'Indictment filed'
+                        date: '2023-05-02'
+                        outcome: null
+                        is_direct_indictment: false
+                        appellant: null
+                    offences:
+                      -
+                        stage: indictment
+                        code: KPRK-2019
+                        article: '414'
+                        title: 'KPRK-2019 art. 414 — Abuse of official position or authority'
+                        category: Corruption
+                    hearings:
+                      total: 5
+                      postponed: 2
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      ref:
+                        type: string
+                        example: 01JD8Z6Y5P4S7T6W2Q9R1M3K5N
+                      code:
+                        type: string
+                        example: CW-Q9R1M3K5N
+                      type:
+                        type: object
+                        properties:
+                          value:
+                            type: string
+                            example: criminal_corruption
+                          label:
+                            type: string
+                            example: 'Criminal – Corruption'
+                      court:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 1
+                          label:
+                            type: string
+                            example: 'Basic Court of Prishtina'
+                          level:
+                            type: string
+                            example: basic
+                      department:
+                        type: string
+                        example: 'Serious Crimes Department'
+                      status:
+                        type: string
+                        example: published
+                      parties:
+                        type: object
+                        properties:
+                          total:
+                            type: integer
+                            example: 3
+                          accused:
+                            type: integer
+                            example: 2
+                      stages:
+                        type: array
+                        example:
+                          -
+                            stage: indictment_filed
+                            label: 'Indictment filed'
+                            date: '2023-05-02'
+                            outcome: null
+                            is_direct_indictment: false
+                            appellant: null
+                        items:
+                          type: object
+                          properties:
+                            stage:
+                              type: string
+                              example: indictment_filed
+                            label:
+                              type: string
+                              example: 'Indictment filed'
+                            date:
+                              type: string
+                              example: '2023-05-02'
+                            outcome:
+                              type: string
+                              example: null
+                              nullable: true
+                            is_direct_indictment:
+                              type: boolean
+                              example: false
+                            appellant:
+                              type: string
+                              example: null
+                              nullable: true
+                      offences:
+                        type: array
+                        example:
+                          -
+                            stage: indictment
+                            code: KPRK-2019
+                            article: '414'
+                            title: 'KPRK-2019 art. 414 — Abuse of official position or authority'
+                            category: Corruption
+                        items:
+                          type: object
+                          properties:
+                            stage:
+                              type: string
+                              example: indictment
+                            code:
+                              type: string
+                              example: KPRK-2019
+                            article:
+                              type: string
+                              example: '414'
+                            title:
+                              type: string
+                              example: 'KPRK-2019 art. 414 — Abuse of official position or authority'
+                            category:
+                              type: string
+                              example: Corruption
+                      hearings:
+                        type: object
+                        properties:
+                          total:
+                            type: integer
+                            example: 5
+                          postponed:
+                            type: integer
+                            example: 2
+        404:
+          description: 'Unknown or unverified case'
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Not Found'
+                properties:
+                  message:
+                    type: string
+                    example: 'Not Found'
+      tags:
+        - Cases
+    parameters:
+      -
+        in: path
+        name: ref
+        description: 'The case reference (ULID) from the list.'
+        example: 01JD8Z6Y5P4S7T6W2Q9R1M3K5N
+        required: true
+        schema:
+          type: string
+  /api/v1/parties:
+    get:
+      summary: 'List parties'
+      operationId: listParties
+      description: ''
+      parameters:
+        -
+          in: query
+          name: type
+          description: 'Case type.'
+          example: criminal_corruption
+          required: false
+          schema:
+            type: string
+            description: 'Case type.'
+            example: criminal_corruption
+        -
+          in: query
+          name: court_id
+          description: 'Court id.'
+          example: 1
+          required: false
+          schema:
+            type: integer
+            description: 'Court id.'
+            example: 1
+        -
+          in: query
+          name: per_page
+          description: 'Items per page (max 100).'
+          example: 50
+          required: false
+          schema:
+            type: integer
+            description: 'Items per page (max 100).'
+            example: 50
+        -
+          in: query
+          name: page
+          description: 'Page number.'
+          example: 1
+          required: false
+          schema:
+            type: integer
+            description: 'Page number.'
+            example: 1
+        -
+          in: query
+          name: lang
+          description: 'Language of the labels: sq (default) or en.'
+          example: en
+          required: false
+          schema:
+            type: string
+            description: 'Language of the labels: sq (default) or en.'
+            example: en
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    -
+                      id: P-3f9a1c0b2e4d
+                      case_ref: 01JD8Z6Y5P4S7T6W2Q9R1M3K5N
+                      case_type: criminal_corruption
+                      role: accused
+                      gender: male
+                      nationality: Albanian
+                      economic_status: Employed
+                      position_held: Mayor
+                      counsel_type: retained
+                      counsel_at_police: true
+                      charges:
+                        -
+                          stage: indictment
+                          code: KPRK-2019
+                          article: '414'
+                          category: Corruption
+                      sentences:
+                        -
+                          kind: imposed
+                          instance: first_instance
+                          prison_months: 24
+                          suspended_months: 0
+                          fine_eur: 1000
+                  links: {  }
+                  meta:
+                    current_page: 1
+                    per_page: 50
+                    total: 300
+                properties:
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: P-3f9a1c0b2e4d
+                        case_ref: 01JD8Z6Y5P4S7T6W2Q9R1M3K5N
+                        case_type: criminal_corruption
+                        role: accused
+                        gender: male
+                        nationality: Albanian
+                        economic_status: Employed
+                        position_held: Mayor
+                        counsel_type: retained
+                        counsel_at_police: true
+                        charges:
+                          -
+                            stage: indictment
+                            code: KPRK-2019
+                            article: '414'
+                            category: Corruption
+                        sentences:
+                          -
+                            kind: imposed
+                            instance: first_instance
+                            prison_months: 24
+                            suspended_months: 0
+                            fine_eur: 1000
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: P-3f9a1c0b2e4d
+                        case_ref:
+                          type: string
+                          example: 01JD8Z6Y5P4S7T6W2Q9R1M3K5N
+                        case_type:
+                          type: string
+                          example: criminal_corruption
+                        role:
+                          type: string
+                          example: accused
+                        gender:
+                          type: string
+                          example: male
+                        nationality:
+                          type: string
+                          example: Albanian
+                        economic_status:
+                          type: string
+                          example: Employed
+                        position_held:
+                          type: string
+                          example: Mayor
+                        counsel_type:
+                          type: string
+                          example: retained
+                        counsel_at_police:
+                          type: boolean
+                          example: true
+                        charges:
+                          type: array
+                          example:
+                            -
+                              stage: indictment
+                              code: KPRK-2019
+                              article: '414'
+                              category: Corruption
+                          items:
+                            type: object
+                            properties:
+                              stage:
+                                type: string
+                                example: indictment
+                              code:
+                                type: string
+                                example: KPRK-2019
+                              article:
+                                type: string
+                                example: '414'
+                              category:
+                                type: string
+                                example: Corruption
+                        sentences:
+                          type: array
+                          example:
+                            -
+                              kind: imposed
+                              instance: first_instance
+                              prison_months: 24
+                              suspended_months: 0
+                              fine_eur: 1000
+                          items:
+                            type: object
+                            properties:
+                              kind:
+                                type: string
+                                example: imposed
+                              instance:
+                                type: string
+                                example: first_instance
+                              prison_months:
+                                type: integer
+                                example: 24
+                              suspended_months:
+                                type: integer
+                                example: 0
+                              fine_eur:
+                                type: integer
+                                example: 1000
+                  links:
+                    type: object
+                    properties: {  }
+                  meta:
+                    type: object
+                    properties:
+                      current_page:
+                        type: integer
+                        example: 1
+                      per_page:
+                        type: integer
+                        example: 50
+                      total:
+                        type: integer
+                        example: 300
+      tags:
+        - Parties
+  /api/v1/hearings:
+    get:
+      summary: 'List hearings'
+      operationId: listHearings
+      description: ''
+      parameters:
+        -
+          in: query
+          name: type
+          description: 'Case type.'
+          example: criminal_general
+          required: false
+          schema:
+            type: string
+            description: 'Case type.'
+            example: criminal_general
+        -
+          in: query
+          name: court_id
+          description: 'Court id.'
+          example: 1
+          required: false
+          schema:
+            type: integer
+            description: 'Court id.'
+            example: 1
+        -
+          in: query
+          name: from
+          description: 'Hearings on or after this date (Y-m-d).'
+          example: '2024-01-01'
+          required: false
+          schema:
+            type: string
+            description: 'Hearings on or after this date (Y-m-d).'
+            example: '2024-01-01'
+        -
+          in: query
+          name: until
+          description: 'Hearings on or before this date (Y-m-d).'
+          example: '2024-12-31'
+          required: false
+          schema:
+            type: string
+            description: 'Hearings on or before this date (Y-m-d).'
+            example: '2024-12-31'
+        -
+          in: query
+          name: per_page
+          description: 'Items per page (max 100).'
+          example: 50
+          required: false
+          schema:
+            type: integer
+            description: 'Items per page (max 100).'
+            example: 50
+        -
+          in: query
+          name: page
+          description: 'Page number.'
+          example: 1
+          required: false
+          schema:
+            type: integer
+            description: 'Page number.'
+            example: 1
+        -
+          in: query
+          name: lang
+          description: 'Language of the labels: sq (default) or en.'
+          example: en
+          required: false
+          schema:
+            type: string
+            description: 'Language of the labels: sq (default) or en.'
+            example: en
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    -
+                      ref: 01JD8Z6Y5P4S7T6W2Q9R1M3K5N
+                      case_ref: 01JD8Z6Y5P4S7T6W2Q9R1M3K5A
+                      case_type: criminal_corruption
+                      court:
+                        id: 1
+                        label: 'Basic Court of Prishtina'
+                      date: '2024-03-12'
+                      hearing_type: main_trial
+                      venue: courtroom
+                      is_public: true
+                      started_late: true
+                      delay_minutes: 25
+                      delay_cause: panel
+                      was_postponed: true
+                      postponement_reasons:
+                        - defence_lawyer
+                      recording: audio
+                      interpretation_needed: false
+                      interpretation_provided: null
+                      phone_used: false
+                      phone_users: []
+                      security_adequate: true
+                      participants:
+                        - judge
+                        - prosecutor
+                        - accused
+                  links: {  }
+                  meta:
+                    current_page: 1
+                    per_page: 50
+                    total: 700
+                properties:
+                  data:
+                    type: array
+                    example:
+                      -
+                        ref: 01JD8Z6Y5P4S7T6W2Q9R1M3K5N
+                        case_ref: 01JD8Z6Y5P4S7T6W2Q9R1M3K5A
+                        case_type: criminal_corruption
+                        court:
+                          id: 1
+                          label: 'Basic Court of Prishtina'
+                        date: '2024-03-12'
+                        hearing_type: main_trial
+                        venue: courtroom
+                        is_public: true
+                        started_late: true
+                        delay_minutes: 25
+                        delay_cause: panel
+                        was_postponed: true
+                        postponement_reasons:
+                          - defence_lawyer
+                        recording: audio
+                        interpretation_needed: false
+                        interpretation_provided: null
+                        phone_used: false
+                        phone_users: []
+                        security_adequate: true
+                        participants:
+                          - judge
+                          - prosecutor
+                          - accused
+                    items:
+                      type: object
+                      properties:
+                        ref:
+                          type: string
+                          example: 01JD8Z6Y5P4S7T6W2Q9R1M3K5N
+                        case_ref:
+                          type: string
+                          example: 01JD8Z6Y5P4S7T6W2Q9R1M3K5A
+                        case_type:
+                          type: string
+                          example: criminal_corruption
+                        court:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              example: 1
+                            label:
+                              type: string
+                              example: 'Basic Court of Prishtina'
+                        date:
+                          type: string
+                          example: '2024-03-12'
+                        hearing_type:
+                          type: string
+                          example: main_trial
+                        venue:
+                          type: string
+                          example: courtroom
+                        is_public:
+                          type: boolean
+                          example: true
+                        started_late:
+                          type: boolean
+                          example: true
+                        delay_minutes:
+                          type: integer
+                          example: 25
+                        delay_cause:
+                          type: string
+                          example: panel
+                        was_postponed:
+                          type: boolean
+                          example: true
+                        postponement_reasons:
+                          type: array
+                          example:
+                            - defence_lawyer
+                          items:
+                            type: string
+                        recording:
+                          type: string
+                          example: audio
+                        interpretation_needed:
+                          type: boolean
+                          example: false
+                        interpretation_provided:
+                          type: string
+                          example: null
+                          nullable: true
+                        phone_used:
+                          type: boolean
+                          example: false
+                        phone_users:
+                          type: array
+                          example: []
+                        security_adequate:
+                          type: boolean
+                          example: true
+                        participants:
+                          type: array
+                          example:
+                            - judge
+                            - prosecutor
+                            - accused
+                          items:
+                            type: string
+                  links:
+                    type: object
+                    properties: {  }
+                  meta:
+                    type: object
+                    properties:
+                      current_page:
+                        type: integer
+                        example: 1
+                      per_page:
+                        type: integer
+                        example: 50
+                      total:
+                        type: integer
+                        example: 700
+      tags:
+        - Hearings
+  /api/v1/statistics:
+    get:
+      summary: 'Aggregate statistics'
+      operationId: aggregateStatistics
+      description: ''
+      parameters:
+        -
+          in: query
+          name: from
+          description: 'Start date (Y-m-d).'
+          example: '2024-01-01'
+          required: false
+          schema:
+            type: string
+            description: 'Start date (Y-m-d).'
+            example: '2024-01-01'
+        -
+          in: query
+          name: until
+          description: 'End date (Y-m-d).'
+          example: '2024-12-31'
+          required: false
+          schema:
+            type: string
+            description: 'End date (Y-m-d).'
+            example: '2024-12-31'
+        -
+          in: query
+          name: court_id
+          description: 'Court id.'
+          example: 1
+          required: false
+          schema:
+            type: integer
+            description: 'Court id.'
+            example: 1
+        -
+          in: query
+          name: case_type
+          description: 'Case type.'
+          example: criminal_corruption
+          required: false
+          schema:
+            type: string
+            description: 'Case type.'
+            example: criminal_corruption
+        -
+          in: query
+          name: lang
+          description: 'Language of the labels: sq (default) or en.'
+          example: en
+          required: false
+          schema:
+            type: string
+            description: 'Language of the labels: sq (default) or en.'
+            example: en
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  headline:
+                    cases: 156
+                    hearings: 507
+                    postponement_rate: 31
+                    late_rate: 29.4
+                    public_rate: 83
+                    conviction_rate: 55.9
+                  hearings_by_year:
+                    '2024': 99
+                    '2025': 119
+                  cases_by_type:
+                    'Criminal – Corruption': 55
+                  postponement_by_court:
+                    -
+                      court: 'Basic Court of Prishtina'
+                      hearings: 225
+                      postponed: 63
+                      rate: 28
+                  postponement_reasons:
+                    'Defence lawyer': 61
+                  verdicts:
+                    Convicting: 33
+                  stage_durations:
+                    -
+                      label: 'Criminal report filed → Indictment filed'
+                      median: 329
+                      cases: 103
+                properties:
+                  headline:
+                    type: object
+                    properties:
+                      cases:
+                        type: integer
+                        example: 156
+                      hearings:
+                        type: integer
+                        example: 507
+                      postponement_rate:
+                        type: integer
+                        example: 31
+                      late_rate:
+                        type: number
+                        example: 29.4
+                      public_rate:
+                        type: integer
+                        example: 83
+                      conviction_rate:
+                        type: number
+                        example: 55.9
+                  hearings_by_year:
+                    type: object
+                    properties:
+                      2024:
+                        type: integer
+                        example: 99
+                      2025:
+                        type: integer
+                        example: 119
+                  cases_by_type:
+                    type: object
+                    properties:
+                      'Criminal – Corruption':
+                        type: integer
+                        example: 55
+                  postponement_by_court:
+                    type: array
+                    example:
+                      -
+                        court: 'Basic Court of Prishtina'
+                        hearings: 225
+                        postponed: 63
+                        rate: 28
+                    items:
+                      type: object
+                      properties:
+                        court:
+                          type: string
+                          example: 'Basic Court of Prishtina'
+                        hearings:
+                          type: integer
+                          example: 225
+                        postponed:
+                          type: integer
+                          example: 63
+                        rate:
+                          type: integer
+                          example: 28
+                  postponement_reasons:
+                    type: object
+                    properties:
+                      'Defence lawyer':
+                        type: integer
+                        example: 61
+                  verdicts:
+                    type: object
+                    properties:
+                      Convicting:
+                        type: integer
+                        example: 33
+                  stage_durations:
+                    type: array
+                    example:
+                      -
+                        label: 'Criminal report filed → Indictment filed'
+                        median: 329
+                        cases: 103
+                    items:
+                      type: object
+                      properties:
+                        label:
+                          type: string
+                          example: 'Criminal report filed → Indictment filed'
+                        median:
+                          type: integer
+                          example: 329
+                        cases:
+                          type: integer
+                          example: 103
+      tags:
+        - Statistics
+  /api/v1/reference/courts:
+    get:
+      summary: Courts
+      operationId: courts
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    -
+                      id: 1
+                      code: GJTH-PR
+                      label: 'Basic Court of Prishtina'
+                      level: basic
+                      city: Prishtina
+                properties:
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        code: GJTH-PR
+                        label: 'Basic Court of Prishtina'
+                        level: basic
+                        city: Prishtina
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        code:
+                          type: string
+                          example: GJTH-PR
+                        label:
+                          type: string
+                          example: 'Basic Court of Prishtina'
+                        level:
+                          type: string
+                          example: basic
+                        city:
+                          type: string
+                          example: Prishtina
+      tags:
+        - 'Reference data'
+  /api/v1/reference/offences:
+    get:
+      summary: 'Criminal offences'
+      operationId: criminalOffences
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    -
+                      id: 1
+                      code: KPRK-2019
+                      article: '414'
+                      title: 'Abuse of official position or authority'
+                      category: Corruption
+                properties:
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        code: KPRK-2019
+                        article: '414'
+                        title: 'Abuse of official position or authority'
+                        category: Corruption
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        code:
+                          type: string
+                          example: KPRK-2019
+                        article:
+                          type: string
+                          example: '414'
+                        title:
+                          type: string
+                          example: 'Abuse of official position or authority'
+                        category:
+                          type: string
+                          example: Corruption
+      tags:
+        - 'Reference data'
+  /api/v1/reference/codes:
+    get:
+      summary: 'Code lists (enumerations)'
+      operationId: codeListsenumerations
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  case_types:
+                    criminal_corruption: 'Criminal – Corruption'
+                  stage_types:
+                    criminal_report_filed: 'Criminal report filed'
+                properties:
+                  case_types:
+                    type: object
+                    properties:
+                      criminal_corruption:
+                        type: string
+                        example: 'Criminal – Corruption'
+                  stage_types:
+                    type: object
+                    properties:
+                      criminal_report_filed:
+                        type: string
+                        example: 'Criminal report filed'
+      tags:
+        - 'Reference data'
