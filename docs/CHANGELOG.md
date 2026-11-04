@@ -22,3 +22,4 @@ All notable changes to this project are documented here. The format follows
 - Monitor app (`/m`): installable PWA with offline drafts in IndexedDB, an outbox that syncs when back online, and "send for review".
 - Private attachments with signed, expiring download links.
 - Demo data: about 200 fake cases with parties, charges, stage timelines, hearings, measures, sentences and review history.
+- Review workflow for cases and hearings: submit for review, start review, approve, return with a mandatory comment, publish/unpublish; a diff of changes since the last reviewed version; review queue with a badge; database and email notifications; full transition history on each record.

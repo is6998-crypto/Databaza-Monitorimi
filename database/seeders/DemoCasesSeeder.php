@@ -632,6 +632,7 @@ class DemoCasesSeeder extends Seeder
                 default => $caseStatus,
             };
             $hearing->created_by = $monitor?->user_id;
+            $hearing->submitted_at = $hearing->status !== WorkflowStatus::Draft ? $date->copy()->addDays(1) : null;
             $hearing->approved_at = $hearing->status->isVerified() ? $date->copy()->addDays(5) : null;
             $hearing->approved_by = $hearing->status->isVerified() ? $this->editor?->id : null;
             $hearing->created_at = $date->copy()->setTime(15, 0);

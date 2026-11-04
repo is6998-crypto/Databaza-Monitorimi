@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Resources\Cases\Pages;
 
+use App\Filament\Admin\Actions\WorkflowActions;
 use App\Filament\Admin\Resources\Cases\CourtCaseResource;
 use App\Filament\Admin\Resources\Hearings\HearingResource;
 use App\Models\CourtCase;
@@ -64,6 +65,7 @@ class ViewCourtCase extends ViewRecord
                 ->url(HearingResource::getUrl('create', ['case' => $case->getKey()]))
                 ->visible(fn (): bool => Gate::allows('create', Hearing::class) && Gate::allows('view', $case)),
             EditAction::make(),
+            ...WorkflowActions::all(),
         ];
     }
 }

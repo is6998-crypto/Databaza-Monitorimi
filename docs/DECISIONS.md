@@ -55,3 +55,12 @@ added at the bottom of each section. Format: **decision** — reason.
 - **While offline the idle-timeout timer pauses; when the session has expired the PWA keeps drafts and asks the monitor to sign in again before syncing.** — Monitors in courtrooms without signal must not lose their notes.
 - **Attachments: PDF/JPG/PNG up to 20 MB on the private attachments disk, downloaded only through a 10-minute signed URL plus a policy check, every download audited.** — B5/B7.
 - **Guests are redirected to the login page of their area (`/admin/login` or `/research/login`); there is no generic `/login`.** — Filament panels own the login pages.
+
+## Review workflow
+
+- **All transitions go through `App\Services\WorkflowService`, which checks the state machine (`WorkflowStatus::allowedTransitions()`), the policy ability (`submit`, `review`, `publish`, `unpublish`), records a `workflow_transitions` row, audits it and sends notifications.** — One place to enforce the rules, whatever the entry point (panel, review queue, monitor app).
+- **Submitted, in review and approved records can be returned; a comment is mandatory.** — "returned with a comment" (B5); approved records can be reopened if an error is found.
+- **"Approved" feeds dashboards, the portal and researchers; "published" additionally freezes the record (only a Super Admin can edit it) and can be undone with "unpublish".** — Gives "published" a meaning distinct from "approved", matching the DoD ("approve it, and it then appears in dashboards and … on the public portal").
+- **The reviewer's diff compares the live record with the snapshot taken at the previous submission or approval. Snapshots cover the case and everything inside it but never party names (only their blind-index hash).** — Shows what changed after a return, without copying personal names into another table.
+- **Notifications: database (Filament bell) and email (Mailpit in development), queued. Reviewers are notified of submissions; authors of returns, approvals and publication. Notifications carry case numbers and courts, never party names.**
+- **Review queue page with two tables (cases, hearings), oldest submission first, with a navigation badge.** — Editors' daily work list.
