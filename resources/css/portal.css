@@ -1,0 +1,12 @@
+@import 'tailwindcss';
+
+@source '../views/portal/**/*.blade.php';
+@source '../views/livewire/portal/**/*.blade.php';
+@source '../views/vendor/pagination/**/*.blade.php';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+
+[x-cloak] { display: none !important; }
+
+@layer components {
+    .portal-input { @apply block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none; }
+}

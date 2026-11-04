@@ -3,9 +3,11 @@
 use App\Http\Controllers\AttachmentController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\Monitor\MonitorAppController;
+use App\Http\Controllers\Portal\PortalController;
 use App\Http\Controllers\SessionController;
 use App\Http\Middleware\EnsureStaffWithMfa;
 use App\Http\Middleware\SetLocale;
+use App\Http\Middleware\SetPortalLocale;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,7 +25,33 @@ Route::middleware(['auth', SetLocale::class])->group(function (): void {
         ->name('attachments.download');
 });
 
-Route::get('/', fn () => redirect('/admin'));
+/*
+|--------------------------------------------------------------------------
+| Public portal — /sq/... and /en/... (proposal B6.7)
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/', [PortalController::class, 'redirect'])->name('portal.root');
+Route::get('/sitemap.xml', [PortalController::class, 'sitemap'])->name('portal.sitemap');
+
+Route::prefix('{locale}')
+    ->where(['locale' => 'sq|en'])
+    ->middleware(SetPortalLocale::class)
+    ->name('portal.')
+    ->group(function (): void {
+        Route::get('/', [PortalController::class, 'home'])->name('home');
+        Route::get('/cases', [PortalController::class, 'cases'])->name('cases');
+        Route::get('/cases/{publicRef}', [PortalController::class, 'case'])->name('cases.show');
+        Route::get('/reports', [PortalController::class, 'publications'])->name('publications');
+        Route::get('/reports/{slug}', [PortalController::class, 'publication'])->name('publications.show');
+        Route::get('/reports/{slug}/download', [PortalController::class, 'download'])->name('publications.download');
+        Route::get('/open-data', [PortalController::class, 'openData'])->name('open-data');
+        Route::get('/open-data/{dataset}.csv', [PortalController::class, 'dataset'])->middleware('throttle:portal-search')->name('open-data.download');
+
+        foreach (PortalController::PAGES as $page) {
+            Route::get('/'.$page, [PortalController::class, 'page'])->defaults('page', $page)->name($page);
+        }
+    });
 
 /*
 |--------------------------------------------------------------------------

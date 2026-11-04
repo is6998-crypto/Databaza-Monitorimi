@@ -11,6 +11,8 @@ export default defineConfig({
                 'resources/css/filament/admin/theme.css',
                 'resources/css/monitor.css',
                 'resources/js/monitor.js',
+                'resources/css/portal.css',
+                'resources/js/portal.js',
             ],
             refresh: true,
         }),

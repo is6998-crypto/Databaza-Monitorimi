@@ -75,3 +75,15 @@ added at the bottom of each section. Format: **decision** — reason.
 - **Dashboard indicators count only approved/published hearings of approved/published cases.** — Unreviewed data must not reach reports. The dashboard filters (date range, court, case type) are shared by all widgets and kept in the session.
 - **Charts are Filament chart widgets (Chart.js) in the staff panel; the public portal uses Apache ECharts.** — Both are allowed by B2; Filament widgets integrate with the dashboard filters.
 - **Postponement analysis can be grouped by judge in the staff dashboard only; the public portal never uses the judge dimension.** — Judges' names are personal data and the portal shows no names.
+
+## Public portal
+
+- **Server-rendered Blade pages with two Livewire components (statistics with filters, case search); language in the URL (`/sq/...`, `/en/...`), `/` redirects by `Accept-Language`.** — Every page is indexable in both languages with `hreflang` alternates, canonical URLs and a sitemap. Livewire components remember their language for update requests.
+- **Small-cell suppression: every public count under 5 (including 0) is shown as "<5"; rates are suppressed when the numerator or the denominator is under 5; medians when based on fewer than 5 records.** — B6.7 says "suppress any aggregate cell under 5". Complementary suppression (deriving a hidden cell from totals) is not implemented and is listed as a known gap.
+- **Public statistics never use the judge, prosecutor or monitor dimension.**
+- **Anonymized case pages show a public code (`CW-…`, from a random ULID), case type, court, department, year, offence titles, the stage timeline with month/year only, and hearing counts. No names, no case numbers, no judges or prosecutors, no exact dates, no party demographics.** — Record-level data is the most re-identifiable; party demographics are only published as aggregates.
+- **The public case search cannot search by name or case number** (only offence title/article, type, court, year, category and judgment). — Prevents looking up individuals.
+- **Open data = six aggregate CSV tables built from the same suppressed statistics; every download is logged in `export_logs` (context `public`, no user, IP kept for abuse control).**
+- **ECharts is tree-shaken and loaded on demand only on pages with charts; every chart has a "show data" table for accessibility.** The ECharts instance is kept outside Alpine's reactive state (a reactive proxy breaks ECharts).
+- **No cookies other than Laravel's session/CSRF cookies, no analytics or third-party fonts/scripts on the portal.** — Data protection by default.
+- **Publications are managed by Editors in the staff panel; their PDFs live on private storage and are streamed by the portal only while published.**
