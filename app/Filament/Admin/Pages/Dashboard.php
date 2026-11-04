@@ -3,6 +3,8 @@
 namespace App\Filament\Admin\Pages;
 
 use App\Enums\CaseType;
+use App\Filament\Admin\Widgets\Analytics;
+use App\Filament\Admin\Widgets\MyWorkWidget;
 use App\Models\Reference\Court;
 use App\Support\Permissions;
 use Filament\Forms\Components\DatePicker;
@@ -38,6 +40,7 @@ class Dashboard extends BaseDashboard
 
         return $schema->components([
             Section::make()
+                ->columnSpanFull()
                 ->columns(['default' => 1, 'sm' => 2, 'xl' => 4])
                 ->schema([
                     DatePicker::make('from')->label(__('dashboard.filters.from')),
@@ -51,6 +54,34 @@ class Dashboard extends BaseDashboard
                         ->options(CaseType::options()),
                 ]),
         ]);
+    }
+
+    /**
+     * @return list<class-string>
+     */
+    public function getWidgets(): array
+    {
+        return [
+            MyWorkWidget::class,
+            Analytics\AnalyticsOverview::class,
+            Analytics\HearingsOverTimeChart::class,
+            Analytics\PostponementByChart::class,
+            Analytics\PostponementReasonsChart::class,
+            Analytics\PunctualityChart::class,
+            Analytics\PublicClosedChart::class,
+            Analytics\ComplianceChart::class,
+            Analytics\IndictmentOutcomesChart::class,
+            Analytics\StageDurationsChart::class,
+            Analytics\VerdictsChart::class,
+            Analytics\SentenceDistributionChart::class,
+            Analytics\AppealOutcomesChart::class,
+            Analytics\SeizureConfiscationChart::class,
+        ];
+    }
+
+    public function getColumns(): int|array
+    {
+        return ['default' => 1, 'lg' => 2];
     }
 
     public function persistsFiltersInSession(): bool

@@ -64,3 +64,14 @@ added at the bottom of each section. Format: **decision** — reason.
 - **The reviewer's diff compares the live record with the snapshot taken at the previous submission or approval. Snapshots cover the case and everything inside it but never party names (only their blind-index hash).** — Shows what changed after a return, without copying personal names into another table.
 - **Notifications: database (Filament bell) and email (Mailpit in development), queued. Reviewers are notified of submissions; authors of returns, approvals and publication. Notifications carry case numbers and courts, never party names.**
 - **Review queue page with two tables (cases, hearings), oldest submission first, with a navigation badge.** — Editors' daily work list.
+
+## Search, exports and analytics
+
+- **Global search = substring match (`ILIKE`, backed by `pg_trgm` GIN indexes) on case, indictment and police numbers, plus a fuzzy fallback with explicit similarity thresholds (0.65 for numbers, 0.45 for judge names); offence titles and article numbers; party names by exact name tokens through the blind index.** — Case numbers share most trigrams ("PKR.nr."), so the default `%` threshold (0.3) matched almost every case; strict thresholds keep typo tolerance without noise. Encrypted names cannot be fuzzy-searched.
+- **The same search powers the Filament global search (Ctrl/Cmd+K) and the case/hearing list search; results respect the monitor's court scope.**
+- **Faceted filters live in the URL (Filament's `filters` / `search` query parameters); saved filters store exactly that state, can be shared with colleagues, and are applied by opening the list with those parameters.** — Shareable links and saved filters use one mechanism.
+- **Exports are streamed with OpenSpout (CSV with BOM for Excel, or XLSX); the export is logged in `export_logs` and the audit log before the file is sent, with row count, filters, user, IP and user agent. Staff exports never contain party names.** — Logging first means even an interrupted download is recorded.
+- **Bulk "change status" runs each record through the workflow service and skips records where the transition is not allowed, reporting how many were skipped.** — Bulk actions cannot bypass the review rules.
+- **Dashboard indicators count only approved/published hearings of approved/published cases.** — Unreviewed data must not reach reports. The dashboard filters (date range, court, case type) are shared by all widgets and kept in the session.
+- **Charts are Filament chart widgets (Chart.js) in the staff panel; the public portal uses Apache ECharts.** — Both are allowed by B2; Filament widgets integrate with the dashboard filters.
+- **Postponement analysis can be grouped by judge in the staff dashboard only; the public portal never uses the judge dimension.** — Judges' names are personal data and the portal shows no names.

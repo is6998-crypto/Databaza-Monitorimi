@@ -13,6 +13,7 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationGroup as FilamentNavigationGroup;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
@@ -30,6 +31,23 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
  */
 class AdminPanelProvider extends PanelProvider
 {
+    /**
+     * Navigation groups with labels resolved at render time, so they follow the user's
+     * language (an enum passed directly would be translated once, at boot).
+     *
+     * @return array<string, FilamentNavigationGroup>
+     */
+    public static function navigationGroups(): array
+    {
+        $groups = [];
+
+        foreach (NavigationGroup::cases() as $case) {
+            $groups[$case->name] = FilamentNavigationGroup::make()->label(fn (): string => $case->getLabel());
+        }
+
+        return $groups;
+    }
+
     public function panel(Panel $panel): Panel
     {
         return $panel
@@ -53,7 +71,7 @@ class AdminPanelProvider extends PanelProvider
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->databaseNotifications()
             ->databaseNotificationsPolling('60s')
-            ->navigationGroups(NavigationGroup::class)
+            ->navigationGroups(self::navigationGroups())
             ->sidebarCollapsibleOnDesktop()
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->unsavedChangesAlerts()

@@ -23,3 +23,7 @@ All notable changes to this project are documented here. The format follows
 - Private attachments with signed, expiring download links.
 - Demo data: about 200 fake cases with parties, charges, stage timelines, hearings, measures, sentences and review history.
 - Review workflow for cases and hearings: submit for review, start review, approve, return with a mandatory comment, publish/unpublish; a diff of changes since the last reviewed version; review queue with a badge; database and email notifications; full transition history on each record.
+- Search: global search (Ctrl/Cmd+K) and list search across case/indictment/police numbers (with typo tolerance via pg_trgm), judges, offences and party names (blind index).
+- Saved filters (private or shared) on the case and hearing lists; filters and search are kept in the URL.
+- Bulk actions: assign monitor, change status (through the review workflow), export selected, soft delete (Super Admin only); CSV/XLSX export of filtered lists; export log screen. Every export is logged.
+- Analytics dashboard filterable by date range, court and case type: headline stats, hearings over time, postponement rate (by court/judge/case type) and reasons, punctuality and delay causes, public vs closed, recording and interpretation compliance, median days between stages, indictment outcomes, conviction vs acquittal, sentence distribution, plea agreements, appeal outcomes, seizure and confiscation requested vs granted. Monitors see their drafts and returned hearings instead.

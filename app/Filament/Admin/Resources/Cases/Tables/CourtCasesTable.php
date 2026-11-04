@@ -4,12 +4,18 @@ namespace App\Filament\Admin\Resources\Cases\Tables;
 
 use App\Enums\CaseType;
 use App\Enums\WorkflowStatus;
+use App\Filament\Admin\Actions\TableActions;
 use App\Filament\Admin\Resources\Cases\CourtCaseResource;
 use App\Models\CourtCase;
 use App\Models\Reference\Court;
 use App\Models\Reference\Judge;
 use App\Models\Reference\Monitor;
+use App\Services\Export\ExportColumns;
+use App\Services\Search\CaseSearch;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Columns\TextColumn;
@@ -32,6 +38,7 @@ class CourtCasesTable
                 TextColumn::make('court_case_number')
                     ->label(__('cases.fields.court_case_number'))
                     ->placeholder('—')
+                    ->searchable(query: fn (Builder $query, string $search): Builder => CaseSearch::apply($query, $search))
                     ->sortable()
                     ->weight('medium')
                     ->description(fn (CourtCase $record): ?string => $record->indictment_number),
@@ -73,6 +80,15 @@ class CourtCasesTable
             ->recordActions([
                 ViewAction::make()->label(__('cases.actions.open')),
                 EditAction::make(),
+            ])
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    TableActions::assignMonitor(),
+                    TableActions::changeStatus(),
+                    TableActions::exportSelected('cases', fn (): array => ExportColumns::cases(), ExportColumns::caseRelations()),
+                    DeleteBulkAction::make(),
+                    RestoreBulkAction::make(),
+                ]),
             ])
             ->recordUrl(fn (CourtCase $record): string => CourtCaseResource::getUrl('view', ['record' => $record]));
     }

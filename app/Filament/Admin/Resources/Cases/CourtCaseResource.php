@@ -21,6 +21,8 @@ use App\Filament\Admin\Resources\Cases\Schemas\CourtCaseInfolist;
 use App\Filament\Admin\Resources\Cases\Tables\CourtCasesTable;
 use App\Models\CourtCase;
 use App\Models\User;
+use App\Services\Search\CaseSearch;
+use Filament\GlobalSearch\GlobalSearchResult;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -29,6 +31,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Collection;
 use UnitEnum;
 
 class CourtCaseResource extends Resource
@@ -63,6 +66,38 @@ class CourtCaseResource extends Resource
     public static function getRecordTitle(?Model $record): string
     {
         return $record instanceof CourtCase ? $record->display_label : static::getModelLabel();
+    }
+
+    /**
+     * @return list<string>
+     */
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['court_case_number', 'indictment_number', 'police_case_number'];
+    }
+
+    /**
+     * pg_trgm fuzzy search on numbers, judge and offence, plus exact party-name tokens
+     * through the blind index (App\Services\Search\CaseSearch).
+     *
+     * @return Collection<int, GlobalSearchResult>
+     */
+    public static function getGlobalSearchResults(string $search): Collection
+    {
+        $query = CaseSearch::rank(CaseSearch::apply(static::getGlobalSearchEloquentQuery()->with(['court']), $search), $search);
+
+        return $query
+            ->limit(static::getGlobalSearchResultsLimit())
+            ->get()
+            ->map(fn (Model $record): ?GlobalSearchResult => $record instanceof CourtCase ? new GlobalSearchResult(
+                title: $record->display_label,
+                url: static::getUrl('view', ['record' => $record]),
+                details: [
+                    __('cases.fields.type') => $record->type->getLabel(),
+                    __('cases.fields.status') => $record->status->getLabel(),
+                ],
+            ) : null)
+            ->filter();
     }
 
     public static function form(Schema $schema): Schema

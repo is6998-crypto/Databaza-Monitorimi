@@ -4,11 +4,16 @@ namespace App\Filament\Admin\Resources\Hearings\Tables;
 
 use App\Enums\HearingType;
 use App\Enums\WorkflowStatus;
+use App\Filament\Admin\Actions\TableActions;
 use App\Filament\Admin\Resources\Hearings\HearingResource;
 use App\Models\Hearing;
 use App\Models\Reference\Court;
 use App\Models\Reference\Judge;
 use App\Models\Reference\Monitor;
+use App\Services\Export\ExportColumns;
+use App\Services\Search\CaseSearch;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\DatePicker;
@@ -32,6 +37,7 @@ class HearingsTable
                 TextColumn::make('hearing_date')->label(__('hearings.fields.hearing_date'))->date()->sortable(),
                 TextColumn::make('case_id')->label(__('hearings.fields.case'))
                     ->formatStateUsing(fn (Hearing $record): string => $record->case->display_label)
+                    ->searchable(query: fn (Builder $query, string $search): Builder => $query->whereHas('case', fn (Builder $case) => CaseSearch::apply($case, $search)))
                     ->wrap(),
                 TextColumn::make('hearing_type')->label(__('hearings.fields.hearing_type'))->badge()->placeholder('—')->toggleable(),
                 TextColumn::make('judge.name')->label(__('hearings.fields.judge'))->placeholder('—')->toggleable(),
@@ -62,6 +68,13 @@ class HearingsTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
+            ])
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    TableActions::changeStatus(),
+                    TableActions::exportSelected('hearings', fn (): array => ExportColumns::hearings(), ExportColumns::hearingRelations()),
+                    DeleteBulkAction::make(),
+                ]),
             ])
             ->recordUrl(fn (Hearing $record): string => HearingResource::getUrl('view', ['record' => $record]));
     }
