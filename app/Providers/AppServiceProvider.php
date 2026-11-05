@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Listeners\AuditAuthenticationEvents;
 use App\Listeners\AuditPermissionChanges;
+use App\Listeners\CheckApplicationHealth;
 use App\Models\AdministrativeCaseDetail;
 use App\Models\CaseParty;
 use App\Models\CaseStage;
@@ -26,10 +27,12 @@ use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Foundation\Events\DiagnosingHealth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Permission\Events\PermissionAttachedEvent;
@@ -57,6 +60,13 @@ class AppServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         RecentValuesObserver::register();
+
+        Event::listen(DiagnosingHealth::class, CheckApplicationHealth::class);
+
+        // Behind TLS (Caddy/FrankenPHP or a proxy) every generated URL must be https.
+        if ($this->app->isProduction() && str_starts_with((string) config('app.url'), 'https://')) {
+            URL::forceScheme('https');
+        }
     }
 
     private function registerPolicies(): void

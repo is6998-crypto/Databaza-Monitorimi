@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 
@@ -15,9 +14,26 @@ class ApiDocsController extends Controller
 {
     private const PLACEHOLDERS = ['{{ config("app.url") }}', '{{ config(\"app.url\") }}'];
 
-    public function show(): View
+    /**
+     * Libraries the generated page loads from public CDNs, served from public/vendor/scribe/lib
+     * instead: visitors' browsers never contact third parties and the strict CSP applies.
+     */
+    private const LOCAL_ASSETS = [
+        'https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js' => 'vendor/scribe/lib/lodash-4.17.10.min.js',
+        'https://unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/obsidian.min.css' => 'vendor/scribe/lib/highlight-obsidian-11.6.0.min.css',
+        'https://unpkg.com/@highlightjs/cdn-assets@11.6.0/highlight.min.js' => 'vendor/scribe/lib/highlight-11.6.0.min.js',
+        'https://cdnjs.cloudflare.com/ajax/libs/jets/0.14.1/jets.min.js' => 'vendor/scribe/lib/jets-0.14.1.min.js',
+    ];
+
+    public function show(): Response
     {
-        return view('scribe.index');
+        $html = view('scribe.index')->render();
+        $html = str_replace(array_keys(self::LOCAL_ASSETS), array_map(fn (string $path): string => asset($path), self::LOCAL_ASSETS), $html);
+
+        // The Open Sans web font from Google is dropped; the theme falls back to system fonts.
+        $html = (string) preg_replace('#<link[^>]+fonts\.googleapis\.com[^>]*>#', '', $html);
+
+        return response($html);
     }
 
     public function openapi(): Response

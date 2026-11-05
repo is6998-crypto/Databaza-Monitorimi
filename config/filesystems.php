@@ -47,6 +47,28 @@ return [
             'report' => false,
         ],
 
+        // Local copies of backups (development). Not inside app/private, which is backed up.
+        'backups_local' => [
+            'driver' => 'local',
+            'root' => storage_path('backups'),
+            'throw' => false,
+            'report' => false,
+        ],
+
+        // Off-site backups (production): any S3-compatible storage in another location,
+        // e.g. a bucket at a different provider. Archives are encrypted (BACKUP_ARCHIVE_PASSWORD).
+        'backups' => [
+            'driver' => 's3',
+            'key' => env('BACKUP_S3_KEY'),
+            'secret' => env('BACKUP_S3_SECRET'),
+            'region' => env('BACKUP_S3_REGION', 'eu-central-1'),
+            'bucket' => env('BACKUP_S3_BUCKET'),
+            'endpoint' => env('BACKUP_S3_ENDPOINT'),
+            'use_path_style_endpoint' => (bool) env('BACKUP_S3_PATH_STYLE', false),
+            'throw' => true,
+            'report' => false,
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

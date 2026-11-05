@@ -10,6 +10,7 @@ use Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFoundNotificatio
 use Spatie\Backup\Tasks\Cleanup\Strategies\DefaultStrategy;
 use Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays;
 use Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes;
+use Spatie\DbDumper\Compressors\GzipCompressor;
 
 return [
 
@@ -18,16 +19,17 @@ return [
          * The name of this application. You can use this name to monitor
          * the backups.
          */
-        'name' => env('APP_NAME', 'laravel-backup'),
+        'name' => env('BACKUP_NAME', 'courtwatch'),
 
+        // CourtWatch: the PostgreSQL database and the private files (attachments and
+        // publications when they are stored on the local disk). Code is in git, not in backups.
         'source' => [
             'files' => [
                 /*
                  * The list of directories and files that will be included in the backup.
                  */
                 'include' => [
-                    base_path(),
-                    // storage_path(),  // Include if you use zero downtime deployments and don't follow symlinks
+                    storage_path('app/private'),
                 ],
 
                 /*
@@ -36,9 +38,8 @@ return [
                  * Directories used by the backup process will automatically be excluded.
                  */
                 'exclude' => [
-                    base_path('vendor'),
-                    base_path('node_modules'),
-                    storage_path('framework'),
+                    storage_path('app/private/legacy'),
+                    storage_path('app/private/livewire-tmp'),
                 ],
 
                 /*
@@ -49,14 +50,14 @@ return [
                 /*
                  * Determines if it should avoid unreadable folders.
                  */
-                'ignore_unreadable_directories' => false,
+                'ignore_unreadable_directories' => true,
 
                 /*
                  * This path is used to make directories in resulting zip-file relative
                  * Set to `null` to include complete absolute path
                  * Example: base_path()
                  */
-                'relative_path' => null,
+                'relative_path' => storage_path('app'),
             ],
 
             /*
@@ -90,7 +91,7 @@ return [
              * For a complete list of available customization options, see https://github.com/spatie/db-dumper
              */
             'databases' => [
-                env('DB_CONNECTION', 'mysql'),
+                env('DB_CONNECTION', 'pgsql'),
             ],
         ],
 
@@ -105,7 +106,7 @@ return [
          *
          * If you do not want any compressor at all, set it to null.
          */
-        'database_dump_compressor' => null,
+        'database_dump_compressor' => GzipCompressor::class,
 
         /*
          * If specified, the database dumped file name will contain a timestamp (e.g.: 'Y-m-d-H-i-s').
@@ -163,9 +164,8 @@ return [
             /*
              * The disk names on which the backups will be stored.
              */
-            'disks' => [
-                'local',
-            ],
+            // BACKUP_DISKS (comma-separated): production uses the off-site "backups" disk (S3-compatible).
+            'disks' => array_values(array_filter(array_map('trim', explode(',', (string) env('BACKUP_DISKS', 'backups_local'))))),
 
             /*
              * Determines whether to allow backups to continue when some targets fail instead of failing completely.
@@ -236,11 +236,11 @@ return [
         'notifiable' => Notifiable::class,
 
         'mail' => [
-            'to' => 'your@example.com',
+            'to' => env('BACKUP_NOTIFICATION_EMAIL', 'admin@example.org'),
 
             'from' => [
-                'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-                'name' => env('MAIL_FROM_NAME', 'Example'),
+                'address' => env('MAIL_FROM_ADDRESS', 'courtwatch@example.org'),
+                'name' => env('MAIL_FROM_NAME', 'CourtWatch'),
             ],
         ],
 
@@ -296,24 +296,13 @@ return [
      */
     'monitor_backups' => [
         [
-            'name' => env('APP_NAME', 'laravel-backup'),
-            'disks' => ['local'],
+            'name' => env('BACKUP_NAME', 'courtwatch'),
+            'disks' => array_values(array_filter(array_map('trim', explode(',', (string) env('BACKUP_DISKS', 'backups_local'))))),
             'health_checks' => [
                 MaximumAgeInDays::class => 1,
-                MaximumStorageInMegabytes::class => 5000,
+                MaximumStorageInMegabytes::class => 20000,
             ],
         ],
-
-        /*
-        [
-            'name' => 'name of the second app',
-            'disks' => ['local', 's3'],
-            'health_checks' => [
-                \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays::class => 1,
-                \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes::class => 5000,
-            ],
-        ],
-        */
     ],
 
     'cleanup' => [
@@ -339,7 +328,7 @@ return [
              * of that day will be kept. Older backups within the same day will be removed.
              * If you create backups only once a day, no backups will be removed yet.
              */
-            'keep_daily_backups_for_days' => 16,
+            'keep_daily_backups_for_days' => 30,
 
             /*
              * After the "keep_daily_backups_for_days" period is over, the most recent backup
@@ -352,7 +341,7 @@ return [
              * After the "keep_weekly_backups_for_weeks" period is over, the most recent backup
              * of that month will be kept. Older backups within the same month will be removed.
              */
-            'keep_monthly_backups_for_months' => 4,
+            'keep_monthly_backups_for_months' => 12,
 
             /*
              * After the "keep_monthly_backups_for_months" period is over, the most recent backup

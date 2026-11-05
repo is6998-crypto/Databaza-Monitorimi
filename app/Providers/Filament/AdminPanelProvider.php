@@ -4,6 +4,7 @@ namespace App\Providers\Filament;
 
 use App\Enums\NavigationGroup;
 use App\Filament\Admin\Pages\Dashboard;
+use App\Filament\Auth\Login;
 use App\Filament\Support\InitialsAvatarProvider;
 use App\Http\Middleware\SetLocale;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
@@ -57,7 +58,7 @@ class AdminPanelProvider extends PanelProvider
             ->brandName('CourtWatch')
             ->favicon(asset('icons/favicon.svg'))
             ->defaultAvatarProvider(InitialsAvatarProvider::class)
-            ->login()
+            ->login(Login::class)
             ->passwordReset()
             ->profile(isSimple: false)
             ->multiFactorAuthentication(

@@ -54,3 +54,6 @@ appendonlydir/
 
 # Scribe intermediate files (the published docs are committed: resources/views/scribe, public/vendor/scribe, storage/app/private/scribe)
 /.scribe/
+
+# Local backup archives
+/storage/backups/

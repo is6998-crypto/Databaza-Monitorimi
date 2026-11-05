@@ -37,3 +37,11 @@ All notable changes to this project are documented here. The format follows
 - Legacy migration toolkit (`migration/`): `php artisan legacy:import --connection=legacy` reads the old MySQL database read-only, groups the flat rows into cases, removes duplicates from reference data, maps free text to codes, sends everything it cannot map to `legacy_review_items` (encrypted) and writes a reconciliation report; idempotent and re-runnable, with `--dry-run`, `--module` and `--limit`. `legacy:inspect` compares the mapping with the legacy schema; `legacy:fixture` builds a fake legacy database for trials.
 - "Legacy review" screen in the staff panel to work through the import's review items (filters, decrypted details, link to the case, resolve/reopen).
 - `docs/MIGRATION.md`: how to run the migration safely on the server or a secure computer.
+- Security headers on every response (CSP, HSTS over HTTPS, X-Frame-Options, Referrer-Policy, Permissions-Policy), an account lock after repeated failed sign-ins (on top of the per-IP limit), and bilingual error pages without technical details.
+- Health check `/up` now verifies the database and the cache; `/horizon` is limited to Super Admins with 2FA.
+- Daily encrypted backups (database + private files) to an off-site S3-compatible disk, with cleanup and monitoring.
+- Production deployment: `Dockerfile` (FrankenPHP with automatic HTTPS), `docker-compose.prod.yml`, Caddyfile and entrypoint, `php artisan app:create-admin`, and `docs/DEPLOY.md` (VPS setup, backups and restore, updates, monitoring, security checklist).
+
+### Changed
+- Page titles in the staff panel are no longer Title Cased, so Albanian labels read correctly.
+- The API documentation loads its libraries from this server instead of public CDNs.

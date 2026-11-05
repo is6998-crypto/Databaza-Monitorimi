@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Auth\Login;
 use App\Filament\Research\Pages\Auth\Register;
 use App\Filament\Research\Pages\Dashboard;
 use App\Filament\Support\InitialsAvatarProvider;
@@ -39,7 +40,7 @@ class ResearchPanelProvider extends PanelProvider
             ->brandName(fn (): string => 'CourtWatch · '.__('research.panel'))
             ->favicon(asset('icons/favicon.svg'))
             ->defaultAvatarProvider(InitialsAvatarProvider::class)
-            ->login()
+            ->login(Login::class)
             ->registration(Register::class)
             ->passwordReset()
             ->profile(isSimple: false)

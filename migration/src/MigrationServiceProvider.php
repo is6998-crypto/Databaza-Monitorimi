@@ -2,6 +2,7 @@
 
 namespace Migration;
 
+use Faker\Factory;
 use Illuminate\Support\ServiceProvider;
 use Migration\Console\ImportLegacyCommand;
 use Migration\Console\InspectLegacyCommand;
@@ -20,11 +21,12 @@ class MigrationServiceProvider extends ServiceProvider
     public function boot(): void
     {
         if ($this->app->runningInConsole()) {
-            $this->commands([
-                ImportLegacyCommand::class,
-                InspectLegacyCommand::class,
-                MakeLegacyFixtureCommand::class,
-            ]);
+            $this->commands([ImportLegacyCommand::class, InspectLegacyCommand::class]);
+
+            // The fake fixture needs Faker, which is not installed in production images.
+            if (class_exists(Factory::class)) {
+                $this->commands([MakeLegacyFixtureCommand::class]);
+            }
         }
     }
 }

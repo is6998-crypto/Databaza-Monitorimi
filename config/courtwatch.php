@@ -64,6 +64,20 @@ return [
     |--------------------------------------------------------------------------
     */
 
+    /*
+    | Security headers (App\Http\Middleware\SecurityHeaders). CSP_MODE: enforce, report-only or off.
+    | HSTS is only sent over HTTPS.
+    */
+    'security' => [
+        'csp' => env('CSP_MODE', 'enforce'),
+        'hsts' => (bool) env('HSTS_ENABLED', true),
+        'hsts_max_age' => (int) env('HSTS_MAX_AGE', 31536000),
+        // Failed sign-ins per account before it is locked for login_lock_minutes (on top of
+        // Filament's limit of 5 attempts per minute per IP address).
+        'login_max_attempts' => (int) env('LOGIN_MAX_ATTEMPTS', 10),
+        'login_lock_minutes' => (int) env('LOGIN_LOCK_MINUTES', 15),
+    ],
+
     'api' => [
         'rate_limit_per_minute' => (int) env('API_RATE_LIMIT_PER_MINUTE', 60),
         'max_page_size' => 100,
