@@ -129,6 +129,16 @@ added at the bottom of each section. Format: **decision** — reason.
 - **Production never seeds demo accounts; the first Super Admin is created with `php artisan app:create-admin` and must set up 2FA at the first sign-in.**
 - **Page titles use the labels as written (no Title Case)** — Albanian does not capitalise the articles "e", "i", "të" ("Degët e gjykatave", not "Degët E Gjykatave").
 
+## Visual design
+
+- **The design follows the owner's mockups as a direction, not a redesign: only the appearance changed.** Texts, fields, menus, flows and permissions are the same; where a mockup showed content the platform does not have (for example a "sign in" button or a tagline in the portal header, a breadcrumb, a demo banner), it was left out.
+- **Palette: navy `#0c2a42`, yellow `#f8c33a`, green `#10937b`, steel blue for information, on a light grey canvas `#f5f6f7`.** Defined once for PHP in `App\Support\Brand` (Filament palettes, chart colours, avatar tints) and once for Tailwind in `resources/css/brand.css` (`navy-*`, `gold-*`, `mint-*`, `steel-*`, `canvas`).
+- **Font: Plus Jakarta Sans (variable, SIL Open Font License) from `@fontsource-variable`, bundled by Vite.** — The closest open font to the mockups; serving it from this site keeps the strict CSP and sends no visitor data to a font host. Error pages keep the system font because they must render without the Vite build.
+- **Filament is styled with CSS in the panel theme (`resources/css/filament/admin/theme.css`), not by overriding Filament views.** — Upgrades keep working; the theme only targets Filament's documented `fi-*` classes. The navy sidebar column continues into the top bar behind the logo on large screens.
+- **The yellow primary palette ends in navy shades (800–950).** — Filament picks the text colour on a yellow button or badge from the same palette by contrast; ending the palette in navy gives navy text on yellow, as in the mockups, with WCAG AA contrast, without CSS overrides per component.
+- **Switches that are on are green (`Toggle::configureUsing(... ->onColor('success'))`); yellow is kept for actions and selections.**
+- **Dark mode in the panels is kept and uses the same palette (navy greys).** The portal has no dark design, so `dark:` classes from vendor views (pagination) are switched off there.
+
 ## Tests and documentation
 
 - **End-to-end smoke tests use Playwright (`e2e/`, `npm run e2e`) against a running app with the demo data, not a separate test database.** They sign staff in through the real, mandatory 2FA set-up (computing TOTP codes as an authenticator app does) and keep the secrets in the git-ignored `e2e/.auth/`; they respect the per-IP sign-in limit instead of disabling it.
