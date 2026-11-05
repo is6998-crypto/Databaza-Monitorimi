@@ -211,3 +211,23 @@ it('backs up the database and private files, encrypted, every day', function () 
         ->toContain('backup:clean')
         ->toContain('backup:monitor');
 });
+
+it('needs no bucket when files are stored locally', function () {
+    config(['filesystems.default' => 'local', 'courtwatch.attachments.disk' => 'local']);
+
+    $this->artisan('app:ensure-bucket')->expectsOutputToContain('no bucket needed')->assertSuccessful();
+});
+
+it('reports unreachable S3 storage instead of failing silently', function () {
+    config([
+        'courtwatch.attachments.disk' => 's3',
+        'filesystems.disks.s3.endpoint' => 'http://127.0.0.1:9',
+        'filesystems.disks.s3.bucket' => 'courtwatch',
+        'filesystems.disks.s3.key' => 'test',
+        'filesystems.disks.s3.secret' => 'test',
+        'filesystems.disks.s3.region' => 'us-east-1',
+        'filesystems.disks.s3.use_path_style_endpoint' => true,
+    ]);
+
+    $this->artisan('app:ensure-bucket', ['--retries' => 1])->expectsOutputToContain('Cannot reach the storage')->assertFailed();
+});

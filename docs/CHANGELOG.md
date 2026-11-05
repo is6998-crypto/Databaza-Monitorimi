@@ -48,3 +48,7 @@ All notable changes to this project are documented here. The format follows
 ### Changed
 - Page titles in the staff panel are no longer Title Cased, so Albanian labels read correctly.
 - The API documentation loads its libraries from this server instead of public CDNs.
+- Development storage: MinIO (whose Docker images are no longer published) is replaced by RustFS, an S3-compatible server with the same API and ports; `php artisan app:ensure-bucket` creates the private bucket.
+
+### Fixed
+- `docker compose up` failed on a clean machine because the `minio/minio` and `minio/mc` images can no longer be pulled.

@@ -1,7 +1,7 @@
 # Development stack: `docker compose up` starts everything, migrates and seeds fake demo data.
 #   App:      http://localhost:8000         (staff panel: /admin, monitor app: /m, researchers: /research)
 #   Mailpit:  http://localhost:8025
-#   MinIO:    http://localhost:9001         (user: courtwatch / change-me-minio)
+#   S3 console (RustFS): http://localhost:9001/rustfs/console/  (courtwatch / change-me-s3)
 name: courtwatch
 
 x-app-env: &app-env
@@ -13,7 +13,7 @@ x-app-env: &app-env
     REDIS_HOST: redis
     MAIL_HOST: mailpit
     MAIL_PORT: "1025"
-    AWS_ENDPOINT: http://minio:9000
+    AWS_ENDPOINT: http://s3:9000
     CODESPACE_NAME: ${CODESPACE_NAME:-}
     GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN: ${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN:-}
 
@@ -34,8 +34,8 @@ services:
                 condition: service_healthy
             redis:
                 condition: service_healthy
-            createbuckets:
-                condition: service_completed_successfully
+            s3:
+                condition: service_healthy
         healthcheck:
             test: ["CMD", "curl", "-fsS", "http://localhost:8000/up"]
             interval: 15s
@@ -85,34 +85,26 @@ services:
             timeout: 3s
             retries: 20
 
-    minio:
-        image: minio/minio:latest
-        command: server /data --console-address ":9001"
+    # S3-compatible object storage. RustFS is MinIO-compatible (same API and ports); MinIO no
+    # longer publishes community Docker images. The app creates its bucket on start
+    # (php artisan app:ensure-bucket).
+    s3:
+        image: rustfs/rustfs:1.0.4
         environment:
-            MINIO_ROOT_USER: courtwatch
-            MINIO_ROOT_PASSWORD: change-me-minio
+            RUSTFS_ACCESS_KEY: courtwatch
+            RUSTFS_SECRET_KEY: change-me-s3
+            RUSTFS_VOLUMES: /data
+            RUSTFS_CONSOLE_ENABLE: "true"
         ports:
             - "9000:9000"
             - "9001:9001"
         volumes:
-            - miniodata:/data
+            - s3data:/data
         healthcheck:
-            test: ["CMD", "mc", "ready", "local"]
+            test: ["CMD", "curl", "-fsS", "-o", "/dev/null", "http://localhost:9000/health"]
             interval: 5s
             timeout: 5s
             retries: 20
-
-    createbuckets:
-        image: minio/mc:latest
-        depends_on:
-            minio:
-                condition: service_healthy
-        entrypoint: >
-            /bin/sh -c "
-            mc alias set local http://minio:9000 courtwatch change-me-minio &&
-            mc mb --ignore-existing local/courtwatch &&
-            mc anonymous set none local/courtwatch
-            "
 
     mailpit:
         image: axllent/mailpit:latest
@@ -122,4 +114,4 @@ services:
 
 volumes:
     pgdata:
-    miniodata:
+    s3data:

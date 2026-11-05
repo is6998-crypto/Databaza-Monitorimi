@@ -15,7 +15,7 @@ spec was silent. Read both before changing behaviour.
 | Public portal | Laravel + Livewire 4 + Tailwind 4 at `/` (`/sq/...`, `/en/...`) |
 | Database | PostgreSQL 16 with `pg_trgm` |
 | Queue / cache / sessions | Redis + Laravel Horizon |
-| Files | S3-compatible (MinIO in dev), private, signed URLs |
+| Files | S3-compatible (RustFS in dev — MinIO-compatible; MinIO no longer publishes images), private, signed URLs |
 | RBAC | spatie/laravel-permission + Filament Shield (role UI) + hand-written policies |
 | Audit | spatie/laravel-activitylog |
 | 2FA | Filament built-in app (TOTP) MFA, mandatory in `/admin` |

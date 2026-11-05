@@ -122,8 +122,9 @@ editors, analysts). Every staff member sets up 2FA at their first sign-in.
 
 Attachments and publications are private and only served through signed, expiring links.
 
-- **S3-compatible storage** (default, `FILESYSTEM_DISK=s3`, `ATTACHMENTS_DISK=s3`): enable
-  **versioning** on the bucket and, if the provider offers it, replication to another region.
+- **S3-compatible storage** (default, `FILESYSTEM_DISK=s3`, `ATTACHMENTS_DISK=s3`): create a
+  private bucket (or run `docker compose -f docker-compose.prod.yml exec app php artisan app:ensure-bucket`),
+  enable **versioning** on it and, if the provider offers it, replication to another region.
   The bucket is not part of the backup archive.
 - **Local disk** (`FILESYSTEM_DISK=local`, `ATTACHMENTS_DISK=local`): files are stored in the
   `storage` volume and **are included** in the daily backup archive. Simplest option for a small

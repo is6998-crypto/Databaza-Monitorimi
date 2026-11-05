@@ -46,6 +46,7 @@ prepare_app() {
 
     wait_for_db
     php artisan migrate --force
+    php artisan app:ensure-bucket
     php artisan app:seed-if-empty
     php artisan storage:link >/dev/null 2>&1 || true
     php artisan optimize:clear >/dev/null

@@ -75,7 +75,7 @@ This takes a few minutes; the app is ready when the log says
 | --- | --- |
 | CourtWatch | <http://localhost:8000> (redirects to the portal) |
 | Mailpit (all e-mails sent in development) | <http://localhost:8025> |
-| MinIO console (file storage) | <http://localhost:9001> — `courtwatch` / `change-me-minio` |
+| S3 storage console (RustFS) | <http://localhost:9001/rustfs/console/> — `courtwatch` / `change-me-s3` |
 
 ## GitHub Codespaces
 
@@ -126,7 +126,7 @@ composer install && cp .env.example .env && php artisan key:generate
 
 Edit `.env`: database credentials, `BLIND_INDEX_KEY` (64 hex characters, e.g. from
 `php -r "echo bin2hex(random_bytes(32));"`), `SEED_DEMO_DATA=true`, and
-`FILESYSTEM_DISK=local` / `ATTACHMENTS_DISK=local` if you have no MinIO. Then:
+`FILESYSTEM_DISK=local` / `ATTACHMENTS_DISK=local` if you run no S3-compatible storage. Then:
 
 ```bash
 php artisan migrate --seed && npm ci && npm run build
