@@ -29,11 +29,16 @@ class EnsureStorageBucket extends Command
         }
 
         foreach ($s3 as $disk) {
-            $adapter = Storage::disk($disk);
             $bucket = (string) config("filesystems.disks.{$disk}.bucket");
 
+            try {
+                $adapter = Storage::disk($disk);
+            } catch (Throwable $exception) {
+                $adapter = null;
+            }
+
             if (! $adapter instanceof AwsS3V3Adapter || $bucket === '') {
-                $this->error("Disk [{$disk}] is not a configured S3 disk.");
+                $this->error("Disk [{$disk}] is not fully configured: set AWS_BUCKET, AWS_DEFAULT_REGION and the credentials (AWS_ENDPOINT for non-Amazon storage).");
 
                 return self::FAILURE;
             }

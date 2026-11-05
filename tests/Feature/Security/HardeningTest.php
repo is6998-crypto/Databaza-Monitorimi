@@ -231,3 +231,27 @@ it('reports unreachable S3 storage instead of failing silently', function () {
 
     $this->artisan('app:ensure-bucket', ['--retries' => 1])->expectsOutputToContain('Cannot reach the storage')->assertFailed();
 });
+
+it('boots with an empty backup notification address', function () {
+    $config = require config_path('backup.php');
+
+    expect($config['notifications']['mail']['to'])->toBeString()->not->toBe('');
+
+    $_ENV['BACKUP_NOTIFICATION_EMAIL'] = '';
+    putenv('BACKUP_NOTIFICATION_EMAIL=');
+
+    try {
+        $fallback = (require config_path('backup.php'))['notifications']['mail']['to'];
+    } finally {
+        unset($_ENV['BACKUP_NOTIFICATION_EMAIL']);
+        putenv('BACKUP_NOTIFICATION_EMAIL');
+    }
+
+    expect(filter_var($fallback, FILTER_VALIDATE_EMAIL))->not->toBeFalse();
+});
+
+it('explains an incomplete S3 configuration', function () {
+    config(['courtwatch.attachments.disk' => 's3', 'filesystems.disks.s3.bucket' => '', 'filesystems.disks.s3.region' => '']);
+
+    $this->artisan('app:ensure-bucket', ['--retries' => 1])->expectsOutputToContain('not fully configured')->assertFailed();
+});

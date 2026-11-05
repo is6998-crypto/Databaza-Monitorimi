@@ -236,10 +236,12 @@ return [
         'notifiable' => Notifiable::class,
 
         'mail' => [
-            'to' => env('BACKUP_NOTIFICATION_EMAIL', 'admin@example.org'),
+            // An empty BACKUP_NOTIFICATION_EMAIL falls back to the sender address: the package
+            // refuses to boot with an invalid recipient.
+            'to' => env('BACKUP_NOTIFICATION_EMAIL') ?: env('MAIL_FROM_ADDRESS') ?: 'courtwatch@example.org',
 
             'from' => [
-                'address' => env('MAIL_FROM_ADDRESS', 'courtwatch@example.org'),
+                'address' => env('MAIL_FROM_ADDRESS') ?: 'courtwatch@example.org',
                 'name' => env('MAIL_FROM_NAME', 'CourtWatch'),
             ],
         ],

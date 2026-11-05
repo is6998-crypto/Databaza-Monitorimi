@@ -52,3 +52,4 @@ All notable changes to this project are documented here. The format follows
 
 ### Fixed
 - `docker compose up` failed on a clean machine because the `minio/minio` and `minio/mc` images can no longer be pulled.
+- The production stack crashed at start when `BACKUP_NOTIFICATION_EMAIL` was left empty (the backup package rejects an empty recipient); it now falls back to the sender address.
