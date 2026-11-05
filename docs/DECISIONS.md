@@ -128,3 +128,10 @@ added at the bottom of each section. Format: **decision** — reason.
 - **Production image: FrankenPHP (Caddy with automatic HTTPS + PHP) with three roles (web, horizon, scheduler); the web role caches config/routes/views/events and runs migrations on start (`RUN_MIGRATIONS`), runs as `www-data`, and answers an internal health check on port 8080.** The PostgreSQL 16 client comes from the PGDG repository (Debian's is older than the server, which breaks `pg_dump`). Committed API docs are copied into the storage volume at start so updates never serve stale docs.
 - **Production never seeds demo accounts; the first Super Admin is created with `php artisan app:create-admin` and must set up 2FA at the first sign-in.**
 - **Page titles use the labels as written (no Title Case)** — Albanian does not capitalise the articles "e", "i", "të" ("Degët e gjykatave", not "Degët E Gjykatave").
+
+## Tests and documentation
+
+- **End-to-end smoke tests use Playwright (`e2e/`, `npm run e2e`) against a running app with the demo data, not a separate test database.** They sign staff in through the real, mandatory 2FA set-up (computing TOTP codes as an authenticator app does) and keep the secrets in the git-ignored `e2e/.auth/`; they respect the per-IP sign-in limit instead of disabling it.
+- **The Definition of Done items about Docker are checked in CI (`.github/workflows/docker.yml`) on a clean GitHub runner**: `docker compose up` must install, migrate and seed by itself (the Codespaces dev container starts the same stack), and the production image must build and serve the app over HTTPS.
+- **README screenshots are placeholders** (the proposal asks for "screenshots placeholders"); the user guides describe the screens with their real labels in each language.
+

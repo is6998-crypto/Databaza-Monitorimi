@@ -34,10 +34,14 @@ composer test                     # Pest (needs PostgreSQL; database courtwatch_
 composer check                    # all three
 php artisan app:seed-if-empty     # seed reference + demo data when the DB is empty
 php artisan migrate:fresh --seed  # rebuild the dev database
+php artisan app:create-admin you@example.org   # first Super Admin (production has no demo accounts)
+php artisan legacy:inspect --connection=legacy  # compare the legacy schema with migration/config/legacy.php
 php artisan legacy:import --connection=legacy   # legacy MySQL import (see docs/MIGRATION.md)
-php artisan scribe:generate       # regenerate API docs after changing the API
+php artisan legacy:fixture        # fake legacy database (SQLite) for trying the importer
+composer docs:api                 # regenerate the API docs (Scribe) after changing the API
 npm run build                     # Vite build (public portal, monitor PWA, Filament theme)
 npm run e2e                       # Playwright smoke tests (app must be running on :8000)
+docker compose -f docker-compose.prod.yml up -d --build   # production stack (docs/DEPLOY.md)
 ```
 
 ## Layout

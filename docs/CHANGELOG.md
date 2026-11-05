@@ -41,6 +41,9 @@ All notable changes to this project are documented here. The format follows
 - Health check `/up` now verifies the database and the cache; `/horizon` is limited to Super Admins with 2FA.
 - Daily encrypted backups (database + private files) to an off-site S3-compatible disk, with cleanup and monitoring.
 - Production deployment: `Dockerfile` (FrankenPHP with automatic HTTPS), `docker-compose.prod.yml`, Caddyfile and entrypoint, `php artisan app:create-admin`, and `docs/DEPLOY.md` (VPS setup, backups and restore, updates, monitoring, security checklist).
+- Playwright smoke tests (`npm run e2e`): portal in both languages, staff sign-in through the real 2FA set-up, dashboard, review queue, monitor app on a phone-sized screen, approved and pending researchers.
+- A GitHub Actions workflow that runs `docker compose up` on a clean machine and builds and starts the production stack over HTTPS.
+- Full README (setup with Docker, Codespaces or locally, demo logins, commands) and staff user guides in Albanian and English.
 
 ### Changed
 - Page titles in the staff panel are no longer Title Cased, so Albanian labels read correctly.
