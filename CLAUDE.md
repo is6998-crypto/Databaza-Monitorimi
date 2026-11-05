@@ -22,7 +22,7 @@ spec was silent. Read both before changing behaviour.
 | API | Sanctum tokens, `/api/v1`, Scribe docs at `/docs/api` |
 | Tests | Pest 4 (PostgreSQL), Playwright smoke tests in `e2e/` |
 | Quality | Pint (laravel preset), Larastan level 6 |
-| Design | Navy `#0c2a42`, yellow `#f8c33a`, green `#10937b`; Plus Jakarta Sans (self-hosted). Tokens: `resources/css/brand.css` (Tailwind) and `App\Support\Brand` (Filament, charts) |
+| Design | Navy `#0c2a42` and yellow `#f8c33a` only, on white/light grey (no red, orange or green); Plus Jakarta Sans (self-hosted). Tokens: `resources/css/brand.css` (Tailwind) and `App\Support\Brand` (Filament, charts) |
 
 ## Commands
 

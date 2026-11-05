@@ -49,12 +49,14 @@ All notable changes to this project are documented here. The format follows
 - Page titles in the staff panel are no longer Title Cased, so Albanian labels read correctly.
 - The API documentation loads its libraries from this server instead of public CDNs.
 - Development storage: MinIO (whose Docker images are no longer published) is replaced by RustFS, an S3-compatible server with the same API and ports; `php artisan app:ensure-bucket` creates the private bucket.
-- New visual design across the whole platform, following the owner's mockups (texts, fields and flows are unchanged): navy, yellow and green on a light grey background, the Plus Jakarta Sans font (served from this site) and a new logo, favicon and app icon.
-  - Staff panel and researcher area: a navy sidebar with the logo at the top and the active page in yellow, larger bold headings, rounded cards, pill-shaped status badges, yellow main buttons with navy text, yellow active tabs and green switches. Dark mode follows the same colours.
-  - Public portal: navy header and footer, a navy introduction band on the home page, the headline numbers in one card with icons, charts in the new colours (the latest year in yellow), filters in a side panel next to the case results, a step timeline on case pages and covers on report cards.
-  - Monitor app: navy header, a yellow "new hearing" button, chosen answers in yellow with a check mark, and colour-coded draft states (draft yellow, waiting blue, sent green).
-  - Error pages and the idle-timeout warning use the same colours.
+- New visual design across the whole platform, following the owner's mockups (texts, fields and flows are unchanged): only navy and yellow on white and a light grey background (no red, orange or green anywhere), the Plus Jakarta Sans font (served from this site) and a new logo, favicon and app icon.
+  - Staff panel and researcher area: a navy sidebar with the logo at the top and the active page in yellow, the search on the left of the top bar, larger bold headings, clean white cards and tables, one yellow main button per screen (editing is a white button, workflow steps are navy), navy switches, and status badges told apart by style: solid navy (approved), solid yellow (published), yellow tint (in review), navy tint (submitted, case types), navy outline (returned), grey (draft). Errors are shown in bold navy. Dark mode follows the same colours.
+  - Public portal: navy header and footer, a navy introduction band on the home page, the headline numbers in one card with icons, charts in navy, yellow and grey (the latest year in yellow), filters in a side panel next to the case results, a navy step timeline on case pages and covers on report cards.
+  - Monitor app: navy header, a yellow "new hearing" button, chosen answers in yellow with a check mark, and draft states told apart by style (draft yellow tint, waiting light navy, sent solid navy, error solid yellow).
+  - The API documentation, error pages and the idle-timeout warning use the same two colours.
 
 ### Fixed
+- The introduction of the API documentation was shown as raw Markdown in a code box (indented text in `config/scribe.php`).
+- `composer docs:api` deleted the self-hosted libraries of the API documentation (Scribe empties `public/vendor/scribe`); they now live in `public/docs-assets`.
 - `docker compose up` failed on a clean machine because the `minio/minio` and `minio/mc` images can no longer be pulled.
 - The production stack crashed at start when `BACKUP_NOTIFICATION_EMAIL` was left empty (the backup package rejects an empty recipient); it now falls back to the sender address.
