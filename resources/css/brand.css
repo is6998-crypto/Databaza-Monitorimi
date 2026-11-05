@@ -1,0 +1,102 @@
+/*
+ * CourtWatch visual identity, shared by the public portal, the monitor app and the
+ * Filament theme: navy, yellow and green on a light grey canvas, with Plus Jakarta Sans.
+ * The PHP side (Filament colours, chart palette) is App\Support\Brand.
+ *
+ * The font is bundled by Vite and served from this site: the Content-Security-Policy
+ * allows no third-party font hosts.
+ */
+@import '@fontsource-variable/plus-jakarta-sans/index.css';
+
+@theme static {
+    --font-sans: 'Plus Jakarta Sans Variable', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+        'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+    --color-canvas: #f5f6f7;
+
+    --color-navy-50: #eef3f8;
+    --color-navy-100: #d9e3ee;
+    --color-navy-200: #b3c6da;
+    --color-navy-300: #839fbe;
+    --color-navy-400: #52769d;
+    --color-navy-500: #335a82;
+    --color-navy-600: #234667;
+    --color-navy-700: #183852;
+    --color-navy-800: #112f48;
+    --color-navy-900: #0c2a42;
+    --color-navy-950: #071b2c;
+
+    --color-gold-50: #fffaeb;
+    --color-gold-100: #fef0c3;
+    --color-gold-200: #fde38f;
+    --color-gold-300: #fbd35c;
+    --color-gold-400: #f8c33a;
+    --color-gold-500: #e9ad1d;
+    --color-gold-600: #c98d0f;
+    --color-gold-700: #9a6a0c;
+    --color-gold-800: #7a520e;
+    --color-gold-900: #5e3f0f;
+    --color-gold-950: #3a2505;
+
+    --color-mint-50: #ecfaf5;
+    --color-mint-100: #d3f3e7;
+    --color-mint-200: #a9e6d0;
+    --color-mint-300: #74d2b4;
+    --color-mint-400: #3db898;
+    --color-mint-500: #17a283;
+    --color-mint-600: #10937b;
+    --color-mint-700: #0d7563;
+    --color-mint-800: #0d5d50;
+    --color-mint-900: #0b4c42;
+    --color-mint-950: #052c27;
+
+    --color-steel-50: #f0f5fa;
+    --color-steel-100: #e1ebf5;
+    --color-steel-200: #c4d6ea;
+    --color-steel-300: #9bbad9;
+    --color-steel-400: #6b97c2;
+    --color-steel-500: #4878a9;
+    --color-steel-600: #3a6290;
+    --color-steel-700: #2f5076;
+    --color-steel-800: #284262;
+    --color-steel-900: #233851;
+    --color-steel-950: #172436;
+}
+
+/* Logo (resources/views/partials/brand.blade.php). The text takes the surrounding colour. */
+.cw-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6em;
+    font-size: 1.25rem;
+    line-height: 1;
+    color: inherit;
+}
+
+.cw-brand-mark {
+    width: 1.6em;
+    height: 1.6em;
+    flex: none;
+}
+
+.cw-brand-text {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 0.3em;
+}
+
+.cw-brand-name {
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.cw-brand-subtitle {
+    font-size: 0.5em;
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-wrap: balance;
+    opacity: 0.75;
+}
