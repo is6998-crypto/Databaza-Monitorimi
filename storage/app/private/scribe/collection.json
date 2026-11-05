@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "CourtWatch Researcher API",
-        "_postman_id": "33738323-b985-41d2-a54f-b063c107a399",
+        "_postman_id": "cec9c263-1b59-47f0-8bdb-2665a939f986",
         "description": "Read-only API with anonymized, verified court-monitoring data from Kosovo, for approved researchers.",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },

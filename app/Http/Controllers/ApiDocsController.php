@@ -15,14 +15,14 @@ class ApiDocsController extends Controller
     private const PLACEHOLDERS = ['{{ config("app.url") }}', '{{ config(\"app.url\") }}'];
 
     /**
-     * Libraries the generated page loads from public CDNs, served from public/vendor/scribe/lib
+     * Libraries the generated page loads from public CDNs, served from public/docs-assets/lib
      * instead: visitors' browsers never contact third parties and the strict CSP applies.
      */
     private const LOCAL_ASSETS = [
-        'https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js' => 'vendor/scribe/lib/lodash-4.17.10.min.js',
-        'https://unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/obsidian.min.css' => 'vendor/scribe/lib/highlight-obsidian-11.6.0.min.css',
-        'https://unpkg.com/@highlightjs/cdn-assets@11.6.0/highlight.min.js' => 'vendor/scribe/lib/highlight-11.6.0.min.js',
-        'https://cdnjs.cloudflare.com/ajax/libs/jets/0.14.1/jets.min.js' => 'vendor/scribe/lib/jets-0.14.1.min.js',
+        'https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js' => 'docs-assets/lib/lodash-4.17.10.min.js',
+        'https://unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/obsidian.min.css' => 'docs-assets/lib/highlight-obsidian-11.6.0.min.css',
+        'https://unpkg.com/@highlightjs/cdn-assets@11.6.0/highlight.min.js' => 'docs-assets/lib/highlight-11.6.0.min.js',
+        'https://cdnjs.cloudflare.com/ajax/libs/jets/0.14.1/jets.min.js' => 'docs-assets/lib/jets-0.14.1.min.js',
     ];
 
     public function show(): Response
@@ -32,6 +32,9 @@ class ApiDocsController extends Controller
 
         // The Open Sans web font from Google is dropped; the theme falls back to system fonts.
         $html = (string) preg_replace('#<link[^>]+fonts\.googleapis\.com[^>]*>#', '', $html);
+
+        // CourtWatch colours on top of Scribe's theme (navy and yellow only).
+        $html = str_replace('</head>', '<link rel="stylesheet" href="'.e(asset('docs-assets/courtwatch.css')).'" media="screen">'."\n</head>", $html);
 
         return response($html);
     }

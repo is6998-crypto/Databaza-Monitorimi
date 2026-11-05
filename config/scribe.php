@@ -18,23 +18,23 @@ return [
 
     // Text to place in the "Introduction" section, right after the `description`. Markdown and HTML are supported.
     'intro_text' => <<<'INTRO'
-            The researcher API gives approved researchers read-only access to **anonymized** record-level data
-            (cases, parties, hearings) and to the same suppressed aggregate statistics as the public portal.
+        The researcher API gives approved researchers read-only access to **anonymized** record-level data
+        (cases, parties, hearings) and to the same suppressed aggregate statistics as the public portal.
 
-            **Who can use it.** Register in the researcher area (`/research/register`). After an administrator approves
-            the account and you accept the data-use agreement, create a token under **API tokens** (`/research/api-tokens`)
-            and send it in the `Authorization: Bearer <token>` header. Tokens carry the `research:read` ability and expire.
+        **Who can use it.** Register in the researcher area (`/research/register`). After an administrator approves
+        the account and you accept the data-use agreement, create a token under **API tokens** (`/research/api-tokens`)
+        and send it in the `Authorization: Bearer <token>` header. Tokens carry the `research:read` ability and expire.
 
-            **What you get.** Only verified (approved or published) records. Never names, case numbers, judges,
-            prosecutors, monitors or free-text notes. Cases and hearings are identified by stable references (ULIDs),
-            parties by stable pseudonyms. Aggregate values under 5 are `null` (small-cell suppression).
+        **What you get.** Only verified (approved or published) records. Never names, case numbers, judges,
+        prosecutors, monitors or free-text notes. Cases and hearings are identified by stable references (ULIDs),
+        parties by stable pseudonyms. Aggregate values under 5 are `null` (small-cell suppression).
 
-            **Conventions.** Lists are paginated (`page`, `per_page` up to 100). Dates are `Y-m-d`. Labels follow `?lang=sq|en`
-            or the `Accept-Language` header (Albanian by default); codes never change. Requests are rate limited
-            (60 per minute by default; `429` when exceeded). Every request that returns records is logged.
+        **Conventions.** Lists are paginated (`page`, `per_page` up to 100). Dates are `Y-m-d`. Labels follow `?lang=sq|en`
+        or the `Accept-Language` header (Albanian by default); codes never change. Requests are rate limited
+        (60 per minute by default; `429` when exceeded). Every request that returns records is logged.
 
-            <aside>Errors: <code>401</code> missing or invalid token, <code>403</code> account not approved, agreement not accepted
-            or token without the <code>research:read</code> ability, <code>422</code> invalid filter, <code>429</code> too many requests.</aside>
+        <aside>Errors: <code>401</code> missing or invalid token, <code>403</code> account not approved, agreement not accepted
+        or token without the <code>research:read</code> ability, <code>422</code> invalid filter, <code>429</code> too many requests.</aside>
         INTRO,
 
     // The base URL displayed in the docs.

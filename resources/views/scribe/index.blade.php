@@ -136,7 +136,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: 04.11.2026</li>
+        <li>Last updated: 05.11.2026</li>
     </ul>
 </div>
 
@@ -148,23 +148,19 @@
 <aside>
     <strong>Base URL</strong>: <code>{{ config("app.url") }}</code>
 </aside>
-<pre><code>The researcher API gives approved researchers read-only access to **anonymized** record-level data
-(cases, parties, hearings) and to the same suppressed aggregate statistics as the public portal.
-
-**Who can use it.** Register in the researcher area (`/research/register`). After an administrator approves
-the account and you accept the data-use agreement, create a token under **API tokens** (`/research/api-tokens`)
-and send it in the `Authorization: Bearer &lt;token&gt;` header. Tokens carry the `research:read` ability and expire.
-
-**What you get.** Only verified (approved or published) records. Never names, case numbers, judges,
+<p>The researcher API gives approved researchers read-only access to <strong>anonymized</strong> record-level data
+(cases, parties, hearings) and to the same suppressed aggregate statistics as the public portal.</p>
+<p><strong>Who can use it.</strong> Register in the researcher area (<code>/research/register</code>). After an administrator approves
+the account and you accept the data-use agreement, create a token under <strong>API tokens</strong> (<code>/research/api-tokens</code>)
+and send it in the <code>Authorization: Bearer &lt;token&gt;</code> header. Tokens carry the <code>research:read</code> ability and expire.</p>
+<p><strong>What you get.</strong> Only verified (approved or published) records. Never names, case numbers, judges,
 prosecutors, monitors or free-text notes. Cases and hearings are identified by stable references (ULIDs),
-parties by stable pseudonyms. Aggregate values under 5 are `null` (small-cell suppression).
-
-**Conventions.** Lists are paginated (`page`, `per_page` up to 100). Dates are `Y-m-d`. Labels follow `?lang=sq|en`
-or the `Accept-Language` header (Albanian by default); codes never change. Requests are rate limited
-(60 per minute by default; `429` when exceeded). Every request that returns records is logged.
-
-&lt;aside&gt;Errors: &lt;code&gt;401&lt;/code&gt; missing or invalid token, &lt;code&gt;403&lt;/code&gt; account not approved, agreement not accepted
-or token without the &lt;code&gt;research:read&lt;/code&gt; ability, &lt;code&gt;422&lt;/code&gt; invalid filter, &lt;code&gt;429&lt;/code&gt; too many requests.&lt;/aside&gt;</code></pre>
+parties by stable pseudonyms. Aggregate values under 5 are <code>null</code> (small-cell suppression).</p>
+<p><strong>Conventions.</strong> Lists are paginated (<code>page</code>, <code>per_page</code> up to 100). Dates are <code>Y-m-d</code>. Labels follow <code>?lang=sq|en</code>
+or the <code>Accept-Language</code> header (Albanian by default); codes never change. Requests are rate limited
+(60 per minute by default; <code>429</code> when exceeded). Every request that returns records is logged.</p>
+<aside>Errors: <code>401</code> missing or invalid token, <code>403</code> account not approved, agreement not accepted
+or token without the <code>research:read</code> ability, <code>422</code> invalid filter, <code>429</code> too many requests.</aside>
 
         <h1 id="authenticating-requests">Authenticating requests</h1>
 <p>To authenticate requests, include an <strong><code>Authorization</code></strong> header with the value <strong><code>"Bearer {YOUR_API_TOKEN}"</code></strong>.</p>

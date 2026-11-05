@@ -67,9 +67,12 @@ it('serves the API documentation without third-party assets', function () {
     }
 
     foreach (['lodash-4.17.10.min.js', 'highlight-11.6.0.min.js', 'highlight-obsidian-11.6.0.min.css', 'jets-0.14.1.min.js'] as $file) {
-        expect($html)->toContain('/vendor/scribe/lib/'.$file)
-            ->and(file_exists(public_path('vendor/scribe/lib/'.$file)))->toBeTrue();
+        expect($html)->toContain('/docs-assets/lib/'.$file)
+            ->and(file_exists(public_path('docs-assets/lib/'.$file)))->toBeTrue();
     }
+
+    expect($html)->toContain('/docs-assets/courtwatch.css')
+        ->and(file_exists(public_path('docs-assets/courtwatch.css')))->toBeTrue();
 });
 
 it('shows a bilingual error page without technical details', function () {
