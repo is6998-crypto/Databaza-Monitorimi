@@ -44,8 +44,13 @@ services:
         depends_on:
             app:
                 condition: service_healthy
+        # Healthy only while Horizon's master supervisor is running (not paused).
         healthcheck:
-            disable: true
+            test: ["CMD", "php", "artisan", "horizon:status"]
+            interval: 30s
+            timeout: 10s
+            start_period: 30s
+            retries: 3
 
     scheduler:
         <<: *app
@@ -53,8 +58,13 @@ services:
         depends_on:
             app:
                 condition: service_healthy
+        # The container's main process must be the schedule:work loop.
         healthcheck:
-            disable: true
+            test: ["CMD", "sh", "-c", "grep -q schedule:work /proc/1/cmdline"]
+            interval: 30s
+            timeout: 5s
+            start_period: 30s
+            retries: 3
 
     postgres:
         image: postgres:16-alpine

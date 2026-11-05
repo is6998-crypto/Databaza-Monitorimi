@@ -70,7 +70,7 @@ USER www-data
 
 EXPOSE 80 443 443/udp
 
-# Web role only (docker-compose.prod.yml disables it for horizon and the scheduler).
+# Web role (docker-compose.prod.yml gives horizon and the scheduler their own checks).
 HEALTHCHECK --interval=30s --timeout=5s --start-period=90s --retries=3 \
     CMD ["curl", "-fsS", "-o", "/dev/null", "http://127.0.0.1:8080/up"]
 
