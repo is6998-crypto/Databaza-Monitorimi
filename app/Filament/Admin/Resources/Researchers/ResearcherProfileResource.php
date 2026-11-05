@@ -31,6 +31,9 @@ use UnitEnum;
  */
 class ResearcherProfileResource extends Resource
 {
+    // Albanian labels are sentences ("Degët e gjykatave"): no Title Case.
+    protected static bool $hasTitleCaseModelLabel = false;
+
     protected static ?string $model = ResearcherProfile::class;
 
     protected static string|\BackedEnum|null $navigationIcon = Heroicon::OutlinedAcademicCap;

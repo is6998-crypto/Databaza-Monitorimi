@@ -23,6 +23,9 @@ use UnitEnum;
 
 class HearingResource extends Resource
 {
+    // Albanian labels are sentences ("Degët e gjykatave"): no Title Case.
+    protected static bool $hasTitleCaseModelLabel = false;
+
     protected static ?string $model = Hearing::class;
 
     protected static string|\BackedEnum|null $navigationIcon = Heroicon::OutlinedCalendarDays;

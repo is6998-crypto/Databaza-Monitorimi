@@ -34,6 +34,9 @@ use UnitEnum;
 
 class UserResource extends Resource
 {
+    // Albanian labels are sentences ("Degët e gjykatave"): no Title Case.
+    protected static bool $hasTitleCaseModelLabel = false;
+
     protected static ?string $model = User::class;
 
     protected static string|\BackedEnum|null $navigationIcon = Heroicon::OutlinedUsers;

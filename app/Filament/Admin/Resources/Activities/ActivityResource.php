@@ -27,6 +27,9 @@ use UnitEnum;
  */
 class ActivityResource extends Resource
 {
+    // Albanian labels are sentences ("Degët e gjykatave"): no Title Case.
+    protected static bool $hasTitleCaseModelLabel = false;
+
     protected static ?string $model = Activity::class;
 
     protected static string|\BackedEnum|null $navigationIcon = Heroicon::OutlinedClipboardDocumentList;

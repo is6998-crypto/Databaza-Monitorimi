@@ -42,6 +42,9 @@ use UnitEnum;
  */
 abstract class ReferenceResource extends Resource
 {
+    // Albanian labels are sentences ("Degët e gjykatave"): no Title Case.
+    protected static bool $hasTitleCaseModelLabel = false;
+
     protected static string|UnitEnum|null $navigationGroup = NavigationGroup::ReferenceData;
 
     protected static string|\BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;

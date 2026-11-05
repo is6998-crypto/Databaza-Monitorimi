@@ -18,6 +18,9 @@ use UnitEnum;
  */
 class ExportLogResource extends Resource
 {
+    // Albanian labels are sentences ("Degët e gjykatave"): no Title Case.
+    protected static bool $hasTitleCaseModelLabel = false;
+
     protected static ?string $model = ExportLog::class;
 
     protected static string|\BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentArrowDown;
