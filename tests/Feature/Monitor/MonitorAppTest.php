@@ -62,15 +62,16 @@ it('bootstraps only cases in scope, with party initials instead of names', funct
     [$mine, $other] = [basicCourt(0), basicCourt(1)];
     $user = monitorUser([$mine->id]);
     $case = CourtCase::factory()->create(['court_id' => $mine->id]);
-    CaseParty::factory()->create(['case_id' => $case->id, 'name' => 'Valbona Krasniqi']);
+    // An invented surname: Faker's pool (used for the monitor's own name) must not collide with it.
+    CaseParty::factory()->create(['case_id' => $case->id, 'name' => 'Valbona Testaj']);
     $hidden = CourtCase::factory()->create(['court_id' => $other->id]);
 
     $response = $this->actingAs($user)->getJson('/m/api/bootstrap')->assertOk();
 
     expect(collect($response->json('cases'))->pluck('id')->all())->toContain($case->id)->not->toContain($hidden->id)
         ->and($response->getContent())->not->toContain('Valbona')
-        ->and($response->getContent())->not->toContain('Krasniqi')
-        ->and($response->json('cases.0.parties.0.label'))->toContain('V. K.');
+        ->and($response->getContent())->not->toContain('Testaj')
+        ->and($response->json('cases.0.parties.0.label'))->toContain('V. T.');
 });
 
 it('syncs an offline hearing once, even when the request is retried', function () {
