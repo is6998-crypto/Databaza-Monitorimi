@@ -51,8 +51,8 @@
                     @foreach (array_slice($diff['changes'], 0, 200) as $change)
                         <tr>
                             <td class="px-3 py-2 align-top text-gray-700 dark:text-gray-300">{{ $label($change['field']) }}</td>
-                            <td class="px-3 py-2 align-top text-red-700 line-through decoration-red-300 dark:text-red-400">{{ $format($change['old']) }}</td>
-                            <td class="px-3 py-2 align-top text-emerald-700 dark:text-emerald-400">{{ $format($change['new']) }}</td>
+                            <td class="px-3 py-2 align-top text-gray-500 line-through decoration-gray-400 dark:text-gray-400">{{ $format($change['old']) }}</td>
+                            <td class="bg-gold-50 px-3 py-2 align-top font-semibold text-navy-900 dark:bg-white/5 dark:text-white">{{ $format($change['new']) }}</td>
                         </tr>
                     @endforeach
                 </tbody>

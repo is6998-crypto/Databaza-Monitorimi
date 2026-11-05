@@ -29,15 +29,15 @@
                 <section class="portal-card p-6 sm:p-8">
                     <h2 class="text-xl font-bold text-navy-900">{{ __('portal.cases.timeline') }}</h2>
                     <ol class="mt-6">
-                        @foreach ($case['timeline'] as $step)
+                        @forelse ($case['timeline'] as $step)
                             <li class="relative flex gap-4 pb-7 last:pb-0">
                                 @unless ($loop->last)
-                                    <span class="absolute top-8 bottom-0 left-[15px] w-0.5 bg-mint-200" aria-hidden="true"></span>
+                                    <span class="absolute top-8 bottom-0 left-[15px] w-0.5 bg-navy-100" aria-hidden="true"></span>
                                 @endunless
                                 @if ($loop->last)
                                     <span class="relative flex size-8 shrink-0 items-center justify-center rounded-full border-[3px] border-gold-400 bg-white" aria-hidden="true"><span class="size-2.5 rounded-full bg-gold-400"></span></span>
                                 @else
-                                    <span class="relative flex size-8 shrink-0 items-center justify-center rounded-full bg-mint-600 text-white" aria-hidden="true">
+                                    <span class="relative flex size-8 shrink-0 items-center justify-center rounded-full bg-navy-900 text-white" aria-hidden="true">
                                         <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>
                                     </span>
                                 @endif
@@ -46,7 +46,9 @@
                                     <p class="text-sm text-slate-500">{{ $step['date'] ?? '—' }}</p>
                                 </div>
                             </li>
-                        @endforeach
+                        @empty
+                            <li class="text-slate-500">—</li>
+                        @endforelse
                     </ol>
                 </section>
             </div>
@@ -67,7 +69,7 @@
             </section>
         </div>
 
-        <p class="mt-6 flex gap-3 rounded-2xl bg-mint-50 p-4 text-sm text-mint-900 ring-1 ring-mint-100">
+        <p class="mt-6 flex gap-3 rounded-2xl bg-navy-50 p-4 text-sm text-navy-900 ring-1 ring-navy-100">
             <svg class="mt-0.5 size-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"/></svg>
             {{ __('portal.cases.anonymized_note') }}
         </p>

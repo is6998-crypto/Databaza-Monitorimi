@@ -31,17 +31,13 @@ enum CaseType: string implements HasColor, HasLabel
         return in_array($this, [self::Civil, self::Economic], true);
     }
 
+    /**
+     * Case types are categories, not states: they share one quiet badge style, so the
+     * workflow status next to them stands out.
+     */
     public function getColor(): string
     {
-        return match ($this) {
-            self::CriminalCorruption => 'danger',
-            self::CriminalSerious => 'warning',
-            self::CriminalGeneral => 'gray',
-            self::CriminalSpecial => 'primary',
-            self::Administrative => 'info',
-            self::Civil => 'success',
-            self::Economic => 'success',
-        };
+        return 'info';
     }
 
     /**

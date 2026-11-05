@@ -17,9 +17,9 @@ use App\Observers\RecentValuesObserver;
 use App\Policies\ActivityPolicy;
 use App\Policies\CaseChildPolicy;
 use App\Policies\RolePolicy;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
 use Filament\Support\Facades\FilamentTimezone;
 use Filament\Tables\Table;
@@ -108,8 +108,8 @@ class AppServiceProvider extends ServiceProvider
             ->native(false)
             ->firstDayOfWeek(1));
 
-        // Design: switches that are on are green (yellow marks actions and selections).
-        Toggle::configureUsing(fn (Toggle $toggle) => $toggle->onColor('success'));
+        // Design: one yellow call to action per screen; editing is a secondary (white) button.
+        EditAction::configureUsing(fn (EditAction $action) => $action->color('gray'));
     }
 
     /**

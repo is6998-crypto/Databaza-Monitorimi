@@ -36,7 +36,7 @@
                 <h1 class="truncate text-base font-extrabold leading-tight sm:text-lg">{{ __('monitor.title') }}</h1>
             </div>
             <div class="flex shrink-0 items-center gap-1.5">
-                <span class="rounded-full px-2.5 py-1 text-xs font-bold" :class="online ? 'bg-mint-500/20 text-mint-200 ring-1 ring-mint-400/40' : 'bg-gold-400 text-navy-900'" x-text="online ? t.online : t.offline" data-network-status></span>
+                <span class="rounded-full px-2.5 py-1 text-xs font-bold" :class="online ? 'bg-white/10 text-white ring-1 ring-white/25' : 'bg-gold-400 text-navy-900'" x-text="online ? t.online : t.offline" data-network-status></span>
                 <a href="{{ url('/admin') }}" class="rounded-lg bg-white/10 px-2 py-1.5 text-xs font-semibold hover:bg-white/20">{{ __('monitor.panel') }}</a>
             </div>
         </div>
@@ -48,7 +48,7 @@
         {{ __('monitor.auth_lost') }}
         <a href="{{ url('/admin/login') }}" class="font-semibold underline">{{ __('monitor.sign_in') }}</a>
     </div>
-    <div x-show="notice" class="m-4 rounded-2xl bg-red-50 p-4 text-sm text-red-900 ring-1 ring-red-200" x-text="notice"></div>
+    <div x-show="notice" class="m-4 rounded-2xl bg-gold-100 p-4 text-sm font-semibold text-navy-900 ring-1 ring-gold-400" x-text="notice"></div>
 
     {{-- Home --}}
     <main x-show="screen === 'home'" class="flex-1 space-y-5 p-4">
@@ -72,13 +72,13 @@
                                 <p class="text-sm text-slate-500"><span x-text="item.hearing_date ? item.hearing_date.split('-').reverse().join('.') : ''"></span> · <span x-text="formatTime(item._updated_at)"></span></p>
                             </div>
                             <span class="cw-badge shrink-0" :class="{
-                                'bg-gold-100 text-gold-900': item._status === 'draft',
-                                'bg-steel-100 text-steel-800': item._status === 'pending',
-                                'bg-mint-100 text-mint-800': item._status === 'synced',
-                                'bg-red-100 text-red-800': item._status === 'error',
+                                'bg-gold-100 text-navy-900': item._status === 'draft',
+                                'bg-navy-100 text-navy-900': item._status === 'pending',
+                                'bg-navy-900 text-white': item._status === 'synced',
+                                'bg-gold-400 text-navy-900': item._status === 'error',
                             }" x-text="statusLabel(item)" data-draft-status></span>
                         </div>
-                        <p x-show="item._status === 'error'" class="mt-2 text-sm text-red-700">{{ __('monitor.fix_errors') }}</p>
+                        <p x-show="item._status === 'error'" class="mt-2 text-sm font-semibold text-navy-900">{{ __('monitor.fix_errors') }}</p>
                         <div class="mt-3 flex gap-2">
                             <button type="button" class="cw-secondary" x-show="item._status !== 'synced'" x-on:click="editDraft(item)">{{ __('monitor.continue') }}</button>
                             <a class="cw-secondary" x-show="item._status === 'synced' && item._server" :href="item._server ? item._server.url : '#'">{{ __('monitor.open_in_panel') }}</a>
@@ -110,7 +110,7 @@
     <main x-show="screen === 'form'" class="flex-1 space-y-4 p-4 pb-32" data-hearing-form>
         <template x-if="draft">
             <div class="space-y-4">
-                <div x-show="Object.keys(draft._errors || {}).length" class="rounded-2xl bg-red-50 p-4 text-sm text-red-800 ring-1 ring-red-200">
+                <div x-show="Object.keys(draft._errors || {}).length" class="rounded-2xl bg-gold-100 p-4 text-sm text-navy-900 ring-1 ring-gold-400">
                     <p class="font-semibold">{{ __('monitor.fix_errors') }}</p>
                     <ul class="mt-1 list-disc pl-5"><template x-for="(messages, field) in draft._errors" :key="field"><li x-text="messages[0]"></li></template></ul>
                 </div>
@@ -265,7 +265,7 @@
                         <textarea x-model="draft.notes" rows="4" class="cw-input" placeholder="{{ __('hearings.help.notes') }}"></textarea></label>
                 </section>
 
-                <p class="flex items-center justify-center gap-1.5 text-xs font-semibold text-mint-700">
+                <p class="flex items-center justify-center gap-1.5 text-xs font-semibold text-slate-500">
                     <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
                     {{ __('monitor.autosaved') }}
                 </p>

@@ -2,58 +2,83 @@
 
 namespace App\Support;
 
-use Filament\Support\Colors\Color;
-
 /**
- * CourtWatch visual identity: navy, yellow and green on a light grey canvas. Used by both
- * Filament panels, the charts and the inline-styled pages (error pages, idle warning).
- * The same values are defined for Tailwind in resources/css/brand.css.
+ * CourtWatch visual identity: navy and yellow on white and light grey, nothing else (no red,
+ * orange or green). Used by both Filament panels, the charts and the inline-styled pages
+ * (error pages, idle warning). The same values are defined for Tailwind in
+ * resources/css/brand.css.
+ *
+ * Filament's semantic colours are mapped onto the two brand colours: warnings use yellow,
+ * success, information and errors use navy. Badges stay distinguishable by style (solid,
+ * tinted or outlined, see the panel theme) and by their label and icon.
  */
 final class Brand
 {
     public const NAVY = '#0c2a42';
 
-    public const YELLOW = '#f8c33a';
+    /** A lighter navy for a second data series. */
+    public const NAVY_SOFT = '#52769d';
 
-    public const GREEN = '#10937b';
+    public const YELLOW = '#f8c33a';
 
     public const CANVAS = '#f5f6f7';
 
     public const FONT = 'Plus Jakarta Sans Variable';
 
     /**
-     * Categorical chart colours, in order of use.
+     * Categorical chart colours, in order of use: navy and yellow shades, then greys.
      *
      * @var list<string>
      */
-    public const CHART_PALETTE = ['#0c2a42', '#f8c33a', '#10937b', '#4878a9', '#e8772e', '#839fbe', '#c98d0f', '#74d2b4', '#b4413a', '#94a0ae'];
+    public const CHART_PALETTE = ['#0c2a42', '#f8c33a', '#52769d', '#fde38f', '#94a0ae', '#183852', '#fbd35c', '#b3c6da', '#364254', '#e2e5ea'];
 
     /**
      * Light tints with navy initials, for user avatars.
      *
      * @var list<string>
      */
-    public const AVATAR_TINTS = ['#fef0c3', '#e1ebf5', '#d3f3e7', '#e2e5ea', '#fde38f', '#c4d6ea'];
+    public const AVATAR_TINTS = ['#fef0c3', '#d9e3ee', '#e2e5ea', '#fde38f', '#b3c6da', '#eceef1'];
 
     /**
-     * Yellow for actions and highlights. The darkest shades are navy on purpose: Filament
-     * picks the text colour on a yellow button or badge from this palette, and the design
-     * puts navy text on yellow.
+     * Yellow for actions, highlights and warnings. Shades 700-950 are navy on purpose:
+     * Filament picks the colour of text on a yellow button or badge, and of text in the
+     * yellow role on white, from this palette by contrast; the design puts navy text on
+     * yellow and never uses dark yellow (it reads as brown or orange).
      *
      * @var array<int, string>
      */
-    private const PRIMARY = [
+    private const YELLOW_PALETTE = [
         50 => '#fffaeb',
         100 => '#fef0c3',
         200 => '#fde38f',
         300 => '#fbd35c',
         400 => '#f8c33a',
-        500 => '#e9ad1d',
-        600 => '#c98d0f',
-        700 => '#9a6a0c',
-        800 => '#0c2a42',
-        900 => '#0a2236',
+        500 => '#f1b92c',
+        600 => '#e8ae1f',
+        700 => '#0c2a42',
+        800 => '#0a2236',
+        900 => '#081c2d',
         950 => '#06192a',
+    ];
+
+    /**
+     * Navy for success, information and errors. Shade 600 is the brand navy, so solid
+     * buttons are exactly #0c2a42 with white text.
+     *
+     * @var array<int, string>
+     */
+    private const NAVY_PALETTE = [
+        50 => '#eef3f8',
+        100 => '#d9e3ee',
+        200 => '#b3c6da',
+        300 => '#839fbe',
+        400 => '#52769d',
+        500 => '#234667',
+        600 => '#0c2a42',
+        700 => '#0a2337',
+        800 => '#081c2d',
+        900 => '#061523',
+        950 => '#040f19',
     ];
 
     /**
@@ -76,51 +101,17 @@ final class Brand
     ];
 
     /**
-     * @var array<int, string>
-     */
-    private const SUCCESS = [
-        50 => '#ecfaf5',
-        100 => '#d3f3e7',
-        200 => '#a9e6d0',
-        300 => '#74d2b4',
-        400 => '#3db898',
-        500 => '#17a283',
-        600 => '#10937b',
-        700 => '#0d7563',
-        800 => '#0d5d50',
-        900 => '#0b4c42',
-        950 => '#052c27',
-    ];
-
-    /**
-     * @var array<int, string>
-     */
-    private const INFO = [
-        50 => '#f0f5fa',
-        100 => '#e1ebf5',
-        200 => '#c4d6ea',
-        300 => '#9bbad9',
-        400 => '#6b97c2',
-        500 => '#4878a9',
-        600 => '#3a6290',
-        700 => '#2f5076',
-        800 => '#284262',
-        900 => '#233851',
-        950 => '#172436',
-    ];
-
-    /**
      * @return array<string, array<int, string>>
      */
     public static function filamentColors(): array
     {
         return [
-            'primary' => self::PRIMARY,
+            'primary' => self::YELLOW_PALETTE,
+            'warning' => self::YELLOW_PALETTE,
+            'success' => self::NAVY_PALETTE,
+            'info' => self::NAVY_PALETTE,
+            'danger' => self::NAVY_PALETTE,
             'gray' => self::GRAY,
-            'success' => self::SUCCESS,
-            'info' => self::INFO,
-            'warning' => Color::Orange,
-            'danger' => Color::Red,
         ];
     }
 }

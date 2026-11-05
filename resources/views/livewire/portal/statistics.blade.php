@@ -79,7 +79,7 @@
         @include('portal.partials.chart', ['title' => __('portal.charts.postponement_by_court'), 'option' => $bar($courtRates, Brand::YELLOW, true, '%'), 'rows' => $courtRates, 'suffix' => ' %'])
         @include('portal.partials.chart', ['title' => __('portal.charts.postponement_reasons'), 'option' => $bar($reasons, Brand::NAVY, true), 'rows' => $reasons])
         @include('portal.partials.chart', ['title' => __('portal.charts.verdicts'), 'option' => $pie($verdicts), 'rows' => $verdicts])
-        @include('portal.partials.chart', ['title' => __('portal.charts.durations'), 'option' => $bar($durationRows, Brand::GREEN, true, __('portal.days')), 'rows' => $durationRows])
+        @include('portal.partials.chart', ['title' => __('portal.charts.durations'), 'option' => $bar($durationRows, Brand::NAVY_SOFT, true, __('portal.days')), 'rows' => $durationRows])
     </div>
 
     <p class="flex gap-3 text-sm text-slate-500"><svg class="mt-0.5 size-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"/></svg>{{ __('portal.suppression_note', ['threshold' => Anonymizer::threshold()]) }}</p>

@@ -8,8 +8,9 @@
 
 /*
  * CourtWatch look for both panels (/admin and /research): a navy sidebar with the logo at
- * the top, a yellow active item, bold navy headings and rounded white cards on a light
- * grey canvas. Colours come from App\Support\Brand (Filament palettes) and brand.css.
+ * the top, the active page in yellow, bold navy headings and white cards on a light grey
+ * canvas. Only navy, yellow and greys are used (App\Support\Brand maps Filament's success,
+ * info, warning and danger colours onto them); badges differ by style instead of colour.
  * Only the appearance changes: no Filament view is overridden.
  */
 
@@ -31,20 +32,25 @@
     }
 
     .fi-topbar-start {
-        @apply relative me-6 self-stretch;
+        @apply relative me-8 justify-between self-stretch;
         /* Covers the top bar's bottom border, so the navy column is unbroken. */
         margin-block-end: -1px;
         width: var(--sidebar-width);
-        padding-inline: 1.25rem 1rem;
+        padding-inline: 1.5rem 1rem;
         background-color: var(--color-navy-900);
         color: #fff;
 
         & .fi-logo {
-            @apply ms-2 text-white;
+            @apply text-white;
+        }
+
+        /* The logo first, the collapse button at the edge of the column. */
+        & .fi-topbar-collapse-sidebar-btn-ctn {
+            @apply order-last flex justify-end;
         }
 
         & .fi-icon-btn {
-            color: rgb(255 255 255 / 0.7);
+            color: rgb(255 255 255 / 0.6);
 
             &:hover,
             &:focus-visible {
@@ -65,15 +71,32 @@
         & .fi-logo {
             @apply hidden;
         }
+
+        & .fi-topbar-collapse-sidebar-btn-ctn {
+            @apply justify-center;
+        }
+    }
+
+    /* Search on the left of the content area, notifications and the user menu on the right. */
+    .fi-topbar-end {
+        @apply flex-1;
+
+        & > .fi-global-search-ctn {
+            @apply me-auto;
+        }
     }
 }
 
 .fi-global-search-field .fi-input-wrp {
-    @apply rounded-xl;
+    @apply rounded-xl bg-gray-50;
 
     @media (min-width: 64rem) {
-        min-width: 22rem;
+        width: min(32rem, 40vw);
     }
+}
+
+.dark .fi-global-search-field .fi-input-wrp {
+    @apply bg-white/5;
 }
 
 /* ------------------------------------------------------------------ Sidebar */
@@ -189,13 +212,15 @@
     background-color: rgb(255 255 255 / 0.3);
 }
 
-.fi-sidebar .fi-badge {
+.fi-sidebar .fi-badge,
+.fi-sidebar .fi-badge.fi-color {
     @apply ring-0;
     background-color: var(--primary-400);
     color: var(--color-navy-900);
 }
 
-.fi-sidebar-item.fi-active .fi-badge {
+.fi-sidebar-item.fi-active .fi-badge,
+.fi-sidebar-item.fi-active .fi-badge.fi-color {
     background-color: var(--color-navy-900);
     color: #fff;
 }
@@ -229,6 +254,10 @@
     color: var(--color-navy-900);
 }
 
+.fi-header-subheading {
+    @apply text-base;
+}
+
 .dark .fi-header-heading,
 .dark .fi-simple-header-heading {
     color: #fff;
@@ -247,6 +276,7 @@
 /* ------------------------------------------------------------------ Cards */
 
 .fi-section:not(.fi-section-not-contained):not(.fi-aside),
+.fi-section.fi-aside > .fi-section-content-ctn,
 .fi-ta-ctn,
 .fi-wi-stats-overview-stat,
 .fi-tabs.fi-contained,
@@ -256,6 +286,7 @@
 }
 
 .dark .fi-section:not(.fi-section-not-contained):not(.fi-aside),
+.dark .fi-section.fi-aside > .fi-section-content-ctn,
 .dark .fi-ta-ctn,
 .dark .fi-wi-stats-overview-stat,
 .dark .fi-tabs.fi-contained,
@@ -263,9 +294,20 @@
     --tw-ring-color: rgb(255 255 255 / 0.1);
 }
 
+/* As in the design: the card title sits on the card, without a rule under it. */
+.fi-section:not(.fi-section-not-contained):not(.fi-aside).fi-section-has-header:not(.fi-collapsed) > .fi-section-content-ctn {
+    @apply border-t-0;
+}
+
+.fi-section:not(.fi-section-not-contained):not(.fi-aside):not(.fi-compact) {
+    & > .fi-section-header {
+        @apply pt-5 pb-1;
+    }
+}
+
 .fi-section-header-heading,
 .fi-ta-header-heading {
-    @apply font-bold;
+    @apply text-lg font-bold;
     color: var(--color-navy-900);
 }
 
@@ -273,6 +315,30 @@
 .dark .fi-ta-header-heading {
     color: #fff;
 }
+
+/* ------------------------------------------------------------------ Tables */
+
+.fi-ta-table > thead > tr {
+    @apply bg-transparent;
+}
+
+.fi-ta-header-cell {
+    @apply text-xs font-bold tracking-wide text-gray-500 uppercase;
+}
+
+.dark .fi-ta-header-cell {
+    @apply text-gray-400;
+}
+
+.fi-ta-row.fi-clickable:hover {
+    background-color: var(--primary-50);
+}
+
+.dark .fi-ta-row.fi-clickable:hover {
+    background-color: rgb(255 255 255 / 0.05);
+}
+
+/* ------------------------------------------------------------------ Stats */
 
 .fi-wi-stats-overview-stat-value {
     @apply font-extrabold;
@@ -282,6 +348,16 @@
 
 .dark .fi-wi-stats-overview-stat-value {
     color: #fff;
+}
+
+.fi-wi-stats-overview-stat-label-ctn > .fi-icon {
+    @apply box-content rounded-lg p-1.5;
+    background-color: var(--primary-100);
+    color: var(--color-navy-900);
+}
+
+.fi-wi-stats-overview-stat-description.fi-color {
+    @apply font-semibold;
 }
 
 .fi-modal-window {
@@ -303,15 +379,94 @@
     }
 }
 
-/* ------------------------------------------------------------------ Buttons, badges, inputs */
+/* ------------------------------------------------------------------ Buttons and links */
 
 .fi-btn {
     @apply rounded-xl font-semibold;
 }
 
+/* ------------------------------------------------------------------ Badges
+ * Two colours only, so states differ by style: yellow (primary) solid, warnings as a yellow
+ * tint, success solid navy, information as a navy tint, errors outlined in navy, grey tint.
+ */
+
 .fi-badge {
     @apply rounded-full px-2.5 font-semibold;
+
+    &.fi-color-primary {
+        @apply ring-0;
+        background-color: var(--primary-400);
+        color: var(--color-navy-900);
+    }
+
+    &.fi-color-warning {
+        @apply ring-0;
+        background-color: var(--warning-100);
+        color: var(--color-navy-900);
+    }
+
+    &.fi-color-success {
+        @apply ring-0;
+        background-color: var(--color-navy-900);
+        color: #fff;
+
+        & .fi-icon {
+            color: var(--primary-400);
+        }
+    }
+
+    &.fi-color-info {
+        @apply ring-0;
+        background-color: var(--info-100);
+        color: var(--color-navy-900);
+    }
+
+    &.fi-color-danger {
+        background-color: #fff;
+        color: var(--color-navy-900);
+        --tw-ring-color: var(--color-navy-900);
+    }
+
+    &.fi-color-primary .fi-icon,
+    &.fi-color-warning .fi-icon,
+    &.fi-color-info .fi-icon,
+    &.fi-color-danger .fi-icon {
+        color: var(--color-navy-900);
+    }
 }
+
+.dark .fi-badge {
+    &.fi-color-warning,
+    &.fi-color-info {
+        background-color: rgb(255 255 255 / 0.08);
+        color: #fff;
+
+        & .fi-icon {
+            color: var(--primary-400);
+        }
+    }
+
+    &.fi-color-success {
+        background-color: #fff;
+        color: var(--color-navy-900);
+
+        & .fi-icon {
+            color: var(--color-navy-900);
+        }
+    }
+
+    &.fi-color-danger {
+        background-color: transparent;
+        color: #fff;
+        --tw-ring-color: rgb(255 255 255 / 0.6);
+
+        & .fi-icon {
+            color: #fff;
+        }
+    }
+}
+
+/* ------------------------------------------------------------------ Forms */
 
 .fi-input-wrp {
     @apply rounded-xl;
@@ -321,6 +476,28 @@
 .fi-fo-checkbox-list-option .fi-checkbox-input:checked {
     background-color: var(--primary-400);
     background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='%230c2a42' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+}
+
+.fi-radio-input:checked {
+    background-color: var(--color-navy-900);
+}
+
+/* Switches that are on are navy. */
+.fi-toggle.fi-toggle-on {
+    background-color: var(--color-navy-900);
+}
+
+.dark .fi-toggle.fi-toggle-on {
+    background-color: var(--primary-400);
+}
+
+/* Errors are navy (there is no red): bold text and a thicker outline make them stand out. */
+.fi-fo-field-wrp-error-message {
+    @apply font-semibold;
+}
+
+.fi-input-wrp.fi-invalid {
+    @apply ring-2;
 }
 
 /* ------------------------------------------------------------------ Sign-in pages */

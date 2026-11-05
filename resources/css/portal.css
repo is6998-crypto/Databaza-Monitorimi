@@ -43,4 +43,8 @@
     & a:hover {
         @apply border-navy-900 text-navy-900;
     }
+
+    & a:focus-visible {
+        @apply border-navy-900 ring-2 ring-gold-300;
+    }
 }

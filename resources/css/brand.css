@@ -1,7 +1,8 @@
 /*
  * CourtWatch visual identity, shared by the public portal, the monitor app and the
- * Filament theme: navy, yellow and green on a light grey canvas, with Plus Jakarta Sans.
- * The PHP side (Filament colours, chart palette) is App\Support\Brand.
+ * Filament theme: navy and yellow on white and a light grey canvas, with Plus Jakarta Sans.
+ * Only these colours exist on purpose (no red, orange or green): use navy and yellow tints
+ * for states. The PHP side (Filament colours, chart palette) is App\Support\Brand.
  *
  * The font is bundled by Vite and served from this site: the Content-Security-Policy
  * allows no third-party font hosts.
@@ -38,29 +39,6 @@
     --color-gold-900: #5e3f0f;
     --color-gold-950: #3a2505;
 
-    --color-mint-50: #ecfaf5;
-    --color-mint-100: #d3f3e7;
-    --color-mint-200: #a9e6d0;
-    --color-mint-300: #74d2b4;
-    --color-mint-400: #3db898;
-    --color-mint-500: #17a283;
-    --color-mint-600: #10937b;
-    --color-mint-700: #0d7563;
-    --color-mint-800: #0d5d50;
-    --color-mint-900: #0b4c42;
-    --color-mint-950: #052c27;
-
-    --color-steel-50: #f0f5fa;
-    --color-steel-100: #e1ebf5;
-    --color-steel-200: #c4d6ea;
-    --color-steel-300: #9bbad9;
-    --color-steel-400: #6b97c2;
-    --color-steel-500: #4878a9;
-    --color-steel-600: #3a6290;
-    --color-steel-700: #2f5076;
-    --color-steel-800: #284262;
-    --color-steel-900: #233851;
-    --color-steel-950: #172436;
 }
 
 /* Logo (resources/views/partials/brand.blade.php). The text takes the surrounding colour. */

@@ -33,7 +33,7 @@ class PostponementByChart extends AnalyticsChart
             'datasets' => [[
                 'label' => __('dashboard.charts.postponement_rate_percent'),
                 'data' => array_column($rows, 'rate'),
-                'backgroundColor' => self::PALETTE[3],
+                'backgroundColor' => self::PALETTE[1],
                 'borderWidth' => 0,
             ]],
             'labels' => array_map(fn (array $row): string => $row['label'].' ('.$row['total'].')', $rows),
