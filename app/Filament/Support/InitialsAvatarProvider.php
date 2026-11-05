@@ -2,6 +2,7 @@
 
 namespace App\Filament\Support;
 
+use App\Support\Brand;
 use Filament\AvatarProviders\Contracts\AvatarProvider;
 use Filament\Facades\Filament;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -26,12 +27,11 @@ class InitialsAvatarProvider implements AvatarProvider
             ->map(fn (string $part): string => mb_strtoupper(mb_substr($part, 0, 1)))
             ->implode('');
 
-        $palette = ['#4f46e5', '#0891b2', '#059669', '#d97706', '#db2777', '#7c3aed'];
-        $color = $palette[crc32($name) % count($palette)];
+        $color = Brand::AVATAR_TINTS[crc32($name) % count(Brand::AVATAR_TINTS)];
 
         $svg = '<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">'
             .'<rect width="64" height="64" fill="'.$color.'"/>'
-            .'<text x="50%" y="50%" dy=".35em" text-anchor="middle" font-family="system-ui, sans-serif" font-size="26" font-weight="600" fill="#ffffff">'
+            .'<text x="50%" y="50%" dy=".35em" text-anchor="middle" font-family="system-ui, sans-serif" font-size="26" font-weight="700" fill="'.Brand::NAVY.'">'
             .e($initials ?: '?')
             .'</text></svg>';
 

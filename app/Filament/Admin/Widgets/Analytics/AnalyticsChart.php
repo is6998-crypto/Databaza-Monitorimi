@@ -4,6 +4,7 @@ namespace App\Filament\Admin\Widgets\Analytics;
 
 use App\Services\Analytics\AnalyticsFilters;
 use App\Services\Analytics\AnalyticsService;
+use App\Support\Brand;
 use App\Support\Permissions;
 use Filament\Widgets\ChartWidget;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
@@ -20,7 +21,7 @@ abstract class AnalyticsChart extends ChartWidget
 
     protected ?string $maxHeight = '280px';
 
-    public const PALETTE = ['#4f46e5', '#0ea5e9', '#10b981', '#f59e0b', '#f43f5e', '#8b5cf6', '#14b8a6', '#64748b', '#ec4899', '#84cc16'];
+    public const PALETTE = Brand::CHART_PALETTE;
 
     public static function canView(): bool
     {

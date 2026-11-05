@@ -7,9 +7,11 @@ use App\Filament\Admin\Pages\Dashboard;
 use App\Filament\Auth\Login;
 use App\Filament\Support\InitialsAvatarProvider;
 use App\Http\Middleware\SetLocale;
+use App\Support\Brand;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\Actions\Action;
 use Filament\Auth\MultiFactor\App\AppAuthentication;
+use Filament\FontProviders\LocalFontProvider;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -17,14 +19,15 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Navigation\NavigationGroup as FilamentNavigationGroup;
 use Filament\Panel;
 use Filament\PanelProvider;
-use Filament\Support\Colors\Color;
 use Filament\Support\Icons\Heroicon;
 use Filament\View\PanelsRenderHook;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\HtmlString;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 /**
@@ -56,6 +59,8 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->brandName('CourtWatch')
+            ->brandLogo(fn (): Htmlable => new HtmlString(view('partials.brand', ['subtitle' => __('portal.home.kicker')])->render()))
+            ->brandLogoHeight('2.5rem')
             ->favicon(asset('icons/favicon.svg'))
             ->defaultAvatarProvider(InitialsAvatarProvider::class)
             ->login(Login::class)
@@ -65,10 +70,8 @@ class AdminPanelProvider extends PanelProvider
                 [AppAuthentication::make()->recoverable()->brandName('CourtWatch')],
                 isRequired: true,
             )
-            ->colors([
-                'primary' => Color::Indigo,
-                'gray' => Color::Slate,
-            ])
+            ->colors(Brand::filamentColors())
+            ->font(Brand::FONT, provider: LocalFontProvider::class)
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->databaseNotifications()
             ->databaseNotificationsPolling('60s')

@@ -7,22 +7,25 @@ use App\Filament\Research\Pages\Auth\Register;
 use App\Filament\Research\Pages\Dashboard;
 use App\Filament\Support\InitialsAvatarProvider;
 use App\Http\Middleware\SetLocale;
+use App\Support\Brand;
 use Filament\Actions\Action;
 use Filament\Auth\MultiFactor\App\AppAuthentication;
+use Filament\FontProviders\LocalFontProvider;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Panel;
 use Filament\PanelProvider;
-use Filament\Support\Colors\Color;
 use Filament\Support\Icons\Heroicon;
 use Filament\View\PanelsRenderHook;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\HtmlString;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 /**
@@ -38,6 +41,8 @@ class ResearchPanelProvider extends PanelProvider
             ->id('research')
             ->path('research')
             ->brandName(fn (): string => 'CourtWatch · '.__('research.panel'))
+            ->brandLogo(fn (): Htmlable => new HtmlString(view('partials.brand', ['subtitle' => __('research.panel')])->render()))
+            ->brandLogoHeight('2.5rem')
             ->favicon(asset('icons/favicon.svg'))
             ->defaultAvatarProvider(InitialsAvatarProvider::class)
             ->login(Login::class)
@@ -48,10 +53,8 @@ class ResearchPanelProvider extends PanelProvider
                 [AppAuthentication::make()->recoverable()->brandName('CourtWatch')],
                 isRequired: false,
             )
-            ->colors([
-                'primary' => Color::Teal,
-                'gray' => Color::Slate,
-            ])
+            ->colors(Brand::filamentColors())
+            ->font(Brand::FONT, provider: LocalFontProvider::class)
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->discoverPages(in: app_path('Filament/Research/Pages'), for: 'App\Filament\Research\Pages')
             ->pages([

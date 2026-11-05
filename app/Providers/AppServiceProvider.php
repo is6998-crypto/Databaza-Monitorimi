@@ -19,6 +19,7 @@ use App\Policies\CaseChildPolicy;
 use App\Policies\RolePolicy;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
 use Filament\Support\Facades\FilamentTimezone;
 use Filament\Tables\Table;
@@ -106,6 +107,9 @@ class AppServiceProvider extends ServiceProvider
         DateTimePicker::configureUsing(fn (DateTimePicker $picker) => $picker
             ->native(false)
             ->firstDayOfWeek(1));
+
+        // Design: switches that are on are green (yellow marks actions and selections).
+        Toggle::configureUsing(fn (Toggle $toggle) => $toggle->onColor('success'));
     }
 
     /**

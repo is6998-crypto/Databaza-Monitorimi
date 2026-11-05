@@ -144,15 +144,15 @@
 
 <style>
     [x-cloak] { display: none !important; }
-    .cw-idle-backdrop { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 1rem; background: rgba(15, 23, 42, .55); }
-    .cw-idle-dialog { width: 100%; max-width: 26rem; border-radius: .75rem; background: #fff; color: #0f172a; padding: 1.5rem; box-shadow: 0 20px 45px rgba(0,0,0,.25); }
-    .dark .cw-idle-dialog { background: #18181b; color: #f4f4f5; }
-    .cw-idle-title { font-size: 1.125rem; font-weight: 600; margin: 0 0 .5rem; }
+    .cw-idle-backdrop { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 1rem; background: rgba(12, 42, 66, .6); }
+    .cw-idle-dialog { width: 100%; max-width: 26rem; border-radius: 1rem; background: #fff; color: #0c2a42; padding: 1.5rem; box-shadow: 0 20px 45px rgba(12,42,66,.3); }
+    .dark .cw-idle-dialog { background: #121f30; color: #eef3f8; }
+    .cw-idle-title { font-size: 1.125rem; font-weight: 800; margin: 0 0 .5rem; }
     .cw-idle-text { margin: 0 0 .5rem; }
     .cw-idle-hint { margin: 0 0 1.25rem; font-size: .875rem; opacity: .75; }
     .cw-idle-actions { display: flex; gap: .75rem; justify-content: flex-end; flex-wrap: wrap; }
-    .cw-idle-btn { border-radius: .5rem; padding: .55rem 1rem; font-weight: 600; font-size: .875rem; cursor: pointer; border: 1px solid transparent; }
-    .cw-idle-btn-primary { background: #4f46e5; color: #fff; }
+    .cw-idle-btn { border-radius: .75rem; padding: .6rem 1rem; font-weight: 700; font-size: .875rem; cursor: pointer; border: 1px solid transparent; }
+    .cw-idle-btn-primary { background: #f8c33a; color: #0c2a42; }
     .cw-idle-btn-secondary { background: transparent; border-color: #cbd5e1; color: inherit; }
 </style>
 
