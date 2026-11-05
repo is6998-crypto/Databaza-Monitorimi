@@ -21,7 +21,7 @@ document.addEventListener('alpine:init', () => {
                 chart = echarts.init(this.$el, null, { renderer: 'svg' });
                 chart.setOption({
                     aria: { enabled: true },
-                    textStyle: { fontFamily: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif' },
+                    textStyle: { fontFamily: '"Plus Jakarta Sans Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif', color: '#364254' },
                     ...option,
                     tooltip: { ...(option.tooltip || {}), valueFormatter: suppressed },
                 });

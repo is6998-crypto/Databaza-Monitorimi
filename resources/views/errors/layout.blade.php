@@ -15,24 +15,25 @@
     <meta name="robots" content="noindex">
     <title>{{ $code }} · {{ __('errors.'.$code.'.title', [], $locale) }} · CourtWatch</title>
     <style>
-        :root { color-scheme: light dark; --fg: #0f172a; --muted: #475569; --bg: #f8fafc; --card: #ffffff; --accent: #4f46e5; --border: #e2e8f0; }
-        @media (prefers-color-scheme: dark) { :root { --fg: #e2e8f0; --muted: #94a3b8; --bg: #0b1120; --card: #111827; --accent: #818cf8; --border: #1f2937; } }
+        :root { color-scheme: light dark; --fg: #0c2a42; --muted: #4b5768; --bg: #f5f6f7; --card: #ffffff; --accent: #0c2a42; --mark: #f8c33a; --border: #e2e5ea; }
+        @media (prefers-color-scheme: dark) { :root { --fg: #eef3f8; --muted: #94a0ae; --bg: #071b2c; --card: #0c2a42; --accent: #f8c33a; --border: #183852; } }
         * { box-sizing: border-box; }
         body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 16px; background: var(--bg); color: var(--fg); font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
-        main { width: 100%; max-width: 32rem; background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 32px; }
-        .brand { font-weight: 700; letter-spacing: .02em; color: var(--muted); margin: 0 0 24px; }
-        .code { font-size: 3rem; font-weight: 800; line-height: 1; margin: 0; color: var(--accent); }
-        h1 { font-size: 1.375rem; margin: 12px 0 8px; }
-        p { margin: 0 0 8px; line-height: 1.5; }
+        main { width: 100%; max-width: 32rem; background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 32px; }
+        .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: -.01em; margin: 0 0 28px; }
+        .brand svg { width: 28px; height: 28px; flex: none; }
+        .code { font-size: 3.5rem; font-weight: 800; letter-spacing: -.03em; line-height: 1; margin: 0; color: var(--accent); }
+        h1 { font-size: 1.5rem; font-weight: 800; letter-spacing: -.02em; margin: 14px 0 8px; }
+        p { margin: 0 0 8px; line-height: 1.55; }
         .other { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--muted); font-size: .9375rem; }
         .actions { margin-top: 24px; display: flex; gap: 16px; flex-wrap: wrap; }
-        a { color: var(--accent); font-weight: 600; text-decoration: none; }
-        a:hover, a:focus-visible { text-decoration: underline; }
+        a { color: var(--fg); font-weight: 700; text-decoration: underline; text-decoration-color: var(--mark); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+        a:hover, a:focus-visible { text-decoration-color: currentColor; }
     </style>
 </head>
 <body>
     <main>
-        <p class="brand">CourtWatch</p>
+        <p class="brand"><svg viewBox="0 0 40 40" aria-hidden="true" focusable="false"><path d="M7.5 7.5h19v6h6v19h-19v-6h-6z" fill="none" stroke="#f8c33a" stroke-width="5"/></svg>CourtWatch</p>
         <p class="code">{{ $code }}</p>
         <h1>{{ __('errors.'.$code.'.title', [], $locale) }}</h1>
         <p>{{ __('errors.'.$code.'.message', [], $locale) }}</p>
