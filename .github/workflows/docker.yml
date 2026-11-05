@@ -20,9 +20,9 @@ concurrency:
 
 jobs:
   dev-stack:
-    name: docker compose up (development)
+    name: docker compose up (development) + end-to-end tests
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 50
     steps:
       - uses: actions/checkout@v5
 
@@ -51,6 +51,24 @@ jobs:
           echo "demo cases: ${cases}, demo admin: ${users}"
           test "${cases:-0}" -ge 100
           test "${users:-0}" -eq 1
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+
+      # The container installed node_modules (with @playwright/test) into the checkout.
+      - name: End-to-end smoke tests (fresh accounts go through the real 2FA set-up)
+        run: |
+          npx playwright install --with-deps chromium
+          E2E_BASE_URL=http://localhost:8000 npx playwright test
+
+      - name: Playwright traces
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-results
+          path: test-results/
+          retention-days: 7
 
       - name: Logs
         if: failure()
