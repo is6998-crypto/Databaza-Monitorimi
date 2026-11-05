@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="theme-color" content="#4f46e5">
+    <meta name="theme-color" content="#0c2a42">
     <meta name="robots" content="noindex, nofollow">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="CourtWatch">
@@ -14,7 +14,7 @@
     <link rel="apple-touch-icon" href="{{ asset('icons/icon-192.png') }}">
     @vite(['resources/css/monitor.css', 'resources/js/monitor.js'])
 </head>
-<body class="min-h-screen bg-slate-100 text-slate-900 antialiased">
+<body class="min-h-screen bg-canvas text-slate-800 antialiased">
 @php
     $config = [
         't' => trans('monitor'),
@@ -26,52 +26,55 @@
 <div x-data="monitorApp(@js($config))" x-cloak class="mx-auto flex min-h-screen max-w-xl flex-col">
 
     {{-- Header --}}
-    <header class="sticky top-0 z-20 bg-indigo-700 px-4 pb-3 pt-[max(0.75rem,env(safe-area-inset-top))] text-white shadow">
+    <header class="sticky top-0 z-20 bg-navy-900 px-4 pb-3 pt-[max(0.75rem,env(safe-area-inset-top))] text-white shadow-lg shadow-navy-900/20">
         <div class="flex items-center justify-between gap-3">
             <div class="min-w-0">
-                <p class="text-xs uppercase tracking-wide text-indigo-200">CourtWatch</p>
-                <h1 class="truncate text-lg font-semibold">{{ __('monitor.title') }}</h1>
+                <p class="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-white/60">
+                    <svg class="size-3.5 shrink-0" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><path d="M7.5 7.5h19v6h6v19h-19v-6h-6z" fill="none" stroke="#f8c33a" stroke-width="6"/></svg>
+                    CourtWatch
+                </p>
+                <h1 class="truncate text-base font-extrabold leading-tight sm:text-lg">{{ __('monitor.title') }}</h1>
             </div>
-            <div class="flex items-center gap-2">
-                <span class="rounded-full px-2.5 py-1 text-xs font-semibold" :class="online ? 'bg-emerald-500/90' : 'bg-amber-500'" x-text="online ? t.online : t.offline" data-network-status></span>
-                <a href="{{ url('/admin') }}" class="rounded-lg bg-white/10 px-2.5 py-1.5 text-xs font-medium hover:bg-white/20">{{ __('monitor.panel') }}</a>
+            <div class="flex shrink-0 items-center gap-1.5">
+                <span class="rounded-full px-2.5 py-1 text-xs font-bold" :class="online ? 'bg-mint-500/20 text-mint-200 ring-1 ring-mint-400/40' : 'bg-gold-400 text-navy-900'" x-text="online ? t.online : t.offline" data-network-status></span>
+                <a href="{{ url('/admin') }}" class="rounded-lg bg-white/10 px-2 py-1.5 text-xs font-semibold hover:bg-white/20">{{ __('monitor.panel') }}</a>
             </div>
         </div>
-        <p class="mt-1 text-xs text-indigo-100" x-show="syncing">{{ __('monitor.syncing') }}</p>
-        <p class="mt-1 text-xs text-indigo-100" x-show="!syncing && pendingCount() > 0" x-text="t.pending_count.replace(':count', pendingCount())"></p>
+        <p class="mt-2 text-xs font-medium text-white/70" x-show="syncing">{{ __('monitor.syncing') }}</p>
+        <p class="mt-2 text-xs font-medium text-gold-300" x-show="!syncing && pendingCount() > 0" x-text="t.pending_count.replace(':count', pendingCount())"></p>
     </header>
 
-    <div x-show="authLost" class="m-4 rounded-xl border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900">
+    <div x-show="authLost" class="m-4 rounded-2xl bg-gold-100 p-4 text-sm text-navy-900 ring-1 ring-gold-400">
         {{ __('monitor.auth_lost') }}
         <a href="{{ url('/admin/login') }}" class="font-semibold underline">{{ __('monitor.sign_in') }}</a>
     </div>
-    <div x-show="notice" class="m-4 rounded-xl border border-red-300 bg-red-50 p-3 text-sm text-red-900" x-text="notice"></div>
+    <div x-show="notice" class="m-4 rounded-2xl bg-red-50 p-4 text-sm text-red-900 ring-1 ring-red-200" x-text="notice"></div>
 
     {{-- Home --}}
     <main x-show="screen === 'home'" class="flex-1 space-y-5 p-4">
-        <button type="button" class="cw-primary w-full py-4 text-base" x-on:click="newDraft()" :disabled="!data" data-new-hearing>
+        <button type="button" class="cw-primary w-full rounded-2xl py-4 text-base" x-on:click="newDraft()" :disabled="!data" data-new-hearing>
             + {{ __('monitor.new_hearing') }}
         </button>
-        <p x-show="!data" class="rounded-xl bg-white p-4 text-sm text-slate-600 shadow-sm">{{ __('monitor.first_time_online') }}</p>
+        <p x-show="!data" class="rounded-2xl bg-white p-4 text-sm text-slate-600 ring-1 ring-slate-200/80">{{ __('monitor.first_time_online') }}</p>
 
         <section>
             <div class="mb-2 flex items-center justify-between">
-                <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500">{{ __('monitor.on_this_device') }}</h2>
-                <button type="button" class="text-xs font-medium text-indigo-700" x-show="drafts.some(d => d._status === 'synced')" x-on:click="clearSynced()">{{ __('monitor.clear_synced') }}</button>
+                <h2 class="cw-heading">{{ __('monitor.on_this_device') }}</h2>
+                <button type="button" class="text-xs font-bold text-navy-900 underline decoration-gold-400 decoration-2 underline-offset-4" x-show="drafts.some(d => d._status === 'synced')" x-on:click="clearSynced()">{{ __('monitor.clear_synced') }}</button>
             </div>
-            <p x-show="drafts.length === 0" class="rounded-xl bg-white p-4 text-sm text-slate-500 shadow-sm">{{ __('monitor.no_drafts') }}</p>
+            <p x-show="drafts.length === 0" class="rounded-2xl bg-white p-4 text-sm text-slate-500 ring-1 ring-slate-200/80">{{ __('monitor.no_drafts') }}</p>
             <ul class="space-y-2" data-drafts>
                 <template x-for="item in drafts" :key="item.client_uuid">
-                    <li class="rounded-xl bg-white p-3 shadow-sm">
+                    <li class="rounded-2xl bg-white p-4 ring-1 ring-slate-200/80">
                         <div class="flex items-start justify-between gap-3">
                             <div class="min-w-0">
-                                <p class="truncate font-medium" x-text="caseLabel(item.case_id)"></p>
+                                <p class="truncate font-bold text-navy-900" x-text="caseLabel(item.case_id)"></p>
                                 <p class="text-sm text-slate-500"><span x-text="item.hearing_date ? item.hearing_date.split('-').reverse().join('.') : ''"></span> · <span x-text="formatTime(item._updated_at)"></span></p>
                             </div>
                             <span class="cw-badge shrink-0" :class="{
-                                'bg-slate-100 text-slate-700': item._status === 'draft',
-                                'bg-amber-100 text-amber-800': item._status === 'pending',
-                                'bg-emerald-100 text-emerald-800': item._status === 'synced',
+                                'bg-gold-100 text-gold-900': item._status === 'draft',
+                                'bg-steel-100 text-steel-800': item._status === 'pending',
+                                'bg-mint-100 text-mint-800': item._status === 'synced',
                                 'bg-red-100 text-red-800': item._status === 'error',
                             }" x-text="statusLabel(item)" data-draft-status></span>
                         </div>
@@ -87,11 +90,11 @@
         </section>
 
         <section x-show="data && data.recent.length">
-            <h2 class="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-500">{{ __('monitor.recently_sent') }}</h2>
-            <ul class="divide-y divide-slate-100 overflow-hidden rounded-xl bg-white shadow-sm">
+            <h2 class="cw-heading mb-2">{{ __('monitor.recently_sent') }}</h2>
+            <ul class="divide-y divide-slate-100 overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200/80">
                 <template x-for="item in (data ? data.recent : [])" :key="item.id">
-                    <li><a :href="item.url" class="flex items-center justify-between gap-3 p-3">
-                        <span class="min-w-0"><span class="block truncate font-medium" x-text="item.case"></span><span class="text-sm text-slate-500" x-text="item.date"></span></span>
+                    <li><a :href="item.url" class="flex items-center justify-between gap-3 p-4 hover:bg-gold-50">
+                        <span class="min-w-0"><span class="block truncate font-bold text-navy-900" x-text="item.case"></span><span class="text-sm text-slate-500" x-text="item.date"></span></span>
                         <span class="cw-badge bg-slate-100 text-slate-700" x-text="item.status_label"></span>
                     </a></li>
                 </template>
@@ -107,7 +110,7 @@
     <main x-show="screen === 'form'" class="flex-1 space-y-4 p-4 pb-32" data-hearing-form>
         <template x-if="draft">
             <div class="space-y-4">
-                <div x-show="Object.keys(draft._errors || {}).length" class="rounded-xl border border-red-300 bg-red-50 p-3 text-sm text-red-800">
+                <div x-show="Object.keys(draft._errors || {}).length" class="rounded-2xl bg-red-50 p-4 text-sm text-red-800 ring-1 ring-red-200">
                     <p class="font-semibold">{{ __('monitor.fix_errors') }}</p>
                     <ul class="mt-1 list-disc pl-5"><template x-for="(messages, field) in draft._errors" :key="field"><li x-text="messages[0]"></li></template></ul>
                 </div>
@@ -117,10 +120,10 @@
                     <template x-if="!draft.case_id">
                         <div>
                             <input type="search" x-model="caseQuery" class="cw-input" placeholder="{{ __('monitor.search_case') }}" data-case-search>
-                            <ul class="mt-2 max-h-72 divide-y divide-slate-100 overflow-y-auto rounded-lg border border-slate-200">
+                            <ul class="mt-2 max-h-72 divide-y divide-slate-100 overflow-y-auto rounded-xl border border-slate-200">
                                 <template x-for="item in cases" :key="item.id">
-                                    <li><button type="button" class="w-full p-3 text-left" x-on:click="selectCase(item.id)">
-                                        <span class="block font-medium" x-text="item.label"></span>
+                                    <li><button type="button" class="w-full p-3 text-left hover:bg-gold-50" x-on:click="selectCase(item.id)">
+                                        <span class="block font-semibold text-navy-900" x-text="item.label"></span>
                                         <span class="text-xs text-slate-500" x-text="item.type"></span>
                                     </button></li>
                                 </template>
@@ -130,7 +133,7 @@
                     <template x-if="draft.case_id">
                         <div class="flex items-start justify-between gap-3">
                             <div class="min-w-0 text-sm">
-                                <p class="font-semibold" x-text="caseLabel(draft.case_id)"></p>
+                                <p class="text-base font-bold text-navy-900" x-text="caseLabel(draft.case_id)"></p>
                                 <p class="text-slate-500" x-show="currentCase" x-text="currentCase ? [currentCase.judge, currentCase.prosecutor].filter(Boolean).join(' · ') : ''"></p>
                             </div>
                             <button type="button" class="cw-ghost shrink-0" x-on:click="draft.case_id = ''; draft.present_party_ids = []">{{ __('monitor.change') }}</button>
@@ -151,8 +154,8 @@
                     <h2 class="cw-card-title">{{ __('hearings.fields.present_parties') }}</h2>
                     <div class="space-y-2">
                         <template x-for="party in (currentCase ? currentCase.parties : [])" :key="party.id">
-                            <label class="flex items-center gap-3 rounded-lg border border-slate-200 p-3">
-                                <input type="checkbox" class="size-5 accent-indigo-600" :checked="draft.present_party_ids.includes(party.id)" x-on:change="toggle('present_party_ids', party.id)">
+                            <label class="flex items-center gap-3 rounded-xl border border-slate-200 p-3.5 has-checked:border-gold-400 has-checked:bg-gold-100">
+                                <input type="checkbox" class="size-5 accent-gold-400" :checked="draft.present_party_ids.includes(party.id)" x-on:change="toggle('present_party_ids', party.id)">
                                 <span x-text="party.label"></span>
                             </label>
                         </template>
@@ -189,7 +192,7 @@
                             <button type="button" :class="draft.started_late === true && 'cw-on'" x-on:click="draft.started_late = true">{{ __('hearings.answers.late') }}</button>
                             <button type="button" :class="draft.started_late === false && 'cw-on'" x-on:click="draft.started_late = false">{{ __('hearings.answers.on_time') }}</button>
                         </div>
-                        <div x-show="draft.started_late" class="mt-3 space-y-3 rounded-lg bg-slate-50 p-3">
+                        <div x-show="draft.started_late" class="mt-3 space-y-3 rounded-xl bg-canvas p-3.5">
                             <p class="cw-label">{{ __('hearings.fields.delay_cause') }}</p>
                             <div class="flex flex-wrap gap-2">
                                 <template x-for="(label, value) in data.options.delay_causes" :key="value">
@@ -205,7 +208,7 @@
                             <button type="button" :class="draft.was_postponed === true && 'cw-on'" x-on:click="draft.was_postponed = true">{{ __('app.yes') }}</button>
                             <button type="button" :class="draft.was_postponed === false && 'cw-on'" x-on:click="draft.was_postponed = false">{{ __('app.no') }}</button>
                         </div>
-                        <div x-show="draft.was_postponed" class="mt-3 rounded-lg bg-slate-50 p-3">
+                        <div x-show="draft.was_postponed" class="mt-3 rounded-xl bg-canvas p-3.5">
                             <p class="cw-label">{{ __('hearings.fields.postponement_reasons') }}</p>
                             <div class="flex flex-wrap gap-2" data-postponement-reasons>
                                 <template x-for="(label, value) in data.options.postponement_reasons" :key="value">
@@ -226,7 +229,7 @@
                             <button type="button" :class="draft.interpretation_needed === true && 'cw-on'" x-on:click="draft.interpretation_needed = true">{{ __('app.yes') }}</button>
                             <button type="button" :class="draft.interpretation_needed === false && 'cw-on'" x-on:click="draft.interpretation_needed = false">{{ __('app.no') }}</button>
                         </div>
-                        <div x-show="draft.interpretation_needed" class="mt-3 rounded-lg bg-slate-50 p-3">
+                        <div x-show="draft.interpretation_needed" class="mt-3 rounded-xl bg-canvas p-3.5">
                             <p class="cw-label">{{ __('hearings.fields.interpretation_provided') }}</p>
                             <div class="cw-segment">
                                 <button type="button" :class="draft.interpretation_provided === true && 'cw-on'" x-on:click="draft.interpretation_provided = true">{{ __('app.yes') }}</button>
@@ -239,7 +242,7 @@
                             <button type="button" :class="draft.phone_used === true && 'cw-on'" x-on:click="draft.phone_used = true">{{ __('app.yes') }}</button>
                             <button type="button" :class="draft.phone_used === false && 'cw-on'" x-on:click="draft.phone_used = false">{{ __('app.no') }}</button>
                         </div>
-                        <div x-show="draft.phone_used" class="mt-3 rounded-lg bg-slate-50 p-3">
+                        <div x-show="draft.phone_used" class="mt-3 rounded-xl bg-canvas p-3.5">
                             <p class="cw-label">{{ __('hearings.fields.phone_users') }}</p>
                             <div class="flex flex-wrap gap-2">
                                 <template x-for="(label, value) in data.options.phone_users" :key="value">
@@ -262,7 +265,10 @@
                         <textarea x-model="draft.notes" rows="4" class="cw-input" placeholder="{{ __('hearings.help.notes') }}"></textarea></label>
                 </section>
 
-                <p class="text-center text-xs text-slate-500">{{ __('monitor.autosaved') }}</p>
+                <p class="flex items-center justify-center gap-1.5 text-xs font-semibold text-mint-700">
+                    <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+                    {{ __('monitor.autosaved') }}
+                </p>
             </div>
         </template>
 

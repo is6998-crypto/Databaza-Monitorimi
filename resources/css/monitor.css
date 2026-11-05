@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import './brand.css';
 
 @source '../views/monitor/**/*.blade.php';
 @source '../views/partials/**/*.blade.php';
@@ -6,17 +7,28 @@
 [x-cloak] { display: none !important; }
 
 @layer components {
-    .cw-card { @apply rounded-2xl bg-white p-4 shadow-sm; }
-    .cw-card-title { @apply mb-3 block text-base font-semibold text-slate-900; }
-    .cw-label { @apply mb-1.5 block text-sm font-medium text-slate-700; }
-    .cw-input { @apply block w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-base shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none; }
-    .cw-primary { @apply rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 disabled:opacity-50; }
-    .cw-secondary { @apply inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50; }
-    .cw-ghost { @apply rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100; }
-    .cw-badge { @apply rounded-full px-2.5 py-1 text-xs font-semibold; }
-    .cw-chip { @apply rounded-full border border-slate-300 bg-white px-3.5 py-2 text-sm font-medium text-slate-700; }
-    .cw-chip-on { @apply border-indigo-600 bg-indigo-600 text-white; }
+    .cw-card { @apply rounded-2xl bg-white p-5 ring-1 ring-slate-200/80; }
+    .cw-card-title { @apply mb-3 block text-lg font-bold text-navy-900; }
+    .cw-label { @apply mb-2 block text-sm font-semibold text-navy-900; }
+    .cw-input { @apply block w-full rounded-xl border border-slate-200 bg-white px-3.5 py-3 text-base text-navy-900 shadow-xs placeholder:text-slate-400 focus:border-gold-400 focus:ring-2 focus:ring-gold-200 focus:outline-none; }
+    .cw-primary { @apply rounded-xl bg-gold-400 px-4 py-3 text-sm font-bold text-navy-900 shadow-sm transition hover:bg-gold-300 disabled:opacity-50; }
+    .cw-secondary { @apply inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-bold text-navy-900 transition hover:border-navy-900; }
+    .cw-ghost { @apply rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-100; }
+    .cw-badge { @apply rounded-full px-2.5 py-1 text-xs font-bold; }
+    .cw-heading { @apply text-xs font-bold tracking-[0.14em] text-slate-500 uppercase; }
+    .cw-chip { @apply inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm font-semibold text-navy-900 transition; }
+    .cw-chip-on { @apply border-gold-400 bg-gold-100 ring-1 ring-gold-400; }
     .cw-segment { @apply grid grid-cols-2 gap-2; }
-    .cw-segment > button { @apply rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm font-semibold text-slate-700; }
-    .cw-segment > button.cw-on { @apply border-indigo-600 bg-indigo-600 text-white; }
+    .cw-segment > button { @apply inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-3.5 text-sm font-bold text-navy-900 transition; }
+    .cw-segment > button.cw-on { @apply border-gold-400 bg-gold-400 shadow-sm; }
+}
+
+/* A selected answer carries a navy check mark, as in the design. */
+.cw-chip-on::before,
+.cw-segment > button.cw-on::after {
+    content: '';
+    width: 1rem;
+    height: 1rem;
+    flex: none;
+    background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230c2a42' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='m4.5 12.75 6 6 9-13.5'/%3e%3c/svg%3e") center / contain no-repeat;
 }
