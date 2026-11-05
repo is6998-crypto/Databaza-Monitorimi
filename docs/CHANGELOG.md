@@ -34,3 +34,6 @@ All notable changes to this project are documented here. The format follows
 - "Researchers" screen in the staff panel to approve, reject or suspend researcher accounts, with e-mail notifications; suspension revokes all tokens.
 - Read-only researcher API at `/api/v1` (cases, parties, hearings, aggregate statistics, reference lists) with Sanctum tokens, rate limiting, filters, pagination, Albanian/English labels and logging of every request; OpenAPI docs at `/docs/api`.
 - The privacy test now also crawls every researcher page, every API endpoint, the research downloads and the API docs.
+- Legacy migration toolkit (`migration/`): `php artisan legacy:import --connection=legacy` reads the old MySQL database read-only, groups the flat rows into cases, removes duplicates from reference data, maps free text to codes, sends everything it cannot map to `legacy_review_items` (encrypted) and writes a reconciliation report; idempotent and re-runnable, with `--dry-run`, `--module` and `--limit`. `legacy:inspect` compares the mapping with the legacy schema; `legacy:fixture` builds a fake legacy database for trials.
+- "Legacy review" screen in the staff panel to work through the import's review items (filters, decrypted details, link to the case, resolve/reopen).
+- `docs/MIGRATION.md`: how to run the migration safely on the server or a secure computer.

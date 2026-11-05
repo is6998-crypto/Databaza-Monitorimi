@@ -6,6 +6,10 @@ use App\Enums\ProsecutionLevel;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
+ * @property string $name_sq
+ * @property string|null $name_en
+ * @property string|null $name_sr
+ * @property string|null $city
  * @property ProsecutionLevel $level
  */
 class ProsecutionOffice extends ReferenceModel

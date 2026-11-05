@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
+ * @property string $name_sq
+ * @property string|null $name_en
+ * @property string|null $name_sr
+ * @property string|null $code
+ * @property string|null $city
  * @property CourtLevel $level
  */
 class Court extends ReferenceModel

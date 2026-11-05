@@ -4,6 +4,12 @@ namespace App\Models\Reference;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property string $name_sq
+ * @property string|null $name_en
+ * @property string|null $name_sr
+ * @property string|null $code
+ */
 class Department extends ReferenceModel
 {
     protected $table = 'departments';
