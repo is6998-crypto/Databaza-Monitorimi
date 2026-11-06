@@ -1,0 +1,64 @@
+/*
+ * CourtWatch colours for the generated API documentation (Scribe's default theme):
+ * navy and yellow on white and light grey only. Linked by App\Http\Controllers\ApiDocsController.
+ * This folder is outside public/vendor/scribe on purpose: `composer docs:api` empties that one.
+ */
+body, html { color: #0c2a42; }
+.page-wrapper { background-color: #f5f6f7; }
+.page-wrapper .dark-box { background-color: #0c2a42; }
+mark { background: #fef0c3; color: #0c2a42; }
+
+/* Navigation */
+.tocify-wrapper { background-color: #0c2a42; }
+.tocify-wrapper > .search input { background: #0a2236; border-color: rgba(255, 255, 255, .25); color: #fff; }
+.tocify-wrapper .search-results { background: #0a2236; }
+.tocify-wrapper .tocify-focus { background-color: #f8c33a; color: #0c2a42; box-shadow: none; }
+.tocify-wrapper .tocify-subheader { background: #0a2236; }
+.tocify-wrapper .toc-footer { border-top-color: rgba(255, 255, 255, .2); }
+#toc > ul > li > a > span { background-color: #f8c33a; color: #0c2a42; }
+
+/* Language tabs above the code examples */
+.lang-selector { background-color: #0a2236; }
+.page-wrapper .lang-selector { border-bottom-color: #0c2a42; }
+.lang-selector button:active, .lang-selector button:hover, .lang-selector button:focus { background-color: #06192a; color: #fff; }
+.lang-selector button.active { background-color: #0c2a42; color: #f8c33a; }
+
+/* Text, tables and notes */
+.content > aside, .content > details, .content > dl, .content > h1, .content > h2, .content > h3, .content > h4, .content > h5 { text-shadow: none; }
+.content h1 { background: none; border-top-color: #e2e5ea; border-bottom-color: #e2e5ea; }
+.content h2 { border-top-color: #e2e5ea; }
+.content hr { border-top-color: #0c2a42; border-bottom-color: #f5f6f7; }
+.content table th, .content table tr:last-child { border-bottom-color: #e2e5ea; }
+.content table tr:nth-child(odd) > td { background-color: #fff; }
+.content table tr:nth-child(even) > td { background-color: #f5f6f7; }
+.content aside { background: #0c2a42; color: #fff; text-shadow: none; }
+.content aside.info { background: #eef3f8; color: #0c2a42; text-shadow: none; }
+.content aside.warning { background: #fef0c3; color: #0c2a42; text-shadow: none; }
+.content aside.success { background: #eef3f8; color: #0c2a42; text-shadow: none; }
+.content .search-highlight { background: #fef0c3; border-color: #f8c33a; text-shadow: none; }
+.content blockquote, .content pre, .content .annotation { background-color: #071b2c; color: #eef3f8; text-shadow: none; }
+.content blockquote > p { background-color: #0a2236; color: #d9e3ee; border-top-color: #06192a; border-bottom-color: #183852; }
+.content a { color: #0c2a42; text-decoration: underline; text-decoration-color: #f8c33a; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+
+/* HTTP method and "requires authentication" badges */
+.badge.badge-green, .badge.badge-blue, .badge.badge-darkblue, .badge.badge-purple, .badge.badge-black, .badge.badge-grey { background-color: #0c2a42; color: #fff; }
+.badge.badge-red, .badge.badge-darkred { background-color: #f8c33a; color: #0c2a42; }
+
+/* "Try it out" buttons (their colours are inline in the generated page) */
+[id^="btn-tryout-"] { background-color: #f8c33a !important; color: #0c2a42; border: 0; font-weight: 700; }
+[id^="btn-canceltryout-"] { background-color: #fff !important; color: #0c2a42; border: 1px solid #0c2a42 !important; font-weight: 700; }
+[id^="btn-executetryout-"] { background-color: #0c2a42 !important; color: #fff; border: 0; font-weight: 700; }
+
+/* Code: navy background, strings and numbers in yellow, the rest in light navy and grey */
+.hljs, .highlight, .highlight .w { background: #071b2c; color: #eef3f8; }
+.hljs [class^="hljs-"], .hljs [class*=" hljs-"] { color: #b3c6da; }
+.hljs .hljs-string, .hljs .hljs-regexp, .hljs .hljs-symbol, .hljs .hljs-link, .hljs .hljs-template-variable { color: #f8c33a; }
+.hljs .hljs-number, .hljs .hljs-literal, .hljs .hljs-bullet { color: #fde38f; }
+.hljs .hljs-keyword, .hljs .hljs-selector-tag, .hljs .hljs-built_in, .hljs .hljs-name, .hljs .hljs-tag, .hljs .hljs-type { color: #fff; font-weight: 600; }
+.hljs .hljs-comment, .hljs .hljs-quote, .hljs .hljs-meta, .hljs .hljs-doctag { color: #94a0ae; }
+.hljs .hljs-addition { background: rgba(248, 195, 58, .15); color: #fde38f; }
+.hljs .hljs-deletion { background: rgba(255, 255, 255, .08); color: #94a0ae; }
+
+/* Scroll bars */
+* { scrollbar-color: #52769d transparent; }
+*::-webkit-scrollbar-thumb { background: #52769d; }

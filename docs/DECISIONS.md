@@ -1,0 +1,151 @@
+# Decisions log
+
+Choices made where `PROJECT_PROPOSAL.md` was silent or ambiguous. Newest entries are
+added at the bottom of each section. Format: **decision** — reason.
+
+## Repository and tooling
+
+- **Bootstrapped `main` with only `PROJECT_PROPOSAL.md`.** — The GitHub repository was empty, so the commit the owner was meant to make in step A1 was made by the build to give `build/v1` (and the PR) a base. Nothing else was pushed to `main`.
+- **Laravel 13, Filament 5.11, Livewire 4, Tailwind 4, Pest 4, Larastan 3, PHP 8.3.** — Latest stable versions at build time that resolve together.
+- **Composer dependencies are locked (`composer.lock`) and npm dependencies via `package-lock.json`.** — Reproducible CI, Codespaces and Docker builds.
+- **No web fonts from third-party CDNs; the system font stack is used.** — Avoids sending visitor IPs to font providers (data-protection) and keeps the PWA offline-capable.
+- **The dev stack uses `php artisan serve` (4 workers) inside a PHP 8.3 CLI image; production uses FrankenPHP behind Caddy.** — Simplest dev loop; one-process production server with auto-TLS in front.
+- **`app:seed-if-empty` seeds only an empty database.** — Makes `docker compose up` and Codespaces re-runnable without wiping data.
+
+## Authentication, roles and auditing
+
+- **Filament's built-in app (TOTP) MFA, `isRequired: true` on the staff panel, with recovery codes.** — Meets "2FA mandatory for all staff roles" without an extra plugin. Researchers use a separate panel where 2FA is optional.
+- **Permission names follow Filament Shield's `Affix:Subject` convention; the matrix lives in `App\Support\Permissions` and is seeded by `RolesAndPermissionsSeeder`.** — One source of truth, and Shield's role editor shows the same permissions. Policies are hand-written (Shield policy generation is off) because monitors need record-level rules.
+- **Super Admin is granted everything through `Gate::before`.** — Matches "Everything" in B4; workflow state machine rules are still enforced by the workflow service.
+- **Users are deactivated, never deleted from the panel.** — Keeps the audit trail and authorship intact.
+- **Monitor scope = assigned courts ∪ cases they created ∪ cases assigned to them.** — B4 says monitors "see cases in their assigned courts"; they also need to see what they themselves created or were assigned.
+- **Monitors may remove rows inside a case (a party, a charge) only while their case is a draft or returned; they can never delete cases or hearings.** — "No delete" is respected for records, while still allowing typo fixes during data entry.
+- **Idle timeout is enforced server-side (`SESSION_LIFETIME=30`) and client-side (warning modal 2 minutes before, "Stay signed in" button, activity shared across tabs via `localStorage`).** — Never a hard lock; autosaving forms get a `courtwatch:before-idle-logout` event first.
+- **Filament's default avatar provider (ui-avatars.com) is replaced by locally generated initials.** — The default would send staff names to a third party.
+- **Audit log = spatie/laravel-activitylog with log names per area (`auth`, `permissions`, `cases`, `exports`…). Party names are never written to the audit log; only a `name_changed` flag.** — Otherwise the log would hold personal names in clear text, defeating encryption at rest.
+- **Tests seed roles and the public reference structure once per run (`TestingSeeder`) and run each test in a transaction.** — Keeps the suite fast on PostgreSQL.
+
+## Reference data
+
+- **One generic Filament resource base (`ReferenceResource`) with a modal "manage" page per table.** — Sixteen tables share CRUD, bilingual names, search, soft delete/restore, merge and CSV import; each table only declares its extra fields.
+- **`name_en` is nullable like `name_sr`; labels fall back to Albanian.** — Legacy and CSV data often lack English names; Albanian is the default language.
+- **People tables (judges, prosecutors) have a single `name` column, not translated names; monitors take their name from the linked user.** — Personal names are not translated. These names are internal and never published.
+- **Merge = pick the record to keep among the selected rows; every foreign key (listed in each model's `references()`) is re-pointed, rows that would break a unique constraint are dropped, duplicates are deactivated and soft-deleted, and the merge is audited.** — Matches "re-points all references" and keeps history recoverable.
+- **Deleting reference rows is reserved to Super Admin; Editors deactivate or merge.** — Prevents accidental loss of data used by historical cases.
+- **CSV import matches existing rows by Albanian name (or code / article number where they exist), updates them, creates the rest, and reports skipped rows with line numbers. Related tables are resolved by code or name. Comma or semicolon delimiters are detected.** — Excel in the region often saves CSV with semicolons.
+- **The seeded court structure (7 basic courts with branches, Court of Appeals, Supreme Court), departments, prosecution offices, criminal codes and a *sample* of articles come from public sources and should be verified by the organization.** — The proposal asks for the real public structure; editors can correct it in the panel or by CSV.
+- **No Commercial Court is seeded.** — B6.3 lists only basic courts, the Court of Appeals and the Supreme Court; it can be added in the panel.
+
+## Cases and hearings
+
+- **Model `CourtCase` on table `cases`.** — `Case` is a reserved word in PHP.
+- **Each case and hearing has a random `public_ref` (ULID).** — Public pages, the researcher area and the API use it instead of the database id or the court case number, so records cannot be enumerated or matched to court registers.
+- **Party names are a single encrypted `name` column with an HMAC blind index (full name + one hash per name token).** — Encryption at rest prevents SQL search; the blind index allows exact search by full name or surname without storing plaintext. Fuzzy (trigram) search is used only for non-personal fields.
+- **Multi-select hearing answers (postponement reasons, phone users, participants) are JSONB arrays of enum values.** — The proposal forbids JSON only for type-specific case fields; JSONB keeps the hearing in one row and PostgreSQL aggregates it easily.
+- **Hearing booleans default to "no", and follow-up answers are cleared on save when their trigger question is "no".** — Keeps the data consistent with what the form showed.
+- **Stage dates are checked against a predecessor graph (`StageType::predecessors()`), not a strict linear order.** — Real cases skip stages (direct indictment, plea agreement) and some stages are parallel (execution vs. extraordinary remedies).
+- **Stage dates may be planned dates; only hearing dates are refused in the future.** — B5 restricts only hearing dates.
+- **Duplicate case numbers (same court, case-insensitive, trimmed) show a warning with a link to the existing case, but never block saving.** — B5 says "warn … and offer to open the existing case".
+- **The case workspace is the Filament view page with relation-manager tabs (Overview · Parties & charges · Stages timeline · Hearings · Measures & sentences · Documents · History). Rows inside the case are edited in place there.** — One screen per case instead of the legacy 580-field form.
+- **"Add hearing" opens the full hearing page (`/admin/hearings/create?case=ID`) rather than a modal.** — Pre-filled court/judge/prosecutor/parties, autosave and phone-friendly layout work better on a page.
+- **Autosave stores encrypted form drafts (`form_drafts`) every 20 seconds and right before an idle logout; drafts are restored on the next visit and deleted after saving.** — Avoids the legacy problem of losing work when a session ends.
+- **"Recently used" values are recorded per user and field (`user_recent_values`) and shown as the first group of searchable selects.** — Works for every reference select without per-field queries.
+- **Monitor PWA at `/m` (Blade + Alpine, not Filament): IndexedDB drafts and outbox, service worker caching the app shell, idempotent sync by client UUID.** — Livewire pages need the network; a small standalone page can work fully offline.
+- **On the device the PWA stores party role + initials only, never full names.** — Minimises personal data on phones; monitors can still tick who was present.
+- **While offline the idle-timeout timer pauses; when the session has expired the PWA keeps drafts and asks the monitor to sign in again before syncing.** — Monitors in courtrooms without signal must not lose their notes.
+- **Attachments: PDF/JPG/PNG up to 20 MB on the private attachments disk, downloaded only through a 10-minute signed URL plus a policy check, every download audited.** — B5/B7.
+- **Guests are redirected to the login page of their area (`/admin/login` or `/research/login`); there is no generic `/login`.** — Filament panels own the login pages.
+
+## Review workflow
+
+- **All transitions go through `App\Services\WorkflowService`, which checks the state machine (`WorkflowStatus::allowedTransitions()`), the policy ability (`submit`, `review`, `publish`, `unpublish`), records a `workflow_transitions` row, audits it and sends notifications.** — One place to enforce the rules, whatever the entry point (panel, review queue, monitor app).
+- **Submitted, in review and approved records can be returned; a comment is mandatory.** — "returned with a comment" (B5); approved records can be reopened if an error is found.
+- **"Approved" feeds dashboards, the portal and researchers; "published" additionally freezes the record (only a Super Admin can edit it) and can be undone with "unpublish".** — Gives "published" a meaning distinct from "approved", matching the DoD ("approve it, and it then appears in dashboards and … on the public portal").
+- **The reviewer's diff compares the live record with the snapshot taken at the previous submission or approval. Snapshots cover the case and everything inside it but never party names (only their blind-index hash).** — Shows what changed after a return, without copying personal names into another table.
+- **Notifications: database (Filament bell) and email (Mailpit in development), queued. Reviewers are notified of submissions; authors of returns, approvals and publication. Notifications carry case numbers and courts, never party names.**
+- **Review queue page with two tables (cases, hearings), oldest submission first, with a navigation badge.** — Editors' daily work list.
+
+## Search, exports and analytics
+
+- **Global search = substring match (`ILIKE`, backed by `pg_trgm` GIN indexes) on case, indictment and police numbers, plus a fuzzy fallback with explicit similarity thresholds (0.65 for numbers, 0.45 for judge names); offence titles and article numbers; party names by exact name tokens through the blind index.** — Case numbers share most trigrams ("PKR.nr."), so the default `%` threshold (0.3) matched almost every case; strict thresholds keep typo tolerance without noise. Encrypted names cannot be fuzzy-searched.
+- **The same search powers the Filament global search (Ctrl/Cmd+K) and the case/hearing list search; results respect the monitor's court scope.**
+- **Faceted filters live in the URL (Filament's `filters` / `search` query parameters); saved filters store exactly that state, can be shared with colleagues, and are applied by opening the list with those parameters.** — Shareable links and saved filters use one mechanism.
+- **Exports are streamed with OpenSpout (CSV with BOM for Excel, or XLSX); the export is logged in `export_logs` and the audit log before the file is sent, with row count, filters, user, IP and user agent. Staff exports never contain party names.** — Logging first means even an interrupted download is recorded.
+- **Bulk "change status" runs each record through the workflow service and skips records where the transition is not allowed, reporting how many were skipped.** — Bulk actions cannot bypass the review rules.
+- **Dashboard indicators count only approved/published hearings of approved/published cases.** — Unreviewed data must not reach reports. The dashboard filters (date range, court, case type) are shared by all widgets and kept in the session.
+- **Charts are Filament chart widgets (Chart.js) in the staff panel; the public portal uses Apache ECharts.** — Both are allowed by B2; Filament widgets integrate with the dashboard filters.
+- **Postponement analysis can be grouped by judge in the staff dashboard only; the public portal never uses the judge dimension.** — Judges' names are personal data and the portal shows no names.
+
+## Public portal
+
+- **Server-rendered Blade pages with two Livewire components (statistics with filters, case search); language in the URL (`/sq/...`, `/en/...`), `/` redirects by `Accept-Language`.** — Every page is indexable in both languages with `hreflang` alternates, canonical URLs and a sitemap. Livewire components remember their language for update requests.
+- **Small-cell suppression: every public count under 5 (including 0) is shown as "<5"; rates are suppressed when the numerator or the denominator is under 5; medians when based on fewer than 5 records.** — B6.7 says "suppress any aggregate cell under 5". Complementary suppression (deriving a hidden cell from totals) is not implemented and is listed as a known gap.
+- **Public statistics never use the judge, prosecutor or monitor dimension.**
+- **Anonymized case pages show a public code (`CW-…`, from a random ULID), case type, court, department, year, offence titles, the stage timeline with month/year only, and hearing counts. No names, no case numbers, no judges or prosecutors, no exact dates, no party demographics.** — Record-level data is the most re-identifiable; party demographics are only published as aggregates.
+- **The public case search cannot search by name or case number** (only offence title/article, type, court, year, category and judgment). — Prevents looking up individuals.
+- **Open data = six aggregate CSV tables built from the same suppressed statistics; every download is logged in `export_logs` (context `public`, no user, IP kept for abuse control).**
+- **ECharts is tree-shaken and loaded on demand only on pages with charts; every chart has a "show data" table for accessibility.** The ECharts instance is kept outside Alpine's reactive state (a reactive proxy breaks ECharts).
+- **No cookies other than Laravel's session/CSRF cookies, no analytics or third-party fonts/scripts on the portal.** — Data protection by default.
+- **Publications are managed by Editors in the staff panel; their PDFs live on private storage and are streamed by the portal only while published.**
+
+## Researcher area and API
+
+- **A separate Filament panel at `/research` with self-registration (institution, position, research purpose). New accounts are `pending`; only users with `Approve:Researcher` (Super Admin by default) approve, reject (reason required) or suspend (reason required) them, from the "Researchers" screen in `/admin`.** — B6.8: "researchers register, an admin approves them". Researchers are told the outcome by e-mail; administrators are notified of every new registration.
+- **Researchers are not staff, so 2FA is offered but not required in `/research`; there is no e-mail verification step.** — B4 makes 2FA mandatory "for all staff roles". The manual approval (which shows the e-mail address and institution) replaces e-mail verification.
+- **The data-use agreement is versioned (`courtwatch.data_use_agreement_version`). Access to datasets, tokens and the API requires an approved account that has accepted the current version; changing the version asks everyone to accept again.**
+- **Rejecting or suspending an account revokes all its API tokens; every API request re-checks the account, so a suspension takes effect immediately.**
+- **Record-level research data comes only from verified (approved or published) records: cases and hearings are identified by their public ULID references, parties by a keyed HMAC pseudonym (`P-…`, stable but not reversible). It contains categories, dates and structured answers, and never names, case numbers, judges, prosecutors, monitors, attachments or free-text fields (notes, summaries, comments).** — Researchers need dates and linkable records to study delays; free text could contain names.
+- **Unlike the public portal, research data is not small-cell suppressed at record level** (it is record-level by nature); the data-use agreement forbids publishing cells under 5. Aggregate statistics in the API are the same suppressed figures as on the portal.
+- **Datasets: three CSV/XLSX downloads (cases, parties, hearings), streamed and logged in `export_logs` with context `researcher`.**
+- **API: read-only REST under `/api/v1` with Sanctum personal access tokens carrying the `research:read` ability, an expiry chosen by the researcher (30–365 days), a per-user rate limit (`API_RATE_LIMIT_PER_MINUTE`, 60/minute by default), validated filters (422 on invalid input) and pagination up to 100 items. Every response with records is logged in `export_logs` (context `api`, with the token id).**
+- **API labels follow `?lang=` or `Accept-Language` (Albanian by default); codes are stable.**
+- **OpenAPI docs are generated by Scribe from the controllers' docblocks (`composer docs:api`), without response calls (examples are written by hand, so generation never touches the database). The generated HTML, OpenAPI and Postman files are committed and served by the app at `/docs/api`, `/docs/api.openapi` and `/docs/api.postman`, with the base URL filled in at request time.** — The docs work right after `docker compose up` and on every deployment without a generation step. A test fails when an `api/v1` route is missing from the spec.
+
+## Legacy migration
+
+- **The toolkit lives in `migration/` (namespace `Migration\`, provider `Migration\MigrationServiceProvider`): mapping in `migration/config/legacy.php`, commands `legacy:import`, `legacy:inspect` and `legacy:fixture`.** — Keeps the one-off migration code apart from the application; the mapping is the only file to edit for the real schema.
+- **The real legacy schema is unknown, so everything is driven by a field → legacy-column mapping; the defaults describe the fake fixture. `legacy:inspect` shows tables, columns and row counts (never values) to adapt it.** The preflight refuses to run when a mapped column is missing.
+- **Flat rows are grouped into cases by module + court + any shared case number (union–find over `group_by`, default court number and prosecution number).** — The legacy data repeats case data on every hearing/defendant row and early rows may only carry the prosecution number. Placeholder numbers ("0", "-") are ignored.
+- **Case-level values: the latest row wins (by hearing date); disagreements go to review.** Re-runs only add (new rows, new hearings/parties/stages) and never update imported records, which staff may have corrected.
+- **Reference data: the official structure (courts, branches, departments, prosecution offices) is matched, never created; judges and prosecutors are matched by a normalised name key (case, spacing, titles and word order ignored) and created inactive when missing; simple lists and unknown articles are created inactive and reported for merging; monitors must already have an account (matched by e-mail, name or code).**
+- **Free text → codes: every enum matches its value and its Albanian/English labels automatically; extra spellings are configured per enum (and per stage for outcomes). Unmappable values become null and a review item.** Broken Latin-1/UTF-8 encoding is repaired.
+- **Nothing is dropped: unknown references, unmappable values, invalid dates/numbers, conflicts, inconsistent answers, chronology problems, unmapped columns, empty rows and failed cases are written to `legacy_review_items`. Values that can be personal are stored only in the encrypted payload; the clear-text `value` column holds coded values, column names or error types.** SQL error messages (which contain bound values) are stored encrypted and never logged.
+- **Each case is imported in its own transaction; a failure is recorded and the run continues. A dry run wraps everything in one transaction that is rolled back.** References created inside a failed case are rolled back with it and forgotten by the caches.
+- **The legacy connection is switched to read-only mode (MySQL `SET SESSION TRANSACTION READ ONLY`, PostgreSQL equivalent, SQLite `query_only`) before anything is read; the docs also require a read-only database user.**
+- **Imported records get the status `LEGACY_IMPORT_STATUS` (default `approved`).** — Historical data was collected and checked in the old system; re-reviewing ~70,000 rows is not realistic. `submitted` is available when the owner prefers a review.
+- **Activity logging is switched off during the import; each run writes one `legacy`/`imported` audit entry with the reconciliation counts, and `legacy_id_map` records the origin of every record.** — Per-record entries would add hundreds of thousands of audit rows without information. Decisions on review items are audited.
+- **The reconciliation report (Markdown + JSON in `storage/app/private/legacy`, never committed) accounts for every legacy row: imported + already imported + empty + failed + not read (`--limit`) = legacy rows.**
+- **The fake fixture (`Migration\Fixtures\LegacyFixture`) builds the legacy tables from the mapping and fills them with invented names and deliberately messy values; tests run it on in-memory SQLite.** — The importer is tested without real data and without `.sql` files.
+
+## Hardening and deployment
+
+- **Security headers on every response (`App\Http\Middleware\SecurityHeaders`): CSP, HSTS (HTTPS only), `X-Frame-Options: SAMEORIGIN`, `Referrer-Policy: strict-origin-when-cross-origin`, `X-Content-Type-Options`, `Permissions-Policy` and `Cross-Origin-Opener-Policy`.** The CSP allows only the site's own origin (plus the S3 origin when files are previewed from object storage, and the Vite dev server locally). `'unsafe-inline'` and `'unsafe-eval'` remain in `script-src` because Livewire/Alpine and Filament evaluate expressions at runtime and inline small scripts; nonces would require changes inside Filament. `CSP_MODE=report-only|off` exists for troubleshooting.
+- **No third-party requests anywhere: the four libraries the generated API docs load from CDNs are self-hosted in `public/docs-assets/lib` and the Google font is dropped at render time.** — Privacy by default; also keeps the strict CSP. The folder is outside `public/vendor/scribe` because `composer docs:api` empties that one when it regenerates the docs.
+- **Sign-in limits: Filament's 5 attempts per minute per IP (and rate-limited 2FA codes), plus a per-account lock after 10 failed attempts for 15 minutes (`App\Filament\Auth\Login`, both panels).** — Stops slow guessing of one account from many addresses.
+- **Error pages are self-contained (no database, assets or JavaScript needed), bilingual and free of technical details; `APP_DEBUG=false` in the production example.** API errors stay JSON without traces.
+- **`/up` also checks the database and the cache; the queue dashboard (`/horizon`) is limited to active Super Admins with 2FA in every environment, checked directly because `Gate::before` lets Super Admins pass any gate.**
+- **Backups with spatie/laravel-backup: the PostgreSQL dump (gzip) and `storage/app/private`, in an AES-256 encrypted zip (`BACKUP_ARCHIVE_PASSWORD`), daily to an off-site S3-compatible disk, with cleanup and monitoring e-mails.** Code is not backed up (it is in git); files on S3 rely on bucket versioning, or are stored locally to be included.
+- **Production image: FrankenPHP (Caddy with automatic HTTPS + PHP) with three roles (web, horizon, scheduler); the web role caches config/routes/views/events and runs migrations on start (`RUN_MIGRATIONS`), runs as `www-data`, and answers an internal health check on port 8080.** The PostgreSQL 16 client comes from the PGDG repository (Debian's is older than the server, which breaks `pg_dump`). Committed API docs are copied into the storage volume at start so updates never serve stale docs.
+- **Production never seeds demo accounts; the first Super Admin is created with `php artisan app:create-admin` and must set up 2FA at the first sign-in.**
+- **Page titles use the labels as written (no Title Case)** — Albanian does not capitalise the articles "e", "i", "të" ("Degët e gjykatave", not "Degët E Gjykatave").
+
+## Visual design
+
+- **The design follows the owner's mockups as a direction, not a redesign: only the appearance changed.** Texts, fields, menus, flows and permissions are the same; where a mockup showed content the platform does not have (for example a "sign in" button or a tagline in the portal header, a breadcrumb, a demo banner), it was left out.
+- **Two colours only, at the owner's request: navy `#0c2a42` and yellow `#f8c33a`, on white and a light grey canvas `#f5f6f7`, with greys. No red, orange or green anywhere** (not for errors, warnings or success either). Defined once for PHP in `App\Support\Brand` (Filament palettes, chart colours, avatar tints) and once for Tailwind in `resources/css/brand.css` (`navy-*`, `gold-*`, `canvas`); Tailwind's other colours are not used in our views.
+- **Filament's semantic colours are mapped onto the two: `primary` and `warning` are yellow, `success`, `info` and `danger` are navy.** States therefore differ by style rather than hue (panel theme): solid yellow (primary, e.g. published), yellow tint (warning, e.g. in review), solid navy (success, e.g. approved), navy tint (info, e.g. submitted), navy outline (danger, e.g. returned), grey tint; badges also keep their labels and icons. Errors are bold navy text with a thicker outline on the field.
+- **Case types share one badge style (navy tint).** — They are categories, not states; one colour per type added noise and competed with the status badges.
+- **One yellow call to action per screen: editing (`EditAction`) is a white secondary button, workflow steps are navy.** Switches that are on are navy.
+- **Font: Plus Jakarta Sans (variable, SIL Open Font License) from `@fontsource-variable`, bundled by Vite.** — The closest open font to the mockups; serving it from this site keeps the strict CSP and sends no visitor data to a font host. Error pages keep the system font because they must render without the Vite build.
+- **Filament is styled with CSS in the panel theme (`resources/css/filament/admin/theme.css`), not by overriding Filament views.** — Upgrades keep working; the theme only targets Filament's `fi-*` classes. The navy sidebar column continues into the top bar behind the logo on large screens, and the global search sits on the left of the content area as in the mockups.
+- **The yellow palette ends in navy (shades 700–950).** — Filament picks the colour of text on a yellow button or badge, and of yellow-role text on white, from the palette by contrast; ending it in navy gives navy text (9.6:1 on yellow) and never a dark yellow, which reads as brown or orange.
+- **The API documentation keeps Scribe's generated page and gets the brand colours from `public/docs-assets/courtwatch.css`, linked when the page is served.** — Regenerating the docs keeps working.
+- **Dark mode in the panels is kept and uses the same palette (navy greys).** The portal has no dark design, so `dark:` classes from vendor views (pagination) are switched off there.
+
+## Tests and documentation
+
+- **End-to-end smoke tests use Playwright (`e2e/`, `npm run e2e`) against a running app with the demo data, not a separate test database.** They sign staff in through the real, mandatory 2FA set-up (computing TOTP codes as an authenticator app does) and keep the secrets in the git-ignored `e2e/.auth/`; they respect the per-IP sign-in limit instead of disabling it.
+- **The Definition of Done items about Docker are checked in CI (`.github/workflows/docker.yml`) on a clean GitHub runner**: `docker compose up` must install, migrate and seed by itself (the Codespaces dev container starts the same stack), and the production image must build and serve the app over HTTPS.
+- **README screenshots are placeholders** (the proposal asks for "screenshots placeholders"); the user guides describe the screens with their real labels in each language.
+- **The development stack uses RustFS (`rustfs/rustfs`, pinned) instead of MinIO for S3-compatible storage.** — The proposal names MinIO for development, but MinIO no longer publishes community Docker images: `minio/minio` and `minio/mc` are "not found" on Docker Hub, so `docker compose up` failed on a clean machine (caught by the Docker workflow). RustFS speaks the same S3 API on the same ports (Apache-2.0); the bucket is created by `php artisan app:ensure-bucket` instead of a `minio/mc` container. Production is unaffected (any S3-compatible provider).
+

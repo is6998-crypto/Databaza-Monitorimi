@@ -1,0 +1,123 @@
+name: Docker
+
+# Checks two items of the Definition of Done on a clean machine:
+#  - `docker compose up` (the same stack the Codespaces dev container starts) builds,
+#    migrates and seeds the app without manual steps;
+#  - the production image builds and docker-compose.prod.yml serves the app over HTTPS.
+
+on:
+  push:
+    branches: [main, "build/**"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docker-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  dev-stack:
+    name: docker compose up (development) + end-to-end tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Start the development stack
+        run: docker compose up -d --build
+
+      - name: Wait until the app has installed, migrated and seeded itself
+        run: |
+          for i in $(seq 1 150); do
+            if curl -fsS -o /dev/null http://localhost:8000/up; then echo "ready after about $((i * 10)) s"; exit 0; fi
+            sleep 10
+          done
+          echo "the app did not become ready" >&2
+          exit 1
+
+      - name: Smoke test
+        run: |
+          set -e
+          curl -fsS -o /dev/null http://localhost:8000/sq
+          curl -fsS -o /dev/null http://localhost:8000/en/cases
+          curl -fsS -o /dev/null http://localhost:8000/admin/login
+          curl -fsS -o /dev/null http://localhost:8000/research/login
+          curl -fsS http://localhost:8000/docs/api | grep -q "CourtWatch Researcher API"
+          cases=$(docker compose exec -T app php artisan tinker --execute='echo App\Models\CourtCase::count();' | tail -n 1 | tr -dc '0-9')
+          users=$(docker compose exec -T app php artisan tinker --execute='echo App\Models\User::where("email", "admin@courtwatch.test")->count();' | tail -n 1 | tr -dc '0-9')
+          echo "demo cases: ${cases}, demo admin: ${users}"
+          test "${cases:-0}" -ge 100
+          test "${users:-0}" -eq 1
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+
+      # The container installed node_modules (with @playwright/test) into the checkout.
+      - name: End-to-end smoke tests (fresh accounts go through the real 2FA set-up)
+        run: |
+          npx playwright install --with-deps chromium
+          E2E_BASE_URL=http://localhost:8000 npx playwright test
+
+      - name: Playwright traces
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-results
+          path: test-results/
+          retention-days: 7
+
+      - name: Logs
+        if: failure()
+        run: docker compose logs --tail=200
+
+      - name: Stop
+        if: always()
+        run: docker compose down -v
+
+  production:
+    name: production image and stack
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Throwaway production configuration
+        run: |
+          cp .env.production.example .env
+          sed -i "s#^APP_KEY=.*#APP_KEY=base64:$(openssl rand -base64 32)#" .env
+          sed -i "s#^BLIND_INDEX_KEY=.*#BLIND_INDEX_KEY=$(openssl rand -hex 32)#" .env
+          sed -i "s#^DB_PASSWORD=.*#DB_PASSWORD=$(openssl rand -hex 16)#" .env
+          sed -i "s#^REDIS_PASSWORD=.*#REDIS_PASSWORD=$(openssl rand -hex 16)#" .env
+          sed -i "s#^APP_URL=.*#APP_URL=https://localhost#; s#^APP_DOMAIN=.*#APP_DOMAIN=localhost#; s#^CADDY_GLOBAL_OPTIONS=.*#CADDY_GLOBAL_OPTIONS=#" .env
+          sed -i "s#^FILESYSTEM_DISK=.*#FILESYSTEM_DISK=local#; s#^ATTACHMENTS_DISK=.*#ATTACHMENTS_DISK=local#; s#^MAIL_MAILER=.*#MAIL_MAILER=log#" .env
+
+      - name: Build and start
+        run: docker compose -f docker-compose.prod.yml up -d --build --wait --wait-timeout 600
+
+      - name: Smoke test over HTTPS
+        run: |
+          set -e
+          curl -fsSk https://localhost/up
+          curl -fsSk -o /dev/null https://localhost/sq
+          curl -fsSk https://localhost/docs/api | grep -q "CourtWatch Researcher API"
+          headers=$(curl -sSkI https://localhost/sq)
+          echo "$headers" | grep -qi "^strict-transport-security:"
+          echo "$headers" | grep -qi "^content-security-policy:"
+          echo "$headers" | grep -qi "^x-frame-options:"
+          test "$(curl -s -o /dev/null -w '%{http_code}' http://localhost/sq)" = "308"
+          test "$(curl -sk -o /dev/null -w '%{http_code}' https://localhost/does-not-exist)" = "404"
+          docker compose -f docker-compose.prod.yml exec -T app pg_dump --version | grep -q " 16"
+          docker compose -f docker-compose.prod.yml exec -T app php artisan about --only=environment | grep -qi "production"
+          test "$(docker compose -f docker-compose.prod.yml exec -T app whoami | tr -d '\r')" = "www-data"
+
+      - name: Logs
+        if: failure()
+        run: docker compose -f docker-compose.prod.yml logs --tail=200
+
+      - name: Stop
+        if: always()
+        run: docker compose -f docker-compose.prod.yml down -v

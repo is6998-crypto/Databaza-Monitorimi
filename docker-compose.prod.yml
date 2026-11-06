@@ -1,0 +1,103 @@
+# CourtWatch production stack for a single VPS (docs/DEPLOY.md):
+#
+#   cp .env.production.example .env   # then fill in every value
+#   docker compose -f docker-compose.prod.yml up -d --build
+#
+# Only ports 80 and 443 are published. PostgreSQL and Redis are reachable from the app
+# containers only. Caddy (inside FrankenPHP) obtains the TLS certificate for APP_DOMAIN.
+name: courtwatch
+
+x-app: &app
+    build:
+        context: .
+        dockerfile: Dockerfile
+    image: courtwatch:latest
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+        - storage:/app/storage
+    depends_on:
+        postgres:
+            condition: service_healthy
+        redis:
+            condition: service_healthy
+
+services:
+    app:
+        <<: *app
+        command: ["web"]
+        environment:
+            SERVER_NAME: ${APP_DOMAIN:?Set APP_DOMAIN in .env}
+            CADDY_GLOBAL_OPTIONS: ${CADDY_GLOBAL_OPTIONS:-}
+        ports:
+            - "80:80"
+            - "443:443"
+            - "443:443/udp"
+        volumes:
+            - storage:/app/storage
+            - caddy_data:/data
+            - caddy_config:/config
+
+    horizon:
+        <<: *app
+        command: ["horizon"]
+        depends_on:
+            app:
+                condition: service_healthy
+        # Healthy only while Horizon's master supervisor is running (not paused).
+        healthcheck:
+            test: ["CMD", "php", "artisan", "horizon:status"]
+            interval: 30s
+            timeout: 10s
+            start_period: 30s
+            retries: 3
+
+    scheduler:
+        <<: *app
+        command: ["scheduler"]
+        depends_on:
+            app:
+                condition: service_healthy
+        # The container's main process must be the schedule:work loop.
+        healthcheck:
+            test: ["CMD", "sh", "-c", "grep -q schedule:work /proc/1/cmdline"]
+            interval: 30s
+            timeout: 5s
+            start_period: 30s
+            retries: 3
+
+    postgres:
+        image: postgres:16-alpine
+        restart: unless-stopped
+        environment:
+            POSTGRES_DB: ${DB_DATABASE:-courtwatch}
+            POSTGRES_USER: ${DB_USERNAME:-courtwatch}
+            POSTGRES_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env}
+        volumes:
+            - pgdata:/var/lib/postgresql/data
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""]
+            interval: 10s
+            timeout: 5s
+            retries: 10
+
+    redis:
+        image: redis:7-alpine
+        restart: unless-stopped
+        command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD:?Set REDIS_PASSWORD in .env}"]
+        environment:
+            REDISCLI_AUTH: ${REDIS_PASSWORD}
+        volumes:
+            - redisdata:/data
+        healthcheck:
+            test: ["CMD", "redis-cli", "ping"]
+            interval: 10s
+            timeout: 3s
+            retries: 10
+
+volumes:
+    storage:
+    pgdata:
+    redisdata:
+    caddy_data:
+    caddy_config:

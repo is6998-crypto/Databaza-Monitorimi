@@ -1,0 +1,117 @@
+# Development stack: `docker compose up` starts everything, migrates and seeds fake demo data.
+#   App:      http://localhost:8000         (staff panel: /admin, monitor app: /m, researchers: /research)
+#   Mailpit:  http://localhost:8025
+#   S3 console (RustFS): http://localhost:9001/rustfs/console/  (courtwatch / change-me-s3)
+name: courtwatch
+
+x-app-env: &app-env
+    DB_HOST: postgres
+    DB_PORT: "5432"
+    DB_DATABASE: courtwatch
+    DB_USERNAME: courtwatch
+    DB_PASSWORD: change-me
+    REDIS_HOST: redis
+    MAIL_HOST: mailpit
+    MAIL_PORT: "1025"
+    AWS_ENDPOINT: http://s3:9000
+    CODESPACE_NAME: ${CODESPACE_NAME:-}
+    GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN: ${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN:-}
+
+services:
+    app:
+        build:
+            context: .
+            dockerfile: docker/dev/Dockerfile
+        image: courtwatch-dev:latest
+        command: ["dev-entrypoint", "serve"]
+        environment: *app-env
+        ports:
+            - "8000:8000"
+        volumes:
+            - .:/var/www/html
+        depends_on:
+            postgres:
+                condition: service_healthy
+            redis:
+                condition: service_healthy
+            s3:
+                condition: service_healthy
+        healthcheck:
+            test: ["CMD", "curl", "-fsS", "http://localhost:8000/up"]
+            interval: 15s
+            timeout: 5s
+            retries: 5
+            start_period: 15m
+
+    horizon:
+        image: courtwatch-dev:latest
+        command: ["dev-entrypoint", "horizon"]
+        environment: *app-env
+        volumes:
+            - .:/var/www/html
+        depends_on:
+            - app
+
+    scheduler:
+        image: courtwatch-dev:latest
+        command: ["dev-entrypoint", "scheduler"]
+        environment: *app-env
+        volumes:
+            - .:/var/www/html
+        depends_on:
+            - app
+
+    postgres:
+        image: postgres:16-alpine
+        environment:
+            POSTGRES_DB: courtwatch
+            POSTGRES_USER: courtwatch
+            POSTGRES_PASSWORD: change-me
+        ports:
+            - "5432:5432"
+        volumes:
+            - pgdata:/var/lib/postgresql/data
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U courtwatch -d courtwatch"]
+            interval: 5s
+            timeout: 5s
+            retries: 20
+
+    redis:
+        image: redis:7-alpine
+        healthcheck:
+            test: ["CMD", "redis-cli", "ping"]
+            interval: 5s
+            timeout: 3s
+            retries: 20
+
+    # S3-compatible object storage. RustFS is MinIO-compatible (same API and ports); MinIO no
+    # longer publishes community Docker images. The app creates its bucket on start
+    # (php artisan app:ensure-bucket).
+    s3:
+        image: rustfs/rustfs:1.0.4
+        environment:
+            RUSTFS_ACCESS_KEY: courtwatch
+            RUSTFS_SECRET_KEY: change-me-s3
+            RUSTFS_VOLUMES: /data
+            RUSTFS_CONSOLE_ENABLE: "true"
+        ports:
+            - "9000:9000"
+            - "9001:9001"
+        volumes:
+            - s3data:/data
+        healthcheck:
+            test: ["CMD", "curl", "-fsS", "-o", "/dev/null", "http://localhost:9000/health"]
+            interval: 5s
+            timeout: 5s
+            retries: 20
+
+    mailpit:
+        image: axllent/mailpit:latest
+        ports:
+            - "8025:8025"
+            - "1025:1025"
+
+volumes:
+    pgdata:
+    s3data:

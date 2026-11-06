@@ -1,0 +1,20 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    level: 6
+    paths:
+        - app
+        - migration/src
+        - config
+        - database
+        - routes
+    excludePaths:
+        - database/migrations/*_create_permission_tables.php
+    tmpDir: storage/framework/cache/phpstan
+    treatPhpDocTypesAsCertain: false
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        # Filament closures are injected by name; their parameter types are resolved at runtime.
+        - identifier: missingType.iterableValue
+          path: app/Filament/*

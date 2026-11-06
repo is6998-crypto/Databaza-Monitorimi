@@ -1,0 +1,134 @@
+<?php
+
+return [
+    'panel' => 'Hulumtues',
+
+    'register' => [
+        'institution' => 'Institucioni',
+        'position' => 'Pozita',
+        'purpose' => 'Qëllimi i hulumtimit',
+        'purpose_help' => 'Përshkruani shkurt projektin, si do t\'i përdorni të dhënat dhe kush do të ketë qasje në to (të paktën 30 karaktere).',
+    ],
+
+    'dashboard' => [
+        'title' => 'Ballina',
+        'no_profile' => 'Kjo llogari nuk ka profil hulumtuesi.',
+        'pending_title' => 'Llogaria juaj është në pritje të miratimit',
+        'pending_body' => 'Faleminderit për regjistrimin. Një administrator do ta shqyrtojë kërkesën tuaj dhe do t\'ju njoftojë me email. Pas miratimit do t\'ju kërkohet të pranoni marrëveshjen për përdorimin e të dhënave.',
+        'rejected_title' => 'Qasja nuk është e mundshme',
+        'rejected_body' => 'Kërkesa juaj nuk është miratuar ose qasja juaj është pezulluar. Për pyetje kontaktoni organizatën.',
+        'agreement_title' => 'Pranoni marrëveshjen për përdorimin e të dhënave',
+        'agreement_body' => 'Llogaria juaj është miratuar. Para se të shkarkoni të dhëna ose të krijoni tokena API, lexoni dhe pranoni marrëveshjen për përdorimin e të dhënave.',
+        'approved_title' => 'Qasja juaj është aktive',
+        'approved_body' => 'Mund të shkarkoni grupet e anonimizuara të të dhënave dhe të përdorni API-në vetëm për lexim. Çdo shkarkim dhe çdo kërkesë API regjistrohet.',
+        'api_docs' => 'Dokumentacioni i API-së',
+        'rules_title' => 'Rregullat për përdorimin e të dhënave',
+        'rules' => [
+            'Të dhënat janë të anonimizuara: nuk përmbajnë emra, numra lëndësh apo të dhëna për gjyqtarë, prokurorë ose monitorues.',
+            'Mos u përpiqni të identifikoni persona apo lëndë konkrete, as duke i kombinuar të dhënat me burime të tjera.',
+            'Publikoni vetëm rezultate të agreguara; asnjëherë mos publikoni qeliza tabele që bazohen në më pak se 5 regjistrime.',
+            'Mos ua jepni të dhënat apo tokenat tuaj API personave të tjerë.',
+            'Çdo shkarkim dhe çdo kërkesë API regjistrohet me datën, llogarinë dhe filtrat e përdorur.',
+        ],
+    ],
+
+    'agreement' => [
+        'title' => 'Marrëveshja për përdorimin e të dhënave',
+        'version' => 'Versioni :version',
+        'clauses' => [
+            'Të dhënat jepen vetëm për qëllimin e hulumtimit të përshkruar në kërkesën tuaj, për hulumtim jokomercial, gazetari ose punë në politika publike.',
+            'Të dhënat janë të anonimizuara. Nuk do të përpiqeni të identifikoni asnjë person, lëndë gjyqësore, gjyqtar, prokuror apo monitorues, as duke i lidhur të dhënat me burime të tjera.',
+            'Do të publikoni vetëm rezultate të agreguara dhe nuk do të publikoni asnjë qelizë tabele që bazohet në më pak se 5 regjistrime.',
+            'Do t\'i ruani të dhënat në mënyrë të sigurt, nuk do t\'ua jepni ato apo tokenat tuaj API të tjerëve dhe do t\'i fshini kur të përfundojë hulumtimi.',
+            'Do ta citoni burimin si "Të dhënat e monitorimit gjyqësor CourtWatch" dhe do t\'i dërgoni organizatës një kopje të çdo publikimi që bazohet në to.',
+            'Përpunimi bëhet sipas Ligjit Nr. 06/L-082 për Mbrojtjen e të Dhënave Personale, me GDPR-në si referencë. Çdo shkarkim dhe çdo kërkesë API regjistrohet dhe qasja mund të pezullohet nëse këto kushte shkelen.',
+        ],
+        'accept' => 'Pranoj marrëveshjen',
+        'confirm' => 'E kam lexuar marrëveshjen dhe i pranoj kushtet e saj.',
+        'accepted' => 'Marrëveshja u pranua.',
+        'accepted_on' => 'E keni pranuar këtë marrëveshje më :date.',
+    ],
+
+    'datasets' => [
+        'title' => 'Grupet e të dhënave',
+        'intro' => 'Të dhëna të anonimizuara në nivel regjistrimi, vetëm nga lëndët e verifikuara (të miratuara ose të publikuara). Identifikuesit janë pseudonime të qëndrueshme, që lejojnë lidhjen e tabelave pa zbuluar identitetin e askujt.',
+        'download' => 'Shkarko',
+        'logged' => 'Çdo shkarkim regjistrohet në regjistrin e eksporteve.',
+        'cases' => [
+            'title' => 'Lëndët',
+            'description' => 'Një rresht për lëndë: lloji, gjykata, departamenti, nenet, datat dhe rezultatet e fazave, numri i seancave të monitoruara.',
+        ],
+        'parties' => [
+            'title' => 'Palët',
+            'description' => 'Një rresht për palë: roli, gjinia, kombësia, statusi ekonomik, pozita, mbrojtja, nenet e akuzës dhe dënimet. Pa emra.',
+        ],
+        'hearings' => [
+            'title' => 'Seancat',
+            'description' => 'Një rresht për seancë: data, lloji, vendi, publiciteti, vonesat, shtyrjet dhe arsyet, incizimi, përkthimi dhe pjesëmarrësit.',
+        ],
+    ],
+
+    'tokens' => [
+        'title' => 'Tokenat API',
+        'create' => 'Krijo token',
+        'name' => 'Emri i tokenit',
+        'expires' => 'Skadon pas (ditë)',
+        'created' => 'Tokeni u krijua. Kopjojeni tani: nuk do të shfaqet më.',
+        'created_at' => 'Krijuar më',
+        'last_used' => 'Përdorur së fundi',
+        'expires_at' => 'Skadon më',
+        'revoke' => 'Revoko',
+        'empty' => 'Nuk keni ende tokena API.',
+        'copy_now' => 'Kopjojeni tokenin tuaj tani',
+        'usage' => 'Dërgojeni në kokën "Authorization: Bearer <token>", për shembull te :url',
+        'docs' => 'Dokumentacioni i plotë i API-së:',
+    ],
+
+    'api' => [
+        'not_approved' => 'Qasja në API kërkon një llogari hulumtuesi të miratuar që ka pranuar marrëveshjen aktuale për përdorimin e të dhënave.',
+        'missing_ability' => 'Ky token nuk ka lejen "research:read".',
+    ],
+
+    'notifications' => [
+        'registered' => 'Hulumtues i ri në pritje të miratimit: :name',
+        'review' => 'Shqyrto',
+        'approved' => 'Llogaria juaj e hulumtuesit u miratua',
+        'approved_body' => 'Kërkesa juaj për qasje u miratua. Kyçuni dhe pranoni marrëveshjen për përdorimin e të dhënave për të filluar.',
+        'not_approved' => 'Përditësim për llogarinë tuaj të hulumtuesit',
+        'not_approved_body' => 'Qasja juaj në zonën e hulumtuesve nuk është aktive.',
+        'open' => 'Hap zonën e hulumtuesve',
+    ],
+
+    'admin' => [
+        'model' => 'Hulumtues',
+        'plural' => 'Hulumtuesit',
+        'note_help' => 'I dërgohet hulumtuesit me email.',
+        'fields' => [
+            'name' => 'Emri',
+            'email' => 'Email',
+            'status' => 'Statusi',
+            'agreement' => 'Marrëveshja e pranuar',
+            'registered_at' => 'Regjistruar më',
+            'reviewed_at' => 'Shqyrtuar më',
+            'reviewer' => 'Shqyrtuar nga',
+            'note' => 'Shënim për hulumtuesin',
+            'agreement_accepted_at' => 'Marrëveshja u pranua më',
+            'tokens' => 'Tokena API aktivë',
+        ],
+        'sections' => [
+            'applicant' => 'Aplikuesi',
+            'review' => 'Shqyrtimi',
+        ],
+        'actions' => [
+            'approve' => 'Mirato',
+            'approve_description' => 'Hulumtuesi njoftohet me email dhe, pasi të pranojë marrëveshjen për përdorimin e të dhënave, merr qasje në të dhënat e anonimizuara dhe në API.',
+            'approve_done' => 'Hulumtuesi u miratua.',
+            'reject' => 'Refuzo',
+            'reject_description' => 'Hulumtuesi njoftohet me email. Shkruani arsyen.',
+            'reject_done' => 'Kërkesa u refuzua.',
+            'suspend' => 'Pezullo',
+            'suspend_description' => 'Qasja përfundon menjëherë dhe të gjithë tokenat API revokohen. Hulumtuesi njoftohet me email.',
+            'suspend_done' => 'Qasja u pezullua.',
+        ],
+    ],
+];

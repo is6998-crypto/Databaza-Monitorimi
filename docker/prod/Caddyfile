@@ -1,0 +1,44 @@
+# CourtWatch on FrankenPHP (Caddy). With SERVER_NAME set to the domain name, Caddy obtains
+# and renews the TLS certificate automatically (Let's Encrypt) and redirects HTTP to HTTPS.
+{
+	frankenphp
+	servers {
+		trusted_proxies static private_ranges
+	}
+	# Extra global options, e.g. CADDY_GLOBAL_OPTIONS="email admin@example.org" for Let's Encrypt.
+	{$CADDY_GLOBAL_OPTIONS}
+}
+
+(courtwatch) {
+	root * /app/public
+	encode zstd br gzip
+
+	# Do not advertise the server software.
+	header -Server
+	header -X-Powered-By
+
+	# Fingerprinted build assets can be cached for a year; the service worker must be re-checked.
+	@build path /build/*
+	header @build Cache-Control "public, max-age=31536000, immutable"
+	@sw path /sw.js /manifest.webmanifest
+	header @sw Cache-Control "no-cache"
+
+	# Never serve hidden files.
+	@hidden path */.*
+	respond @hidden 404
+
+	php_server
+}
+
+{$SERVER_NAME::80} {
+	import courtwatch
+	log {
+		output stderr
+		format json
+	}
+}
+
+# Internal health check for the container (not published): GET http://127.0.0.1:8080/up
+http://127.0.0.1:8080 {
+	import courtwatch
+}
