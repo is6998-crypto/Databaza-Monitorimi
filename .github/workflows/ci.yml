@@ -22,13 +22,13 @@ jobs:
     name: Pint (code style)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ env.PHP_VERSION }}
           extensions: ${{ env.PHP_EXTENSIONS }}
           coverage: none
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: ~/.composer/cache/files
           key: composer-${{ hashFiles('composer.lock') }}
@@ -39,13 +39,13 @@ jobs:
     name: Larastan (static analysis)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ env.PHP_VERSION }}
           extensions: ${{ env.PHP_EXTENSIONS }}
           coverage: none
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: ~/.composer/cache/files
           key: composer-${{ hashFiles('composer.lock') }}
@@ -78,13 +78,13 @@ jobs:
       DB_USERNAME: courtwatch
       DB_PASSWORD: secret
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ env.PHP_VERSION }}
           extensions: ${{ env.PHP_EXTENSIONS }}
           coverage: none
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: ~/.composer/cache/files
           key: composer-${{ hashFiles('composer.lock') }}
