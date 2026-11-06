@@ -16,13 +16,8 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->append(SecurityHeaders::class);
 
-        // Behind a reverse proxy or load balancer, list its addresses (or "*") in TRUSTED_PROXIES
-        // so that HTTPS and client IPs (rate limits, audit log) are detected correctly.
-        $proxies = (string) env('TRUSTED_PROXIES', '');
-
-        if ($proxies !== '') {
-            $middleware->trustProxies(at: $proxies === '*' ? '*' : array_map('trim', explode(',', $proxies)));
-        }
+        // Proxies in front of the app (TRUSTED_PROXIES) are configured in config/trustedproxy.php:
+        // this callback runs before .env is loaded, so it must not read env() itself.
 
         // There is no generic /login route: guests go to the login page of their area.
         $middleware->redirectGuestsTo(fn (Request $request): string => $request->is('research', 'research/*') ? '/research/login' : '/admin/login');

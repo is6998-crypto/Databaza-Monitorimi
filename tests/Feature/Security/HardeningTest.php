@@ -40,6 +40,30 @@ it('adds HSTS and upgrades insecure requests over HTTPS', function () {
         ->and((string) $response->headers->get('Content-Security-Policy'))->toContain('upgrade-insecure-requests');
 });
 
+it('detects HTTPS behind a trusted proxy such as GitHub Codespaces', function () {
+    $forwarded = ['X-Forwarded-Proto' => 'https', 'X-Forwarded-Host' => 'demo-8000.app.github.dev', 'X-Forwarded-Port' => '443'];
+
+    // Not trusted: the forwarded headers are ignored and links stay http:// (blocked by browsers on an https page).
+    config(['trustedproxy.proxies' => null]);
+    expect((string) $this->get('/admin', $forwarded)->headers->get('Location'))->toStartWith('http://')->not->toContain('demo-8000');
+    $this->get('/sq', $forwarded)->assertHeaderMissing('Strict-Transport-Security');
+
+    config(['trustedproxy.proxies' => '*']);
+    $this->get('/admin', $forwarded)->assertRedirect('https://demo-8000.app.github.dev/admin/login');
+    $this->get('/sq', $forwarded)->assertHeader('Strict-Transport-Security');
+
+    // An empty TRUSTED_PROXIES means no proxy (not a proxy with an empty address).
+    $_ENV['TRUSTED_PROXIES'] = '';
+    putenv('TRUSTED_PROXIES=');
+
+    try {
+        expect((require config_path('trustedproxy.php'))['proxies'])->toBeNull();
+    } finally {
+        unset($_ENV['TRUSTED_PROXIES']);
+        putenv('TRUSTED_PROXIES');
+    }
+});
+
 it('can run the CSP in report-only mode or switch it off', function () {
     config(['courtwatch.security.csp' => 'report-only']);
     $this->get('/sq')->assertHeaderMissing('Content-Security-Policy')->assertHeader('Content-Security-Policy-Report-Only');

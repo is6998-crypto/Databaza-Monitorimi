@@ -56,6 +56,7 @@ All notable changes to this project are documented here. The format follows
   - The API documentation, error pages and the idle-timeout warning use the same two colours.
 
 ### Fixed
+- `TRUSTED_PROXIES` in `.env` was ignored (it was read before `.env` is loaded), so behind a proxy such as GitHub Codespaces the pages linked their styles and scripts over http:// and the browser blocked them. The setting is now read on every request (`config/trustedproxy.php`), and the dev container trusts the Codespaces proxy.
 - The introduction of the API documentation was shown as raw Markdown in a code box (indented text in `config/scribe.php`).
 - `composer docs:api` deleted the self-hosted libraries of the API documentation (Scribe empties `public/vendor/scribe`); they now live in `public/docs-assets`.
 - `docker compose up` failed on a clean machine because the `minio/minio` and `minio/mc` images can no longer be pulled.
