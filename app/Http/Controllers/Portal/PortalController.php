@@ -34,9 +34,15 @@ class PortalController extends Controller
 
     public function home(): View
     {
+        $recent = CourtCase::query()->verified()->with(PublicCasePresenter::relations())->latest('updated_at')->limit(3)->get();
+
         return view('portal.home', [
             'headline' => PortalStatistics::for(new AnalyticsFilters)->headline(),
             'publications' => Publication::query()->published()->latest('published_on')->limit(3)->get(),
+            // The hero shows the real product: the latest verified cases as the case search lists them
+            // (anonymized by the same presenter), and the month of the latest update (month and year only).
+            'recentCases' => $recent->map(fn (CourtCase $case): array => PublicCasePresenter::summary($case)),
+            'lastUpdate' => $recent->first()?->updated_at?->timezone((string) config('courtwatch.display_timezone', 'Europe/Belgrade'))->format('m.Y'),
         ]);
     }
 

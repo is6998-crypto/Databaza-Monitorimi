@@ -10,16 +10,17 @@
     .cw-card { @apply rounded-2xl bg-white p-5 ring-1 ring-slate-200/80; }
     .cw-card-title { @apply mb-3 block text-lg font-bold text-navy-900; }
     .cw-label { @apply mb-2 block text-sm font-semibold text-navy-900; }
-    .cw-input { @apply block w-full rounded-xl border border-slate-200 bg-white px-3.5 py-3 text-base text-navy-900 shadow-xs placeholder:text-slate-400 focus:border-gold-400 focus:ring-2 focus:ring-gold-200 focus:outline-none; }
-    .cw-primary { @apply rounded-xl bg-gold-400 px-4 py-3 text-sm font-bold text-navy-900 shadow-sm transition hover:bg-gold-300 disabled:opacity-50; }
-    .cw-secondary { @apply inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-bold text-navy-900 transition hover:border-navy-900; }
-    .cw-ghost { @apply rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-100; }
-    .cw-badge { @apply rounded-full px-2.5 py-1 text-xs font-bold; }
-    .cw-heading { @apply text-xs font-bold tracking-[0.14em] text-slate-500 uppercase; }
-    .cw-chip { @apply inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm font-semibold text-navy-900 transition; }
+    .cw-input { @apply block w-full rounded-xl border border-slate-300 bg-white px-3.5 py-3 text-base text-navy-900 transition-colors placeholder:text-slate-500 focus:border-navy-900 focus:ring-2 focus:ring-gold-300 focus:outline-none; }
+    .cw-primary { @apply min-h-12 rounded-xl bg-gold-400 px-4 py-3 text-[15px] font-bold text-navy-900 transition duration-150 hover:bg-gold-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy-900 active:scale-[.985] disabled:opacity-50; }
+    .cw-secondary { @apply inline-flex min-h-11 items-center justify-center rounded-xl border border-slate-300 bg-white px-4 text-[15px] font-bold text-navy-900 transition duration-150 hover:border-navy-900 hover:bg-navy-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-400 active:scale-[.985]; }
+    .cw-ghost { @apply inline-flex min-h-11 items-center rounded-xl px-3 text-[15px] font-semibold text-slate-600 transition-colors hover:bg-slate-100 hover:text-navy-900; }
+    .cw-badge { @apply rounded-full px-2.5 py-1 text-[13px] leading-none font-bold; }
+    /* Section headings in sentence case: spaced capitals are harder to read on a phone. */
+    .cw-heading { @apply text-sm font-bold text-slate-600; }
+    .cw-chip { @apply inline-flex min-h-11 items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-[15px] font-semibold text-navy-900 transition duration-150 active:scale-[.985]; }
     .cw-chip-on { @apply border-gold-400 bg-gold-100 ring-1 ring-gold-400; }
     .cw-segment { @apply grid grid-cols-2 gap-2; }
-    .cw-segment > button { @apply inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-3.5 text-sm font-bold text-navy-900 transition; }
+    .cw-segment > button { @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-3 py-3.5 text-[15px] font-bold text-navy-900 transition duration-150 active:scale-[.985]; }
     .cw-segment > button.cw-on { @apply border-gold-400 bg-gold-400 shadow-sm; }
 }
 
@@ -31,4 +32,8 @@
     height: 1rem;
     flex: none;
     background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230c2a42' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='m4.5 12.75 6 6 9-13.5'/%3e%3c/svg%3e") center / contain no-repeat;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after { transition-duration: 1ms !important; scale: none !important; }
 }

@@ -28,7 +28,7 @@
         @endif
 
         <x-filament::section :heading="__('research.dashboard.rules_title')">
-            <ul class="list-disc space-y-1 pl-5 text-sm">
+            <ul class="list-disc space-y-2 pl-5 text-[15px] leading-relaxed marker:text-gray-400">
                 @foreach (__('research.dashboard.rules') as $rule)<li>{{ $rule }}</li>@endforeach
             </ul>
         </x-filament::section>

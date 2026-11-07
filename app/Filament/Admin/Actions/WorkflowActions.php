@@ -55,7 +55,7 @@ final class WorkflowActions
         return Action::make('startReview')
             ->label(__('workflow.actions.start_review'))
             ->icon(WorkflowStatus::InReview->getIcon())
-            ->color('warning')
+            ->color('info')
             ->visible(fn (CourtCase|Hearing $record): bool => $record->status === WorkflowStatus::Submitted && Gate::allows('review', $record))
             ->action(self::run(fn (WorkflowService $workflow, CourtCase|Hearing $record, User $user) => $workflow->startReview($record, $user), 'workflow.done.in_review'));
     }
@@ -98,7 +98,7 @@ final class WorkflowActions
         return Action::make('publish')
             ->label(__('workflow.actions.publish'))
             ->icon(WorkflowStatus::Published->getIcon())
-            ->color('primary')
+            ->color('success')
             ->requiresConfirmation()
             ->modalDescription(__('workflow.actions.publish_help'))
             ->visible(fn (CourtCase|Hearing $record): bool => Gate::allows('publish', $record))

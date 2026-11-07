@@ -57,3 +57,6 @@ appendonlydir/
 
 # Local backup archives
 /storage/backups/
+
+# design-taste-frontend skill: local build state, checker profiles and screenshots
+/.taste-skill/

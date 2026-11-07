@@ -28,11 +28,11 @@ class PunctualityChart extends AnalyticsChart
 
     protected function getData(): array
     {
-        return $this->single($this->analytics()->punctuality()['causes'], fn (string $key): string => DelayCause::from($key)->getLabel(), __('dashboard.charts.delay_causes'));
+        return $this->single($this->analytics()->punctuality()['causes'], fn (string $key): string => DelayCause::from($key)->getLabel(), __('dashboard.charts.delay_causes'), ranked: true);
     }
 
     protected function getOptions(): array
     {
-        return ['plugins' => ['legend' => ['display' => false]], 'scales' => ['y' => ['beginAtZero' => true]]];
+        return $this->chartOptions(['indexAxis' => 'y', 'plugins' => ['legend' => ['display' => false]], 'scales' => ['x' => ['beginAtZero' => true], 'y' => ['grid' => ['display' => false]]]]);
     }
 }

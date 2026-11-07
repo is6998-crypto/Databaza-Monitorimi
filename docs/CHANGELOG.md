@@ -54,6 +54,26 @@ All notable changes to this project are documented here. The format follows
   - Public portal: navy header and footer, a navy introduction band on the home page, the headline numbers in one card with icons, charts in navy, yellow and grey (the latest year in yellow), filters in a side panel next to the case results, a navy step timeline on case pages and covers on report cards.
   - Monitor app: navy header, a yellow "new hearing" button, chosen answers in yellow with a check mark, and draft states told apart by style (draft yellow tint, waiting light navy, sent solid navy, error solid yellow).
   - The API documentation, error pages and the idle-timeout warning use the same two colours.
+- Public portal design pass (same colours, texts and pages):
+  - Every inner page (case search, case page, reports, open data, methodology, about, data protection) opens with the same navy band as the home page; the header stays at the top while scrolling.
+  - Home: the filters and the six headline numbers share one panel over the introduction band; the introduction arrives once on load (not under reduced motion).
+  - Charts: values printed at the end of each bar; doughnut charts no longer cut their labels off (the legend wraps underneath, the share is in the tooltip); axis text at 13px.
+  - Case and report cards are one link each, lift slightly on hover and show the case reference above the court; report covers show the type instead of repeating the logo.
+  - Labels in sentence case instead of spaced capitals, reading text at 15–16px, buttons and controls at least 44px high, a full-width phone menu with a close icon, pagination with the count above the page buttons.
+- Staff panel, researcher area, monitor app and error pages design pass (same colours and texts):
+  - Panels: sidebar group names and table column headings in sentence case; on detail pages a small grey label over a navy value; the active tab is a navy tint with a yellow bar; buttons step up on hover and press on click with a yellow focus ring; sign-in and two-factor pages sit on a navy band.
+  - Workflow buttons are all navy ("Start review" and "Publish" were yellow), so each screen keeps one yellow main button.
+  - Dashboard: an icon on every headline figure, the public/closed chart is a doughnut like the others, the timeline's month labels are straight and thinned out.
+  - Monitor app: the navy header runs the full window width, section headings in sentence case, larger tap targets and text (13px minimum), a press response on buttons, an arrow on recently sent rows.
+  - Error pages: the navy band and a yellow "Go to the home page" button.
+- Second design pass with the design-taste-frontend skill (same colours, texts and functions):
+  - Home: the first screen is a split hero: the question and the two actions at the left, the real case search at the right (the three latest verified cases, anonymized as everywhere on the portal) with a live "Last update" month. The statistics have a visible heading; chart titles are headings above the charts.
+  - Home: a "Methodology" section walks through its four steps (monitoring, verification, indicators, privacy) beside a drawing of the matching part of the platform; on a large screen the section holds while the steps open one at a time (the skill's pinned-chapters moment, served from `public/assets/moments`); on phones and under reduced motion every step stands with its picture.
+  - Home: the page closes with the tagline set large and "Search monitored cases" above the footer links; "All reports" is a button under the latest reports.
+  - Every public section sits on one container (1280px, the gutter as margin); the language switch is a quiet navy toggle; focus outlines are navy on light grounds and yellow on navy.
+  - Staff and researcher sign-in, two-factor and password pages: a navy brand panel at the left (logo, tagline, the privacy promise or the researchers' first rule) and the form at the right; the page heading arrives once on load.
+- New logo mark: a thick yellow square frame with its top-left and bottom-right corners cut on the diagonal (one drawing in `resources/views/partials/logo-mark.blade.php`, used by the portal, both panels, the monitor app and the error pages); new favicon and app icons.
+- Charts redrawn (portal and staff dashboard): one colour (navy) with yellow only for the latest year; the doughnuts are now ranked horizontal bars (largest first); the portal's comparisons are HTML bar lists with the value at each bar's end and nothing clipped; thin bars with rounded ends, hairline grids, white tooltips; the staff dashboard's slanted labels are gone (horizontal bars). Fixed: counts in the portal charts' data tables no longer show a stray "%".
 
 ### Fixed
 - In GitHub Codespaces the home page could send the browser to `localhost:8000` (the visitor's own computer), because the app saw the forwarded request as coming to localhost. In development, links are now built from `APP_URL` whenever it is an https address (the dev container sets it to the Codespace's address).

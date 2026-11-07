@@ -7,6 +7,7 @@ use App\Filament\Admin\Pages\Dashboard;
 use App\Filament\Auth\Login;
 use App\Filament\Support\InitialsAvatarProvider;
 use App\Http\Middleware\SetLocale;
+use App\Services\Anonymizer;
 use App\Support\Brand;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\Actions\Action;
@@ -107,6 +108,10 @@ class AdminPanelProvider extends PanelProvider
                     ->icon(Heroicon::OutlinedDevicePhoneMobile)
                     ->url(fn (): string => route('monitor.app')),
             ])
+            ->renderHook(PanelsRenderHook::SIMPLE_LAYOUT_START, fn () => view('filament.shared.auth-aside', [
+                'subtitle' => __('portal.home.kicker'),
+                'note' => __('portal.footer.privacy', ['threshold' => Anonymizer::threshold()]),
+            ]))
             ->renderHook(PanelsRenderHook::BODY_END, fn () => view('partials.idle-timeout', [
                 'logoutUrl' => route('filament.admin.auth.logout'),
                 'loginUrl' => route('filament.admin.auth.login'),

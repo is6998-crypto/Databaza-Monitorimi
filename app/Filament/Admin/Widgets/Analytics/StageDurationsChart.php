@@ -24,7 +24,7 @@ class StageDurationsChart extends AnalyticsChart
             'datasets' => [[
                 'label' => __('dashboard.charts.median_days'),
                 'data' => array_map(fn (array $row): ?float => $row['median'], $rows),
-                'backgroundColor' => self::PALETTE[1],
+                'backgroundColor' => self::PALETTE[0],
                 'borderWidth' => 0,
             ]],
             'labels' => array_map(fn (array $row): string => $row['label'].' (n='.$row['cases'].')', $rows),
@@ -33,6 +33,6 @@ class StageDurationsChart extends AnalyticsChart
 
     protected function getOptions(): array
     {
-        return ['indexAxis' => 'y', 'plugins' => ['legend' => ['display' => false]], 'scales' => ['x' => ['beginAtZero' => true]]];
+        return $this->chartOptions(['indexAxis' => 'y', 'plugins' => ['legend' => ['display' => false]], 'scales' => ['x' => ['beginAtZero' => true], 'y' => ['grid' => ['display' => false]]]]);
     }
 }

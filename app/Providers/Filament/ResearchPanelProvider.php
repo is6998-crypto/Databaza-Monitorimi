@@ -77,6 +77,10 @@ class ResearchPanelProvider extends PanelProvider
                     ->icon(Heroicon::OutlinedBookOpen)
                     ->url(fn (): string => url('/docs/api'), shouldOpenInNewTab: true),
             ])
+            ->renderHook(PanelsRenderHook::SIMPLE_LAYOUT_START, fn () => view('filament.shared.auth-aside', [
+                'subtitle' => __('research.panel'),
+                'note' => __('research.dashboard.rules')[0],
+            ]))
             ->renderHook(PanelsRenderHook::BODY_END, fn () => view('partials.idle-timeout', [
                 'logoutUrl' => route('filament.research.auth.logout'),
                 'loginUrl' => route('filament.research.auth.login'),

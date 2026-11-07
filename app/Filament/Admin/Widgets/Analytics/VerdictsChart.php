@@ -13,11 +13,21 @@ class VerdictsChart extends AnalyticsChart
 
     protected function getType(): string
     {
-        return 'doughnut';
+        return 'bar';
     }
 
     protected function getData(): array
     {
-        return $this->single($this->analytics()->verdicts(), fn (string $key): string => StageOutcome::from($key)->getLabel());
+        return $this->single($this->analytics()->verdicts(), fn (string $key): string => StageOutcome::from($key)->getLabel(), ranked: true);
+    }
+
+    /** Ranked horizontal bars in one hue (it was a doughnut: bars on one baseline compare more exactly). */
+    protected function getOptions(): array
+    {
+        return $this->chartOptions([
+            'indexAxis' => 'y',
+            'plugins' => ['legend' => ['display' => false]],
+            'scales' => ['x' => ['beginAtZero' => true], 'y' => ['grid' => ['display' => false]]],
+        ]);
     }
 }
