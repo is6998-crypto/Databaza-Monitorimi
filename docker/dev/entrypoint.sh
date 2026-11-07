@@ -33,6 +33,15 @@ prepare_app() {
         sed -i "s/^BLIND_INDEX_KEY=.*/BLIND_INDEX_KEY=${key}/" .env
     fi
 
+    # GitHub Codespaces forwards the app through a proxy that terminates HTTPS: trust its
+    # forwarded headers, otherwise links, styles and scripts are generated as http:// and the
+    # browser blocks them. Development only; production sets TRUSTED_PROXIES itself.
+    if grep -q '^TRUSTED_PROXIES=$' .env; then
+        sed -i 's#^TRUSTED_PROXIES=$#TRUSTED_PROXIES=*#' .env
+    elif ! grep -q '^TRUSTED_PROXIES=' .env; then
+        printf '\nTRUSTED_PROXIES=*\n' >> .env
+    fi
+
     if [ -n "${CODESPACE_NAME:-}" ] && [ -n "${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN:-}" ]; then
         url="https://${CODESPACE_NAME}-8000.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}"
         sed -i "s#^APP_URL=.*#APP_URL=${url}#" .env

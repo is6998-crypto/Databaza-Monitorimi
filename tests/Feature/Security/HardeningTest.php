@@ -3,11 +3,13 @@
 use App\Enums\Role;
 use App\Filament\Auth\Login;
 use App\Models\User;
+use App\Support\PublicUrl;
 use Filament\Facades\Filament;
 use Illuminate\Console\Scheduling\Event as ScheduledEvent;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 use Livewire\Livewire;
 
 /*
@@ -38,6 +40,55 @@ it('adds HSTS and upgrades insecure requests over HTTPS', function () {
 
     expect((string) $response->headers->get('Strict-Transport-Security'))->toContain('max-age=31536000')
         ->and((string) $response->headers->get('Content-Security-Policy'))->toContain('upgrade-insecure-requests');
+});
+
+it('detects HTTPS behind a trusted proxy such as GitHub Codespaces', function () {
+    $forwarded = ['X-Forwarded-Proto' => 'https', 'X-Forwarded-Host' => 'demo-8000.app.github.dev', 'X-Forwarded-Port' => '443'];
+
+    // Not trusted: the forwarded headers are ignored and links stay http:// (blocked by browsers on an https page).
+    config(['trustedproxy.proxies' => null]);
+    expect((string) $this->get('/admin', $forwarded)->headers->get('Location'))->toStartWith('http://')->not->toContain('demo-8000');
+    $this->get('/sq', $forwarded)->assertHeaderMissing('Strict-Transport-Security');
+
+    config(['trustedproxy.proxies' => '*']);
+    $this->get('/admin', $forwarded)->assertRedirect('https://demo-8000.app.github.dev/admin/login');
+    $this->get('/sq', $forwarded)->assertHeader('Strict-Transport-Security');
+
+    // An empty TRUSTED_PROXIES means no proxy (not a proxy with an empty address).
+    $_ENV['TRUSTED_PROXIES'] = '';
+    putenv('TRUSTED_PROXIES=');
+
+    try {
+        expect((require config_path('trustedproxy.php'))['proxies'])->toBeNull();
+    } finally {
+        unset($_ENV['TRUSTED_PROXIES']);
+        putenv('TRUSTED_PROXIES');
+    }
+});
+
+it('builds links from APP_URL in development behind an HTTPS address such as GitHub Codespaces', function () {
+    $environment = app()['env'];
+
+    try {
+        app()['env'] = 'local';
+        config(['app.url' => 'https://demo-8000.app.github.dev']);
+        PublicUrl::configure(app());
+
+        expect(route('portal.home', ['locale' => 'en']))->toBe('https://demo-8000.app.github.dev/en')
+            ->and(asset('build/app.css'))->toBe('https://demo-8000.app.github.dev/build/app.css');
+
+        // Plain local development keeps links on the address of the request.
+        URL::forceRootUrl(null);
+        URL::forceScheme(null);
+        config(['app.url' => 'http://localhost:8000']);
+        PublicUrl::configure(app());
+
+        expect(route('portal.home', ['locale' => 'en']))->not->toContain('app.github.dev')->toStartWith('http://');
+    } finally {
+        app()['env'] = $environment;
+        URL::forceRootUrl(null);
+        URL::forceScheme(null);
+    }
 });
 
 it('can run the CSP in report-only mode or switch it off', function () {

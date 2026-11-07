@@ -56,6 +56,8 @@ All notable changes to this project are documented here. The format follows
   - The API documentation, error pages and the idle-timeout warning use the same two colours.
 
 ### Fixed
+- In GitHub Codespaces the home page could send the browser to `localhost:8000` (the visitor's own computer), because the app saw the forwarded request as coming to localhost. In development, links are now built from `APP_URL` whenever it is an https address (the dev container sets it to the Codespace's address).
+- `TRUSTED_PROXIES` in `.env` was ignored (it was read before `.env` is loaded), so behind a proxy such as GitHub Codespaces the pages linked their styles and scripts over http:// and the browser blocked them. The setting is now read on every request (`config/trustedproxy.php`), and the dev container trusts the Codespaces proxy.
 - The introduction of the API documentation was shown as raw Markdown in a code box (indented text in `config/scribe.php`).
 - `composer docs:api` deleted the self-hosted libraries of the API documentation (Scribe empties `public/vendor/scribe`); they now live in `public/docs-assets`.
 - `docker compose up` failed on a clean machine because the `minio/minio` and `minio/mc` images can no longer be pulled.

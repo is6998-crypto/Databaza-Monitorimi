@@ -81,8 +81,12 @@ This takes a few minutes; the app is ready when the log says
 
 Open the repository on GitHub, choose **Code → Codespaces → Create codespace**. The dev
 container starts the same stack, migrates and seeds automatically and forwards port 8000;
-open the forwarded address when the "ready" message appears. Sign in with the demo accounts
-below.
+open the forwarded address when the "ready" message appears (the first start takes several
+minutes; the address is also under **Ports → 8000**). Sign in with the demo accounts below.
+GitHub serves the codespace over HTTPS through a proxy, which the dev container trusts
+(`TRUSTED_PROXIES=*`), and it sets `APP_URL` to the codespace's address, from which the app
+builds its links. If a link ever leads to `localhost`, put the forwarded address (from
+**Ports → 8000**) in `APP_URL` in `.env`.
 
 ## Demo logins (development only)
 
