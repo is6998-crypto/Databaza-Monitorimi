@@ -1,27 +1,54 @@
 @php
     use App\Services\Anonymizer;
     use App\Support\Brand;
-    $axisLabel = ['color' => '#677386'];
+    $axisLabel = ['color' => '#4b5768', 'fontSize' => 13];
     $bar = function (array $rows, string $color = Brand::NAVY, bool $horizontal = false, string $unit = '', bool $highlightLast = false) use ($axisLabel) {
         $data = array_values($rows);
         if ($highlightLast && $data !== []) {
             $data = array_map(fn ($value) => ['value' => $value], $data);
             $data[count($data) - 1]['itemStyle'] = ['color' => Brand::YELLOW];
         }
+        $suffix = $unit === '%' ? ' %' : '';
 
         return [
-            'grid' => ['left' => 16, 'right' => 24, 'top' => 24, 'bottom' => 8, 'containLabel' => true],
-            'tooltip' => ['trigger' => 'axis'],
-            $horizontal ? 'yAxis' : 'xAxis' => ['type' => 'category', 'data' => array_map('strval', array_keys($rows)), 'inverse' => $horizontal, 'axisTick' => ['show' => false], 'axisLine' => ['lineStyle' => ['color' => '#cbd1d9']], 'axisLabel' => $axisLabel],
-            $horizontal ? 'xAxis' : 'yAxis' => ['type' => 'value', 'name' => $unit, 'nameTextStyle' => $axisLabel, 'axisLabel' => $axisLabel, 'splitLine' => ['lineStyle' => ['color' => '#eceef1']]],
-            'series' => [['type' => 'bar', 'data' => $data, 'barMaxWidth' => 56, 'itemStyle' => ['color' => $color, 'borderRadius' => $horizontal ? [0, 6, 6, 0] : [6, 6, 0, 0]]]],
+            'grid' => ['left' => 8, 'right' => $horizontal ? 48 : 8, 'top' => 28, 'bottom' => 4, 'containLabel' => true],
+            'tooltip' => ['trigger' => 'axis', 'axisPointer' => ['type' => 'shadow', 'shadowStyle' => ['color' => 'rgba(12,42,66,0.05)']]],
+            $horizontal ? 'yAxis' : 'xAxis' => [
+                'type' => 'category',
+                'data' => array_map('strval', array_keys($rows)),
+                'inverse' => $horizontal,
+                'axisTick' => ['show' => false],
+                'axisLine' => ['lineStyle' => ['color' => '#cbd1d9']],
+                'axisLabel' => $horizontal ? $axisLabel + ['width' => 150, 'overflow' => 'break', 'lineHeight' => 16] : $axisLabel,
+            ],
+            // Horizontal bars carry their value at the bar's end, so the value axis shows only its grid lines.
+            $horizontal ? 'xAxis' : 'yAxis' => ['type' => 'value', 'name' => $horizontal ? '' : $unit, 'nameTextStyle' => $axisLabel, 'axisLabel' => $horizontal ? ['show' => false] : $axisLabel, 'splitLine' => ['lineStyle' => ['color' => '#eceef1']]],
+            'series' => [[
+                'type' => 'bar',
+                'data' => $data,
+                'barMaxWidth' => $horizontal ? 22 : 48,
+                'itemStyle' => ['color' => $color, 'borderRadius' => $horizontal ? [0, 4, 4, 0] : [4, 4, 0, 0]],
+                'label' => ['show' => true, 'position' => $horizontal ? 'right' : 'top', 'color' => '#0c2a42', 'fontSize' => 13, 'fontWeight' => 600, 'formatter' => '{c}'.$suffix],
+                'emphasis' => ['disabled' => true],
+            ]],
         ];
     };
+    // Doughnuts: no labels round the ring (they were cut off); the legend wraps underneath and the tooltip gives the share.
     $pie = fn (array $rows) => [
-        'tooltip' => ['trigger' => 'item'],
-        'legend' => ['bottom' => 0, 'type' => 'scroll', 'icon' => 'circle', 'textStyle' => ['color' => '#4b5768']],
+        'tooltip' => ['trigger' => 'item', 'formatter' => '{b}: {c} ({d} %)'],
+        'legend' => ['bottom' => 0, 'left' => 'center', 'type' => 'plain', 'icon' => 'circle', 'itemWidth' => 10, 'itemHeight' => 10, 'itemGap' => 14, 'textStyle' => ['color' => '#364254', 'fontSize' => 13]],
         'color' => Brand::CHART_PALETTE,
-        'series' => [['type' => 'pie', 'radius' => ['42%', '70%'], 'center' => ['50%', '45%'], 'itemStyle' => ['borderColor' => '#fff', 'borderWidth' => 2], 'label' => ['color' => '#364254'], 'data' => collect($rows)->map(fn ($value, $label) => ['name' => $label, 'value' => $value])->values()->all()]],
+        'series' => [[
+            'type' => 'pie',
+            'radius' => ['40%', '62%'],
+            'center' => ['50%', '40%'],
+            'avoidLabelOverlap' => true,
+            'itemStyle' => ['borderColor' => '#fff', 'borderWidth' => 2],
+            'label' => ['show' => false],
+            'labelLine' => ['show' => false],
+            'emphasis' => ['scale' => true, 'scaleSize' => 4],
+            'data' => collect($rows)->map(fn ($value, $label) => ['name' => $label, 'value' => $value])->values()->all(),
+        ]],
     ];
     $courtRates = collect($byCourt)->mapWithKeys(fn ($row) => [$row['court'] => $row['rate']])->all();
     $durationRows = collect($durations)->mapWithKeys(fn ($row) => [$row['label'] => $row['median']])->all();
@@ -35,52 +62,54 @@
     ];
 @endphp
 <div class="space-y-6" data-portal-statistics>
-    <form class="grid gap-4 rounded-2xl bg-white p-5 shadow-xl shadow-navy-900/10 ring-1 ring-slate-200/80 sm:grid-cols-4" wire:submit.prevent>
-        <label class="text-sm"><span class="portal-label">{{ __('portal.filters.year') }}</span>
-            <select wire:model.live="year" class="portal-input">
-                <option value="">{{ __('portal.filters.all_years') }}</option>
-                @foreach ($years as $option)<option value="{{ $option }}">{{ $option }}</option>@endforeach
-            </select></label>
-        <label class="text-sm"><span class="portal-label">{{ __('portal.filters.court') }}</span>
-            <select wire:model.live="court" class="portal-input">
-                <option value="">{{ __('portal.filters.all_courts') }}</option>
-                @foreach ($courts as $id => $label)<option value="{{ $id }}">{{ $label }}</option>@endforeach
-            </select></label>
-        <label class="text-sm"><span class="portal-label">{{ __('portal.filters.type') }}</span>
-            <select wire:model.live="type" class="portal-input">
-                <option value="">{{ __('portal.filters.all_types') }}</option>
-                @foreach ($types as $value => $label)<option value="{{ $value }}">{{ $label }}</option>@endforeach
-            </select></label>
-        <div class="flex items-end"><button type="button" wire:click="resetFilters" class="portal-btn-secondary w-full">{{ __('portal.filters.reset') }}</button></div>
-    </form>
+    <div class="portal-card overflow-hidden shadow-[0_24px_48px_-24px_rgb(12_42_66_/_0.35)]">
+        <form class="grid gap-4 p-5 sm:grid-cols-2 sm:p-6 lg:grid-cols-[repeat(3,minmax(0,1fr))_auto]" wire:submit.prevent>
+            <label class="text-sm"><span class="portal-label">{{ __('portal.filters.year') }}</span>
+                <select wire:model.live="year" class="portal-input">
+                    <option value="">{{ __('portal.filters.all_years') }}</option>
+                    @foreach ($years as $option)<option value="{{ $option }}">{{ $option }}</option>@endforeach
+                </select></label>
+            <label class="text-sm"><span class="portal-label">{{ __('portal.filters.court') }}</span>
+                <select wire:model.live="court" class="portal-input">
+                    <option value="">{{ __('portal.filters.all_courts') }}</option>
+                    @foreach ($courts as $id => $label)<option value="{{ $id }}">{{ $label }}</option>@endforeach
+                </select></label>
+            <label class="text-sm"><span class="portal-label">{{ __('portal.filters.type') }}</span>
+                <select wire:model.live="type" class="portal-input">
+                    <option value="">{{ __('portal.filters.all_types') }}</option>
+                    @foreach ($types as $value => $label)<option value="{{ $value }}">{{ $label }}</option>@endforeach
+                </select></label>
+            <div class="flex items-end"><button type="button" wire:click="resetFilters" class="portal-btn-secondary w-full lg:w-auto lg:px-6">{{ __('portal.filters.reset') }}</button></div>
+        </form>
 
-    <dl class="portal-card grid grid-cols-2 divide-slate-200/80 sm:grid-cols-3 lg:grid-cols-6 lg:divide-x" wire:loading.class="opacity-60">
-        @foreach ([
-            'cases' => [$headline['cases'], ''],
-            'hearings' => [$headline['hearings'], ''],
-            'postponement_rate' => [$headline['postponement_rate'], ' %'],
-            'late_rate' => [$headline['late_rate'], ' %'],
-            'public_rate' => [$headline['public_rate'], ' %'],
-            'conviction_rate' => [$headline['conviction_rate'], ' %'],
-        ] as $key => [$value, $suffix])
-            <div class="flex flex-col gap-3 p-5">
-                <span class="order-0 flex size-10 items-center justify-center rounded-xl bg-gold-100 text-navy-900" aria-hidden="true">
-                    <svg class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="{{ $icons[$key] }}"/></svg>
-                </span>
-                <dt class="order-2 -mt-2 text-sm font-medium text-slate-500">{{ __('portal.stats.'.$key) }}</dt>
-                <dd class="order-1 text-3xl font-extrabold tracking-tight text-navy-900 tabular-nums" data-stat="{{ $key }}">{{ Anonymizer::display($value, $suffix) }}</dd>
-            </div>
-        @endforeach
-    </dl>
+        <dl class="grid grid-cols-2 gap-px border-t border-navy-900/10 bg-navy-900/10 transition-opacity sm:grid-cols-3 lg:grid-cols-6" wire:loading.class="opacity-60">
+            @foreach ([
+                'cases' => [$headline['cases'], ''],
+                'hearings' => [$headline['hearings'], ''],
+                'postponement_rate' => [$headline['postponement_rate'], ' %'],
+                'late_rate' => [$headline['late_rate'], ' %'],
+                'public_rate' => [$headline['public_rate'], ' %'],
+                'conviction_rate' => [$headline['conviction_rate'], ' %'],
+            ] as $key => [$value, $suffix])
+                <div class="flex flex-col bg-white p-5 sm:p-6">
+                    <span class="flex size-9 items-center justify-center rounded-lg bg-gold-100 text-navy-900" aria-hidden="true">
+                        <svg class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="{{ $icons[$key] }}"/></svg>
+                    </span>
+                    <dt class="order-2 mt-1 text-[15px] leading-snug font-medium text-slate-600">{{ __('portal.stats.'.$key) }}</dt>
+                    <dd class="order-1 mt-4 text-[2rem] leading-none font-extrabold tracking-tight text-navy-900 tabular-nums" data-stat="{{ $key }}">{{ Anonymizer::display($value, $suffix) }}</dd>
+                </div>
+            @endforeach
+        </dl>
+    </div>
 
     <div class="grid gap-6 lg:grid-cols-2" wire:loading.class="opacity-60">
         @include('portal.partials.chart', ['title' => __('portal.charts.hearings_by_year'), 'option' => $bar($byYear, highlightLast: true), 'rows' => $byYear])
-        @include('portal.partials.chart', ['title' => __('portal.charts.cases_by_type'), 'option' => $pie($byType), 'rows' => $byType])
+        @include('portal.partials.chart', ['title' => __('portal.charts.cases_by_type'), 'option' => $pie($byType), 'rows' => $byType, 'tall' => true])
         @include('portal.partials.chart', ['title' => __('portal.charts.postponement_by_court'), 'option' => $bar($courtRates, Brand::YELLOW, true, '%'), 'rows' => $courtRates, 'suffix' => ' %'])
         @include('portal.partials.chart', ['title' => __('portal.charts.postponement_reasons'), 'option' => $bar($reasons, Brand::NAVY, true), 'rows' => $reasons])
-        @include('portal.partials.chart', ['title' => __('portal.charts.verdicts'), 'option' => $pie($verdicts), 'rows' => $verdicts])
+        @include('portal.partials.chart', ['title' => __('portal.charts.verdicts'), 'option' => $pie($verdicts), 'rows' => $verdicts, 'tall' => true])
         @include('portal.partials.chart', ['title' => __('portal.charts.durations'), 'option' => $bar($durationRows, Brand::NAVY_SOFT, true, __('portal.days')), 'rows' => $durationRows])
     </div>
 
-    <p class="flex gap-3 text-sm text-slate-500"><svg class="mt-0.5 size-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"/></svg>{{ __('portal.suppression_note', ['threshold' => Anonymizer::threshold()]) }}</p>
+    <p class="flex gap-3 text-[15px] leading-relaxed text-slate-600"><svg class="mt-0.5 size-5 shrink-0 text-navy-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"/></svg>{{ __('portal.suppression_note', ['threshold' => Anonymizer::threshold()]) }}</p>
 </div>

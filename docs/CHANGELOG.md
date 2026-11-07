@@ -54,6 +54,12 @@ All notable changes to this project are documented here. The format follows
   - Public portal: navy header and footer, a navy introduction band on the home page, the headline numbers in one card with icons, charts in navy, yellow and grey (the latest year in yellow), filters in a side panel next to the case results, a navy step timeline on case pages and covers on report cards.
   - Monitor app: navy header, a yellow "new hearing" button, chosen answers in yellow with a check mark, and draft states told apart by style (draft yellow tint, waiting light navy, sent solid navy, error solid yellow).
   - The API documentation, error pages and the idle-timeout warning use the same two colours.
+- Public portal design pass (same colours, texts and pages):
+  - Every inner page (case search, case page, reports, open data, methodology, about, data protection) opens with the same navy band as the home page; the header stays at the top while scrolling.
+  - Home: the filters and the six headline numbers share one panel over the introduction band; the introduction arrives once on load (not under reduced motion).
+  - Charts: values printed at the end of each bar; doughnut charts no longer cut their labels off (the legend wraps underneath, the share is in the tooltip); axis text at 13px.
+  - Case and report cards are one link each, lift slightly on hover and show the case reference above the court; report covers show the type instead of repeating the logo.
+  - Labels in sentence case instead of spaced capitals, reading text at 15–16px, buttons and controls at least 44px high, a full-width phone menu with a close icon, pagination with the count above the page buttons.
 
 ### Fixed
 - In GitHub Codespaces the home page could send the browser to `localhost:8000` (the visitor's own computer), because the app saw the forwarded request as coming to localhost. In development, links are now built from `APP_URL` whenever it is an https address (the dev container sets it to the Codespace's address).

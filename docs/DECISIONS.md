@@ -143,6 +143,7 @@ added at the bottom of each section. Format: **decision** — reason.
 - **The yellow palette ends in navy (shades 700–950).** — Filament picks the colour of text on a yellow button or badge, and of yellow-role text on white, from the palette by contrast; ending it in navy gives navy text (9.6:1 on yellow) and never a dark yellow, which reads as brown or orange.
 - **The API documentation keeps Scribe's generated page and gets the brand colours from `public/docs-assets/courtwatch.css`, linked when the page is served.** — Regenerating the docs keeps working.
 - **Dark mode in the panels is kept and uses the same palette (navy greys).** The portal has no dark design, so `dark:` classes from vendor views (pagination) are switched off there.
+- **The public portal follows one small system (`resources/css/portal.css`):** one card (white, one hairline, no shadow at rest; a card that links somewhere lifts 2px on hover), one button pair (yellow primary, outlined secondary, a 1px step on hover and a press), one link look, sentence-case labels and 44px targets. Motion is limited to hover/press feedback and a one-time entrance of the first screen; nothing animates on scroll and reduced motion turns it off. — From a design pass with the "design-taste-frontend" skill; its rules that would change colours, copy or page structure (dealt palettes, stock photographs, one section per screen) were not applied, because the colours and content are fixed.
 
 ## Tests and documentation
 

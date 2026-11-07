@@ -10,30 +10,87 @@
 /* The portal has no dark design: `dark:` classes in vendor views (pagination) stay off. */
 @custom-variant dark (&:where(.dark, .dark *));
 
+
 [x-cloak] { display: none !important; }
 
+/* The sticky header covers the top of an anchor target: keep focused and jumped-to content clear of it. */
+html { scroll-padding-top: 5rem; }
+
+/*
+ * One system for every public page:
+ * - one card (white, one hairline, no shadow at rest); a card that links somewhere lifts 2px on hover;
+ * - one button pair (filled yellow primary, outlined secondary), 44px high, a 1px step on hover and a press;
+ * - one link look (navy, a yellow underline that turns navy);
+ * - labels in sentence case, never tracked capitals; text people read at 15-16px.
+ */
 @layer components {
-    .portal-input { @apply block w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-navy-900 shadow-xs placeholder:text-slate-400 focus:border-gold-400 focus:ring-2 focus:ring-gold-200 focus:outline-none; }
+    .portal-wrap { @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8; }
+
+    .portal-input { @apply block min-h-11 w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-[15px] text-navy-900 transition-colors placeholder:text-slate-500 hover:border-slate-400 focus:border-navy-900 focus:ring-2 focus:ring-gold-300 focus:outline-none; }
     .portal-label { @apply mb-1.5 block text-sm font-semibold text-navy-900; }
-    .portal-card { @apply rounded-2xl border border-slate-200/80 bg-white; }
-    .portal-heading { @apply text-4xl font-extrabold tracking-tight text-navy-900 sm:text-5xl; }
-    .portal-kicker { @apply flex items-center gap-3 text-sm font-bold tracking-[0.14em] text-navy-900 uppercase before:h-5 before:w-1 before:rounded-full before:bg-gold-400 before:content-['']; }
-    .portal-btn-primary { @apply inline-flex items-center justify-center gap-2 rounded-xl bg-gold-400 px-5 py-3 text-sm font-bold text-navy-900 transition hover:bg-gold-300; }
-    .portal-btn-secondary { @apply inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-bold text-navy-900 transition hover:border-navy-900; }
-    .portal-chip { @apply inline-flex items-center rounded-full px-2.5 py-1 text-xs font-bold; }
-    .portal-link { @apply font-bold text-navy-900 underline decoration-gold-400 decoration-2 underline-offset-4 hover:decoration-navy-900; }
+
+    .portal-card { @apply rounded-2xl border border-navy-900/10 bg-white; }
+    .portal-card-link { @apply relative transition duration-150 ease-out hover:border-navy-900/30 hover:-translate-y-0.5 hover:shadow-[0_12px_24px_-12px_rgb(12_42_66_/_0.18)] focus-within:border-navy-900/30; }
+    /* The card's main link covers the whole card, so the card is one target. */
+    .portal-stretched { @apply after:absolute after:inset-0 after:rounded-2xl after:content-[''] focus-visible:outline-none focus-visible:after:ring-2 focus-visible:after:ring-gold-400 focus-visible:after:ring-offset-2; }
+
+    .portal-heading { @apply text-4xl leading-[1.08] font-extrabold tracking-tight text-balance sm:text-5xl; }
+    .portal-lead { @apply max-w-3xl text-lg leading-relaxed text-pretty; }
+    .portal-kicker { @apply flex items-center gap-3 text-[15px] font-bold text-gold-400 before:h-4 before:w-1 before:shrink-0 before:rounded-full before:bg-gold-400 before:content-['']; }
+    .portal-meta { @apply text-[13px] font-semibold text-slate-600; }
+    .portal-section-title { @apply text-2xl font-extrabold tracking-tight text-navy-900 sm:text-3xl; }
+
+    .portal-btn-primary { @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-5 text-[15px] font-bold transition duration-150 ease-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-400 active:translate-y-px active:scale-[.985] hover:-translate-y-px bg-gold-400 text-navy-900 hover:bg-gold-300; }
+    .portal-btn-secondary { @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-5 text-[15px] font-bold transition duration-150 ease-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-400 active:translate-y-px active:scale-[.985] hover:-translate-y-px border border-slate-300 bg-white text-navy-900 hover:border-navy-900 hover:bg-navy-50; }
+    /* The secondary button on the navy band. */
+    .portal-btn-inverse { @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-5 text-[15px] font-bold transition duration-150 ease-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-400 active:translate-y-px active:scale-[.985] hover:-translate-y-px border border-white/35 text-white hover:border-white hover:bg-white/10; }
+
+    .portal-chip { @apply inline-flex items-center rounded-full px-2.5 py-1 text-[13px] leading-none font-bold; }
+    .portal-link { @apply font-bold text-navy-900 underline decoration-gold-400 decoration-2 underline-offset-4 transition-colors hover:decoration-navy-900; }
+    .portal-arrow { @apply size-4 shrink-0 transition-transform duration-150 ease-out; }
+    .group:hover .portal-arrow, .portal-btn-primary:hover .portal-arrow { @apply translate-x-[3px]; }
+}
+
+/* The first screen arrives once on load: the heading, then what follows it. Never on scroll. */
+@keyframes portal-rise {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    [data-enter] > * {
+        animation: portal-rise 520ms cubic-bezier(.22, 1, .36, 1) both;
+    }
+
+    [data-enter] > :nth-child(2) { animation-delay: 80ms; }
+    [data-enter] > :nth-child(3) { animation-delay: 200ms; }
+    [data-enter] > :nth-child(4) { animation-delay: 260ms; }
+    [data-enter] > :nth-child(n + 5) { animation-delay: 320ms; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after { transition-duration: 1ms !important; translate: none !important; scale: none !important; }
 }
 
 /* Pagination (Livewire and Laravel views): rounded buttons, the current page in yellow. */
 .cw-pagination nav[role='navigation'] {
+    /* The result count above the page buttons, so neither wraps beside the other. */
+    & > div:last-child {
+        @apply flex-col items-start gap-3;
+    }
+
+    & p {
+        @apply text-[15px] text-slate-600;
+    }
+
     & a,
     & span[aria-disabled] > span,
     & span[aria-current] > span {
-        @apply rounded-lg border-slate-200 font-semibold text-navy-900;
+        @apply min-h-10 min-w-10 justify-center rounded-lg border-slate-300 font-semibold text-navy-900;
     }
 
     & span.relative.z-0 {
-        @apply gap-1.5 shadow-none;
+        @apply flex-wrap gap-1.5 shadow-none;
     }
 
     & span[aria-current='page'] > span {
@@ -41,7 +98,7 @@
     }
 
     & a:hover {
-        @apply border-navy-900 text-navy-900;
+        @apply border-navy-900 bg-navy-50 text-navy-900;
     }
 
     & a:focus-visible {
