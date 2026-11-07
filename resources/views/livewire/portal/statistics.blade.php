@@ -1,55 +1,48 @@
 @php
     use App\Services\Anonymizer;
     use App\Support\Brand;
-    $axisLabel = ['color' => '#4b5768', 'fontSize' => 13];
-    $bar = function (array $rows, string $color = Brand::NAVY, bool $horizontal = false, string $unit = '', bool $highlightLast = false) use ($axisLabel) {
-        $data = array_values($rows);
-        if ($highlightLast && $data !== []) {
-            $data = array_map(fn ($value) => ['value' => $value], $data);
-            $data[count($data) - 1]['itemStyle'] = ['color' => Brand::YELLOW];
-        }
-        $suffix = $unit === '%' ? ' %' : '';
+    // The one trend (hearings per year): thin navy columns, the latest year in yellow and labelled, recessive axes.
+    // Every comparison below is a ranked bar list in HTML (portal.partials.bar-list): no doughnuts, nothing clipped.
+    $columns = function (array $rows): array {
+        $values = array_values($rows);
+        $last = count($values) - 1;
 
         return [
-            'grid' => ['left' => 8, 'right' => $horizontal ? 48 : 8, 'top' => 28, 'bottom' => 4, 'containLabel' => true],
-            'tooltip' => ['trigger' => 'axis', 'axisPointer' => ['type' => 'shadow', 'shadowStyle' => ['color' => 'rgba(12,42,66,0.05)']]],
-            $horizontal ? 'yAxis' : 'xAxis' => [
+            'grid' => ['left' => 4, 'right' => 4, 'top' => 32, 'bottom' => 4, 'containLabel' => true],
+            'tooltip' => [
+                'trigger' => 'axis',
+                'axisPointer' => ['type' => 'shadow', 'shadowStyle' => ['color' => 'rgba(12,42,66,0.04)']],
+                'backgroundColor' => '#ffffff', 'borderColor' => '#e2e5ea', 'borderWidth' => 1, 'padding' => [8, 12],
+                'textStyle' => ['color' => '#0c2a42', 'fontSize' => 13],
+                'extraCssText' => 'border-radius:10px;box-shadow:0 8px 24px -12px rgba(12,42,66,.3);',
+            ],
+            'xAxis' => [
                 'type' => 'category',
                 'data' => array_map('strval', array_keys($rows)),
-                'inverse' => $horizontal,
                 'axisTick' => ['show' => false],
                 'axisLine' => ['lineStyle' => ['color' => '#cbd1d9']],
-                'axisLabel' => $horizontal ? $axisLabel + ['width' => 150, 'overflow' => 'break', 'lineHeight' => 16] : $axisLabel,
+                'axisLabel' => ['color' => '#4b5768', 'fontSize' => 13, 'margin' => 12],
             ],
-            // Horizontal bars carry their value at the bar's end, so the value axis shows only its grid lines.
-            $horizontal ? 'xAxis' : 'yAxis' => ['type' => 'value', 'name' => $horizontal ? '' : $unit, 'nameTextStyle' => $axisLabel, 'axisLabel' => $horizontal ? ['show' => false] : $axisLabel, 'splitLine' => ['lineStyle' => ['color' => '#eceef1']]],
+            'yAxis' => [
+                'type' => 'value',
+                'splitNumber' => 4,
+                'axisLabel' => ['color' => '#677386', 'fontSize' => 13],
+                'splitLine' => ['lineStyle' => ['color' => '#eceef1']],
+            ],
             'series' => [[
                 'type' => 'bar',
-                'data' => $data,
-                'barMaxWidth' => $horizontal ? 22 : 48,
-                'itemStyle' => ['color' => $color, 'borderRadius' => $horizontal ? [0, 4, 4, 0] : [4, 4, 0, 0]],
-                'label' => ['show' => true, 'position' => $horizontal ? 'right' : 'top', 'color' => '#0c2a42', 'fontSize' => 13, 'fontWeight' => 600, 'formatter' => '{c}'.$suffix],
+                'barMaxWidth' => 28,
+                'itemStyle' => ['borderRadius' => [4, 4, 0, 0]],
+                'label' => ['position' => 'top', 'distance' => 8, 'color' => '#0c2a42', 'fontSize' => 13, 'fontWeight' => 700],
                 'emphasis' => ['disabled' => true],
+                'data' => array_map(fn ($value, int $i): array => [
+                    'value' => $value,
+                    'itemStyle' => ['color' => $i === $last ? Brand::YELLOW : Brand::NAVY],
+                    'label' => ['show' => $i === $last],
+                ], $values, array_keys($values)),
             ]],
         ];
     };
-    // Doughnuts: no labels round the ring (they were cut off); the legend wraps underneath and the tooltip gives the share.
-    $pie = fn (array $rows) => [
-        'tooltip' => ['trigger' => 'item', 'formatter' => '{b}: {c} ({d} %)'],
-        'legend' => ['bottom' => 0, 'left' => 'center', 'type' => 'plain', 'icon' => 'circle', 'itemWidth' => 10, 'itemHeight' => 10, 'itemGap' => 14, 'textStyle' => ['color' => '#364254', 'fontSize' => 13]],
-        'color' => Brand::CHART_PALETTE,
-        'series' => [[
-            'type' => 'pie',
-            'radius' => ['40%', '62%'],
-            'center' => ['50%', '40%'],
-            'avoidLabelOverlap' => true,
-            'itemStyle' => ['borderColor' => '#fff', 'borderWidth' => 2],
-            'label' => ['show' => false],
-            'labelLine' => ['show' => false],
-            'emphasis' => ['scale' => true, 'scaleSize' => 4],
-            'data' => collect($rows)->map(fn ($value, $label) => ['name' => $label, 'value' => $value])->values()->all(),
-        ]],
-    ];
     $courtRates = collect($byCourt)->mapWithKeys(fn ($row) => [$row['court'] => $row['rate']])->all();
     $durationRows = collect($durations)->mapWithKeys(fn ($row) => [$row['label'] => $row['median']])->all();
     $icons = [
@@ -103,12 +96,12 @@
     </div>
 
     <div class="grid gap-6 lg:grid-cols-2" wire:loading.class="opacity-60">
-        @include('portal.partials.chart', ['title' => __('portal.charts.hearings_by_year'), 'option' => $bar($byYear, highlightLast: true), 'rows' => $byYear])
-        @include('portal.partials.chart', ['title' => __('portal.charts.cases_by_type'), 'option' => $pie($byType), 'rows' => $byType, 'tall' => true])
-        @include('portal.partials.chart', ['title' => __('portal.charts.postponement_by_court'), 'option' => $bar($courtRates, Brand::YELLOW, true, '%'), 'rows' => $courtRates, 'suffix' => ' %'])
-        @include('portal.partials.chart', ['title' => __('portal.charts.postponement_reasons'), 'option' => $bar($reasons, Brand::NAVY, true), 'rows' => $reasons])
-        @include('portal.partials.chart', ['title' => __('portal.charts.verdicts'), 'option' => $pie($verdicts), 'rows' => $verdicts, 'tall' => true])
-        @include('portal.partials.chart', ['title' => __('portal.charts.durations'), 'option' => $bar($durationRows, Brand::NAVY_SOFT, true, __('portal.days')), 'rows' => $durationRows])
+        @include('portal.partials.chart', ['title' => __('portal.charts.hearings_by_year'), 'option' => $columns($byYear), 'rows' => $byYear, 'suffix' => ''])
+        @include('portal.partials.bar-list', ['title' => __('portal.charts.cases_by_type'), 'rows' => $byType, 'suffix' => '', 'scale' => 'max', 'ranked' => true])
+        @include('portal.partials.bar-list', ['title' => __('portal.charts.postponement_by_court'), 'rows' => $courtRates, 'suffix' => ' %', 'scale' => 'percent', 'ranked' => true])
+        @include('portal.partials.bar-list', ['title' => __('portal.charts.postponement_reasons'), 'rows' => $reasons, 'suffix' => '', 'scale' => 'max', 'ranked' => true])
+        @include('portal.partials.bar-list', ['title' => __('portal.charts.verdicts'), 'rows' => $verdicts, 'suffix' => '', 'scale' => 'max', 'ranked' => true])
+        @include('portal.partials.bar-list', ['title' => __('portal.charts.durations'), 'rows' => $durationRows, 'suffix' => ' '.__('portal.days'), 'scale' => 'max', 'ranked' => false])
     </div>
 
     <p class="flex gap-3 text-[15px] leading-relaxed text-slate-600"><svg class="mt-0.5 size-5 shrink-0 text-navy-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"/></svg>{{ __('portal.suppression_note', ['threshold' => Anonymizer::threshold()]) }}</p>

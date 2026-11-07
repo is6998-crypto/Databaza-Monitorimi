@@ -29,8 +29,10 @@ class HearingsOverTimeChart extends AnalyticsChart
                 'label' => __('dashboard.stats.hearings'),
                 'data' => array_values($series),
                 'borderColor' => self::PALETTE[0],
-                'backgroundColor' => 'rgba(248, 195, 58, 0.22)',
+                'backgroundColor' => 'rgba(12, 42, 66, 0.08)',
                 'pointBackgroundColor' => self::PALETTE[0],
+                'pointRadius' => 0,
+                'pointHoverRadius' => 5,
                 'fill' => true,
                 'tension' => 0.3,
             ]],
@@ -41,13 +43,12 @@ class HearingsOverTimeChart extends AnalyticsChart
     /** One dataset (named in the heading), month labels kept straight and thinned out. */
     protected function getOptions(): array
     {
-        return [
+        return $this->chartOptions([
             'plugins' => ['legend' => ['display' => false]],
-            'elements' => ['point' => ['radius' => 2, 'hoverRadius' => 5]],
             'scales' => [
                 'x' => ['grid' => ['display' => false], 'ticks' => ['autoSkip' => true, 'maxRotation' => 0, 'maxTicksLimit' => 12]],
                 'y' => ['beginAtZero' => true],
             ],
-        ];
+        ]);
     }
 }

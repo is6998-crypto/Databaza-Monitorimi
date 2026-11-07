@@ -72,6 +72,8 @@ All notable changes to this project are documented here. The format follows
   - Home: the page closes with the tagline set large and "Search monitored cases" above the footer links; "All reports" is a button under the latest reports.
   - Every public section sits on one container (1280px, the gutter as margin); the language switch is a quiet navy toggle; focus outlines are navy on light grounds and yellow on navy.
   - Staff and researcher sign-in, two-factor and password pages: a navy brand panel at the left (logo, tagline, the privacy promise or the researchers' first rule) and the form at the right; the page heading arrives once on load.
+- New logo mark: a thick yellow square frame with its top-left and bottom-right corners cut on the diagonal (one drawing in `resources/views/partials/logo-mark.blade.php`, used by the portal, both panels, the monitor app and the error pages); new favicon and app icons.
+- Charts redrawn (portal and staff dashboard): one colour (navy) with yellow only for the latest year; the doughnuts are now ranked horizontal bars (largest first); the portal's comparisons are HTML bar lists with the value at each bar's end and nothing clipped; thin bars with rounded ends, hairline grids, white tooltips; the staff dashboard's slanted labels are gone (horizontal bars). Fixed: counts in the portal charts' data tables no longer show a stray "%".
 
 ### Fixed
 - In GitHub Codespaces the home page could send the browser to `localhost:8000` (the visitor's own computer), because the app saw the forwarded request as coming to localhost. In development, links are now built from `APP_URL` whenever it is an https address (the dev container sets it to the Codespace's address).

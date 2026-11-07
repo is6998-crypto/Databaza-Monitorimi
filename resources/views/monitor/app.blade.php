@@ -31,7 +31,7 @@
         <div class="flex items-center justify-between gap-3">
             <div class="min-w-0">
                 <p class="flex items-center gap-1.5 text-[13px] font-bold text-white/70">
-                    <svg class="size-3.5 shrink-0" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><path d="M7.5 7.5h19v6h6v19h-19v-6h-6z" fill="none" stroke="#f8c33a" stroke-width="6"/></svg>
+                    @include('partials.logo-mark', ['class' => 'size-3.5 shrink-0'])
                     CourtWatch
                 </p>
                 <h1 class="truncate text-base font-extrabold leading-tight sm:text-lg">{{ __('monitor.title') }}</h1>

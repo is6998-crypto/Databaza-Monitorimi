@@ -39,7 +39,7 @@
 </head>
 <body>
     <main>
-        <p class="brand"><svg viewBox="0 0 40 40" aria-hidden="true" focusable="false"><path d="M7.5 7.5h19v6h6v19h-19v-6h-6z" fill="none" stroke="#f8c33a" stroke-width="5"/></svg>CourtWatch</p>
+        <p class="brand"><svg viewBox="0 0 40 40" aria-hidden="true" focusable="false"><path fill="#f8c33a" fill-rule="evenodd" d="M10 4h26v26l-6 6H4V10zM9.5 9.5v21h21v-21z"/></svg>CourtWatch</p>
         <p class="code">{{ $code }}</p>
         <h1>{{ __('errors.'.$code.'.title', [], $locale) }}</h1>
         <p>{{ __('errors.'.$code.'.message', [], $locale) }}</p>

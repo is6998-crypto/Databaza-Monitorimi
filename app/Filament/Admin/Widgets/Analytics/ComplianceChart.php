@@ -26,6 +26,6 @@ class ComplianceChart extends AnalyticsChart
 
     protected function getOptions(): array
     {
-        return ['plugins' => ['legend' => ['display' => false]], 'scales' => ['y' => ['beginAtZero' => true, 'max' => 100]]];
+        return $this->chartOptions(['indexAxis' => 'y', 'plugins' => ['legend' => ['display' => false]], 'scales' => ['x' => ['beginAtZero' => true, 'max' => 100], 'y' => ['grid' => ['display' => false]]]]);
     }
 }

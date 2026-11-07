@@ -32,7 +32,7 @@
                 {{-- The window runs off the frame's right and lower edges: a glimpse of the case search, at true size. --}}
                 <div class="ui absolute top-8 bottom-0 left-8 w-[34rem] max-w-none overflow-hidden rounded-t-xl bg-white text-slate-700 shadow-[0_32px_64px_-24px_rgb(0_0_0_/_0.5)] sm:top-10 sm:left-10" data-ui="case-search">
                     <div class="flex items-center gap-3 border-b border-navy-900/10 px-5 py-3.5">
-                        <svg class="size-5 shrink-0" viewBox="0 0 40 40" aria-hidden="true"><path d="M7.5 7.5h19v6h6v19h-19v-6h-6z" fill="none" stroke="#f8c33a" stroke-width="6"/></svg>
+                        @include('partials.logo-mark', ['class' => 'size-5 shrink-0'])
                         <p class="text-[15px] font-bold text-navy-900">{{ __('portal.cases.title') }}</p>
                     </div>
                     <div class="px-5 pt-4">
