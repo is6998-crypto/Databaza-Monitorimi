@@ -3,11 +3,13 @@
 use App\Enums\Role;
 use App\Filament\Auth\Login;
 use App\Models\User;
+use App\Support\PublicUrl;
 use Filament\Facades\Filament;
 use Illuminate\Console\Scheduling\Event as ScheduledEvent;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 use Livewire\Livewire;
 
 /*
@@ -61,6 +63,31 @@ it('detects HTTPS behind a trusted proxy such as GitHub Codespaces', function ()
     } finally {
         unset($_ENV['TRUSTED_PROXIES']);
         putenv('TRUSTED_PROXIES');
+    }
+});
+
+it('builds links from APP_URL in development behind an HTTPS address such as GitHub Codespaces', function () {
+    $environment = app()['env'];
+
+    try {
+        app()['env'] = 'local';
+        config(['app.url' => 'https://demo-8000.app.github.dev']);
+        PublicUrl::configure(app());
+
+        expect(route('portal.home', ['locale' => 'en']))->toBe('https://demo-8000.app.github.dev/en')
+            ->and(asset('build/app.css'))->toBe('https://demo-8000.app.github.dev/build/app.css');
+
+        // Plain local development keeps links on the address of the request.
+        URL::forceRootUrl(null);
+        URL::forceScheme(null);
+        config(['app.url' => 'http://localhost:8000']);
+        PublicUrl::configure(app());
+
+        expect(route('portal.home', ['locale' => 'en']))->not->toContain('app.github.dev')->toStartWith('http://');
+    } finally {
+        app()['env'] = $environment;
+        URL::forceRootUrl(null);
+        URL::forceScheme(null);
     }
 });
 

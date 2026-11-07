@@ -17,6 +17,7 @@ use App\Observers\RecentValuesObserver;
 use App\Policies\ActivityPolicy;
 use App\Policies\CaseChildPolicy;
 use App\Policies\RolePolicy;
+use App\Support\PublicUrl;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
@@ -33,7 +34,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Permission\Events\PermissionAttachedEvent;
@@ -64,10 +64,8 @@ class AppServiceProvider extends ServiceProvider
 
         Event::listen(DiagnosingHealth::class, CheckApplicationHealth::class);
 
-        // Behind TLS (Caddy/FrankenPHP or a proxy) every generated URL must be https.
-        if ($this->app->isProduction() && str_starts_with((string) config('app.url'), 'https://')) {
-            URL::forceScheme('https');
-        }
+        // Links are https behind TLS, and use APP_URL behind a forwarding address (Codespaces).
+        PublicUrl::configure($this->app);
     }
 
     private function registerPolicies(): void
