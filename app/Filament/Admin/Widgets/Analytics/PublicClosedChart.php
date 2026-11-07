@@ -11,7 +11,7 @@ class PublicClosedChart extends AnalyticsChart
 
     protected function getType(): string
     {
-        return 'pie';
+        return 'doughnut';
     }
 
     protected function getData(): array

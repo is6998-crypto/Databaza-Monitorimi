@@ -37,4 +37,17 @@ class HearingsOverTimeChart extends AnalyticsChart
             'labels' => array_map(fn (string $month): string => Carbon::createFromFormat('Y-m', $month)->format('m.Y'), array_keys($series)),
         ];
     }
+
+    /** One dataset (named in the heading), month labels kept straight and thinned out. */
+    protected function getOptions(): array
+    {
+        return [
+            'plugins' => ['legend' => ['display' => false]],
+            'elements' => ['point' => ['radius' => 2, 'hoverRadius' => 5]],
+            'scales' => [
+                'x' => ['grid' => ['display' => false], 'ticks' => ['autoSkip' => true, 'maxRotation' => 0, 'maxTicksLimit' => 12]],
+                'y' => ['beginAtZero' => true],
+            ],
+        ];
+    }
 }

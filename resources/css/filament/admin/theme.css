@@ -148,8 +148,9 @@
 }
 
 .fi-sidebar-group-label {
-    @apply text-xs font-semibold tracking-widest uppercase;
-    color: rgb(255 255 255 / 0.5);
+    /* Sentence case: spaced capitals read as noise next to the item labels. */
+    @apply text-[13px] font-semibold;
+    color: rgb(255 255 255 / 0.55);
 }
 
 .fi-sidebar-group-btn .fi-icon,
@@ -173,7 +174,7 @@
 }
 
 .fi-sidebar-item-btn {
-    @apply rounded-xl px-3 py-2.5;
+    @apply rounded-xl px-3 py-2.5 transition-colors duration-150;
 
     & > .fi-icon {
         color: rgb(255 255 255 / 0.7);
@@ -323,15 +324,19 @@
 }
 
 .fi-ta-header-cell {
-    @apply text-xs font-bold tracking-wide text-gray-500 uppercase;
+    @apply text-[13px] font-semibold text-gray-600;
 }
 
 .dark .fi-ta-header-cell {
     @apply text-gray-400;
 }
 
-.fi-ta-row.fi-clickable:hover {
-    background-color: var(--primary-50);
+.fi-ta-row.fi-clickable {
+    @apply transition-colors duration-150;
+
+    &:hover {
+        background-color: var(--primary-50);
+    }
 }
 
 .dark .fi-ta-row.fi-clickable:hover {
@@ -364,13 +369,38 @@
     @apply rounded-2xl;
 }
 
-/* ------------------------------------------------------------------ Tabs */
+/* ------------------------------------------------------------------ Details (infolists)
+ * The label is the quiet part, the value the strong one: a small grey label over a navy value.
+ */
+
+.fi-in-entry .fi-in-entry-label {
+    @apply text-[13px] font-medium text-gray-500;
+}
+
+.fi-in-text-item {
+    @apply font-medium;
+    color: var(--color-navy-900);
+}
+
+.dark .fi-in-entry .fi-in-entry-label {
+    @apply text-gray-400;
+}
+
+.dark .fi-in-text-item {
+    color: #fff;
+}
+
+/* ------------------------------------------------------------------ Tabs
+ * The active tab is a navy tint with a yellow bar, so the screen's one yellow button stays the
+ * only solid yellow next to it.
+ */
 
 .fi-tabs-item {
-    @apply rounded-xl font-semibold;
+    @apply rounded-xl font-semibold transition-colors duration-150;
 
     &.fi-active {
-        background-color: var(--primary-400);
+        background-color: var(--color-navy-50);
+        box-shadow: inset 0 -3px 0 var(--primary-400);
 
         & .fi-tabs-item-label,
         & > .fi-icon {
@@ -379,10 +409,55 @@
     }
 }
 
-/* ------------------------------------------------------------------ Buttons and links */
+.dark .fi-tabs-item.fi-active {
+    background-color: rgb(255 255 255 / 0.08);
+
+    & .fi-tabs-item-label,
+    & > .fi-icon {
+        color: #fff;
+    }
+}
+
+/* ------------------------------------------------------------------ Buttons and links
+ * Every button answers the pointer: a 1px step up on hover, a press on click, a yellow focus ring.
+ */
 
 .fi-btn {
     @apply rounded-xl font-semibold;
+    transition-property: color, background-color, border-color, box-shadow, translate, scale;
+    transition-duration: 150ms;
+    transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+    &:not(:disabled):not(.fi-disabled):hover {
+        translate: 0 -1px;
+    }
+
+    &:not(:disabled):not(.fi-disabled):active {
+        translate: 0 1px;
+        scale: 0.985;
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--primary-400);
+        outline-offset: 2px;
+    }
+}
+
+/* Buttons inside a group or a toggle group stay level with their neighbours. */
+.fi-btn-group .fi-btn:not(:disabled):hover,
+.fi-btn-group .fi-btn:not(:disabled):active,
+.fi-fo-toggle-buttons .fi-btn:not(:disabled):hover,
+.fi-fo-toggle-buttons .fi-btn:not(:disabled):active {
+    translate: none;
+    scale: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .fi-btn:not(:disabled):hover,
+    .fi-btn:not(:disabled):active {
+        translate: none;
+        scale: none;
+    }
 }
 
 /* ------------------------------------------------------------------ Badges
@@ -500,14 +575,20 @@
     @apply ring-2;
 }
 
-/* ------------------------------------------------------------------ Sign-in pages */
+/* ------------------------------------------------------------------ Sign-in pages
+ * A navy band behind the top of the card, as on the public portal's first screen.
+ */
 
 .fi-simple-layout {
-    background-color: var(--color-canvas);
+    background: linear-gradient(var(--color-navy-900) 0 38vh, var(--color-canvas) 38vh);
+}
+
+.fi-simple-main {
+    box-shadow: 0 24px 48px -24px rgb(12 42 66 / 0.35);
 }
 
 .dark .fi-simple-layout {
-    background-color: var(--gray-950);
+    background: linear-gradient(var(--color-navy-950) 0 38vh, var(--gray-950) 38vh);
 }
 
 .fi-simple-header .fi-logo {

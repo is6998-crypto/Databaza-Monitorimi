@@ -60,6 +60,12 @@ All notable changes to this project are documented here. The format follows
   - Charts: values printed at the end of each bar; doughnut charts no longer cut their labels off (the legend wraps underneath, the share is in the tooltip); axis text at 13px.
   - Case and report cards are one link each, lift slightly on hover and show the case reference above the court; report covers show the type instead of repeating the logo.
   - Labels in sentence case instead of spaced capitals, reading text at 15–16px, buttons and controls at least 44px high, a full-width phone menu with a close icon, pagination with the count above the page buttons.
+- Staff panel, researcher area, monitor app and error pages design pass (same colours and texts):
+  - Panels: sidebar group names and table column headings in sentence case; on detail pages a small grey label over a navy value; the active tab is a navy tint with a yellow bar; buttons step up on hover and press on click with a yellow focus ring; sign-in and two-factor pages sit on a navy band.
+  - Workflow buttons are all navy ("Start review" and "Publish" were yellow), so each screen keeps one yellow main button.
+  - Dashboard: an icon on every headline figure, the public/closed chart is a doughnut like the others, the timeline's month labels are straight and thinned out.
+  - Monitor app: the navy header runs the full window width, section headings in sentence case, larger tap targets and text (13px minimum), a press response on buttons, an arrow on recently sent rows.
+  - Error pages: the navy band and a yellow "Go to the home page" button.
 
 ### Fixed
 - In GitHub Codespaces the home page could send the browser to `localhost:8000` (the visitor's own computer), because the app saw the forwarded request as coming to localhost. In development, links are now built from `APP_URL` whenever it is an https address (the dev container sets it to the Codespace's address).
