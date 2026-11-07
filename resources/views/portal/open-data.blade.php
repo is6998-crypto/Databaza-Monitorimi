@@ -2,13 +2,13 @@
 
 @section('content')
     @include('portal.partials.page-header', ['title' => __('portal.nav.open_data'), 'intro' => __('portal.open_data.intro')])
-    <div class="portal-wrap mt-10">
+    <div class="wrap portal-wrap mt-10">
         <div class="max-w-4xl">
             <p class="flex gap-3 rounded-2xl bg-navy-50 p-4 text-[15px] leading-relaxed text-navy-900 ring-1 ring-navy-100">
                 <svg class="mt-0.5 size-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"/></svg>
                 {{ __('portal.suppression_note', ['threshold' => \App\Services\Anonymizer::threshold()]) }}
             </p>
-            <ul class="portal-card mt-6 divide-y divide-navy-900/10">
+            <ul class="card portal-card mt-6 divide-y divide-navy-900/10">
                 @foreach ($datasets as $key => $label)
                     <li class="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
                         <div class="flex items-center gap-4">

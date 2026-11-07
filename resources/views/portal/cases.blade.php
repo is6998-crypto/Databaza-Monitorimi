@@ -2,7 +2,7 @@
 
 @section('content')
     @include('portal.partials.page-header', ['title' => __('portal.cases.title'), 'intro' => __('portal.cases.intro')])
-    <div class="portal-wrap">
+    <div class="wrap portal-wrap">
         <livewire:portal.case-search />
     </div>
 @endsection

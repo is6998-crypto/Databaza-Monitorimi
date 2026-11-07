@@ -4,15 +4,15 @@
     <div data-public-case-detail>
         <div class="relative overflow-hidden bg-navy-900 text-white">
             @include('portal.partials.frame-mark', ['class' => 'pointer-events-none absolute -right-16 -bottom-24 hidden size-80 text-white/[.03] lg:block'])
-            <div class="portal-wrap relative pt-10 pb-12 sm:pt-12 sm:pb-16">
+            <div class="wrap portal-wrap relative pt-10 pb-12 sm:pt-12 sm:pb-16">
                 <div class="max-w-4xl space-y-4" data-enter>
-                    <a href="{{ route('portal.cases') }}" class="group inline-flex min-h-10 items-center gap-2 text-[15px] font-semibold text-white/80 transition-colors hover:text-white">
+                    <a href="{{ route('portal.cases') }}" data-rise class="group inline-flex min-h-10 items-center gap-2 text-[15px] font-semibold text-white/80 transition-colors hover:text-white">
                         <svg class="size-4 transition-transform duration-150 group-hover:-translate-x-[3px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m6 6-6-6 6-6"/></svg>
                         {{ __('portal.cases.back') }}
                     </a>
-                    <p><span class="portal-chip bg-gold-400 text-navy-900">{{ $case['type'] }}</span></p>
-                    <h1 class="portal-heading tabular-nums">{{ $case['ref'] }}</h1>
-                    <p class="flex flex-wrap items-center gap-x-2 gap-y-1 text-lg text-white/80">
+                    <p data-rise style="--d: 40ms"><span class="portal-chip bg-gold-400 text-navy-900">{{ $case['type'] }}</span></p>
+                    <h1 class="portal-heading tabular-nums" data-rise style="--d: 80ms">{{ $case['ref'] }}</h1>
+                    <p class="flex flex-wrap items-center gap-x-2 gap-y-1 text-lg text-white/80" data-rise style="--d: 200ms">
                         <svg class="size-5 text-gold-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z"/></svg>
                         {{ $case['court'] }}@if ($case['department']) · {{ $case['department'] }}@endif · {{ $case['year'] }}
                     </p>
@@ -20,9 +20,9 @@
             </div>
         </div>
 
-        <div class="portal-wrap mt-10 grid items-start gap-6 lg:grid-cols-3 lg:gap-8">
+        <div class="wrap portal-wrap mt-10 grid items-start gap-6 lg:grid-cols-3 lg:gap-8">
             <div class="space-y-6 lg:col-span-2">
-                <section class="portal-card p-6 sm:p-8" aria-labelledby="case-offences">
+                <section class="card portal-card p-6 sm:p-8" aria-labelledby="case-offences">
                     <h2 id="case-offences" class="text-xl font-bold text-navy-900">{{ __('portal.cases.offences') }}</h2>
                     <ul class="mt-4 divide-y divide-navy-900/10 text-base text-slate-700">
                         @forelse ($case['offences'] as $offence)
@@ -33,7 +33,7 @@
                     </ul>
                 </section>
 
-                <section class="portal-card p-6 sm:p-8" aria-labelledby="case-timeline">
+                <section class="card portal-card p-6 sm:p-8" aria-labelledby="case-timeline">
                     <h2 id="case-timeline" class="text-xl font-bold text-navy-900">{{ __('portal.cases.timeline') }}</h2>
                     <ol class="mt-6">
                         @forelse ($case['timeline'] as $step)
@@ -65,7 +65,7 @@
                 </p>
             </div>
 
-            <section class="portal-card overflow-hidden lg:sticky lg:top-24" aria-labelledby="case-hearings">
+            <section class="card portal-card overflow-hidden lg:sticky lg:top-24" aria-labelledby="case-hearings">
                 <h2 id="case-hearings" class="p-6 pb-0 text-xl font-bold text-navy-900">{{ __('portal.cases.monitored_hearings') }}</h2>
                 <dl class="mx-6 mt-5 grid grid-cols-2 gap-px overflow-hidden rounded-xl bg-navy-900/10 ring-1 ring-navy-900/10">
                     @foreach (['total', 'postponed', 'late', 'public'] as $key)

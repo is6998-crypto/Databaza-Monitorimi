@@ -94,7 +94,7 @@
             <h2 class="cw-heading mb-2">{{ __('monitor.recently_sent') }}</h2>
             <ul class="divide-y divide-slate-100 overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200/80">
                 <template x-for="item in (data ? data.recent : [])" :key="item.id">
-                    <li><a :href="item.url" class="group flex items-center justify-between gap-3 p-4 transition-colors hover:bg-gold-50 focus-visible:bg-gold-50 focus-visible:outline-none">
+                    <li><a :href="item.url" class="group flex items-center justify-between gap-3 p-4 transition-colors hover:bg-gold-50 focus-visible:bg-gold-50 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-navy-900">
                         <span class="min-w-0"><span class="block truncate font-bold text-navy-900" x-text="item.case"></span><span class="text-sm text-slate-500" x-text="item.date"></span></span>
                         <span class="flex shrink-0 items-center gap-2"><span class="cw-badge bg-slate-100 text-slate-700" x-text="item.status_label"></span><svg class="size-4 text-slate-400 transition-transform duration-150 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m9 6 6 6-6 6"/></svg></span>
                     </a></li>

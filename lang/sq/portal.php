@@ -32,6 +32,8 @@ return [
         'statistics' => 'Statistikat',
         'latest_reports' => 'Raportet e fundit',
         'all_reports' => 'Të gjitha raportet',
+        'updated' => 'Përditësimi i fundit',
+        'read_methodology' => 'Lexoni metodologjinë e plotë',
     ],
     'filters' => [
         'year' => 'Viti',

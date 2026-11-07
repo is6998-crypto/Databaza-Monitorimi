@@ -1,5 +1,5 @@
 <div class="mt-10 grid items-start gap-6 lg:grid-cols-[18rem_minmax(0,1fr)] lg:gap-8" data-case-search>
-    <form class="portal-card grid gap-4 p-5 sm:grid-cols-2 sm:p-6 lg:sticky lg:top-24 lg:grid-cols-1" wire:submit.prevent role="search">
+    <form class="card portal-card grid gap-4 p-5 sm:grid-cols-2 sm:p-6 lg:sticky lg:top-24 lg:grid-cols-1" wire:submit.prevent role="search">
         <label class="text-sm sm:col-span-2 lg:col-span-1"><span class="portal-label">{{ __('portal.cases.search') }}</span>
             <span class="relative block">
                 <svg class="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/></svg>
@@ -28,7 +28,7 @@
 
         <ul class="mt-4 grid gap-5 transition-opacity md:grid-cols-2" wire:loading.class="opacity-60">
             @foreach ($items as $item)
-                <li class="portal-card portal-card-link group flex flex-col p-5 sm:p-6" data-public-case="{{ $item['ref'] }}">
+                <li class="card portal-card portal-card-link group flex flex-col p-5 sm:p-6" data-public-case="{{ $item['ref'] }}">
                     <div class="flex items-start justify-between gap-3">
                         <p class="portal-chip bg-gold-100 text-navy-900">{{ $item['type'] }}</p>
                         <span class="portal-meta shrink-0 tabular-nums">{{ $item['year'] }}</span>

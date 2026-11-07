@@ -32,6 +32,8 @@ return [
         'statistics' => 'Statistics',
         'latest_reports' => 'Latest reports',
         'all_reports' => 'All reports',
+        'updated' => 'Last update',
+        'read_methodology' => 'Read the full methodology',
     ],
     'filters' => [
         'year' => 'Year',

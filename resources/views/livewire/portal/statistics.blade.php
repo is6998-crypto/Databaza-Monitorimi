@@ -62,7 +62,7 @@
     ];
 @endphp
 <div class="space-y-6" data-portal-statistics>
-    <div class="portal-card overflow-hidden shadow-[0_24px_48px_-24px_rgb(12_42_66_/_0.35)]">
+    <div class="card portal-card overflow-hidden shadow-[0_24px_48px_-24px_rgb(12_42_66_/_0.35)]">
         <form class="grid gap-4 p-5 sm:grid-cols-2 sm:p-6 lg:grid-cols-[repeat(3,minmax(0,1fr))_auto]" wire:submit.prevent>
             <label class="text-sm"><span class="portal-label">{{ __('portal.filters.year') }}</span>
                 <select wire:model.live="year" class="portal-input">
@@ -96,7 +96,7 @@
                         <svg class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="{{ $icons[$key] }}"/></svg>
                     </span>
                     <dt class="order-2 mt-1 text-[15px] leading-snug font-medium text-slate-600">{{ __('portal.stats.'.$key) }}</dt>
-                    <dd class="order-1 mt-4 text-[2rem] leading-none font-extrabold tracking-tight text-navy-900 tabular-nums" data-stat="{{ $key }}">{{ Anonymizer::display($value, $suffix) }}</dd>
+                    <dd class="order-1 mt-4 text-[1.75rem] leading-none font-extrabold tracking-tight text-navy-900 tabular-nums sm:text-[2rem]" data-stat="{{ $key }}">{{ Anonymizer::display($value, $suffix) }}</dd>
                 </div>
             @endforeach
         </dl>

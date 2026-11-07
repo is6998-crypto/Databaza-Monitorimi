@@ -6,6 +6,8 @@
 @source '../views/partials/brand.blade.php';
 @source '../views/vendor/pagination/**/*.blade.php';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+/* The pagination views remove the focus outline; ours keeps it (a 2px line), so that class is never generated. */
+@source not inline('focus:outline-none');
 
 /* The portal has no dark design: `dark:` classes in vendor views (pagination) stay off. */
 @custom-variant dark (&:where(.dark, .dark *));
@@ -23,22 +25,29 @@ html { scroll-padding-top: 5rem; }
  * - one link look (navy, a yellow underline that turns navy);
  * - labels in sentence case, never tracked capitals; text people read at 15-16px.
  */
-@layer components {
-    .portal-wrap { @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8; }
+@media (min-width: 640px) { .portal-wrap { --gut: 24px; } }
+@media (min-width: 768px) { .portal-wrap { --gut: 48px; } }
+@media (min-width: 1280px) { .portal-wrap { --gut: 80px; } }
 
-    .portal-input { @apply block min-h-11 w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-[15px] text-navy-900 transition-colors placeholder:text-slate-500 hover:border-slate-400 focus:border-navy-900 focus:ring-2 focus:ring-gold-300 focus:outline-none; }
+@layer components {
+    /* The page's one container: 1280px at most, with the gutter as margin, so its box is the content's edges. */
+    .portal-wrap { --gut: 16px; width: min(1280px, calc(100% - 2 * var(--gut))); margin-inline: auto; }
+
+    .portal-input { @apply block min-h-11 w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-[15px] text-navy-900 transition-colors placeholder:text-slate-500 hover:border-slate-400 focus:border-navy-900 focus:outline-2 focus:outline-offset-1 focus:outline-gold-400; }
     .portal-label { @apply mb-1.5 block text-sm font-semibold text-navy-900; }
 
     .portal-card { @apply rounded-2xl border border-navy-900/10 bg-white; }
     .portal-card-link { @apply relative transition duration-150 ease-out hover:border-navy-900/30 hover:-translate-y-0.5 hover:shadow-[0_12px_24px_-12px_rgb(12_42_66_/_0.18)] focus-within:border-navy-900/30; }
     /* The card's main link covers the whole card, so the card is one target. */
-    .portal-stretched { @apply after:absolute after:inset-0 after:rounded-2xl after:content-[''] focus-visible:outline-none focus-visible:after:ring-2 focus-visible:after:ring-gold-400 focus-visible:after:ring-offset-2; }
+    /* inline-block with 10px above and below: a 44px target at every width, the card stays one link */
+    .portal-stretched { @apply -my-2.5 inline-block rounded-sm py-2.5 after:absolute after:inset-0 after:rounded-2xl after:content-[''] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-500; }
 
     .portal-heading { @apply text-4xl leading-[1.08] font-extrabold tracking-tight text-balance sm:text-5xl; }
     .portal-lead { @apply max-w-3xl text-lg leading-relaxed text-pretty; }
-    .portal-kicker { @apply flex items-center gap-3 text-[15px] font-bold text-gold-400 before:h-4 before:w-1 before:shrink-0 before:rounded-full before:bg-gold-400 before:content-['']; }
+    .portal-kicker { @apply text-[15px] font-bold text-gold-400; }
     .portal-meta { @apply text-[13px] font-semibold text-slate-600; }
-    .portal-section-title { @apply text-2xl font-extrabold tracking-tight text-navy-900 sm:text-3xl; }
+    /* One step above the headline figures (a figure never outgrows the section heading). */
+    .portal-section-title { @apply text-[2rem] leading-tight font-extrabold tracking-tight text-navy-900 sm:text-4xl; }
 
     .portal-btn-primary { @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-5 text-[15px] font-bold transition duration-150 ease-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-400 active:translate-y-px active:scale-[.985] hover:-translate-y-px bg-gold-400 text-navy-900 hover:bg-gold-300; }
     .portal-btn-secondary { @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-5 text-[15px] font-bold transition duration-150 ease-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-400 active:translate-y-px active:scale-[.985] hover:-translate-y-px border border-slate-300 bg-white text-navy-900 hover:border-navy-900 hover:bg-navy-50; }
@@ -51,21 +60,78 @@ html { scroll-padding-top: 5rem; }
     .group:hover .portal-arrow, .portal-btn-primary:hover .portal-arrow { @apply translate-x-[3px]; }
 }
 
-/* The first screen arrives once on load: the heading, then what follows it. Never on scroll. */
+/*
+ * The first screen arrives once on load (`[data-enter]` on the hero or page header): each `[data-rise]` part fades
+ * up 12px in turn (its delay in --d), the hero's picture settles from .98. Never on scroll; reduced motion stands.
+ */
 @keyframes portal-rise {
     from { opacity: 0; transform: translateY(12px); }
     to { opacity: 1; transform: none; }
 }
 
+@keyframes portal-settle {
+    from { transform: scale(.98); }
+    to { transform: none; }
+}
+
+/* The live fact's dot breathes. */
+@keyframes portal-breathe {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: .45; transform: scale(.8); }
+}
+
 @media (prefers-reduced-motion: no-preference) {
-    [data-enter] > * {
-        animation: portal-rise 520ms cubic-bezier(.22, 1, .36, 1) both;
+    [data-enter] [data-rise] {
+        animation: portal-rise 520ms cubic-bezier(.22, 1, .36, 1) var(--d, 0ms) both;
     }
 
-    [data-enter] > :nth-child(2) { animation-delay: 80ms; }
-    [data-enter] > :nth-child(3) { animation-delay: 200ms; }
-    [data-enter] > :nth-child(4) { animation-delay: 260ms; }
-    [data-enter] > :nth-child(n + 5) { animation-delay: 320ms; }
+    [data-enter] [data-rise='media'] {
+        animation: portal-settle 900ms cubic-bezier(.22, 1, .36, 1) both;
+    }
+
+    .portal-breathe {
+        animation: portal-breathe 2.4s ease-in-out infinite;
+    }
+}
+
+/*
+ * Focus: a 2px line that always contrasts with its ground: navy on light grounds, yellow on navy.
+ * (Unlayered, so it wins over the utilities' outline colours.)
+ */
+:focus-visible { outline-color: var(--color-navy-900); }
+.bg-navy-900 :focus-visible,
+.bg-navy-800 :focus-visible { outline-color: var(--color-gold-400); }
+.bg-navy-900 .bg-white :focus-visible { outline-color: var(--color-navy-900); }
+
+/* The hero's case window shows as many rows as its frame holds whole; the float card keeps the last one clear. */
+.hero-cases > li:nth-child(n + 3) { display: none; }
+@media (min-width: 1024px) and (min-height: 860px) { .hero-cases > li:nth-child(3) { display: block; } }
+@media (max-width: 1023px) { .hero-cases > li:nth-child(n + 2) { display: none; } }
+@media (max-width: 639px) { .hero-cases { display: none; } }
+
+/* The methodology moment (pinned-chapters, public/assets/moments): the kit's tokens, set from the brand. */
+[data-moment='pinned-chapters'] {
+    --s-2: 8px;
+    --s-4: 16px;
+    --s-5: 24px;
+    --s-6: 32px;
+    --s-7: 48px;
+    --gutter: 48px;
+    --nav: 72px;
+    --r-md: 12px;
+    --t-lead: 1.25rem;
+    --font-text: var(--font-sans);
+    --ink: var(--color-navy-900);
+    --muted: var(--color-slate-500);
+    --line: color-mix(in oklab, var(--color-navy-900) 12%, transparent);
+    --accent: var(--color-gold-400);
+    --ground-bg: var(--color-navy-200);
+
+    /* (main … raises these over the kit's moment.css, which loads after this file) */
+    main & .mo-pc__step h3 { font-weight: 700; }
+    main & .mo-pc__step p { color: var(--color-slate-700); font-size: 1rem; line-height: 1.6; }
+    & .mo-pc__visuals { border-radius: 1rem; overflow: hidden; }
+    & .mo-pc__visual--lit { border-radius: 1rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -66,6 +66,12 @@ All notable changes to this project are documented here. The format follows
   - Dashboard: an icon on every headline figure, the public/closed chart is a doughnut like the others, the timeline's month labels are straight and thinned out.
   - Monitor app: the navy header runs the full window width, section headings in sentence case, larger tap targets and text (13px minimum), a press response on buttons, an arrow on recently sent rows.
   - Error pages: the navy band and a yellow "Go to the home page" button.
+- Second design pass with the design-taste-frontend skill (same colours, texts and functions):
+  - Home: the first screen is a split hero: the question and the two actions at the left, the real case search at the right (the three latest verified cases, anonymized as everywhere on the portal) with a live "Last update" month. The statistics have a visible heading; chart titles are headings above the charts.
+  - Home: a "Methodology" section walks through its four steps (monitoring, verification, indicators, privacy) beside a drawing of the matching part of the platform; on a large screen the section holds while the steps open one at a time (the skill's pinned-chapters moment, served from `public/assets/moments`); on phones and under reduced motion every step stands with its picture.
+  - Home: the page closes with the tagline set large and "Search monitored cases" above the footer links; "All reports" is a button under the latest reports.
+  - Every public section sits on one container (1280px, the gutter as margin); the language switch is a quiet navy toggle; focus outlines are navy on light grounds and yellow on navy.
+  - Staff and researcher sign-in, two-factor and password pages: a navy brand panel at the left (logo, tagline, the privacy promise or the researchers' first rule) and the form at the right; the page heading arrives once on load.
 
 ### Fixed
 - In GitHub Codespaces the home page could send the browser to `localhost:8000` (the visitor's own computer), because the app saw the forwarded request as coming to localhost. In development, links are now built from `APP_URL` whenever it is an https address (the dev container sets it to the Codespace's address).

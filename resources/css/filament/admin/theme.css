@@ -576,7 +576,8 @@
 }
 
 /* ------------------------------------------------------------------ Sign-in pages
- * A navy band behind the top of the card, as on the public portal's first screen.
+ * From 1024px a navy brand panel (resources/views/filament/shared/auth-aside.blade.php) stands at the left
+ * and the form on the light canvas at the right; under that the form stands alone on a navy band.
  */
 
 .fi-simple-layout {
@@ -589,6 +590,117 @@
 
 .dark .fi-simple-layout {
     background: linear-gradient(var(--color-navy-950) 0 38vh, var(--gray-950) 38vh);
+}
+
+.cw-auth-aside {
+    display: none;
+}
+
+@media (min-width: 64rem) {
+    .fi-simple-layout:has(> .cw-auth-aside) {
+        display: grid;
+        grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+        align-items: stretch;
+        background: var(--color-canvas);
+
+        & > :not(.cw-auth-aside) {
+            grid-column: 2;
+        }
+
+        & .fi-simple-main {
+            box-shadow: none;
+        }
+
+        & .fi-simple-main-ctn {
+            grid-row: 1 / span 20;
+            align-self: center;
+        }
+    }
+
+    .dark .fi-simple-layout:has(> .cw-auth-aside) {
+        background: var(--gray-950);
+    }
+
+    .cw-auth-aside {
+        position: sticky;
+        top: 0;
+        grid-column: 1;
+        grid-row: 1 / span 20;
+        display: flex;
+        min-height: 100dvh;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: hidden;
+        padding: 3rem clamp(2rem, 5vw, 5rem);
+        background-color: var(--color-navy-900);
+        color: #fff;
+    }
+
+    .cw-auth-aside-mark {
+        position: absolute;
+        right: -6rem;
+        bottom: -7rem;
+        width: 30rem;
+        height: 30rem;
+        color: rgb(255 255 255 / 0.025);
+        pointer-events: none;
+    }
+
+    .cw-auth-aside-brand {
+        position: relative;
+        font-size: 1.5rem;
+    }
+
+    .cw-auth-aside-body {
+        position: relative;
+        max-width: 32rem;
+    }
+
+    .cw-auth-aside-title {
+        font-size: clamp(2.25rem, 1.2rem + 2.2vw, 3.5rem);
+        font-weight: 800;
+        line-height: 1.06;
+        letter-spacing: -0.03em;
+        text-wrap: balance;
+    }
+
+    .cw-auth-aside-note {
+        display: flex;
+        gap: 0.75rem;
+        margin-top: 2rem;
+        font-size: 1.0625rem;
+        line-height: 1.6;
+        color: rgb(255 255 255 / 0.8);
+    }
+
+    .cw-auth-aside-dot {
+        flex: none;
+        width: 0.5rem;
+        height: 0.5rem;
+        margin-top: 0.6rem;
+        border-radius: 9999px;
+        background-color: var(--primary-400);
+    }
+}
+
+/* ------------------------------------------------------------------ First screen
+ * The page heading and its first block arrive once on load, 12px up; nothing moves on scroll.
+ */
+
+@keyframes cw-rise {
+    from { opacity: 0; translate: 0 12px; }
+    to { opacity: 1; translate: none; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .fi-main .fi-header,
+    .fi-simple-main {
+        animation: cw-rise 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .cw-auth-aside-body {
+        animation: cw-rise 600ms cubic-bezier(0.22, 1, 0.36, 1) 80ms both;
+    }
 }
 
 .fi-simple-header .fi-logo {
