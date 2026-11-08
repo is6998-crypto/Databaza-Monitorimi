@@ -79,6 +79,9 @@ All notable changes to this project are documented here. The format follows
   - The dashboard opens with a welcome band: the person's name, role and today's date, and only the actions their permissions allow (the review queue with its count, new case, new hearing, the monitor app for monitors).
   - The sidebar's current page is a light tint with a yellow marker and a yellow icon instead of a solid yellow pill; quieter group labels and hover states.
   - Smaller, crisper page headings; tables with a tinted header row; underline tabs; cards with a hairline and a 1px lift; the case and hearing lists show a labelled "Filter" button.
+  - New app shell for both panels: the window is a navy frame (top bar and sidebar as one surface, a translucent search pill, white icons) and every page sits on a light, rounded sheet inset into it.
+  - Headline figures: the label first, the figure larger, the icon as a chip in the corner. Table toolbars are one row (the filter button beside the search). Dashboard filters sit two per row on phones.
+  - Researcher home: a navy status band (where the account stands, what to do next) and the data rules as numbered cards.
 
 ### Fixed
 - In GitHub Codespaces the home page could send the browser to `localhost:8000` (the visitor's own computer), because the app saw the forwarded request as coming to localhost. In development, links are now built from `APP_URL` whenever it is an https address (the dev container sets it to the Codespace's address).

@@ -55,7 +55,7 @@ class Dashboard extends BaseDashboard
         return $schema->components([
             Section::make()
                 ->columnSpanFull()
-                ->columns(['default' => 1, 'sm' => 2, 'xl' => 4])
+                ->columns(['default' => 2, 'xl' => 4])
                 ->schema([
                     DatePicker::make('from')->label(__('dashboard.filters.from')),
                     DatePicker::make('until')->label(__('dashboard.filters.until')),

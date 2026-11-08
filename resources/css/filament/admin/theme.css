@@ -14,16 +14,108 @@
  * Only the appearance changes: no Filament view is overridden.
  */
 
-/* ------------------------------------------------------------------ Top bar */
+/* ------------------------------------------------------------------ App shell
+ * The window is a navy frame (the top bar and the sidebar are one surface) and each page sits on a light,
+ * rounded sheet inset into it. Only signed-in pages (with navigation); the sign-in pages keep their own layout.
+ */
 
-.fi-topbar {
+.fi-body.fi-body-has-navigation,
+.fi-body-has-navigation .fi-layout {
+    background-color: var(--color-navy-900);
+}
+
+.dark .fi-body.fi-body-has-navigation,
+.dark .fi-body-has-navigation .fi-layout {
+    background-color: var(--color-navy-950);
+}
+
+.fi-body-has-navigation .fi-topbar-ctn,
+.fi-body-has-navigation .fi-topbar {
     @apply shadow-none ring-0;
-    border-bottom: 1px solid var(--gray-200);
+    background-color: var(--color-navy-900);
+    border: 0;
+    color: #fff;
 }
 
-.dark .fi-topbar {
-    border-bottom-color: rgb(255 255 255 / 0.08);
+.dark .fi-body-has-navigation .fi-topbar-ctn,
+.dark .fi-body-has-navigation .fi-topbar {
+    background-color: var(--color-navy-950);
 }
+
+/* Top bar controls on navy: white icons, a translucent search pill. */
+.fi-body-has-navigation .fi-topbar .fi-icon-btn {
+    color: rgb(255 255 255 / 0.7);
+
+    &:hover,
+    &:focus-visible {
+        color: #fff;
+        background-color: rgb(255 255 255 / 0.1);
+    }
+}
+
+.fi-body-has-navigation .fi-topbar .fi-logo {
+    @apply text-white;
+}
+
+.fi-body-has-navigation .fi-global-search-field .fi-input-wrp {
+    @apply rounded-full ring-1;
+    background-color: rgb(255 255 255 / 0.08);
+    --tw-ring-color: rgb(255 255 255 / 0.12);
+    transition: background-color 150ms, box-shadow 150ms;
+
+    &:hover {
+        background-color: rgb(255 255 255 / 0.12);
+    }
+
+    &:focus-within {
+        background-color: #fff;
+        --tw-ring-color: var(--primary-400);
+
+        & .fi-input,
+        & .fi-icon {
+            color: var(--color-navy-900);
+        }
+    }
+
+    & .fi-input {
+        color: #fff;
+
+        &::placeholder {
+            color: rgb(255 255 255 / 0.55);
+        }
+    }
+
+    & .fi-icon {
+        color: rgb(255 255 255 / 0.6);
+    }
+}
+
+.fi-body-has-navigation .fi-user-menu-trigger .fi-avatar {
+    @apply ring-2;
+    --tw-ring-color: rgb(255 255 255 / 0.2);
+}
+
+/* The sheet. */
+.fi-body-has-navigation .fi-main-ctn {
+    background-color: var(--color-canvas);
+    border-radius: 1.25rem 1.25rem 0 0;
+    min-height: calc(100dvh - 4rem);
+}
+
+@media (min-width: 64rem) {
+    .fi-body-has-navigation .fi-main-ctn {
+        margin: 0 0.75rem 0.75rem 0;
+        border-radius: 1.5rem;
+        min-height: calc(100dvh - 4rem - 0.75rem);
+        box-shadow: 0 0 0 1px rgb(255 255 255 / 0.04);
+    }
+}
+
+.dark .fi-body-has-navigation .fi-main-ctn {
+    background-color: var(--gray-950);
+}
+
+/* ------------------------------------------------------------------ Top bar */
 
 /* On large screens the logo sits on the navy sidebar column, which runs to the top. */
 @media (min-width: 64rem) {
@@ -79,7 +171,7 @@
 
     /* Search on the left of the content area, notifications and the user menu on the right. */
     .fi-topbar-end {
-        @apply flex-1;
+        @apply flex-1 justify-end;
 
         & > .fi-global-search-ctn {
             @apply me-auto;
@@ -88,15 +180,9 @@
 }
 
 .fi-global-search-field .fi-input-wrp {
-    @apply rounded-xl bg-gray-50;
-
     @media (min-width: 64rem) {
         width: min(32rem, 40vw);
     }
-}
-
-.dark .fi-global-search-field .fi-input-wrp {
-    @apply bg-white/5;
 }
 
 /* ------------------------------------------------------------------ Sidebar */
@@ -343,6 +429,36 @@
 
 /* ------------------------------------------------------------------ Tables */
 
+/*
+ * One toolbar row: the collapsible filters' button sits beside the search and the column toggle; opened,
+ * the filters take the full width under them.
+ */
+.fi-ta-header-ctn:has(> .fi-ta-filters-above-content-ctn) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    & > .fi-ta-header-toolbar {
+        order: 1;
+        flex: 1 1 auto;
+        border: 0;
+    }
+
+    & > .fi-ta-filters-above-content-ctn {
+        order: 2;
+        flex: 0 0 auto;
+        border: 0;
+        padding-inline-start: 0;
+    }
+
+    & > .fi-ta-filters-above-content-ctn:has(> .fi-ta-filters:not([style*='display: none'])) {
+        order: 3;
+        flex-basis: 100%;
+        border-top: 1px solid rgb(12 42 66 / 0.08);
+        padding-inline-start: revert-layer;
+    }
+}
+
 /* A tinted header row with a hairline under it; roomier rows that tint on hover. */
 .fi-ta-table > thead > tr {
     background-color: var(--gray-50);
@@ -380,10 +496,24 @@
     background-color: rgb(255 255 255 / 0.05);
 }
 
-/* ------------------------------------------------------------------ Stats */
+/* ------------------------------------------------------------------ Stats
+ * The label first, the figure large under it, the icon as a chip in the top-right corner.
+ */
+
+.fi-wi-stats-overview-stat {
+    @apply relative;
+}
+
+.fi-wi-stats-overview-stat-label-ctn > .fi-icon {
+    @apply absolute top-5 right-5 size-10 rounded-xl p-2.5;
+}
+
+.fi-wi-stats-overview-stat-label {
+    @apply pe-12 text-[14px] font-medium text-gray-600;
+}
 
 .fi-wi-stats-overview-stat-value {
-    @apply font-extrabold;
+    @apply mt-1 text-[2.25rem] leading-tight font-extrabold;
     letter-spacing: -0.03em;
     color: var(--color-navy-900);
 }
@@ -393,7 +523,7 @@
 }
 
 .fi-wi-stats-overview-stat-label-ctn > .fi-icon {
-    @apply box-content rounded-lg p-1.5;
+    box-sizing: border-box;
     background-color: var(--primary-100);
     color: var(--color-navy-900);
 }
