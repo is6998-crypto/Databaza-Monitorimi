@@ -47,11 +47,11 @@ it('resolves related records by code or name and reports unknown values', functi
 it('validates rows and skips invalid ones', function () {
     actingAsRole(Role::Editor);
 
-    $result = CriminalOffenceResource::csvImporter()->import(csvFile("criminal_code,article_number,title_sq,title_en,category\nKPRK-2019,999,Vepër testuese,Test offence,Korrupsion\nKPRK-2019,,Pa nen,No article,\n"));
+    $result = CriminalOffenceResource::csvImporter()->import(csvFile("criminal_code,article_number,title_sq,title_en,category\nKPRK-2019,999,Vepër testuese,Test offence,KORR\nKPRK-2019,,Pa nen,No article,\n"));
 
     expect($result['created'])->toBe(1)
         ->and($result['skipped'])->toBe(1)
-        ->and(CriminalOffence::query()->where('article_number', '999')->first()?->category?->name_sq)->toBe('Korrupsion');
+        ->and(CriminalOffence::query()->where('article_number', '999')->first()?->category?->code)->toBe('KORR');
 });
 
 it('rejects files without the required columns', function () {

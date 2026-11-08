@@ -42,7 +42,7 @@ class ReferenceController extends ApiController
     /**
      * Criminal offences
      *
-     * @response 200 scenario="Success" {"data":[{"id":1,"code":"KPRK-2019","article":"414","title":"Abuse of official position or authority","category":"Corruption"}]}
+     * @response 200 scenario="Success" {"data":[{"id":1,"code":"KPRK-2019","article":"414","title":"Abuse of official position or authority","category":"Official corruption and criminal offences against official duty"}]}
      */
     public function offences(): JsonResponse
     {

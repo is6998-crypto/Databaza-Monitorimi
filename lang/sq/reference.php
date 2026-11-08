@@ -89,6 +89,8 @@ return [
         'article_number' => 'Neni',
         'chapter' => 'Kapitulli',
         'category' => 'Kategoria',
+        'category_code' => 'Kodi i kategorisë',
+        'offences_count' => 'Numri i veprave',
     ],
     'help' => [
         'serbian' => 'Opsionale — ndërfaqja është e gatshme për serbisht.',
@@ -116,5 +118,8 @@ return [
         'missing_columns' => 'Mungojnë kolonat e detyrueshme: :columns',
         'row_error' => 'Rreshti :line: :message',
         'unknown_reference' => 'Rreshti :line: :column ":value" i panjohur.',
+    ],
+    'catalogue' => [
+        'synced' => 'Lista e veprave u ngarkua: :codes kode, :categories kategori, :offences vepra (:created të reja, :deactivated u çaktivizuan).',
     ],
 ];

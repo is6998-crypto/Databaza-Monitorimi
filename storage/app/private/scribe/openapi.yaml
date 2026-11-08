@@ -136,7 +136,7 @@ paths:
                           code: KPRK-2019
                           article: '414'
                           title: 'KPRK-2019 art. 414 — Abuse of official position or authority'
-                          category: Corruption
+                          category: 'Official corruption and criminal offences against official duty'
                       hearings:
                         total: 5
                         postponed: 2
@@ -182,7 +182,7 @@ paths:
                             code: KPRK-2019
                             article: '414'
                             title: 'KPRK-2019 art. 414 — Abuse of official position or authority'
-                            category: Corruption
+                            category: 'Official corruption and criminal offences against official duty'
                         hearings:
                           total: 5
                           postponed: 2
@@ -272,7 +272,7 @@ paths:
                               code: KPRK-2019
                               article: '414'
                               title: 'KPRK-2019 art. 414 — Abuse of official position or authority'
-                              category: Corruption
+                              category: 'Official corruption and criminal offences against official duty'
                           items:
                             type: object
                             properties:
@@ -290,7 +290,7 @@ paths:
                                 example: 'KPRK-2019 art. 414 — Abuse of official position or authority'
                               category:
                                 type: string
-                                example: Corruption
+                                example: 'Official corruption and criminal offences against official duty'
                         hearings:
                           type: object
                           properties:
@@ -383,7 +383,7 @@ paths:
                         code: KPRK-2019
                         article: '414'
                         title: 'KPRK-2019 art. 414 — Abuse of official position or authority'
-                        category: Corruption
+                        category: 'Official corruption and criminal offences against official duty'
                     hearings:
                       total: 5
                       postponed: 2
@@ -474,7 +474,7 @@ paths:
                             code: KPRK-2019
                             article: '414'
                             title: 'KPRK-2019 art. 414 — Abuse of official position or authority'
-                            category: Corruption
+                            category: 'Official corruption and criminal offences against official duty'
                         items:
                           type: object
                           properties:
@@ -492,7 +492,7 @@ paths:
                               example: 'KPRK-2019 art. 414 — Abuse of official position or authority'
                             category:
                               type: string
-                              example: Corruption
+                              example: 'Official corruption and criminal offences against official duty'
                       hearings:
                         type: object
                         properties:
@@ -606,7 +606,7 @@ paths:
                           stage: indictment
                           code: KPRK-2019
                           article: '414'
-                          category: Corruption
+                          category: 'Official corruption and criminal offences against official duty'
                       sentences:
                         -
                           kind: imposed
@@ -639,7 +639,7 @@ paths:
                             stage: indictment
                             code: KPRK-2019
                             article: '414'
-                            category: Corruption
+                            category: 'Official corruption and criminal offences against official duty'
                         sentences:
                           -
                             kind: imposed
@@ -687,7 +687,7 @@ paths:
                               stage: indictment
                               code: KPRK-2019
                               article: '414'
-                              category: Corruption
+                              category: 'Official corruption and criminal offences against official duty'
                           items:
                             type: object
                             properties:
@@ -702,7 +702,7 @@ paths:
                                 example: '414'
                               category:
                                 type: string
-                                example: Corruption
+                                example: 'Official corruption and criminal offences against official duty'
                         sentences:
                           type: array
                           example:
@@ -1066,6 +1066,8 @@ paths:
                     '2025': 119
                   cases_by_type:
                     'Criminal – Corruption': 55
+                  cases_by_category:
+                    'Official corruption and criminal offences against official duty': 51
                   postponement_by_court:
                     -
                       court: 'Basic Court of Prishtina'
@@ -1118,6 +1120,12 @@ paths:
                       'Criminal – Corruption':
                         type: integer
                         example: 55
+                  cases_by_category:
+                    type: object
+                    properties:
+                      'Official corruption and criminal offences against official duty':
+                        type: integer
+                        example: 51
                   postponement_by_court:
                     type: array
                     example:
@@ -1245,7 +1253,7 @@ paths:
                       code: KPRK-2019
                       article: '414'
                       title: 'Abuse of official position or authority'
-                      category: Corruption
+                      category: 'Official corruption and criminal offences against official duty'
                 properties:
                   data:
                     type: array
@@ -1255,7 +1263,7 @@ paths:
                         code: KPRK-2019
                         article: '414'
                         title: 'Abuse of official position or authority'
-                        category: Corruption
+                        category: 'Official corruption and criminal offences against official duty'
                     items:
                       type: object
                       properties:
@@ -1273,7 +1281,7 @@ paths:
                           example: 'Abuse of official position or authority'
                         category:
                           type: string
-                          example: Corruption
+                          example: 'Official corruption and criminal offences against official duty'
       tags:
         - 'Reference data'
   /api/v1/reference/codes:

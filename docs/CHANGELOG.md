@@ -7,6 +7,8 @@ All notable changes to this project are documented here. The format follows
 ## [Unreleased] — v1 build
 
 ### Added
+- The full list of criminal offences (558 entries from the owner's "Veprat penale" list across 15 codes and laws, with English titles) and the 28 statistics categories they are sorted into (with codes such as KORR, DR, JT), loaded from `database/data` by a migration; `php artisan reference:sync-offences` re-applies the files. Offences and categories outside the list are set inactive, and the earlier placeholder categories are merged into the new ones.
+- "Cases by offence category" on the public statistics (suppressed under 5, also as an open-data CSV), on the staff dashboard and in the researcher API statistics.
 - Project scaffold: Laravel 13, Filament 5, Livewire 4, Tailwind 4, Pest, Larastan, Pint.
 - Docker Compose dev stack (app, Horizon, scheduler, PostgreSQL 16, Redis, MinIO, Mailpit) and a Codespaces dev container that installs, migrates, seeds and serves automatically.
 - GitHub Actions CI: Pint, Larastan and Pest on PostgreSQL 16; Dependabot for Composer, npm and Actions.
@@ -16,7 +18,7 @@ All notable changes to this project are documented here. The format follows
 - Audit-log viewer; logins, failed logins, logouts, password resets, role/permission changes and model changes are logged.
 - Full database schema for reference data, cases, parties, charges, stages, hearings, measures, sentences, administrative/civil details, workflow history, attachments, saved filters, publications, export logs, researcher profiles and legacy-import bookkeeping.
 - Reference data: 16 tables (courts, branches, departments, divisions, prosecution offices, judges, prosecutors, monitors, applicants, criminal codes, criminal offences, categories, nationalities, defendant positions, economic statuses, security measure types) with CRUD, search, bilingual names, soft delete/restore, merge duplicates and CSV import with templates.
-- Seeded public structure: the 7 basic courts and their branches, Court of Appeals, Supreme Court, court departments and divisions, prosecution offices, KPRK 2019 / KPK 2012 / UNMIK 2003/25 with a sample of articles; fake judges and prosecutors in development.
+- Seeded public structure: the 7 basic courts and their branches, Court of Appeals, Supreme Court, court departments and divisions, prosecution offices, the criminal codes with the full list of criminal offences and their statistics categories; fake judges and prosecutors in development.
 - Cases: list with faceted filters, create/edit with duplicate-number warning and administrative/civil details, and a case workspace with tabs for overview, parties & charges, stages timeline (chronology validation), hearings, measures & sentences, documents and history.
 - Hearings: phone-friendly form pre-filled from the case, conditional follow-up questions, hearing date not in the future, autosaved drafts and "recently used" values first in selects.
 - Monitor app (`/m`): installable PWA with offline drafts in IndexedDB, an outbox that syncs when back online, and "send for review".

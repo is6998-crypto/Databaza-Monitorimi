@@ -63,6 +63,7 @@ return [
     'charts' => [
         'hearings_by_year' => 'Hearings monitored per year',
         'cases_by_type' => 'Monitored cases by type',
+        'cases_by_category' => 'Monitored cases by offence category',
         'postponement_by_court' => 'Share of hearings postponed, by court (%)',
         'postponement_reasons' => 'Reasons for postponement',
         'verdicts' => 'First-instance judgments',
@@ -104,6 +105,7 @@ return [
             'postponement-by-court' => 'Postponement rate by court',
             'postponement-reasons' => 'Reasons for postponement',
             'cases-by-type' => 'Monitored cases by type',
+            'cases-by-category' => 'Monitored cases by offence category',
             'verdicts' => 'First-instance judgments by outcome',
             'stage-durations' => 'Median days between case stages',
         ],
@@ -117,6 +119,7 @@ return [
         'reason' => 'Reason',
         'count' => 'Count',
         'case_type' => 'Type of case',
+        'category' => 'Offence category',
         'cases' => 'Cases',
         'outcome' => 'Outcome',
         'stages' => 'Stages',

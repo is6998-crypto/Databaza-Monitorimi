@@ -44,6 +44,7 @@ class CriminalOffenceResource extends ReferenceResource
         return [
             TextColumn::make('criminalCode.code')->label(__('reference.fields.criminal_code'))->sortable()->badge(),
             TextColumn::make('article_number')->label(__('reference.fields.article_number'))->searchable()->sortable(),
+            TextColumn::make('category.code')->label(__('reference.fields.category_code'))->badge()->sortable()->toggleable(),
             TextColumn::make('category.name_sq')->getStateUsing(fn ($record): ?string => $record->category?->label())->label(__('reference.fields.category'))->toggleable(),
         ];
     }
@@ -63,7 +64,7 @@ class CriminalOffenceResource extends ReferenceResource
             'criminal_code' => ['rules' => ['required', 'string'], 'resolve' => static::resolver(CriminalCode::class, ['code']), 'attribute' => 'criminal_code_id'],
             'article_number' => ['rules' => ['required', 'string', 'max:32']],
             'chapter' => ['rules' => ['nullable', 'string', 'max:255']],
-            'category' => ['rules' => ['nullable', 'string'], 'resolve' => static::resolver(Category::class, ['name_sq', 'name_en']), 'attribute' => 'category_id'],
+            'category' => ['rules' => ['nullable', 'string'], 'resolve' => static::resolver(Category::class, ['code', 'name_sq', 'name_en']), 'attribute' => 'category_id'],
         ];
     }
 

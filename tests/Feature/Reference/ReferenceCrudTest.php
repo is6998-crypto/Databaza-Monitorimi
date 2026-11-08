@@ -116,8 +116,9 @@ it('searches people and offences', function () {
         ->assertCanSeeTableRecords([$judge]);
 
     Livewire::test(ManageCriminalOffences::class)
-        ->searchTable('ryshfet')
-        ->assertCanSeeTableRecords(CriminalOffence::query()->where('title_sq', 'ilike', '%ryshfet%')->get());
+        ->searchTable('sektorin privat')
+        ->assertCanSeeTableRecords(CriminalOffence::query()->where('title_sq', 'ilike', '%sektorin privat%')->get())
+        ->assertCountTableRecords(2);
 });
 
 it('defines CSV columns for every resource', function () {

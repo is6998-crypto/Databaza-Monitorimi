@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "CourtWatch Researcher API",
-        "_postman_id": "cec9c263-1b59-47f0-8bdb-2665a939f986",
+        "_postman_id": "8308521e-6323-4285-8c05-8287fee74ab6",
         "description": "Read-only API with anonymized, verified court-monitoring data from Kosovo, for approved researchers.",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -83,7 +83,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\"data\":[{\"ref\":\"01JD8Z6Y5P4S7T6W2Q9R1M3K5N\",\"code\":\"CW-Q9R1M3K5N\",\"type\":{\"value\":\"criminal_corruption\",\"label\":\"Criminal \u2013 Corruption\"},\"court\":{\"id\":1,\"label\":\"Basic Court of Prishtina\",\"level\":\"basic\"},\"department\":\"Serious Crimes Department\",\"status\":\"approved\",\"parties\":{\"total\":3,\"accused\":2},\"stages\":[{\"stage\":\"criminal_report_filed\",\"label\":\"Criminal report filed\",\"date\":\"2023-01-10\",\"outcome\":null,\"is_direct_indictment\":false,\"appellant\":null}],\"offences\":[{\"stage\":\"indictment\",\"code\":\"KPRK-2019\",\"article\":\"414\",\"title\":\"KPRK-2019 art. 414 \u2014 Abuse of official position or authority\",\"category\":\"Corruption\"}],\"hearings\":{\"total\":5,\"postponed\":2}}],\"links\":{\"first\":\"...\",\"last\":\"...\",\"prev\":null,\"next\":\"...\"},\"meta\":{\"current_page\":1,\"per_page\":25,\"total\":120}}",
+                            "body": "{\"data\":[{\"ref\":\"01JD8Z6Y5P4S7T6W2Q9R1M3K5N\",\"code\":\"CW-Q9R1M3K5N\",\"type\":{\"value\":\"criminal_corruption\",\"label\":\"Criminal \u2013 Corruption\"},\"court\":{\"id\":1,\"label\":\"Basic Court of Prishtina\",\"level\":\"basic\"},\"department\":\"Serious Crimes Department\",\"status\":\"approved\",\"parties\":{\"total\":3,\"accused\":2},\"stages\":[{\"stage\":\"criminal_report_filed\",\"label\":\"Criminal report filed\",\"date\":\"2023-01-10\",\"outcome\":null,\"is_direct_indictment\":false,\"appellant\":null}],\"offences\":[{\"stage\":\"indictment\",\"code\":\"KPRK-2019\",\"article\":\"414\",\"title\":\"KPRK-2019 art. 414 \u2014 Abuse of official position or authority\",\"category\":\"Official corruption and criminal offences against official duty\"}],\"hearings\":{\"total\":5,\"postponed\":2}}],\"links\":{\"first\":\"...\",\"last\":\"...\",\"prev\":null,\"next\":\"...\"},\"meta\":{\"current_page\":1,\"per_page\":25,\"total\":120}}",
                             "name": "Success"
                         }
                     ]
@@ -130,7 +130,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\"data\":{\"ref\":\"01JD8Z6Y5P4S7T6W2Q9R1M3K5N\",\"code\":\"CW-Q9R1M3K5N\",\"type\":{\"value\":\"criminal_corruption\",\"label\":\"Criminal \u2013 Corruption\"},\"court\":{\"id\":1,\"label\":\"Basic Court of Prishtina\",\"level\":\"basic\"},\"department\":\"Serious Crimes Department\",\"status\":\"published\",\"parties\":{\"total\":3,\"accused\":2},\"stages\":[{\"stage\":\"indictment_filed\",\"label\":\"Indictment filed\",\"date\":\"2023-05-02\",\"outcome\":null,\"is_direct_indictment\":false,\"appellant\":null}],\"offences\":[{\"stage\":\"indictment\",\"code\":\"KPRK-2019\",\"article\":\"414\",\"title\":\"KPRK-2019 art. 414 \u2014 Abuse of official position or authority\",\"category\":\"Corruption\"}],\"hearings\":{\"total\":5,\"postponed\":2}}}",
+                            "body": "{\"data\":{\"ref\":\"01JD8Z6Y5P4S7T6W2Q9R1M3K5N\",\"code\":\"CW-Q9R1M3K5N\",\"type\":{\"value\":\"criminal_corruption\",\"label\":\"Criminal \u2013 Corruption\"},\"court\":{\"id\":1,\"label\":\"Basic Court of Prishtina\",\"level\":\"basic\"},\"department\":\"Serious Crimes Department\",\"status\":\"published\",\"parties\":{\"total\":3,\"accused\":2},\"stages\":[{\"stage\":\"indictment_filed\",\"label\":\"Indictment filed\",\"date\":\"2023-05-02\",\"outcome\":null,\"is_direct_indictment\":false,\"appellant\":null}],\"offences\":[{\"stage\":\"indictment\",\"code\":\"KPRK-2019\",\"article\":\"414\",\"title\":\"KPRK-2019 art. 414 \u2014 Abuse of official position or authority\",\"category\":\"Official corruption and criminal offences against official duty\"}],\"hearings\":{\"total\":5,\"postponed\":2}}}",
                             "name": "Success"
                         },
                         {
@@ -205,7 +205,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\"data\":[{\"id\":\"P-3f9a1c0b2e4d\",\"case_ref\":\"01JD8Z6Y5P4S7T6W2Q9R1M3K5N\",\"case_type\":\"criminal_corruption\",\"role\":\"accused\",\"gender\":\"male\",\"nationality\":\"Albanian\",\"economic_status\":\"Employed\",\"position_held\":\"Mayor\",\"counsel_type\":\"retained\",\"counsel_at_police\":true,\"charges\":[{\"stage\":\"indictment\",\"code\":\"KPRK-2019\",\"article\":\"414\",\"category\":\"Corruption\"}],\"sentences\":[{\"kind\":\"imposed\",\"instance\":\"first_instance\",\"prison_months\":24,\"suspended_months\":0,\"fine_eur\":1000}]}],\"links\":{},\"meta\":{\"current_page\":1,\"per_page\":50,\"total\":300}}",
+                            "body": "{\"data\":[{\"id\":\"P-3f9a1c0b2e4d\",\"case_ref\":\"01JD8Z6Y5P4S7T6W2Q9R1M3K5N\",\"case_type\":\"criminal_corruption\",\"role\":\"accused\",\"gender\":\"male\",\"nationality\":\"Albanian\",\"economic_status\":\"Employed\",\"position_held\":\"Mayor\",\"counsel_type\":\"retained\",\"counsel_at_police\":true,\"charges\":[{\"stage\":\"indictment\",\"code\":\"KPRK-2019\",\"article\":\"414\",\"category\":\"Official corruption and criminal offences against official duty\"}],\"sentences\":[{\"kind\":\"imposed\",\"instance\":\"first_instance\",\"prison_months\":24,\"suspended_months\":0,\"fine_eur\":1000}]}],\"links\":{},\"meta\":{\"current_page\":1,\"per_page\":50,\"total\":300}}",
                             "name": "Success"
                         }
                     ]
@@ -355,7 +355,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\"headline\":{\"cases\":156,\"hearings\":507,\"postponement_rate\":31,\"late_rate\":29.4,\"public_rate\":83,\"conviction_rate\":55.9},\"hearings_by_year\":{\"2024\":99,\"2025\":119},\"cases_by_type\":{\"Criminal \u2013 Corruption\":55},\"postponement_by_court\":[{\"court\":\"Basic Court of Prishtina\",\"hearings\":225,\"postponed\":63,\"rate\":28}],\"postponement_reasons\":{\"Defence lawyer\":61},\"verdicts\":{\"Convicting\":33},\"stage_durations\":[{\"label\":\"Criminal report filed \u2192 Indictment filed\",\"median\":329,\"cases\":103}]}",
+                            "body": "{\"headline\":{\"cases\":156,\"hearings\":507,\"postponement_rate\":31,\"late_rate\":29.4,\"public_rate\":83,\"conviction_rate\":55.9},\"hearings_by_year\":{\"2024\":99,\"2025\":119},\"cases_by_type\":{\"Criminal \u2013 Corruption\":55},\"cases_by_category\":{\"Official corruption and criminal offences against official duty\":51},\"postponement_by_court\":[{\"court\":\"Basic Court of Prishtina\",\"hearings\":225,\"postponed\":63,\"rate\":28}],\"postponement_reasons\":{\"Defence lawyer\":61},\"verdicts\":{\"Convicting\":33},\"stage_durations\":[{\"label\":\"Criminal report filed \u2192 Indictment filed\",\"median\":329,\"cases\":103}]}",
                             "name": "Success"
                         }
                     ]
@@ -425,7 +425,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\"data\":[{\"id\":1,\"code\":\"KPRK-2019\",\"article\":\"414\",\"title\":\"Abuse of official position or authority\",\"category\":\"Corruption\"}]}",
+                            "body": "{\"data\":[{\"id\":1,\"code\":\"KPRK-2019\",\"article\":\"414\",\"title\":\"Abuse of official position or authority\",\"category\":\"Official corruption and criminal offences against official duty\"}]}",
                             "name": "Success"
                         }
                     ]

@@ -5,6 +5,7 @@ namespace App\Services\Portal;
 use App\Enums\CaseType;
 use App\Enums\PostponementReason;
 use App\Enums\StageOutcome;
+use App\Models\Reference\Category;
 use App\Models\Reference\Court;
 use App\Services\Analytics\AnalyticsFilters;
 use App\Services\Analytics\AnalyticsService;
@@ -76,6 +77,23 @@ class PortalStatistics
     }
 
     /**
+     * @return array<string, int|float|null> category label => cases
+     */
+    public function casesByCategory(): array
+    {
+        $counts = $this->analytics->casesByCategory();
+        $labels = Category::query()->whereIn('id', array_keys($counts))->get()->mapWithKeys(fn (Category $category): array => [(string) $category->id => $category->label()]);
+
+        $result = [];
+
+        foreach ($counts as $id => $count) {
+            $result[$labels[$id] ?? '—'] = Anonymizer::suppress($count);
+        }
+
+        return $result;
+    }
+
+    /**
      * @return array<string, int|float|null>
      */
     public function postponementReasons(): array
@@ -122,7 +140,7 @@ class PortalStatistics
      */
     public static function datasets(): array
     {
-        $keys = ['hearings-by-year-and-court', 'postponement-by-court', 'postponement-reasons', 'cases-by-type', 'verdicts', 'stage-durations'];
+        $keys = ['hearings-by-year-and-court', 'postponement-by-court', 'postponement-reasons', 'cases-by-type', 'cases-by-category', 'verdicts', 'stage-durations'];
 
         return collect($keys)->mapWithKeys(fn (string $key): array => [$key => __('portal.open_data.datasets.'.$key)])->all();
     }
@@ -147,6 +165,10 @@ class PortalStatistics
             'cases-by-type' => [
                 'header' => [__('portal.columns.case_type'), __('portal.columns.cases')],
                 'rows' => collect($this->casesByType())->map(fn ($count, $type): array => [(string) $type, $suppressed($count)])->values()->all(),
+            ],
+            'cases-by-category' => [
+                'header' => [__('portal.columns.category'), __('portal.columns.cases')],
+                'rows' => collect($this->casesByCategory())->map(fn ($count, $category): array => [(string) $category, $suppressed($count)])->values()->all(),
             ],
             'verdicts' => [
                 'header' => [__('portal.columns.outcome'), __('portal.columns.count')],

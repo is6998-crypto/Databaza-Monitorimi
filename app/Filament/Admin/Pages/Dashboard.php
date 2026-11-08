@@ -94,6 +94,7 @@ class Dashboard extends BaseDashboard
             MyWorkWidget::class,
             Analytics\AnalyticsOverview::class,
             Analytics\HearingsOverTimeChart::class,
+            Analytics\CasesByCategoryChart::class,
             Analytics\PostponementByChart::class,
             Analytics\PostponementReasonsChart::class,
             Analytics\PunctualityChart::class,
