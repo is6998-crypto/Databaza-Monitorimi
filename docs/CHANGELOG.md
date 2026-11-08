@@ -74,6 +74,11 @@ All notable changes to this project are documented here. The format follows
   - Staff and researcher sign-in, two-factor and password pages: a navy brand panel at the left (logo, tagline, the privacy promise or the researchers' first rule) and the form at the right; the page heading arrives once on load.
 - New logo mark: a thick yellow square frame with its top-left and bottom-right corners cut on the diagonal (one drawing in `resources/views/partials/logo-mark.blade.php`, used by the portal, both panels, the monitor app and the error pages); new favicon and app icons.
 - Charts redrawn (portal and staff dashboard): one colour (navy) with yellow only for the latest year; the doughnuts are now ranked horizontal bars (largest first); the portal's comparisons are HTML bar lists with the value at each bar's end and nothing clipped; thin bars with rounded ends, hairline grids, white tooltips; the staff dashboard's slanted labels are gone (horizontal bars). Fixed: counts in the portal charts' data tables no longer show a stray "%".
+- Public portal: a "Sign in" menu in the header (and in the phone menu) with the two signed-in areas, Staff (`/admin`) and Researchers (`/research`), so nobody has to type the address.
+- Staff panel revamp:
+  - The dashboard opens with a welcome band: the person's name, role and today's date, and only the actions their permissions allow (the review queue with its count, new case, new hearing, the monitor app for monitors).
+  - The sidebar's current page is a light tint with a yellow marker and a yellow icon instead of a solid yellow pill; quieter group labels and hover states.
+  - Smaller, crisper page headings; tables with a tinted header row; underline tabs; cards with a hairline and a 1px lift; the case and hearing lists show a labelled "Filter" button.
 
 ### Fixed
 - In GitHub Codespaces the home page could send the browser to `localhost:8000` (the visitor's own computer), because the app saw the forwarded request as coming to localhost. In development, links are now built from `APP_URL` whenever it is an https address (the dev container sets it to the Codespace's address).

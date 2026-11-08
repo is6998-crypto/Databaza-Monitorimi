@@ -59,6 +59,24 @@
                 @endforeach
             </nav>
             <div class="flex items-center gap-2">
+                {{-- Sign in: one menu for the two signed-in areas, the staff panel and the researchers' area. --}}
+                <div class="relative hidden sm:block" x-data="{ signIn: false }" x-on:click.outside="signIn = false" x-on:keydown.escape="signIn = false">
+                    <button type="button" class="inline-flex min-h-10 items-center gap-2 rounded-xl border border-white/25 px-3.5 text-[14px] font-semibold text-white transition-colors hover:border-white/50 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-400" x-on:click="signIn = !signIn" :aria-expanded="signIn.toString()" aria-expanded="false" aria-controls="portal-sign-in" aria-haspopup="true">
+                        <svg class="size-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/></svg>
+                        {{ __('portal.nav.sign_in') }}
+                        <svg class="size-3.5 transition-transform duration-150" :class="signIn && 'rotate-180'" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
+                    </button>
+                    <div id="portal-sign-in" class="absolute right-0 z-50 mt-2 w-64 overflow-hidden rounded-xl border border-navy-900/10 bg-white p-1.5 text-navy-900 shadow-[0_16px_40px_-12px_rgb(12_42_66_/_0.35)]" x-show="signIn" x-cloak x-transition.opacity.duration.150ms>
+                        <a href="{{ route('filament.admin.auth.login') }}" class="flex min-h-11 flex-col justify-center rounded-lg px-3 py-2 transition-colors hover:bg-navy-50 focus-visible:bg-navy-50 focus-visible:outline-none">
+                            <span class="text-[15px] font-semibold">{{ __('portal.nav.staff') }}</span>
+                            <span class="text-[13px] text-slate-600">{{ __('portal.nav.staff_hint') }}</span>
+                        </a>
+                        <a href="{{ route('filament.research.auth.login') }}" class="flex min-h-11 flex-col justify-center rounded-lg px-3 py-2 transition-colors hover:bg-navy-50 focus-visible:bg-navy-50 focus-visible:outline-none">
+                            <span class="text-[15px] font-semibold">{{ __('portal.nav.researchers') }}</span>
+                            <span class="text-[13px] text-slate-600">{{ __('portal.nav.researchers_hint') }}</span>
+                        </a>
+                    </div>
+                </div>
                 <div class="flex gap-0.5 rounded-xl border border-white/25 text-[13px]" role="navigation" aria-label="{{ __('portal.language') }}">
                     @foreach ($supported as $code)
                         <a href="{{ $alternate($code) }}" hreflang="{{ $code }}" lang="{{ $code }}" @class(['flex min-h-10 min-w-11 items-center justify-center rounded-[11px] px-2.5 font-bold uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-gold-400', 'bg-white/15 text-white' => $code === $locale, 'text-white/70 hover:bg-white/10 hover:text-white' => $code !== $locale]) @if ($code === $locale) aria-current="true" @endif>{{ $code }}</a>
@@ -80,6 +98,9 @@
                         @if ($routeName === $name)<span class="size-2 rounded-full bg-gold-400" aria-hidden="true"></span>@endif
                     </a>
                 @endforeach
+                <p class="mt-3 border-t border-white/10 px-3 pt-4 text-[13px] font-semibold text-white/60">{{ __('portal.nav.sign_in') }}</p>
+                <a href="{{ route('filament.admin.auth.login') }}" class="flex min-h-12 items-center rounded-xl px-3 text-base font-semibold text-white/80 hover:bg-white/5 hover:text-white">{{ __('portal.nav.staff') }}</a>
+                <a href="{{ route('filament.research.auth.login') }}" class="flex min-h-12 items-center rounded-xl px-3 text-base font-semibold text-white/80 hover:bg-white/5 hover:text-white">{{ __('portal.nav.researchers') }}</a>
             </div>
         </nav>
     </header>

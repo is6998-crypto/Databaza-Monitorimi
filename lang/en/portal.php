@@ -18,6 +18,11 @@ return [
         'methodology' => 'Methodology',
         'about' => 'About',
         'data_protection' => 'Data protection',
+        'sign_in' => 'Sign in',
+        'staff' => 'Staff',
+        'staff_hint' => 'Monitors, editors and analysts',
+        'researchers' => 'Researchers',
+        'researchers_hint' => 'Anonymized datasets and the API',
     ],
     'footer' => [
         'about' => 'Court-monitoring programme: trained monitors attend hearings and record structured, verified observations.',

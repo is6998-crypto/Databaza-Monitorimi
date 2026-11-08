@@ -59,6 +59,12 @@ return [
         '37-60' => '3–5 vjet',
         '61+' => 'Mbi 5 vjet',
     ],
+    'welcome' => [
+        'greeting' => 'Mirë se u kthyet, :name',
+        'new_case' => 'Lëndë e re',
+        'new_hearing' => 'Seancë e re',
+        'monitor_app' => 'Aplikacioni i monitoruesit',
+    ],
     'my_work' => [
         'title' => 'Draftet dhe seancat e mia të kthyera',
         'description' => 'Përfundojini dhe dorëzojini për shqyrtim.',

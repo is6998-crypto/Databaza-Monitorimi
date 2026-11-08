@@ -18,6 +18,11 @@ return [
         'methodology' => 'Metodologjia',
         'about' => 'Rreth nesh',
         'data_protection' => 'Mbrojtja e të dhënave',
+        'sign_in' => 'Hyr',
+        'staff' => 'Stafi',
+        'staff_hint' => 'Monitoruesit, redaktorët dhe analistët',
+        'researchers' => 'Hulumtuesit',
+        'researchers_hint' => 'Të dhënat e anonimizuara dhe API',
     ],
     'footer' => [
         'about' => 'Program i monitorimit të gjykatave: monitorues të trajnuar ndjekin seancat dhe regjistrojnë vëzhgime të strukturuara e të verifikuara.',
