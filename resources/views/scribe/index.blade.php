@@ -136,7 +136,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: 05.11.2026</li>
+        <li>Last updated: 08.11.2026</li>
     </ul>
 </div>
 
@@ -286,7 +286,7 @@ response.json()</code></pre></div>
                     &quot;code&quot;: &quot;KPRK-2019&quot;,
                     &quot;article&quot;: &quot;414&quot;,
                     &quot;title&quot;: &quot;KPRK-2019 art. 414 &mdash; Abuse of official position or authority&quot;,
-                    &quot;category&quot;: &quot;Corruption&quot;
+                    &quot;category&quot;: &quot;Official corruption and criminal offences against official duty&quot;
                 }
             ],
             &quot;hearings&quot;: {
@@ -571,7 +571,7 @@ response.json()</code></pre></div>
                 &quot;code&quot;: &quot;KPRK-2019&quot;,
                 &quot;article&quot;: &quot;414&quot;,
                 &quot;title&quot;: &quot;KPRK-2019 art. 414 &mdash; Abuse of official position or authority&quot;,
-                &quot;category&quot;: &quot;Corruption&quot;
+                &quot;category&quot;: &quot;Official corruption and criminal offences against official duty&quot;
             }
         ],
         &quot;hearings&quot;: {
@@ -802,7 +802,7 @@ response.json()</code></pre></div>
                     &quot;stage&quot;: &quot;indictment&quot;,
                     &quot;code&quot;: &quot;KPRK-2019&quot;,
                     &quot;article&quot;: &quot;414&quot;,
-                    &quot;category&quot;: &quot;Corruption&quot;
+                    &quot;category&quot;: &quot;Official corruption and criminal offences against official duty&quot;
                 }
             ],
             &quot;sentences&quot;: [
@@ -1366,6 +1366,9 @@ response.json()</code></pre></div>
     &quot;cases_by_type&quot;: {
         &quot;Criminal &ndash; Corruption&quot;: 55
     },
+    &quot;cases_by_category&quot;: {
+        &quot;Official corruption and criminal offences against official duty&quot;: 51
+    },
     &quot;postponement_by_court&quot;: [
         {
             &quot;court&quot;: &quot;Basic Court of Prishtina&quot;,
@@ -1765,7 +1768,7 @@ response.json()</code></pre></div>
             &quot;code&quot;: &quot;KPRK-2019&quot;,
             &quot;article&quot;: &quot;414&quot;,
             &quot;title&quot;: &quot;Abuse of official position or authority&quot;,
-            &quot;category&quot;: &quot;Corruption&quot;
+            &quot;category&quot;: &quot;Official corruption and criminal offences against official duty&quot;
         }
     ]
 }</code>

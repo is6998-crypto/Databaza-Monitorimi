@@ -51,6 +51,7 @@ class Statistics extends Component
             'headline' => $statistics->headline(),
             'byYear' => $statistics->hearingsByYear(),
             'byType' => $statistics->casesByType(),
+            'byCategory' => $statistics->casesByCategory(),
             'byCourt' => $statistics->postponementByCourt(),
             'reasons' => $statistics->postponementReasons(),
             'verdicts' => $statistics->verdicts(),

@@ -25,7 +25,7 @@ class StatisticsController extends ApiController
      * @queryParam case_type string Case type. Example: criminal_corruption
      * @queryParam lang string Language of the labels: sq (default) or en. Example: en
      *
-     * @response 200 scenario="Success" {"headline":{"cases":156,"hearings":507,"postponement_rate":31,"late_rate":29.4,"public_rate":83,"conviction_rate":55.9},"hearings_by_year":{"2024":99,"2025":119},"cases_by_type":{"Criminal – Corruption":55},"postponement_by_court":[{"court":"Basic Court of Prishtina","hearings":225,"postponed":63,"rate":28}],"postponement_reasons":{"Defence lawyer":61},"verdicts":{"Convicting":33},"stage_durations":[{"label":"Criminal report filed → Indictment filed","median":329,"cases":103}]}
+     * @response 200 scenario="Success" {"headline":{"cases":156,"hearings":507,"postponement_rate":31,"late_rate":29.4,"public_rate":83,"conviction_rate":55.9},"hearings_by_year":{"2024":99,"2025":119},"cases_by_type":{"Criminal – Corruption":55},"cases_by_category":{"Official corruption and criminal offences against official duty":51},"postponement_by_court":[{"court":"Basic Court of Prishtina","hearings":225,"postponed":63,"rate":28}],"postponement_reasons":{"Defence lawyer":61},"verdicts":{"Convicting":33},"stage_durations":[{"label":"Criminal report filed → Indictment filed","median":329,"cases":103}]}
      */
     public function index(Request $request): JsonResponse
     {
@@ -35,6 +35,7 @@ class StatisticsController extends ApiController
             'headline' => $statistics->headline(),
             'hearings_by_year' => $statistics->hearingsByYear(),
             'cases_by_type' => $statistics->casesByType(),
+            'cases_by_category' => $statistics->casesByCategory(),
             'postponement_by_court' => $statistics->postponementByCourt(),
             'postponement_reasons' => $statistics->postponementReasons(),
             'verdicts' => $statistics->verdicts(),

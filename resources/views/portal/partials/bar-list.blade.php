@@ -9,6 +9,7 @@
     $suffix  printed after each value (' %')
     $scale   'max' (default: the largest value is the full track) or 'percent' (0-100, for shares)
     $ranked  sort largest first (default true; false keeps an order that means something, such as stages)
+    $split   lay a long list out in two columns from the lg breakpoint (default false; for a card that spans the grid)
 --}}
 @php
     use App\Services\Anonymizer;
@@ -20,7 +21,7 @@
 @endphp
 <div class="card portal-card flex flex-col p-5 sm:p-6">
     <h3 class="text-lg leading-snug font-bold text-navy-900">{{ $title }}</h3>
-    <ol class="mt-4 space-y-2.5" role="list">
+    <ol @class(['mt-4', 'space-y-2.5' => ! ($split ?? false), 'grid gap-x-10 gap-y-2.5 lg:grid-cols-2' => $split ?? false]) role="list">
         @foreach ($rows as $label => $value)
             <li class="group">
                 <div class="flex items-baseline justify-between gap-4 text-[15px] leading-snug">

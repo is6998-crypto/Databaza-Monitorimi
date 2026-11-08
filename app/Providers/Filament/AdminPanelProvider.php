@@ -60,7 +60,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->brandName('CourtWatch')
-            ->brandLogo(fn (): Htmlable => new HtmlString(view('partials.brand', ['subtitle' => __('portal.home.kicker')])->render()))
+            ->brandLogo(fn (): Htmlable => new HtmlString(view('partials.brand', ['subtitle' => __('app.brand_subtitle')])->render()))
             ->brandLogoHeight('2.5rem')
             ->favicon(asset('icons/favicon.svg'))
             ->defaultAvatarProvider(InitialsAvatarProvider::class)
@@ -109,7 +109,7 @@ class AdminPanelProvider extends PanelProvider
                     ->url(fn (): string => route('monitor.app')),
             ])
             ->renderHook(PanelsRenderHook::SIMPLE_LAYOUT_START, fn () => view('filament.shared.auth-aside', [
-                'subtitle' => __('portal.home.kicker'),
+                'subtitle' => __('app.brand_subtitle'),
                 'note' => __('portal.footer.privacy', ['threshold' => Anonymizer::threshold()]),
             ]))
             ->renderHook(PanelsRenderHook::BODY_END, fn () => view('partials.idle-timeout', [

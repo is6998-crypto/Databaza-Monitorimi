@@ -126,12 +126,18 @@ it('serves the API documentation without third-party assets', function () {
         ->and(file_exists(public_path('docs-assets/courtwatch.css')))->toBeTrue();
 });
 
-it('shows a bilingual error page without technical details', function () {
+it('shows an error page in one language without technical details', function () {
+    // Albanian by default, English under /en, never both on one page.
     $this->get('/kjo-faqe-nuk-ekziston')
         ->assertNotFound()
         ->assertSee(__('errors.404.title', [], 'sq'))
-        ->assertSee(__('errors.404.title', [], 'en'))
+        ->assertDontSee(__('errors.404.title', [], 'en'))
         ->assertDontSee('Symfony');
+
+    $this->get('/en/this-page-does-not-exist')
+        ->assertNotFound()
+        ->assertSee(__('errors.404.title', [], 'en'))
+        ->assertDontSee(__('errors.404.title', [], 'sq'));
 
     config(['app.debug' => false]);
     Route::get('/_test/failure', fn () => throw new RuntimeException('database password is hunter2'));

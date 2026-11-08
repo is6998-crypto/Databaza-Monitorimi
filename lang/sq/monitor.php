@@ -3,7 +3,7 @@
 return [
     'title' => 'Aplikacioni i monitoruesit',
     'panel' => 'Paneli',
-    'online' => 'Online',
+    'online' => 'Në linjë',
     'offline' => 'Pa internet',
     'syncing' => 'Duke dërguar në server…',
     'pending_count' => ':count në pritje për t\'u dërguar',

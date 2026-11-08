@@ -21,6 +21,8 @@ return [
         'judgments' => 'nga :count aktgjykime të shkallës së parë',
     ],
     'charts' => [
+        'cases_by_category' => 'Lëndët sipas kategorisë së veprës penale',
+        'cases' => 'Lëndë',
         'hearings_over_time' => 'Seancat sipas kohës',
         'postponement_rate' => 'Shkalla e shtyrjes',
         'postponement_rate_percent' => 'Të shtyra (%)',

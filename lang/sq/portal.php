@@ -63,6 +63,7 @@ return [
     'charts' => [
         'hearings_by_year' => 'Seanca të monitoruara për vit',
         'cases_by_type' => 'Lëndët e monitoruara sipas llojit',
+        'cases_by_category' => 'Lëndët e monitoruara sipas kategorisë së veprës penale',
         'postponement_by_court' => 'Pjesa e seancave të shtyra, sipas gjykatës (%)',
         'postponement_reasons' => 'Arsyet e shtyrjes',
         'verdicts' => 'Aktgjykimet e shkallës së parë',
@@ -104,6 +105,7 @@ return [
             'postponement-by-court' => 'Shkalla e shtyrjes sipas gjykatës',
             'postponement-reasons' => 'Arsyet e shtyrjes',
             'cases-by-type' => 'Lëndët e monitoruara sipas llojit',
+            'cases-by-category' => 'Lëndët e monitoruara sipas kategorisë së veprës penale',
             'verdicts' => 'Aktgjykimet e shkallës së parë sipas rezultatit',
             'stage-durations' => 'Mediana e ditëve ndërmjet fazave të lëndës',
         ],
@@ -117,6 +119,7 @@ return [
         'reason' => 'Arsyeja',
         'count' => 'Numri',
         'case_type' => 'Lloji i lëndës',
+        'category' => 'Kategoria e veprës penale',
         'cases' => 'Lëndë',
         'outcome' => 'Rezultati',
         'stages' => 'Fazat',

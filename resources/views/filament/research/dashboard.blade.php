@@ -15,6 +15,7 @@
         ! $profile, $status === 'pending', in_array($status, ['rejected', 'suspended'], true) => [],
         $needsAgreement => [[__('research.agreement.title'), \App\Filament\Research\Pages\DataUseAgreement::getUrl(), 'heroicon-o-document-check', false]],
         default => [
+            [__('research.charts.title'), \App\Filament\Research\Pages\Charts::getUrl(), 'heroicon-o-chart-bar', false],
             [__('research.datasets.title'), \App\Filament\Research\Pages\Datasets::getUrl(), 'heroicon-o-circle-stack', false],
             [__('research.tokens.title'), \App\Filament\Research\Pages\ApiTokens::getUrl(), 'heroicon-o-key', false],
             [__('research.dashboard.api_docs'), url('/docs/api'), 'heroicon-o-book-open', true],

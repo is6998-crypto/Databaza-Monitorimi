@@ -193,10 +193,20 @@ abstract class ReferenceResource extends Resource
 
         $prefix = $model::labelPrefix();
 
+        // The name in the interface's language first (falling back to Albanian where no translation exists);
+        // the other languages stay available as hidden, toggleable columns for the people who edit them.
+        $current = app()->getLocale() === 'en' ? 'en' : 'sq';
+        $others = array_values(array_diff(['sq', 'en', 'sr'], [$current]));
+
         return [
-            TextColumn::make("{$prefix}_sq")->label(__("reference.fields.{$prefix}_sq"))->searchable()->sortable()->wrap(),
-            TextColumn::make("{$prefix}_en")->label(__("reference.fields.{$prefix}_en"))->searchable()->sortable()->toggleable()->wrap(),
-            TextColumn::make("{$prefix}_sr")->label(__("reference.fields.{$prefix}_sr"))->searchable()->toggleable(isToggledHiddenByDefault: true),
+            TextColumn::make("{$prefix}_{$current}")
+                ->label(__('reference.fields.name'))
+                ->getStateUsing(fn (ReferenceModel $record): string => $record->label($current))
+                ->searchable()->sortable()->wrap(),
+            ...array_map(fn (string $locale): TextColumn => TextColumn::make("{$prefix}_{$locale}")
+                ->label(__("reference.fields.{$prefix}_{$locale}"))
+                ->searchable()->sortable()->wrap()
+                ->toggleable(isToggledHiddenByDefault: true), $others),
         ];
     }
 

@@ -3,6 +3,7 @@
 namespace App\Filament\Admin\Resources\Activities;
 
 use App\Enums\NavigationGroup;
+use App\Enums\WorkflowStatus;
 use App\Filament\Admin\Resources\Activities\Pages\ListActivities;
 use App\Filament\Admin\Resources\Activities\Pages\ViewActivity;
 use App\Models\User;
@@ -64,7 +65,7 @@ class ActivityResource extends Resource
                 TextColumn::make('created_at')->label(__('audit.fields.created_at'))->dateTime()->sortable(),
                 TextColumn::make('log_name')->label(__('audit.fields.log_name'))->badge()->formatStateUsing(fn (?string $state): string => static::logLabel($state)),
                 TextColumn::make('event')->label(__('audit.fields.event'))->badge()->color('gray')->formatStateUsing(fn (?string $state): string => static::eventLabel($state)),
-                TextColumn::make('description')->label(__('audit.fields.description'))->limit(50)->wrap(),
+                TextColumn::make('description')->label(__('audit.fields.description'))->formatStateUsing(fn (Activity $record): string => static::descriptionLabel($record))->limit(50)->wrap(),
                 TextColumn::make('causer.name')->label(__('audit.fields.causer'))->placeholder(__('audit.system'))->searchable(),
                 TextColumn::make('subject_type')
                     ->label(__('audit.fields.subject'))
@@ -104,7 +105,7 @@ class ActivityResource extends Resource
                     TextEntry::make('created_at')->label(__('audit.fields.created_at'))->dateTime(),
                     TextEntry::make('log_name')->label(__('audit.fields.log_name'))->formatStateUsing(fn (?string $state): string => static::logLabel($state)),
                     TextEntry::make('event')->label(__('audit.fields.event'))->formatStateUsing(fn (?string $state): string => static::eventLabel($state)),
-                    TextEntry::make('description')->label(__('audit.fields.description')),
+                    TextEntry::make('description')->label(__('audit.fields.description'))->formatStateUsing(fn (Activity $record): string => static::descriptionLabel($record)),
                     TextEntry::make('causer.name')->label(__('audit.fields.causer'))->placeholder(__('audit.system')),
                     TextEntry::make('subject_type')->label(__('audit.fields.subject'))->formatStateUsing(fn (?string $state, Activity $record): string => $state ? class_basename($state).' #'.$record->subject_id : '—'),
                 ]),
@@ -151,6 +152,26 @@ class ActivityResource extends Resource
         $key = 'audit.events.'.$event;
 
         return $event && __($key) !== $key ? __($key) : (string) $event;
+    }
+
+    /**
+     * The entry's description in the interface's language. Descriptions are stored in English when the
+     * entry is written (the log itself is never rewritten); here they are rebuilt from the event and its
+     * stored properties, falling back to the stored text for anything unknown.
+     */
+    public static function descriptionLabel(Activity $record): string
+    {
+        $properties = $record->properties?->toArray() ?? [];
+        $status = fn (?string $value): string => WorkflowStatus::tryFrom((string) $value)?->getLabel() ?? (string) $value;
+
+        return match ($record->event) {
+            'exported' => __('audit.descriptions.exported', ['resource' => (string) ($properties['resource'] ?? ''), 'rows' => (int) ($properties['rows'] ?? 0)]),
+            'transition' => $status($properties['from'] ?? null).' → '.$status($properties['to'] ?? null),
+            'imported' => __('audit.descriptions.imported', ['model' => (string) ($properties['model'] ?? '')]),
+            default => $record->event && __('audit.events.'.$record->event) !== 'audit.events.'.$record->event
+                ? static::eventLabel($record->event)
+                : (string) $record->description,
+        };
     }
 
     public static function canCreate(): bool

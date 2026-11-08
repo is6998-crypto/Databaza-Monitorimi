@@ -21,6 +21,8 @@ return [
         'judgments' => 'of :count first-instance judgments',
     ],
     'charts' => [
+        'cases_by_category' => 'Cases by offence category',
+        'cases' => 'Cases',
         'hearings_over_time' => 'Hearings over time',
         'postponement_rate' => 'Postponement rate',
         'postponement_rate_percent' => 'Postponed (%)',

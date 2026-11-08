@@ -3,6 +3,7 @@
     use App\Support\Brand;
     // The one trend (hearings per year): thin navy columns, the latest year in yellow and labelled, recessive axes.
     // Every comparison below is a ranked bar list in HTML (portal.partials.bar-list): no doughnuts, nothing clipped.
+    // The offence categories (up to 28) get the full width, in two columns.
     $columns = function (array $rows): array {
         $values = array_values($rows);
         $last = count($values) - 1;
@@ -97,11 +98,16 @@
 
     <div class="grid gap-6 lg:grid-cols-2" wire:loading.class="opacity-60">
         @include('portal.partials.chart', ['title' => __('portal.charts.hearings_by_year'), 'option' => $columns($byYear), 'rows' => $byYear, 'suffix' => ''])
-        @include('portal.partials.bar-list', ['title' => __('portal.charts.cases_by_type'), 'rows' => $byType, 'suffix' => '', 'scale' => 'max', 'ranked' => true])
-        @include('portal.partials.bar-list', ['title' => __('portal.charts.postponement_by_court'), 'rows' => $courtRates, 'suffix' => ' %', 'scale' => 'percent', 'ranked' => true])
-        @include('portal.partials.bar-list', ['title' => __('portal.charts.postponement_reasons'), 'rows' => $reasons, 'suffix' => '', 'scale' => 'max', 'ranked' => true])
-        @include('portal.partials.bar-list', ['title' => __('portal.charts.verdicts'), 'rows' => $verdicts, 'suffix' => '', 'scale' => 'max', 'ranked' => true])
-        @include('portal.partials.bar-list', ['title' => __('portal.charts.durations'), 'rows' => $durationRows, 'suffix' => ' '.__('portal.days'), 'scale' => 'max', 'ranked' => false])
+        @include('portal.partials.bar-list', ['title' => __('portal.charts.cases_by_type'), 'rows' => $byType, 'suffix' => '', 'scale' => 'max', 'ranked' => true, 'split' => false])
+        @if ($byCategory !== [])
+            <div class="lg:col-span-2">
+                @include('portal.partials.bar-list', ['title' => __('portal.charts.cases_by_category'), 'rows' => $byCategory, 'suffix' => '', 'scale' => 'max', 'ranked' => true, 'split' => true])
+            </div>
+        @endif
+        @include('portal.partials.bar-list', ['title' => __('portal.charts.postponement_by_court'), 'rows' => $courtRates, 'suffix' => ' %', 'scale' => 'percent', 'ranked' => true, 'split' => false])
+        @include('portal.partials.bar-list', ['title' => __('portal.charts.postponement_reasons'), 'rows' => $reasons, 'suffix' => '', 'scale' => 'max', 'ranked' => true, 'split' => false])
+        @include('portal.partials.bar-list', ['title' => __('portal.charts.verdicts'), 'rows' => $verdicts, 'suffix' => '', 'scale' => 'max', 'ranked' => true, 'split' => false])
+        @include('portal.partials.bar-list', ['title' => __('portal.charts.durations'), 'rows' => $durationRows, 'suffix' => ' '.__('portal.days'), 'scale' => 'max', 'ranked' => false, 'split' => false])
     </div>
 
     <p class="flex gap-3 text-[15px] leading-relaxed text-slate-600"><svg class="mt-0.5 size-5 shrink-0 text-navy-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"/></svg>{{ __('portal.suppression_note', ['threshold' => Anonymizer::threshold()]) }}</p>

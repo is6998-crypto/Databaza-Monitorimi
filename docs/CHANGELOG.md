@@ -7,6 +7,9 @@ All notable changes to this project are documented here. The format follows
 ## [Unreleased] — v1 build
 
 ### Added
+- Researcher chart builder (`/research/charts`): count verified hearings (postponed, started late, shares, average delay, closed, cases), narrow by years, court, case type and offence category, split by year, month, court, case type, department, offence category or reason for postponement, and compare along a second dimension; bars, stacked bars or lines, a data table with small cells marked, a logged CSV download, and the choice kept in the URL.
+- The full list of criminal offences (558 entries from the owner's "Veprat penale" list across 15 codes and laws, with English titles) and the 28 statistics categories they are sorted into (with codes such as KORR, DR, JT), loaded from `database/data` by a migration; `php artisan reference:sync-offences` re-applies the files. Offences and categories outside the list are set inactive, and the earlier placeholder categories are merged into the new ones.
+- "Cases by offence category" on the public statistics (suppressed under 5, also as an open-data CSV), on the staff dashboard and in the researcher API statistics.
 - Project scaffold: Laravel 13, Filament 5, Livewire 4, Tailwind 4, Pest, Larastan, Pint.
 - Docker Compose dev stack (app, Horizon, scheduler, PostgreSQL 16, Redis, MinIO, Mailpit) and a Codespaces dev container that installs, migrates, seeds and serves automatically.
 - GitHub Actions CI: Pint, Larastan and Pest on PostgreSQL 16; Dependabot for Composer, npm and Actions.
@@ -16,7 +19,7 @@ All notable changes to this project are documented here. The format follows
 - Audit-log viewer; logins, failed logins, logouts, password resets, role/permission changes and model changes are logged.
 - Full database schema for reference data, cases, parties, charges, stages, hearings, measures, sentences, administrative/civil details, workflow history, attachments, saved filters, publications, export logs, researcher profiles and legacy-import bookkeeping.
 - Reference data: 16 tables (courts, branches, departments, divisions, prosecution offices, judges, prosecutors, monitors, applicants, criminal codes, criminal offences, categories, nationalities, defendant positions, economic statuses, security measure types) with CRUD, search, bilingual names, soft delete/restore, merge duplicates and CSV import with templates.
-- Seeded public structure: the 7 basic courts and their branches, Court of Appeals, Supreme Court, court departments and divisions, prosecution offices, KPRK 2019 / KPK 2012 / UNMIK 2003/25 with a sample of articles; fake judges and prosecutors in development.
+- Seeded public structure: the 7 basic courts and their branches, Court of Appeals, Supreme Court, court departments and divisions, prosecution offices, the criminal codes with the full list of criminal offences and their statistics categories; fake judges and prosecutors in development.
 - Cases: list with faceted filters, create/edit with duplicate-number warning and administrative/civil details, and a case workspace with tabs for overview, parties & charges, stages timeline (chronology validation), hearings, measures & sentences, documents and history.
 - Hearings: phone-friendly form pre-filled from the case, conditional follow-up questions, hearing date not in the future, autosaved drafts and "recently used" values first in selects.
 - Monitor app (`/m`): installable PWA with offline drafts in IndexedDB, an outbox that syncs when back online, and "send for review".
@@ -84,6 +87,13 @@ All notable changes to this project are documented here. The format follows
   - Researcher home: a navy status band (where the account stands, what to do next) and the data rules as numbered cards.
 
 ### Fixed
+- One language per page, everywhere: English pages are fully English and Albanian pages fully Albanian.
+  - Staff panel: reference data (courts, branches, offences, categories, offices, measures and the rest) shows its name in the interface's language in lists, dropdowns and filters (the other languages stay as hidden, toggleable columns); publication titles likewise.
+  - Albanian added for 230+ interface strings that showed in English: Filament's own texts (two-factor set-up and sign-in, search, tables, selects, password fields, pagination, notifications), about 60 missing validation messages, and the public pagination ("Showing … results").
+  - Audit log descriptions are shown in the interface's language (rebuilt from the stored event).
+  - Error pages show one language: English under /en, otherwise the visitor's choice, else Albanian.
+  - The portal's chart no longer adds ECharts' own English description; the monitor app says "Në linjë".
+- Staff panel: the subtitle under the CourtWatch logo is "Monitorimi" / "Monitoring".
 - In GitHub Codespaces the home page could send the browser to `localhost:8000` (the visitor's own computer), because the app saw the forwarded request as coming to localhost. In development, links are now built from `APP_URL` whenever it is an https address (the dev container sets it to the Codespace's address).
 - `TRUSTED_PROXIES` in `.env` was ignored (it was read before `.env` is loaded), so behind a proxy such as GitHub Codespaces the pages linked their styles and scripts over http:// and the browser blocked them. The setting is now read on every request (`config/trustedproxy.php`), and the dev container trusts the Codespaces proxy.
 - The introduction of the API documentation was shown as raw Markdown in a code box (indented text in `config/scribe.php`).

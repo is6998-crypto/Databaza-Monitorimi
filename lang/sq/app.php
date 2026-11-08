@@ -2,6 +2,8 @@
 
 return [
     'name' => 'CourtWatch',
+    // Under the logo in the staff panel and on its sign-in pages.
+    'brand_subtitle' => 'Monitorimi',
     'recently_used' => 'Të përdorura së fundmi',
     'all_options' => 'Të gjitha',
     'monitor_app' => 'Aplikacioni i monitoruesit (celular)',
