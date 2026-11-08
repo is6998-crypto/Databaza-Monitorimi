@@ -21,6 +21,8 @@ return [
         'judgments' => 'nga :count aktgjykime të shkallës së parë',
     ],
     'charts' => [
+        'cases_by_category' => 'Lëndët sipas kategorisë së veprës penale',
+        'cases' => 'Lëndë',
         'hearings_over_time' => 'Seancat sipas kohës',
         'postponement_rate' => 'Shkalla e shtyrjes',
         'postponement_rate_percent' => 'Të shtyra (%)',
@@ -58,6 +60,12 @@ return [
         '13-36' => '1–3 vjet',
         '37-60' => '3–5 vjet',
         '61+' => 'Mbi 5 vjet',
+    ],
+    'welcome' => [
+        'greeting' => 'Mirë se u kthyet, :name',
+        'new_case' => 'Lëndë e re',
+        'new_hearing' => 'Seancë e re',
+        'monitor_app' => 'Aplikacioni i monitoruesit',
     ],
     'my_work' => [
         'title' => 'Draftet dhe seancat e mia të kthyera',

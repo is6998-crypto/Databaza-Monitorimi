@@ -21,6 +21,8 @@ return [
         'judgments' => 'of :count first-instance judgments',
     ],
     'charts' => [
+        'cases_by_category' => 'Cases by offence category',
+        'cases' => 'Cases',
         'hearings_over_time' => 'Hearings over time',
         'postponement_rate' => 'Postponement rate',
         'postponement_rate_percent' => 'Postponed (%)',
@@ -58,6 +60,12 @@ return [
         '13-36' => '1–3 years',
         '37-60' => '3–5 years',
         '61+' => 'Over 5 years',
+    ],
+    'welcome' => [
+        'greeting' => 'Welcome back, :name',
+        'new_case' => 'New case',
+        'new_hearing' => 'New hearing',
+        'monitor_app' => 'Monitor app',
     ],
     'my_work' => [
         'title' => 'My drafts and returned hearings',

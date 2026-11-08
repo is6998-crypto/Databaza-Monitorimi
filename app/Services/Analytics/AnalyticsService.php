@@ -443,6 +443,25 @@ class AnalyticsService
     }
 
     /**
+     * Cases per statistics category of the offences charged (a case with offences in two categories counts in both).
+     *
+     * @return array<string, int> category id => count, largest first
+     */
+    public function casesByCategory(): array
+    {
+        return $this->cases()
+            ->join('charges as ch', 'ch.case_id', '=', 'c.id')
+            ->join('criminal_offences as o', 'o.id', '=', 'ch.criminal_offence_id')
+            ->whereNotNull('o.category_id')
+            ->selectRaw('o.category_id as category, count(distinct c.id) as total')
+            ->groupBy('category')
+            ->orderByDesc('total')
+            ->pluck('total', 'category')
+            ->mapWithKeys(fn ($total, $category): array => [(string) $category => (int) $total])
+            ->all();
+    }
+
+    /**
      * Cases per court (portal).
      *
      * @return array<string, int> court id => count

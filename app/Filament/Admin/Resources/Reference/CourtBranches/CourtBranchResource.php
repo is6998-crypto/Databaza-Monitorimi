@@ -6,6 +6,7 @@ use App\Filament\Admin\Resources\Reference\CourtBranches\Pages\ManageCourtBranch
 use App\Filament\Admin\Resources\Reference\ReferenceResource;
 use App\Models\Reference\Court;
 use App\Models\Reference\CourtBranch;
+use App\Models\Reference\ReferenceModel;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Support\Icons\Heroicon;
@@ -30,7 +31,7 @@ class CourtBranchResource extends ReferenceResource
     protected static function extraFormFields(): array
     {
         return [
-            Select::make('court_id')->label(__('reference.fields.court'))->relationship('court', 'name_sq')->searchable()->preload()->required(),
+            Select::make('court_id')->label(__('reference.fields.court'))->relationship('court', 'name_sq')->getOptionLabelFromRecordUsing(fn (ReferenceModel $record): string => $record->label())->searchable()->preload()->required(),
             TextInput::make('city')->label(__('reference.fields.city'))->maxLength(255),
         ];
     }
@@ -38,7 +39,7 @@ class CourtBranchResource extends ReferenceResource
     protected static function extraColumns(): array
     {
         return [
-            TextColumn::make('court.name_sq')->label(__('reference.fields.court'))->sortable()->searchable(),
+            TextColumn::make('court.name_sq')->getStateUsing(fn ($record): ?string => $record->court?->label())->label(__('reference.fields.court'))->sortable()->searchable(),
             TextColumn::make('city')->label(__('reference.fields.city'))->toggleable(),
         ];
     }
@@ -46,7 +47,7 @@ class CourtBranchResource extends ReferenceResource
     protected static function extraFilters(): array
     {
         return [
-            SelectFilter::make('court_id')->label(__('reference.fields.court'))->relationship('court', 'name_sq')->searchable()->preload(),
+            SelectFilter::make('court_id')->label(__('reference.fields.court'))->relationship('court', 'name_sq')->getOptionLabelFromRecordUsing(fn (ReferenceModel $record): string => $record->label())->searchable()->preload(),
         ];
     }
 

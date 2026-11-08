@@ -89,6 +89,8 @@ return [
         'article_number' => 'Article',
         'chapter' => 'Chapter',
         'category' => 'Category',
+        'category_code' => 'Category code',
+        'offences_count' => 'Number of offences',
     ],
     'help' => [
         'serbian' => 'Optional — the interface is Serbian-ready.',
@@ -116,5 +118,8 @@ return [
         'missing_columns' => 'Missing required columns: :columns',
         'row_error' => 'Line :line: :message',
         'unknown_reference' => 'Line :line: unknown :column ":value".',
+    ],
+    'catalogue' => [
+        'synced' => 'Offence list loaded: :codes codes, :categories categories, :offences offences (:created new, :deactivated set inactive).',
     ],
 ];

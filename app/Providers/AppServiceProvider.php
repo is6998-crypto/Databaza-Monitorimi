@@ -19,8 +19,10 @@ use App\Policies\CaseChildPolicy;
 use App\Policies\RolePolicy;
 use App\Support\PublicUrl;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Resources\Resource as FilamentResource;
 use Filament\Schemas\Schema;
 use Filament\Support\Facades\FilamentTimezone;
 use Filament\Tables\Table;
@@ -55,6 +57,17 @@ class AppServiceProvider extends ServiceProvider
         Gate::before(fn (User $user): ?bool => $user->isSuperAdmin() ? true : null);
 
         $this->registerPolicies();
+
+        // The role editor (Filament Shield) names each resource's permission list after the resource class and
+        // hides its label; without one, screen readers read the class path. Give it the resource's own
+        // translated name (still visually hidden).
+        CheckboxList::configureUsing(function (CheckboxList $list): void {
+            $name = $list->getName();
+
+            if (class_exists($name) && is_subclass_of($name, FilamentResource::class)) {
+                $list->label(fn (): string => $name::getPluralModelLabel());
+            }
+        });
 
         $this->configureDates();
         $this->configureAuditing();

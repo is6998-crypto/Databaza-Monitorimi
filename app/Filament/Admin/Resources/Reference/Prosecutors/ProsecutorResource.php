@@ -6,6 +6,7 @@ use App\Filament\Admin\Resources\Reference\Prosecutors\Pages\ManageProsecutors;
 use App\Filament\Admin\Resources\Reference\ReferenceResource;
 use App\Models\Reference\ProsecutionOffice;
 use App\Models\Reference\Prosecutor;
+use App\Models\Reference\ReferenceModel;
 use Filament\Forms\Components\Select;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
@@ -29,21 +30,21 @@ class ProsecutorResource extends ReferenceResource
     protected static function extraFormFields(): array
     {
         return [
-            Select::make('prosecution_office_id')->label(__('reference.fields.prosecution_office'))->relationship('prosecutionOffice', 'name_sq')->searchable()->preload(),
+            Select::make('prosecution_office_id')->label(__('reference.fields.prosecution_office'))->relationship('prosecutionOffice', 'name_sq')->getOptionLabelFromRecordUsing(fn (ReferenceModel $record): string => $record->label())->searchable()->preload(),
         ];
     }
 
     protected static function extraColumns(): array
     {
         return [
-            TextColumn::make('prosecutionOffice.name_sq')->label(__('reference.fields.prosecution_office'))->sortable()->toggleable(),
+            TextColumn::make('prosecutionOffice.name_sq')->getStateUsing(fn ($record): ?string => $record->prosecutionOffice?->label())->label(__('reference.fields.prosecution_office'))->sortable()->toggleable(),
         ];
     }
 
     protected static function extraFilters(): array
     {
         return [
-            SelectFilter::make('prosecution_office_id')->label(__('reference.fields.prosecution_office'))->relationship('prosecutionOffice', 'name_sq')->searchable()->preload(),
+            SelectFilter::make('prosecution_office_id')->label(__('reference.fields.prosecution_office'))->relationship('prosecutionOffice', 'name_sq')->getOptionLabelFromRecordUsing(fn (ReferenceModel $record): string => $record->label())->searchable()->preload(),
         ];
     }
 

@@ -14,16 +14,108 @@
  * Only the appearance changes: no Filament view is overridden.
  */
 
-/* ------------------------------------------------------------------ Top bar */
+/* ------------------------------------------------------------------ App shell
+ * The window is a navy frame (the top bar and the sidebar are one surface) and each page sits on a light,
+ * rounded sheet inset into it. Only signed-in pages (with navigation); the sign-in pages keep their own layout.
+ */
 
-.fi-topbar {
+.fi-body.fi-body-has-navigation,
+.fi-body-has-navigation .fi-layout {
+    background-color: var(--color-navy-900);
+}
+
+.dark .fi-body.fi-body-has-navigation,
+.dark .fi-body-has-navigation .fi-layout {
+    background-color: var(--color-navy-950);
+}
+
+.fi-body-has-navigation .fi-topbar-ctn,
+.fi-body-has-navigation .fi-topbar {
     @apply shadow-none ring-0;
-    border-bottom: 1px solid var(--gray-200);
+    background-color: var(--color-navy-900);
+    border: 0;
+    color: #fff;
 }
 
-.dark .fi-topbar {
-    border-bottom-color: rgb(255 255 255 / 0.08);
+.dark .fi-body-has-navigation .fi-topbar-ctn,
+.dark .fi-body-has-navigation .fi-topbar {
+    background-color: var(--color-navy-950);
 }
+
+/* Top bar controls on navy: white icons, a translucent search pill. */
+.fi-body-has-navigation .fi-topbar .fi-icon-btn {
+    color: rgb(255 255 255 / 0.7);
+
+    &:hover,
+    &:focus-visible {
+        color: #fff;
+        background-color: rgb(255 255 255 / 0.1);
+    }
+}
+
+.fi-body-has-navigation .fi-topbar .fi-logo {
+    @apply text-white;
+}
+
+.fi-body-has-navigation .fi-global-search-field .fi-input-wrp {
+    @apply rounded-full ring-1;
+    background-color: rgb(255 255 255 / 0.08);
+    --tw-ring-color: rgb(255 255 255 / 0.12);
+    transition: background-color 150ms, box-shadow 150ms;
+
+    &:hover {
+        background-color: rgb(255 255 255 / 0.12);
+    }
+
+    &:focus-within {
+        background-color: #fff;
+        --tw-ring-color: var(--primary-400);
+
+        & .fi-input,
+        & .fi-icon {
+            color: var(--color-navy-900);
+        }
+    }
+
+    & .fi-input {
+        color: #fff;
+
+        &::placeholder {
+            color: rgb(255 255 255 / 0.55);
+        }
+    }
+
+    & .fi-icon {
+        color: rgb(255 255 255 / 0.6);
+    }
+}
+
+.fi-body-has-navigation .fi-user-menu-trigger .fi-avatar {
+    @apply ring-2;
+    --tw-ring-color: rgb(255 255 255 / 0.2);
+}
+
+/* The sheet. */
+.fi-body-has-navigation .fi-main-ctn {
+    background-color: var(--color-canvas);
+    border-radius: 1.25rem 1.25rem 0 0;
+    min-height: calc(100dvh - 4rem);
+}
+
+@media (min-width: 64rem) {
+    .fi-body-has-navigation .fi-main-ctn {
+        margin: 0 0.75rem 0.75rem 0;
+        border-radius: 1.5rem;
+        min-height: calc(100dvh - 4rem - 0.75rem);
+        box-shadow: 0 0 0 1px rgb(255 255 255 / 0.04);
+    }
+}
+
+.dark .fi-body-has-navigation .fi-main-ctn {
+    background-color: var(--gray-950);
+}
+
+/* ------------------------------------------------------------------ Top bar */
 
 /* On large screens the logo sits on the navy sidebar column, which runs to the top. */
 @media (min-width: 64rem) {
@@ -79,7 +171,7 @@
 
     /* Search on the left of the content area, notifications and the user menu on the right. */
     .fi-topbar-end {
-        @apply flex-1;
+        @apply flex-1 justify-end;
 
         & > .fi-global-search-ctn {
             @apply me-auto;
@@ -88,15 +180,9 @@
 }
 
 .fi-global-search-field .fi-input-wrp {
-    @apply rounded-xl bg-gray-50;
-
     @media (min-width: 64rem) {
         width: min(32rem, 40vw);
     }
-}
-
-.dark .fi-global-search-field .fi-input-wrp {
-    @apply bg-white/5;
 }
 
 /* ------------------------------------------------------------------ Sidebar */
@@ -148,8 +234,9 @@
 }
 
 .fi-sidebar-group-label {
-    @apply text-xs font-semibold tracking-widest uppercase;
-    color: rgb(255 255 255 / 0.5);
+    /* Sentence case: spaced capitals read as noise next to the item labels. */
+    @apply text-[13px] font-semibold;
+    color: rgb(255 255 255 / 0.55);
 }
 
 .fi-sidebar-group-btn .fi-icon,
@@ -165,44 +252,59 @@
 }
 
 .fi-sidebar-group.fi-active .fi-sidebar-group-dropdown-trigger-btn {
-    background-color: var(--primary-400);
+    background-color: rgb(255 255 255 / 0.1);
 
     & .fi-icon {
-        color: var(--color-navy-900);
+        color: var(--primary-400);
     }
 }
 
 .fi-sidebar-item-btn {
-    @apply rounded-xl px-3 py-2.5;
+    @apply rounded-lg px-3 py-2 transition-colors duration-150;
 
     & > .fi-icon {
-        color: rgb(255 255 255 / 0.7);
+        color: rgb(255 255 255 / 0.6);
+        transition: color 150ms;
     }
 }
 
 .fi-sidebar-item-label {
-    color: rgb(255 255 255 / 0.9);
+    @apply text-[14.5px] font-medium;
+    color: rgb(255 255 255 / 0.82);
 }
 
 .fi-sidebar-item.fi-sidebar-item-has-url > .fi-sidebar-item-btn {
     &:hover,
     &:focus-visible {
-        background-color: rgb(255 255 255 / 0.08);
+        background-color: rgb(255 255 255 / 0.06);
+
+        & > .fi-icon,
+        & > .fi-sidebar-item-label {
+            color: #fff;
+        }
     }
 }
 
+/*
+ * The current page: a light tint with a yellow marker at its left edge, the label in white and the icon in
+ * yellow. (It was a solid yellow pill, which competed with the page's one yellow button.)
+ */
 .fi-sidebar-item.fi-active > .fi-sidebar-item-btn,
 .fi-sidebar-item.fi-active.fi-sidebar-item-has-url > .fi-sidebar-item-btn:hover {
-    background-color: var(--primary-400);
+    background-color: rgb(255 255 255 / 0.1);
+    box-shadow: inset 3px 0 0 var(--primary-400);
 
-    & > .fi-icon,
+    & > .fi-icon {
+        color: var(--primary-400);
+    }
+
     & > .fi-sidebar-item-label {
         @apply font-semibold;
-        color: var(--color-navy-900);
+        color: #fff;
     }
 
     & > .fi-sidebar-item-grouped-border > .fi-sidebar-item-grouped-border-part {
-        background-color: var(--color-navy-900);
+        background-color: var(--primary-400);
     }
 }
 
@@ -219,10 +321,8 @@
     color: var(--color-navy-900);
 }
 
-.fi-sidebar-item.fi-active .fi-badge,
-.fi-sidebar-item.fi-active .fi-badge.fi-color {
-    background-color: var(--color-navy-900);
-    color: #fff;
+.fi-sidebar .fi-badge {
+    @apply min-w-6 justify-center text-[12px] font-bold;
 }
 
 .fi-sidebar-footer {
@@ -246,16 +346,21 @@
 
 /* ------------------------------------------------------------------ Page headings */
 
+/* The dashboard's welcome band names the page; its heading stays for screen readers. */
+.cw-dashboard .fi-header {
+    @apply sr-only;
+}
+
 .fi-header-heading {
-    @apply font-extrabold;
-    font-size: clamp(1.625rem, 1.15rem + 1.2vw, 2.25rem);
-    line-height: 1.15;
-    letter-spacing: -0.03em;
+    @apply font-bold;
+    font-size: clamp(1.5rem, 1.2rem + 0.8vw, 1.875rem);
+    line-height: 1.2;
+    letter-spacing: -0.025em;
     color: var(--color-navy-900);
 }
 
 .fi-header-subheading {
-    @apply text-base;
+    @apply text-[15px] text-gray-600;
 }
 
 .dark .fi-header-heading,
@@ -270,7 +375,7 @@
 }
 
 .fi-breadcrumbs-item-label {
-    @apply font-medium;
+    @apply text-[13px] font-medium;
 }
 
 /* ------------------------------------------------------------------ Cards */
@@ -281,8 +386,9 @@
 .fi-wi-stats-overview-stat,
 .fi-tabs.fi-contained,
 .fi-simple-main {
-    @apply rounded-2xl shadow-none;
-    --tw-ring-color: var(--gray-200);
+    @apply rounded-2xl;
+    --tw-ring-color: rgb(12 42 66 / 0.09);
+    box-shadow: 0 1px 2px rgb(12 42 66 / 0.04);
 }
 
 .dark .fi-section:not(.fi-section-not-contained):not(.fi-aside),
@@ -307,8 +413,13 @@
 
 .fi-section-header-heading,
 .fi-ta-header-heading {
-    @apply text-lg font-bold;
+    @apply text-base font-bold;
     color: var(--color-navy-900);
+}
+
+.fi-section-header-description,
+.fi-ta-header-description {
+    @apply text-[14px] text-gray-600;
 }
 
 .dark .fi-section-header-heading,
@@ -318,30 +429,91 @@
 
 /* ------------------------------------------------------------------ Tables */
 
+/*
+ * One toolbar row: the collapsible filters' button sits beside the search and the column toggle; opened,
+ * the filters take the full width under them.
+ */
+.fi-ta-header-ctn:has(> .fi-ta-filters-above-content-ctn) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    & > .fi-ta-header-toolbar {
+        order: 1;
+        flex: 1 1 auto;
+        border: 0;
+    }
+
+    & > .fi-ta-filters-above-content-ctn {
+        order: 2;
+        flex: 0 0 auto;
+        border: 0;
+        padding-inline-start: 0;
+    }
+
+    & > .fi-ta-filters-above-content-ctn:has(> .fi-ta-filters:not([style*='display: none'])) {
+        order: 3;
+        flex-basis: 100%;
+        border-top: 1px solid rgb(12 42 66 / 0.08);
+        padding-inline-start: revert-layer;
+    }
+}
+
+/* A tinted header row with a hairline under it; roomier rows that tint on hover. */
 .fi-ta-table > thead > tr {
-    @apply bg-transparent;
+    background-color: var(--gray-50);
+}
+
+.fi-ta-table > thead {
+    border-bottom: 1px solid rgb(12 42 66 / 0.08);
+}
+
+.dark .fi-ta-table > thead > tr {
+    background-color: rgb(255 255 255 / 0.03);
 }
 
 .fi-ta-header-cell {
-    @apply text-xs font-bold tracking-wide text-gray-500 uppercase;
+    @apply text-[13px] font-semibold text-gray-600;
+}
+
+.fi-ta-cell {
+    @apply text-[14.5px];
 }
 
 .dark .fi-ta-header-cell {
     @apply text-gray-400;
 }
 
-.fi-ta-row.fi-clickable:hover {
-    background-color: var(--primary-50);
+.fi-ta-row.fi-clickable {
+    @apply transition-colors duration-150;
+
+    &:hover {
+        background-color: var(--color-navy-50);
+    }
 }
 
 .dark .fi-ta-row.fi-clickable:hover {
     background-color: rgb(255 255 255 / 0.05);
 }
 
-/* ------------------------------------------------------------------ Stats */
+/* ------------------------------------------------------------------ Stats
+ * The label first, the figure large under it, the icon as a chip in the top-right corner.
+ */
+
+.fi-wi-stats-overview-stat {
+    @apply relative;
+}
+
+.fi-wi-stats-overview-stat-label-ctn > .fi-icon {
+    @apply absolute top-5 right-5 size-10 rounded-xl p-2.5;
+}
+
+.fi-wi-stats-overview-stat-label {
+    @apply pe-12 text-[14px] font-medium text-gray-600;
+}
 
 .fi-wi-stats-overview-stat-value {
-    @apply font-extrabold;
+    @apply mt-1 text-[2.25rem] leading-tight font-extrabold;
     letter-spacing: -0.03em;
     color: var(--color-navy-900);
 }
@@ -351,7 +523,7 @@
 }
 
 .fi-wi-stats-overview-stat-label-ctn > .fi-icon {
-    @apply box-content rounded-lg p-1.5;
+    box-sizing: border-box;
     background-color: var(--primary-100);
     color: var(--color-navy-900);
 }
@@ -364,13 +536,49 @@
     @apply rounded-2xl;
 }
 
-/* ------------------------------------------------------------------ Tabs */
+/* ------------------------------------------------------------------ Details (infolists)
+ * The label is the quiet part, the value the strong one: a small grey label over a navy value.
+ */
 
+.fi-in-entry .fi-in-entry-label {
+    @apply text-[13px] font-medium text-gray-500;
+}
+
+.fi-in-text-item {
+    @apply font-medium;
+    color: var(--color-navy-900);
+}
+
+.dark .fi-in-entry .fi-in-entry-label {
+    @apply text-gray-400;
+}
+
+.dark .fi-in-text-item {
+    color: #fff;
+}
+
+/* ------------------------------------------------------------------ Tabs
+ * The active tab is a navy tint with a yellow bar, so the screen's one yellow button stays the
+ * only solid yellow next to it.
+ */
+
+/* Underline tabs: the current one in navy over a 2px yellow line, the rest grey until hovered. */
 .fi-tabs-item {
-    @apply rounded-xl font-semibold;
+    @apply rounded-lg font-semibold transition-colors duration-150;
+
+    & .fi-tabs-item-label,
+    & > .fi-icon {
+        color: var(--gray-600);
+    }
+
+    &:hover {
+        background-color: var(--gray-50);
+    }
 
     &.fi-active {
-        background-color: var(--primary-400);
+        background-color: transparent;
+        border-radius: 0.5rem 0.5rem 0 0;
+        box-shadow: inset 0 -2px 0 var(--primary-400);
 
         & .fi-tabs-item-label,
         & > .fi-icon {
@@ -379,10 +587,55 @@
     }
 }
 
-/* ------------------------------------------------------------------ Buttons and links */
+.dark .fi-tabs-item.fi-active {
+    background-color: rgb(255 255 255 / 0.08);
+
+    & .fi-tabs-item-label,
+    & > .fi-icon {
+        color: #fff;
+    }
+}
+
+/* ------------------------------------------------------------------ Buttons and links
+ * Every button answers the pointer: a 1px step up on hover, a press on click, a yellow focus ring.
+ */
 
 .fi-btn {
     @apply rounded-xl font-semibold;
+    transition-property: color, background-color, border-color, box-shadow, translate, scale;
+    transition-duration: 150ms;
+    transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+    &:not(:disabled):not(.fi-disabled):hover {
+        translate: 0 -1px;
+    }
+
+    &:not(:disabled):not(.fi-disabled):active {
+        translate: 0 1px;
+        scale: 0.985;
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--primary-400);
+        outline-offset: 2px;
+    }
+}
+
+/* Buttons inside a group or a toggle group stay level with their neighbours. */
+.fi-btn-group .fi-btn:not(:disabled):hover,
+.fi-btn-group .fi-btn:not(:disabled):active,
+.fi-fo-toggle-buttons .fi-btn:not(:disabled):hover,
+.fi-fo-toggle-buttons .fi-btn:not(:disabled):active {
+    translate: none;
+    scale: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .fi-btn:not(:disabled):hover,
+    .fi-btn:not(:disabled):active {
+        translate: none;
+        scale: none;
+    }
 }
 
 /* ------------------------------------------------------------------ Badges
@@ -500,14 +753,133 @@
     @apply ring-2;
 }
 
-/* ------------------------------------------------------------------ Sign-in pages */
+/* ------------------------------------------------------------------ Sign-in pages
+ * From 1024px a navy brand panel (resources/views/filament/shared/auth-aside.blade.php) stands at the left
+ * and the form on the light canvas at the right; under that the form stands alone on a navy band.
+ */
 
 .fi-simple-layout {
-    background-color: var(--color-canvas);
+    background: linear-gradient(var(--color-navy-900) 0 38vh, var(--color-canvas) 38vh);
+}
+
+.fi-simple-main {
+    box-shadow: 0 24px 48px -24px rgb(12 42 66 / 0.35);
 }
 
 .dark .fi-simple-layout {
-    background-color: var(--gray-950);
+    background: linear-gradient(var(--color-navy-950) 0 38vh, var(--gray-950) 38vh);
+}
+
+.cw-auth-aside {
+    display: none;
+}
+
+@media (min-width: 64rem) {
+    .fi-simple-layout:has(> .cw-auth-aside) {
+        display: grid;
+        grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+        align-items: stretch;
+        background: var(--color-canvas);
+
+        & > :not(.cw-auth-aside) {
+            grid-column: 2;
+        }
+
+        & .fi-simple-main {
+            box-shadow: none;
+        }
+
+        & .fi-simple-main-ctn {
+            grid-row: 1 / span 20;
+            align-self: center;
+        }
+    }
+
+    .dark .fi-simple-layout:has(> .cw-auth-aside) {
+        background: var(--gray-950);
+    }
+
+    .cw-auth-aside {
+        position: sticky;
+        top: 0;
+        grid-column: 1;
+        grid-row: 1 / span 20;
+        display: flex;
+        min-height: 100dvh;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: hidden;
+        padding: 3rem clamp(2rem, 5vw, 5rem);
+        background-color: var(--color-navy-900);
+        color: #fff;
+    }
+
+    .cw-auth-aside-mark {
+        position: absolute;
+        right: -6rem;
+        bottom: -7rem;
+        width: 30rem;
+        height: 30rem;
+        color: rgb(255 255 255 / 0.025);
+        pointer-events: none;
+    }
+
+    .cw-auth-aside-brand {
+        position: relative;
+        font-size: 1.5rem;
+    }
+
+    .cw-auth-aside-body {
+        position: relative;
+        max-width: 32rem;
+    }
+
+    .cw-auth-aside-title {
+        font-size: clamp(2.25rem, 1.2rem + 2.2vw, 3.5rem);
+        font-weight: 800;
+        line-height: 1.06;
+        letter-spacing: -0.03em;
+        text-wrap: balance;
+    }
+
+    .cw-auth-aside-note {
+        display: flex;
+        gap: 0.75rem;
+        margin-top: 2rem;
+        font-size: 1.0625rem;
+        line-height: 1.6;
+        color: rgb(255 255 255 / 0.8);
+    }
+
+    .cw-auth-aside-dot {
+        flex: none;
+        width: 0.5rem;
+        height: 0.5rem;
+        margin-top: 0.6rem;
+        border-radius: 9999px;
+        background-color: var(--primary-400);
+    }
+}
+
+/* ------------------------------------------------------------------ First screen
+ * The page heading and its first block arrive once on load, 12px up; nothing moves on scroll.
+ */
+
+@keyframes cw-rise {
+    from { opacity: 0; translate: 0 12px; }
+    to { opacity: 1; translate: none; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .fi-main .fi-header,
+    .cw-welcome,
+    .fi-simple-main {
+        animation: cw-rise 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .cw-auth-aside-body {
+        animation: cw-rise 600ms cubic-bezier(0.22, 1, 0.36, 1) 80ms both;
+    }
 }
 
 .fi-simple-header .fi-logo {

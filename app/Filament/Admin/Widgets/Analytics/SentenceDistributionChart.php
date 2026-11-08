@@ -27,11 +27,11 @@ class SentenceDistributionChart extends AnalyticsChart
 
     protected function getData(): array
     {
-        return $this->single($this->analytics()->sentenceDistribution(), fn (string $key): string => __('dashboard.buckets.'.$key), __('dashboard.charts.sentenced_persons'), colorful: false);
+        return $this->single($this->analytics()->sentenceDistribution(), fn (string $key): string => __('dashboard.buckets.'.$key), __('dashboard.charts.sentenced_persons'));
     }
 
     protected function getOptions(): array
     {
-        return ['plugins' => ['legend' => ['display' => false]], 'scales' => ['y' => ['beginAtZero' => true]]];
+        return $this->chartOptions(['plugins' => ['legend' => ['display' => false]], 'scales' => ['x' => ['grid' => ['display' => false]], 'y' => ['beginAtZero' => true]]]);
     }
 }

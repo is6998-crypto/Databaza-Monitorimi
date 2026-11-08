@@ -5,11 +5,8 @@ namespace Database\Seeders;
 use App\Enums\CourtLevel;
 use App\Enums\ProsecutionLevel;
 use App\Models\Reference\Applicant;
-use App\Models\Reference\Category;
 use App\Models\Reference\Court;
 use App\Models\Reference\CourtBranch;
-use App\Models\Reference\CriminalCode;
-use App\Models\Reference\CriminalOffence;
 use App\Models\Reference\DefendantPosition;
 use App\Models\Reference\Department;
 use App\Models\Reference\Division;
@@ -18,13 +15,14 @@ use App\Models\Reference\Nationality;
 use App\Models\Reference\ProsecutionOffice;
 use App\Models\Reference\ReferenceModel;
 use App\Models\Reference\SecurityMeasureType;
+use App\Services\Reference\OffenceCatalogue;
 use Illuminate\Database\Seeder;
 
 /**
  * Public, non-personal reference structure (safe for production):
  * the 7 basic courts and their branches, the Court of Appeals and the Supreme Court,
- * court departments, prosecution offices, criminal codes and a SAMPLE of criminal-code
- * articles. Editors can correct or extend everything in the staff panel or by CSV import.
+ * court departments, prosecution offices, criminal codes with the full list of criminal offences
+ * and their statistics categories. Editors can correct or extend everything in the staff panel or by CSV import.
  * Idempotent: rows are matched by code / Albanian name.
  */
 class ReferenceDataSeeder extends Seeder
@@ -135,92 +133,12 @@ class ReferenceDataSeeder extends Seeder
     }
 
     /**
-     * Criminal codes and a sample of articles. Article numbers and titles are public law;
-     * this is a starting sample — editors should verify and complete the list (CSV import).
+     * Criminal codes, the full list of criminal offences and the statistics categories they are sorted into
+     * (database/data, see App\Services\Reference\OffenceCatalogue). Article numbers and titles are public law.
      */
     private function criminalCodes(): void
     {
-        $categories = [];
-
-        foreach ([
-            'corruption' => ['Korrupsion', 'Corruption'],
-            'organized' => ['Krim i organizuar', 'Organised crime'],
-            'economic' => ['Krime ekonomike', 'Economic crimes'],
-            'violent' => ['Krime të dhunshme', 'Violent crimes'],
-            'domestic' => ['Dhunë në familje', 'Domestic violence'],
-            'sexual' => ['Krime seksuale', 'Sexual offences'],
-            'narcotics' => ['Narkotikë', 'Narcotics'],
-            'trafficking' => ['Trafikim', 'Trafficking'],
-            'war' => ['Krime lufte', 'War crimes'],
-            'terrorism' => ['Terrorizëm', 'Terrorism'],
-            'weapons' => ['Armë', 'Weapons'],
-            'property' => ['Krime pronësore', 'Property crimes'],
-            'other' => ['Tjetër', 'Other'],
-        ] as $key => [$sq, $en]) {
-            $categories[$key] = $this->upsert(Category::class, ['name_sq' => $sq], ['name_en' => $en])->id;
-        }
-
-        $codes = [
-            'KPRK-2019' => ['Kodi Penal i Republikës së Kosovës (Kodi nr. 06/L-074)', 'Criminal Code of the Republic of Kosovo (Code No. 06/L-074)', 2019],
-            'KPK-2012' => ['Kodi Penal i Republikës së Kosovës (Kodi nr. 04/L-082)', 'Criminal Code of the Republic of Kosovo (Code No. 04/L-082)', 2012],
-            'UNMIK-2003/25' => ['Kodi i Përkohshëm Penal i Kosovës (Rregullorja e UNMIK-ut 2003/25)', 'Provisional Criminal Code of Kosovo (UNMIK Regulation 2003/25)', 2003],
-        ];
-
-        $codeIds = [];
-
-        foreach ($codes as $code => [$sq, $en, $year]) {
-            $codeIds[$code] = $this->upsert(CriminalCode::class, ['code' => $code], ['name_sq' => $sq, 'name_en' => $en, 'year' => $year])->id;
-        }
-
-        $corruptionChapterSq = 'Korrupsioni zyrtar dhe veprat penale kundër detyrës zyrtare';
-        $corruptionChapterEn = 'Official corruption and criminal offences against official duty';
-
-        $articles = [
-            'KPRK-2019' => [
-                ['414', 'Keqpërdorimi i pozitës ose autoritetit zyrtar', 'Abuse of official position or authority', 'corruption'],
-                ['415', 'Përvetësimi në detyrë', 'Misappropriation in office', 'corruption'],
-                ['416', 'Mashtrimi në detyrë', 'Fraud in office', 'corruption'],
-                ['421', 'Marrja e ryshfetit', 'Accepting bribes', 'corruption'],
-                ['422', 'Dhënia e ryshfetit', 'Giving bribes', 'corruption'],
-                ['423', 'Ushtrimi i ndikimit', 'Trading in influence', 'corruption'],
-                ['426', 'Falsifikimi i dokumenteve zyrtare', 'Falsifying official documents', 'corruption'],
-                ['172', 'Vrasja', 'Murder', 'violent'],
-                ['173', 'Vrasja e rëndë', 'Aggravated murder', 'violent'],
-                ['248', 'Dhuna në familje', 'Domestic violence', 'domestic'],
-                ['283', 'Krimi i organizuar', 'Organised crime', 'organized'],
-            ],
-            'KPK-2012' => [
-                ['422', 'Keqpërdorimi i pozitës ose autoritetit zyrtar', 'Abuse of official position or authority', 'corruption'],
-                ['423', 'Përvetësimi në detyrë', 'Misappropriation in office', 'corruption'],
-                ['424', 'Mashtrimi në detyrë', 'Fraud in office', 'corruption'],
-                ['428', 'Marrja e ryshfetit', 'Accepting bribes', 'corruption'],
-                ['429', 'Dhënia e ryshfetit', 'Giving bribes', 'corruption'],
-                ['430', 'Ushtrimi i ndikimit', 'Trading in influence', 'corruption'],
-                ['434', 'Falsifikimi i dokumenteve zyrtare', 'Falsifying official documents', 'corruption'],
-                ['283', 'Krimi i organizuar', 'Organised crime', 'organized'],
-            ],
-            'UNMIK-2003/25' => [
-                ['339', 'Keqpërdorimi i pozitës zyrtare ose i autorizimeve', 'Abuse of official position or authority', 'corruption'],
-                ['340', 'Përvetësimi gjatë ushtrimit të detyrës', 'Misappropriation in exercising duty', 'corruption'],
-                ['341', 'Mashtrimi në detyrë', 'Fraud in office', 'corruption'],
-                ['343', 'Marrja e ryshfetit', 'Accepting bribes', 'corruption'],
-                ['344', 'Dhënia e ryshfetit', 'Giving bribes', 'corruption'],
-                ['345', 'Ushtrimi i ndikimit', 'Trading in influence', 'corruption'],
-                ['146', 'Vrasja', 'Murder', 'violent'],
-                ['147', 'Vrasja e rëndë', 'Aggravated murder', 'violent'],
-            ],
-        ];
-
-        foreach ($articles as $code => $rows) {
-            foreach ($rows as [$article, $sq, $en, $category]) {
-                $this->upsert(CriminalOffence::class, ['criminal_code_id' => $codeIds[$code], 'article_number' => $article], [
-                    'title_sq' => $sq,
-                    'title_en' => $en,
-                    'chapter' => $category === 'corruption' ? $corruptionChapterSq.' / '.$corruptionChapterEn : null,
-                    'category_id' => $categories[$category],
-                ]);
-            }
-        }
+        (new OffenceCatalogue)->sync();
     }
 
     private function simpleLists(): void

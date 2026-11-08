@@ -34,6 +34,10 @@ return [
         'legacy' => 'Legacy import',
         'default' => 'General',
     ],
+    'descriptions' => [
+        'exported' => 'Export of :resource (:rows rows)',
+        'imported' => 'CSV import into :model',
+    ],
     'events' => [
         'created' => 'Created',
         'updated' => 'Updated',

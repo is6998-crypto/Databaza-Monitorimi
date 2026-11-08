@@ -88,7 +88,8 @@ class PublicationResource extends Resource
         return $table
             ->defaultSort('published_on', 'desc')
             ->columns([
-                TextColumn::make('title_sq')->label(__('publications.fields.title_sq'))->searchable()->wrap(),
+                // The title in the interface's language (Publication::title() falls back to Albanian).
+                TextColumn::make('title_sq')->label(__('publications.fields.title'))->getStateUsing(fn (Publication $record): string => (string) $record->title())->searchable(['title_sq', 'title_en'])->wrap(),
                 TextColumn::make('type')->label(__('publications.fields.type'))->badge(),
                 TextColumn::make('published_on')->label(__('publications.fields.published_on'))->date()->sortable(),
                 IconColumn::make('is_published')->label(__('publications.fields.is_published'))->boolean(),

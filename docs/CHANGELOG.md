@@ -7,6 +7,9 @@ All notable changes to this project are documented here. The format follows
 ## [Unreleased] — v1 build
 
 ### Added
+- Researcher chart builder (`/research/charts`): count verified hearings (postponed, started late, shares, average delay, closed, cases), narrow by years, court, case type and offence category, split by year, month, court, case type, department, offence category or reason for postponement, and compare along a second dimension; bars, stacked bars or lines, a data table with small cells marked, a logged CSV download, and the choice kept in the URL.
+- The full list of criminal offences (558 entries from the owner's "Veprat penale" list across 15 codes and laws, with English titles) and the 28 statistics categories they are sorted into (with codes such as KORR, DR, JT), loaded from `database/data` by a migration; `php artisan reference:sync-offences` re-applies the files. Offences and categories outside the list are set inactive, and the earlier placeholder categories are merged into the new ones.
+- "Cases by offence category" on the public statistics (suppressed under 5, also as an open-data CSV), on the staff dashboard and in the researcher API statistics.
 - Project scaffold: Laravel 13, Filament 5, Livewire 4, Tailwind 4, Pest, Larastan, Pint.
 - Docker Compose dev stack (app, Horizon, scheduler, PostgreSQL 16, Redis, MinIO, Mailpit) and a Codespaces dev container that installs, migrates, seeds and serves automatically.
 - GitHub Actions CI: Pint, Larastan and Pest on PostgreSQL 16; Dependabot for Composer, npm and Actions.
@@ -16,7 +19,7 @@ All notable changes to this project are documented here. The format follows
 - Audit-log viewer; logins, failed logins, logouts, password resets, role/permission changes and model changes are logged.
 - Full database schema for reference data, cases, parties, charges, stages, hearings, measures, sentences, administrative/civil details, workflow history, attachments, saved filters, publications, export logs, researcher profiles and legacy-import bookkeeping.
 - Reference data: 16 tables (courts, branches, departments, divisions, prosecution offices, judges, prosecutors, monitors, applicants, criminal codes, criminal offences, categories, nationalities, defendant positions, economic statuses, security measure types) with CRUD, search, bilingual names, soft delete/restore, merge duplicates and CSV import with templates.
-- Seeded public structure: the 7 basic courts and their branches, Court of Appeals, Supreme Court, court departments and divisions, prosecution offices, KPRK 2019 / KPK 2012 / UNMIK 2003/25 with a sample of articles; fake judges and prosecutors in development.
+- Seeded public structure: the 7 basic courts and their branches, Court of Appeals, Supreme Court, court departments and divisions, prosecution offices, the criminal codes with the full list of criminal offences and their statistics categories; fake judges and prosecutors in development.
 - Cases: list with faceted filters, create/edit with duplicate-number warning and administrative/civil details, and a case workspace with tabs for overview, parties & charges, stages timeline (chronology validation), hearings, measures & sentences, documents and history.
 - Hearings: phone-friendly form pre-filled from the case, conditional follow-up questions, hearing date not in the future, autosaved drafts and "recently used" values first in selects.
 - Monitor app (`/m`): installable PWA with offline drafts in IndexedDB, an outbox that syncs when back online, and "send for review".
@@ -55,8 +58,43 @@ All notable changes to this project are documented here. The format follows
   - Public portal: navy header and footer, a navy introduction band on the home page, the headline numbers in one card with icons, charts in navy, yellow and grey (the latest year in yellow), filters in a side panel next to the case results, a navy step timeline on case pages and covers on report cards.
   - Monitor app: navy header, a yellow "new hearing" button, chosen answers in yellow with a check mark, and draft states told apart by style (draft yellow tint, waiting light navy, sent solid navy, error solid yellow).
   - The API documentation, error pages and the idle-timeout warning use the same two colours.
+- Public portal design pass (same colours, texts and pages):
+  - Every inner page (case search, case page, reports, open data, methodology, about, data protection) opens with the same navy band as the home page; the header stays at the top while scrolling.
+  - Home: the filters and the six headline numbers share one panel over the introduction band; the introduction arrives once on load (not under reduced motion).
+  - Charts: values printed at the end of each bar; doughnut charts no longer cut their labels off (the legend wraps underneath, the share is in the tooltip); axis text at 13px.
+  - Case and report cards are one link each, lift slightly on hover and show the case reference above the court; report covers show the type instead of repeating the logo.
+  - Labels in sentence case instead of spaced capitals, reading text at 15–16px, buttons and controls at least 44px high, a full-width phone menu with a close icon, pagination with the count above the page buttons.
+- Staff panel, researcher area, monitor app and error pages design pass (same colours and texts):
+  - Panels: sidebar group names and table column headings in sentence case; on detail pages a small grey label over a navy value; the active tab is a navy tint with a yellow bar; buttons step up on hover and press on click with a yellow focus ring; sign-in and two-factor pages sit on a navy band.
+  - Workflow buttons are all navy ("Start review" and "Publish" were yellow), so each screen keeps one yellow main button.
+  - Dashboard: an icon on every headline figure, the public/closed chart is a doughnut like the others, the timeline's month labels are straight and thinned out.
+  - Monitor app: the navy header runs the full window width, section headings in sentence case, larger tap targets and text (13px minimum), a press response on buttons, an arrow on recently sent rows.
+  - Error pages: the navy band and a yellow "Go to the home page" button.
+- Second design pass with the design-taste-frontend skill (same colours, texts and functions):
+  - Home: the first screen is a split hero: the question and the two actions at the left, the real case search at the right (the three latest verified cases, anonymized as everywhere on the portal) with a live "Last update" month. The statistics have a visible heading; chart titles are headings above the charts.
+  - Home: a "Methodology" section walks through its four steps (monitoring, verification, indicators, privacy) beside a drawing of the matching part of the platform; on a large screen the section holds while the steps open one at a time (the skill's pinned-chapters moment, served from `public/assets/moments`); on phones and under reduced motion every step stands with its picture.
+  - Home: the page closes with the tagline set large and "Search monitored cases" above the footer links; "All reports" is a button under the latest reports.
+  - Every public section sits on one container (1280px, the gutter as margin); the language switch is a quiet navy toggle; focus outlines are navy on light grounds and yellow on navy.
+  - Staff and researcher sign-in, two-factor and password pages: a navy brand panel at the left (logo, tagline, the privacy promise or the researchers' first rule) and the form at the right; the page heading arrives once on load.
+- New logo mark: a thick yellow square frame with its top-left and bottom-right corners cut on the diagonal (one drawing in `resources/views/partials/logo-mark.blade.php`, used by the portal, both panels, the monitor app and the error pages); new favicon and app icons.
+- Charts redrawn (portal and staff dashboard): one colour (navy) with yellow only for the latest year; the doughnuts are now ranked horizontal bars (largest first); the portal's comparisons are HTML bar lists with the value at each bar's end and nothing clipped; thin bars with rounded ends, hairline grids, white tooltips; the staff dashboard's slanted labels are gone (horizontal bars). Fixed: counts in the portal charts' data tables no longer show a stray "%".
+- Public portal: a "Sign in" menu in the header (and in the phone menu) with the two signed-in areas, Staff (`/admin`) and Researchers (`/research`), so nobody has to type the address.
+- Staff panel revamp:
+  - The dashboard opens with a welcome band: the person's name, role and today's date, and only the actions their permissions allow (the review queue with its count, new case, new hearing, the monitor app for monitors).
+  - The sidebar's current page is a light tint with a yellow marker and a yellow icon instead of a solid yellow pill; quieter group labels and hover states.
+  - Smaller, crisper page headings; tables with a tinted header row; underline tabs; cards with a hairline and a 1px lift; the case and hearing lists show a labelled "Filter" button.
+  - New app shell for both panels: the window is a navy frame (top bar and sidebar as one surface, a translucent search pill, white icons) and every page sits on a light, rounded sheet inset into it.
+  - Headline figures: the label first, the figure larger, the icon as a chip in the corner. Table toolbars are one row (the filter button beside the search). Dashboard filters sit two per row on phones.
+  - Researcher home: a navy status band (where the account stands, what to do next) and the data rules as numbered cards.
 
 ### Fixed
+- One language per page, everywhere: English pages are fully English and Albanian pages fully Albanian.
+  - Staff panel: reference data (courts, branches, offences, categories, offices, measures and the rest) shows its name in the interface's language in lists, dropdowns and filters (the other languages stay as hidden, toggleable columns); publication titles likewise.
+  - Albanian added for 230+ interface strings that showed in English: Filament's own texts (two-factor set-up and sign-in, search, tables, selects, password fields, pagination, notifications), about 60 missing validation messages, and the public pagination ("Showing … results").
+  - Audit log descriptions are shown in the interface's language (rebuilt from the stored event).
+  - Error pages show one language: English under /en, otherwise the visitor's choice, else Albanian.
+  - The portal's chart no longer adds ECharts' own English description; the monitor app says "Në linjë".
+- Staff panel: the subtitle under the CourtWatch logo is "Monitorimi" / "Monitoring".
 - In GitHub Codespaces the home page could send the browser to `localhost:8000` (the visitor's own computer), because the app saw the forwarded request as coming to localhost. In development, links are now built from `APP_URL` whenever it is an https address (the dev container sets it to the Codespace's address).
 - `TRUSTED_PROXIES` in `.env` was ignored (it was read before `.env` is loaded), so behind a proxy such as GitHub Codespaces the pages linked their styles and scripts over http:// and the browser blocked them. The setting is now read on every request (`config/trustedproxy.php`), and the dev container trusts the Codespaces proxy.
 - The introduction of the API documentation was shown as raw Markdown in a code box (indented text in `config/scribe.php`).

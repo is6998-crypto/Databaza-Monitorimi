@@ -34,6 +34,10 @@ return [
         'legacy' => 'Importi i sistemit të vjetër',
         'default' => 'Të përgjithshme',
     ],
+    'descriptions' => [
+        'exported' => 'Eksport i :resource (:rows rreshta)',
+        'imported' => 'Import CSV në :model',
+    ],
     'events' => [
         'created' => 'Krijuar',
         'updated' => 'Përditësuar',

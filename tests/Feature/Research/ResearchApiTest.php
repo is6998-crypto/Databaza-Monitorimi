@@ -188,7 +188,7 @@ it('returns suppressed statistics and reference lists', function () {
 
     $this->withToken($token)->getJson('/api/v1/statistics')
         ->assertOk()
-        ->assertJsonStructure(['headline' => ['cases', 'hearings', 'postponement_rate'], 'hearings_by_year', 'cases_by_type', 'postponement_by_court', 'postponement_reasons', 'verdicts', 'stage_durations'])
+        ->assertJsonStructure(['headline' => ['cases', 'hearings', 'postponement_rate'], 'hearings_by_year', 'cases_by_type', 'cases_by_category', 'postponement_by_court', 'postponement_reasons', 'verdicts', 'stage_durations'])
         ->assertJsonPath('headline.cases', null); // 1 case < 5: suppressed
 
     $this->withToken($token)->getJson('/api/v1/reference/courts')->assertOk()->assertJsonPath('data.0.id', fn ($id) => is_int($id));

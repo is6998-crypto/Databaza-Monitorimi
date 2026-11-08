@@ -2,6 +2,8 @@
 
 return [
     'name' => 'CourtWatch',
+    // Under the logo in the staff panel and on its sign-in pages.
+    'brand_subtitle' => 'Monitoring',
     'recently_used' => 'Recently used',
     'all_options' => 'All',
     'monitor_app' => 'Monitor app (mobile)',

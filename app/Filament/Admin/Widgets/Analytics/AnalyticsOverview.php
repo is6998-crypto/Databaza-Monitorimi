@@ -36,13 +36,17 @@ class AnalyticsOverview extends StatsOverviewWidget
                 ->icon(Heroicon::OutlinedCalendarDays),
             Stat::make(__('dashboard.stats.postponement_rate'), $rate($data['postponed'], $data['hearings']))
                 ->description(__('dashboard.stats.postponed_of', ['count' => $data['postponed']]))
+                ->icon(Heroicon::OutlinedArrowPath)
                 ->color('warning'),
             Stat::make(__('dashboard.stats.late_rate'), $rate($data['late'], $data['hearings']))
                 ->description($data['avg_delay'] ? __('dashboard.stats.avg_delay', ['minutes' => $data['avg_delay']]) : null)
+                ->icon(Heroicon::OutlinedClock)
                 ->color('warning'),
-            Stat::make(__('dashboard.stats.public_rate'), $rate($data['public'], $data['hearings'])),
+            Stat::make(__('dashboard.stats.public_rate'), $rate($data['public'], $data['hearings']))
+                ->icon(Heroicon::OutlinedEye),
             Stat::make(__('dashboard.stats.conviction_rate'), $rate($data['convictions'], $data['judgments']))
-                ->description(__('dashboard.stats.judgments', ['count' => $data['judgments']])),
+                ->description(__('dashboard.stats.judgments', ['count' => $data['judgments']]))
+                ->icon(Heroicon::OutlinedScale),
         ];
     }
 }

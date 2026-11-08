@@ -23,8 +23,8 @@ class SeizureConfiscationChart extends AnalyticsChart
 
         return [
             'datasets' => [
-                ['label' => __('dashboard.charts.requested'), 'data' => array_column($data, 'requested'), 'backgroundColor' => self::PALETTE[7], 'borderWidth' => 0],
-                ['label' => __('dashboard.charts.granted'), 'data' => array_column($data, 'granted'), 'backgroundColor' => self::PALETTE[2], 'borderWidth' => 0],
+                ['label' => __('dashboard.charts.requested'), 'data' => array_column($data, 'requested'), 'backgroundColor' => self::PALETTE[7], 'borderWidth' => 0], // requested: a light step of navy
+                ['label' => __('dashboard.charts.granted'), 'data' => array_column($data, 'granted'), 'backgroundColor' => self::PALETTE[0], 'borderWidth' => 0], // granted: navy
             ],
             'labels' => $labels,
         ];
@@ -32,6 +32,6 @@ class SeizureConfiscationChart extends AnalyticsChart
 
     protected function getOptions(): array
     {
-        return ['scales' => ['y' => ['beginAtZero' => true]]];
+        return $this->chartOptions(['scales' => ['x' => ['grid' => ['display' => false]], 'y' => ['beginAtZero' => true]]]);
     }
 }

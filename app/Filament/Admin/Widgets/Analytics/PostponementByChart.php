@@ -28,12 +28,14 @@ class PostponementByChart extends AnalyticsChart
     protected function getData(): array
     {
         $rows = $this->analytics()->postponementBy($this->filter ?? 'court');
+        // Ranked: the highest share first.
+        usort($rows, fn (array $a, array $b): int => ($b['rate'] ?? -1) <=> ($a['rate'] ?? -1));
 
         return [
             'datasets' => [[
                 'label' => __('dashboard.charts.postponement_rate_percent'),
                 'data' => array_column($rows, 'rate'),
-                'backgroundColor' => self::PALETTE[1],
+                'backgroundColor' => self::PALETTE[0],
                 'borderWidth' => 0,
             ]],
             'labels' => array_map(fn (array $row): string => $row['label'].' ('.$row['total'].')', $rows),
@@ -42,10 +44,10 @@ class PostponementByChart extends AnalyticsChart
 
     protected function getOptions(): array
     {
-        return [
+        return $this->chartOptions([
             'indexAxis' => 'y',
             'plugins' => ['legend' => ['display' => false]],
-            'scales' => ['x' => ['beginAtZero' => true, 'max' => 100]],
-        ];
+            'scales' => ['x' => ['beginAtZero' => true, 'max' => 100], 'y' => ['grid' => ['display' => false]]],
+        ]);
     }
 }

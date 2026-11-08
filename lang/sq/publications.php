@@ -5,6 +5,7 @@ return [
     'plural' => 'Raporte dhe publikime',
     'preview' => 'Shiko në portal',
     'fields' => [
+        'title' => 'Titulli',
         'title_sq' => 'Titulli (shqip)',
         'title_en' => 'Titulli (anglisht)',
         'slug' => 'Adresa në web',

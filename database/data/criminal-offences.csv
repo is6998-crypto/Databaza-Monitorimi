@@ -1,0 +1,559 @@
+criminal_code,article_number,title_sq,title_en,category,is_active,source
+KPK-2012,372,"Importi, eksporti, furnizimi, transportimi, prodhimi, këmbimi, ndërmjetësimi ose shitja e paautorizuar e armëve apo materieve plasëse","Unauthorised import, export, supply, transport, production, exchange, brokering or sale of weapons or explosive substances",A,1,372/KPRK
+UNMIK-2003/25,327,"Furnizimi, transporti, prodhimi, këmbimi ose shitja e paautorizuar e armëve","Unauthorised supply, transport, production, exchange or sale of weapons",A,1,327/KPK
+KPK-2012,273,"Blerja, posedimi, shpërndarja dhe shitja e paautorizuar e narkotikëve, substancave psikotrope dhe analoge","Unauthorised purchase, possession, distribution and sale of narcotic drugs, psychotropic substances and analogues",DR,1,273/KPRK
+KPK-2012,274,"Prodhimi dhe përpunimi i paautorizuar i narkotikëve, substancave psikotrope, analoge apo veglave, pajisjeve apo materialeve narkotike","Unauthorised production and processing of narcotic drugs, psychotropic substances, analogues or narcotic tools, equipment or materials",DR,1,274/KPRK
+UNMIK-2003/25,230,Prodhimi dhe përpunimi i paautorizuar i narkotikëve të rrezikshëm dhe i substancave psikotropike,Unauthorised production and processing of dangerous narcotic drugs and psychotropic substances,DR,1,230/KPK
+KPK-2012,275,"Posedimi i paautorizuar i narkotikëve, substancave psikotrope ose analoge","Unauthorised possession of narcotic drugs, psychotropic substances or analogues",DR,1,275/KPRK
+KPK-2012,276,Intoksikimi i personit tjetër me narkotikë ose substanca psikotrope,Intoxicating another person with narcotic drugs or psychotropic substances,DR,1,276/KPRK
+KPK-2012,277,"Lehtësimi i sigurimit apo përdorimit të narkotikëve, substancave psikotrope apo analoge","Facilitating the acquisition or use of narcotic drugs, psychotropic substances or analogues",DR,1,277/KPRK
+UNMIK-2003/25,231,"Lehtësimi i sigurimit apo përdorimit të narkotikëve, substancave psikotropike apo analogëve të rrezikshme","Facilitating the acquisition or use of dangerous narcotic drugs, psychotropic substances or analogues",DR,1,231/KPK
+KPK-2012,278,"Kultivimi i bimës së hashashit, shkurres së kokainës ose bimëve të kanabisit","Cultivation of the opium poppy, coca bush or cannabis plants",DR,1,278/KPRK
+KPK-2012,279,"Organizimi, drejtimi apo financimi i trafikimit të narkotikëve apo substancave psikotrope","Organising, managing or financing trafficking in narcotic drugs or psychotropic substances",DR,1,279/KPRK
+KPK-2012,280,Konvertimi apo transferimi i pasurisë që rrjedh nga veprat penale nga ky kapitull,Conversion or transfer of property derived from criminal offences under this chapter,DR,1,280/KPRK
+KPK-2012,172,Fshehja e dokumenteve të identifikimit të viktimave të skllavërisë ose trafikimit me njerëz,Concealing the identity documents of victims of slavery or trafficking in persons,FDI,1,172/KPRK
+UNMIK-2003/25,140,Fshehja e dokumenteve të identifikimit të viktimave të skllavërisë ose trafikimit me njerëz,Concealing the identity documents of victims of slavery or trafficking in persons,FDI,1,140/KPK
+KPK-2012,170,Kontrabandimi me migrantë,Smuggling of migrants,KM,1,170/KPRK
+KPK-2012,434,Falsifikimi i dokumentit zyrtar,Falsifying an official document,KORR,1,434/KPRK
+UNMIK-2003/25,348,Falsifikimi i dokumenteve zyrtare,Falsifying official documents,KORR,1,348/KPK
+KPK-2012,435,Arkëtimi dhe pagesa e kundërligjshme,Unlawful collection and disbursement,KORR,1,435/KPRK
+UNMIK-2003/25,349,Arkëtimi dhe pagesa e kundërligjshme,Unlawful collection and disbursement,KORR,1,349/KPK
+KPK-2012,436,Përvetësimi i kundërligjshëm i pasurisë me rastin e bastisjes apo ekzekutimit të vendimit gjyqësor,Unlawful appropriation of property during a search or the execution of a court decision,KORR,1,436/KPRK
+UNMIK-2003/25,351,Përvetësimi i kundërligjshëm i pasurisë me rastin e bastisjes apo ekzekutimit të vendimit gjyqësor,Unlawful appropriation of property during a search or the execution of a court decision,KORR,1,351/KPK
+KPK-2012,437,"Mos raportimi ose raportimi i rremë i pasurisë, i të ardhurave, i dhuratave, i dobisë tjetër materiale ose i detyrimeve financiare","Failure to report, or false reporting of, assets, income, gifts, other material benefits or financial obligations",KORR,1,437/KPRK
+UNMIK-2003/25,350,Lirimi i kundërligjshëm i personit të privuar nga liria,Unlawful release of a person deprived of liberty,KORR,1,350/KPK
+KPK-2012,308,Shpërlarja e Parave,Money laundering,SHP,1,308/KPRK
+L-03/L-196,Rreg. UNMIK,UNMIK Shpërlarja e Parave,UNMIK money laundering,SHP,1,L-Nr.03/L-196&Rreg
+KPK-2012,171,Trafikimi me njerëz,Trafficking in persons,TNJ,1,171/KPRK
+UNMIK-2003/25,139,Trafikimi me njerëz,Trafficking in persons,TNJ,1,139/KPK
+KPK-2012,284,Cenimi i barazisë në ushtrimin e veprimtarisë ekonomike,Violation of equality in the conduct of economic activity,E,1,284/KPRK
+KPK-2012,285,Veprimtaria e pandërgjegjshme ekonomike,Reckless economic activity,E,1,285/KPRK
+KPK-2012,286,Shkaktimi i falimentimit,Causing bankruptcy,E,1,286/KPRK
+KPK-2012,287,Shkaktimi i falimentimit të rrejshëm,Causing false bankruptcy,E,1,287/KPRK
+KPK-2012,288,Mashtrimi në procedurën e falimentimit,Fraud in bankruptcy proceedings,E,1,288/KPRK
+KPK-2012,289,Mashtrimi ose dëmtimi i kreditorëve apo debitorëve,Defrauding or damaging creditors or debtors,E,1,289/KPRK
+KPK-2012,292,Komunikimi i paautorizuar i sekretit tregtar,Unauthorised disclosure of a trade secret,E,1,292/KPRK
+KPK-2012,293,Falsifikimi i letrave me vlerë dhe instrumenteve të pagesës,Counterfeiting securities and payment instruments,E,1,293/KPRK
+KPK-2012,294,Falsifikimi i shenjave me vlerë,Counterfeiting value stamps,E,1,294/KPRK
+KPK-2012,295,Cenimi i të drejtave të patentës,Infringement of patent rights,E,1,295/KPRK
+KPK-2012,296,Cenimi i të drejtave të autorit,Infringement of copyright,E,1,296/KPRK
+UNMIK-2003/25,138,Kontrabandimi me migrantë,Smuggling of migrants,KM,1,138/KPK
+KPK-2012,283,Pjesëmarrja ose organizimi i grupit kriminal të organizuar,Participation in or organisation of an organised criminal group,KO,1,283/KPRK
+UNMIK-2003/25,274,Krimi i organizuar,Organised crime,KO,1,274/KPK
+KPK-2012,290,Keqpërdorimi i autorizimeve ekonomike,Abuse of economic authorisations,KORR,1,290/KPRK
+KPK-2012,291,Lidhja e kontratës së dëmshme,Concluding a harmful contract,KORR,1,291/KPRK
+KPK-2012,316,Dhënia e paarsyeshme e dhuratave,Unjustified giving of gifts,KORR,1,316/KPRK
+KPK-2012,422,Keqpërdorimi i pozitës apo autoritetit zyrtar,Abuse of official position or authority,KORR,1,422/KPRK
+UNMIK-2003/25,339,Shpërdorim i pozitës zyrtare ose i autorizimit,Abuse of official position or authority,KORR,1,339/KPK
+KPK-2012,423,Keqpërdorimi i informatës zyrtare,Misuse of official information,KORR,1,423/KPRK
+KPK-2012,424,Konflikti i interesit,Conflict of interest,KORR,1,424/KPRK
+KPK-2012,425,Përvetësimi në detyrë,Misappropriation in office,KORR,1,425/KPRK
+UNMIK-2003/25,340,Përvetësimi gjatë ushtrimit të detyrës,Misappropriation in the exercise of duty,KORR,1,340/KPK
+KPK-2012,426,Mashtrimi në detyrë,Fraud in office,KORR,1,426/KPRK
+UNMIK-2003/25,341,Mashtrimi në detyrë,Fraud in office,KORR,1,341/KPK
+KPK-2012,427,Përdorimi i paautorizuar i pasurisë,Unauthorised use of property,KORR,1,427/KPRK
+UNMIK-2003/25,342,Përdorimi i paautorizuar i pasurisë,Unauthorised use of property,KORR,1,342/KPK
+KPK-2012,428,Marrja e ryshfetit,Accepting bribes,KORR,1,428/KPRK
+UNMIK-2003/25,343,Marrja e rryshfetit,Accepting bribes,KORR,1,343/KPK
+KPK-2012,429,Dhënia e ryshfetit,Giving bribes,KORR,1,429/KPRK
+UNMIK-2003/25,344,Dhënia e rryshfetit,Giving bribes,KORR,1,344/KPK
+UNMIK-2003/25,430,Dhënia e ryshfetit zyrtarit publik të huaj,Giving bribes to a foreign public official,KORR,1,430/KPK
+KPK-2012,431,Ushtrimi i ndikimit,Trading in influence,KORR,1,431/KPRK
+UNMIK-2003/25,345,Ushtrimi i ndikimit,Trading in influence,KORR,1,345/KPK
+KPK-2012,432,Nxjerrja e kundërligjshme e vendimeve gjyqësore,Unlawful issuance of court decisions,KORR,1,432/KPRK
+UNMIK-2003/25,346,Nxjerrja e kundërligjshme e vendimeve gjyqësore,Unlawful issuance of court decisions,KORR,1,346/KPK
+KPK-2012,433,Zbulimi i fshehtësisë zyrtare,Disclosure of official secrets,KORR,1,433/KPRK
+UNMIK-2003/25,347,Zbulimi i fshehtësive zyrtare,Disclosure of official secrets,KORR,1,347/KPK
+KPK-2012,297,Shmangia e masave teknologjike,Circumvention of technological measures,E,1,297/KPRK
+KPK-2012,298,Mashtrimi i konsumatorëve,Consumer fraud,E,1,298/KPRK
+KPK-2012,299,Mashtrimi i blerësve,Defrauding buyers,E,1,299/KPRK
+KPK-2012,300,Organizimi i skemave piramidale dhe bixhozit të paligjshëm,Organising pyramid schemes and illegal gambling,E,1,300/KPRK
+KPK-2012,301,Keqpërdorimi i pozitës së monopolit,Abuse of a monopoly position,E,1,301/KPRK
+KPK-2012,302,Falsifikimi i parasë,Counterfeiting money,E,1,302/KPRK
+KPK-2012,303,"Prodhimi dhe përdorimi i shenjave të etiketimit, masave dhe peshave të rreme","Production and use of false labels, measures and weights",E,1,303/KPRK
+KPK-2012,304,"Prodhimi, furnizimi, shitja, posedimi ose dhënia në shfrytëzim e mjeteve për falsifikim","Production, supply, sale, possession or making available of means for counterfeiting",E,1,304/KPRK
+KPK-2012,305,Tregtia e ndaluar,Prohibited trade,E,1,305/KPRK
+KPK-2012,306,Prodhimi i ndaluar,Prohibited production,E,1,306/KPRK
+KPK-2012,307,Lëshimi i çeqeve pa mbulesë ose të rremë dhe keqpërdorimi i kartelave të bankës apo të kreditit,Issuing uncovered or false cheques and misuse of bank or credit cards,E,1,307/KPRK
+KPK-2012,309,Marrëveshjet për kufizimin e konkurrencës përmes ftesave për tender,Bid-rigging agreements that restrict competition,E,1,309/KPRK
+KPK-2012,310,Mashtrimi në shkëmbimin e letrave me vlerë,Fraud in the exchange of securities,E,1,310/KPRK
+KPK-2012,311,Keqpërdorimi i informatave të brendshme,Misuse of insider information,E,1,311/KPRK
+KPK-2012,312,Marrëveshja dhe mashtrimi me letrat me vlerë të Qeverisë,Collusion and fraud with Government securities,E,1,312/KPRK
+KPK-2012,313,Shmangia nga tatimi,Tax evasion,E,1,313/KPRK
+KPK-2012,314,Dokumentet e rrejshme lidhur me tatimin,False documents relating to tax,E,1,314/KPRK
+KPK-2012,315,Pranimi i paarsyeshëm i dhuratave,Unjustified acceptance of gifts,E,1,315/KPRK
+KPK-2012,317,Kontrabandimi i mallrave,Smuggling of goods,E,1,317/KPRK
+KPK-2012,318,Shmangia nga pagesa e tarifave të detyrueshme doganore,Evasion of mandatory customs duties,E,1,318/KPRK
+KPK-2012,147,"Nxitja e urrejtjes, përçarjes ose mos durimit kombëtar, racor, fetar apo etnik","Inciting national, racial, religious or ethnic hatred, discord or intolerance",NU,1,147/KPRK
+UNMIK-2003/25,236,Keqpërdorimi i autorizimeve në ekonomi,Abuse of authorisations in the economy,E,1,236/KPK
+KPK-2012,343,Fajdeja,Usury,PR,1,343/KPRK
+KPK-2012,348,Mbajtja e paligjshme e substancave dhe e mbeturinave të rrezikshme,Unlawful handling of hazardous substances and waste,MJ,1,348/KPRK
+UNMIK-2003/25,334,Legalizimi i përmbajtjes së pavërtetë,Certifying untrue content,FD,1,334/KPK
+UNMIK-2003/25,261,Mashtrimi,Fraud,PR,1,261/KPK
+KPK-2012,335,Mashtrimi,Fraud,PR,1,335/KPRK
+KPK-2012,403,Legalizimi i përmbajtjes së rreme,Certifying false content,FD,1,403/KPRK
+KPK-2012,374,"Mbajtja në pronësi, kontroll ose posedim të paautorizuar të armëve","Unauthorised ownership, control or possession of weapons",A,1,374/KPRK
+UNMIK-2003/25,247,Prodhimi i ndaluar,Prohibited production,E,1,247/KPK
+KPK-2012,368,Punimet ndërtimore të kundërligjshme,Unlawful construction works,MJ,1,368/KPRK
+KPK-2012,392,Deklarimet e rreme,False statements,DRE,1,392/KPRK
+KPK-2012,345,"Blerja, pranimi ose fshehja e sendeve të përfituara me kryerjen e veprës penale","Purchasing, receiving or concealing property obtained through a criminal offence",PR,1,345/KPRK
+KPK-2012,267,Prodhimi dhe vënia në qarkullim e artikujve të dëmshëm ushqimor,Production and placing on the market of harmful foodstuffs,SH,1,267/KPRK
+KPK-2012,355,Ndotja e ushqimit dhe e ujit të shtazëve,Contamination of animal food and water,MJ,1,355/KPRK
+UNMIK-2003/25,355,Mashtrimi,Fraud,PR,1,355/KPK
+UNMIK-2003/25,393,Shpërdorim i pozitës zyrtare ose i autorizimit,Abuse of official position or authorisation,KORR,1,393/KPK
+UNMIK-2003/25,182,Cenimi i të drejtave nga marrëdhëniet e punës,Violation of rights arising from employment relations,LIR,1,182/KPK
+UNMIK-2003/25,332,Falsifikimi i dokumenteve,Falsifying documents,FD,1,332/KPK
+KPK-2012,398,Falsifikimi i dokumenteve,Falsifying documents,FD,1,398/KPRK
+KPK-2012,391,Deklarimi i rremë nën betim,False statement under oath,DRE,1,391/KPRK
+KPK-2012,222,Cenimi i të drejtave të punësimit dhe papunësisë,Violation of employment and unemployment rights,LIR,1,222/KPRK
+KPK-2012,332,Uzurpimi i paligjshëm i pronës së paluajtshme,Unlawful occupation of immovable property,PR,1,332/KPRK
+KPK-2012,342,Keqpërdorimi i besimit,Breach of trust,PR,1,342/KPRK
+UNMIK-2003/25,241,"Përdorimi i paautorizuar i firmës, i markës apo i modelit të huaj","Unauthorised use of another's business name, trademark or design",E,1,241/KPK
+KPK-2012,262,Ushtrimi i kundërligjshëm i veprimtarisë mjekësore ose farmaceutike,Unlawful practice of medicine or pharmacy,SH,1,262/KPRK
+UNMIK-2003/25,237,Lidhja e kontratës së dëmshme,Concluding a harmful contract,E,1,237/KPK
+KPK-2012,358,Vjedhja e pyllit,Forest theft,MJ,1,358/KPRK
+KPK-2012,146,Kalimi i paautorizuar i vendkalimeve kufitare ose i vijës kufitare,Unauthorised crossing of border crossing points or the border line,RP,1,146/KPRK
+KPK-2012,328,Vjedhja grabitqare,Theft in the nature of robbery,PR,1,328/KPRK
+KPK-2012,260,Trajtimi i pandërgjegjshëm mjekësor,Negligent medical treatment,SH,1,260/KPRK
+UNMIK-2003/25,249,Shmangia nga tatimi,Tax evasion,E,1,249/KPK
+UNMIK-2003/25,259,Pushtimi i paligjshëm i pronës së paluajtshme,Unlawful occupation of immovable property,PR,1,259/KPK
+UNMIK-2003/25,324,Asgjësimi apo fshehja e materialit arkivor,Destruction or concealment of archival material,RP,1,324/KPK
+KPK-2012,336,Mashtrimi me subvencione,Subsidy fraud,E,1,336/KPRK
+UNMIK-2003/25,336,Dhënia e kundërligjshme e ndihmës juridike,Unlawful provision of legal assistance,DRE,1,336/KPK
+KPK-2012,414,Heqja apo dëmtimi i vulave zyrtare ose i shenjave,Removal or damaging of official seals or marks,RP,1,414/KPRK
+KPK-2012,386,Moslajmërimi i veprave penale apo kryesve të tyre,Failure to report criminal offences or their perpetrators,DRE,1,386/KPRK
+KPK-2012,388,Dhënia e ndihmës kryesve pas kryerjes së veprave penale,Assisting perpetrators after the commission of criminal offences,DRE,1,388/KPRK
+KPK-2012,399,Rastet e posaçme të falsifikimit të dokumenteve,Special cases of falsifying documents,FD,1,399/KPRK
+UNMIK-2003/25,269,Keqpërdorimi i besimit,Breach of trust,PR,1,269/KPK
+KPK-2012,340,Detyrimi,Extortion,PR,1,340/KPRK
+KPK-2012,395,Frikësimi gjatë procedurës penale,Intimidation during criminal proceedings,DRE,1,395/KPRK
+KPK-2012,390,Lajmërimi apo kallëzimi i rremë,False reporting or false criminal report,DRE,1,390/KPRK
+KPK-2012,417,Prezantimi i rremë si person zyrtar,Falsely presenting oneself as an official person,RP,1,417/KPRK
+KPK-2012,418,Vetëgjyqësia,Taking the law into one's own hands,RP,1,418/KPRK
+UNMIK-2003/25,268,Shantazhi,Blackmail,PR,1,268/KPK
+UNMIK-2003/25,313,Arratisja e personit të privuar nga liria,Escape of a person deprived of liberty,DRE,1,313/KPK
+UNMIK-2003/25,262,Mashtrimi me subvencione,Subsidy fraud,E,1,262/KPK
+KPK-2012,397,Manipulimi me prova,Tampering with evidence,DRE,1,397/KPRK
+KPK-2012,407,Lirimi i kundërligjshëm i personave të privuar nga liria,Unlawful release of persons deprived of liberty,DRE,1,407/KPRK
+UNMIK-2003/25,164,Keqtrajtimi gjatë ushtrimit të detyrave,Mistreatment in the exercise of duties,LIR,1,164/KPK
+UNMIK-2003/25,309,Pengimi i të provuarit,Obstructing the gathering of evidence,DRE,1,309/KPK
+UNMIK-2003/25,239,Falsifikimi i pullave postare dhe letrave me vlerë,Counterfeiting postage stamps and securities,E,1,239/KPK
+KPK-2012,405,Arratisja e personit të privuar nga liria,Escape of a person deprived of liberty,DRE,1,405/KPRK
+KPK-2012,394,Pengimi i të provuarit apo procedurës zyrtare,Obstructing evidence or official proceedings,DRE,1,394/KPRK
+KPK-2012,406,Mundësimi i arratisjes së personave të privuar nga liria,Enabling the escape of persons deprived of liberty,DRE,1,406/KPRK
+UNMIK-2003/25,195,Sulmi seksual,Sexual assault,SEK,1,195/KPK
+UNMIK-2003/25,273,Kontrabandimi i mallrave,Smuggling of goods,E,1,273/KPK
+KPK-2012,266,Prodhimi dhe shpërndarja e produkteve të dëmshme mjekësore,Production and distribution of harmful medical products,SH,1,266/KPRK
+UNMIK-2003/25,229,"Blerja, posedimi, shpërndarja dhe shitja e paautorizuar e narkotikëve të rrezikshëm dhe e substancave psikotropike","Unauthorised purchase, possession, distribution and sale of dangerous narcotic drugs and psychotropic substances",DR,1,229/KPK
+UNMIK-2003/25,255,Grabitja,Robbery,PR,1,255/KPK
+KPK-2012,339,Hyrja në sistemet kompjuterike,Access to computer systems,KOMP,1,339/KPRK
+KPK-2012,347,"Ndotja, degradimi ose shkatërrimi i mjedisit","Pollution, degradation or destruction of the environment",MJ,1,347/KPRK
+UNMIK-2003/25,320,Pjesëmarrja në grup që kryen vepër penale,Participation in a group that commits a criminal offence,RP,1,320/KPK
+KPK-2012,416,Asgjësimi apo fshehja e materialit arkivor,Destruction or concealment of archival material,RP,1,416/KPRK
+KPK-2012,365,Shkaktimi i rrezikut të përgjithshëm,Causing general danger,SIG,1,365/KPRK
+UNMIK-2003/25,221,Ushtrimi i kundërligjshëm i veprimtarisë mjekësore,Unlawful practice of medicine,SH,1,221/KPK
+UNMIK-2003/25,219,Trajtimi i pandërgjegjshëm mjekësor,Negligent medical treatment,SH,1,219/KPK
+KPK-2012,261,Mosdhënia e ndihmës mjekësore,Failure to provide medical assistance,SH,1,261/KPRK
+UNMIK-2003/25,146,Vrasja,Murder,JT,1,146/KPK
+UNMIK-2003/25,328,"Mbajtja në pronësi, në kontroll, në posedim ose në shfrytëzim të paautorizuar të armëve","Unauthorised ownership, control, possession or use of weapons",A,1,328/KPK
+KPK-2012,375,Përdorimi i armës apo mjetit të rrezikshëm,Use of a weapon or dangerous instrument,A,1,375/KPRK
+KPK-2012,409,Pengimi i personit zyrtar në kryerjen e detyrave zyrtare,Obstructing an official person in the performance of official duties,RP,1,409/KPRK
+KPK-2012,179,Vrasja e rëndë,Aggravated murder,JT,1,179/KPRK
+KPK-2012,178,Vrasja,Murder,JT,1,178/KPRK
+KPK-2012,215,Dhënia ose marrja e ryshfetit në lidhje me votimin,Giving or accepting bribes in relation to voting,ZGJ,1,215/KPRK
+UNMIK-2003/25,254,Vjedhja grabitqare,Theft in the nature of robbery,PR,1,254/KPK
+KPK-2012,410,Sulmi ndaj personit zyrtar gjatë kryerjes së detyrës zyrtare,Assault on an official person while performing official duties,RP,1,410/KPRK
+KPK-2012,144,Përgatitja e veprave terroriste ose veprave penale kundër rendit kushtetues dhe sigurisë së Republikës së Kosovës,Preparing terrorist offences or criminal offences against the constitutional order and security of the Republic of Kosovo,TER,1,144/KPRK
+KPK-2012,143,Organizimi dhe pjesëmarrja në grup terrorist,Organising and participating in a terrorist group,TER,1,143/KPRK
+KPK-2012,135,Përkufizimet për dispozitat e terrorizmit në nenet 121-145,Definitions for the terrorism provisions in articles 121-145,TER,1,135/KPRK
+KPK-2012,175,Marrja e pengjeve,Taking hostages,LIR,1,175/KPRK
+KPK-2012,194,Rrëmbim,Kidnapping,LIR,1,194/KPRK
+KPK-2012,196,Privimi i kundërligjshëm i lirisë,Unlawful deprivation of liberty,LIR,1,196/KPRK
+KPK-2012,187,Sulmi,Assault,JT,1,187/KPRK
+KPK-2012,138,Lehtësimi në kryerjen e terrorizmit,Facilitating the commission of terrorism,TER,1,138/KPRK
+KPK-2012,185,Kanosja,Threat,LIR,1,185/KPRK
+UNMIK-2003/25,244,Falsifikimi i parasë,Counterfeiting money,E,1,244/KPK
+KPK-2012,139,Rekrutimi për terrorizëm,Recruitment for terrorism,TER,1,139/KPRK
+KPK-2012,154,Sulmet në konfliktet e armatosura që nuk kanë karakter ndërkombëtar kundër instalimeve që përmbajnë forca të rrezikshme,Attacks in armed conflicts not of an international character against installations containing dangerous forces,LUF,1,154/KPRK
+UNMIK-2003/25,267,Detyrimi,Extortion,PR,1,267/KPK
+KPK-2012,152,Krimet e luftës në shkelje të rëndë të nenit 3 të përbashkët të konventave të Gjenevës,War crimes in serious violation of common article 3 of the Geneva Conventions,LUF,1,152/KPRK
+KPK-2012,136,Kryerja e veprës terroriste,Commission of a terrorist offence,TER,1,136/KPRK
+KPK-2012,188,Lëndimi i lehtë trupor,Light bodily injury,JT,1,188/KPRK
+KPK-2012,216,Keqpërdorimi i të drejtës së votimit,Abuse of the right to vote,ZGJ,1,216/KPRK
+UNMIK-2003/25,179,Cenimi i fshehtësisë votimit,Violation of the secrecy of voting,ZGJ,1,179/KPK
+KPK-2012,385,Moslajmërimi i përgatitjes së veprave penale,Failure to report the preparation of criminal offences,DRE,1,385/KPRK
+UNMIK-2003/25,147,Vrasja e rëndë,Aggravated murder,JT,1,147/KPK
+UNMIK-2003/25,291,Shkaktimi i rrezikut të përgjithshëm,Causing general danger,SIG,1,291/KPK
+KPK-2012,141,Shtytja për kryerjen e veprave terroriste,Incitement to commit terrorist offences,TER,1,141/KPRK
+KPK-2012,411,Thirrja për rezistencë,Call to resistance,RP,1,411/KPRK
+KPK-2012,331,Marrja në posedim e pasurisë së luajtshme,Appropriation of movable property,PR,1,331/KPRK
+KPK-2012,329,Grabitja,Robbery,PR,1,329/KPRK
+KPK-2012,20,Pa emër — për t'u verifikuar,Unnamed — to be verified,PE,0,20/KPRK
+KPK-2012,81,Dënimi për veprat penale në vazhdim,Punishment for continuing criminal offences,PP,1,81/KPRK
+UNMIK-2003/25,154,Lëndimi i rëndë trupor,Grievous bodily injury,JT,1,154/KPK
+LPJ,30,Pa emër — për t'u verifikuar,Unnamed — to be verified,PE,0,30/LPJ
+KPK-2012,190,Pjesëmarrja në rrahje,Participation in a brawl,JT,1,190/KPRK
+KPK-2012,189,Lëndimi i rëndë trupor,Grievous bodily injury,JT,1,189/KPRK
+KPK-2012,173,Rrezikimi i personave nën mbrojtje ndërkombëtare,Endangering internationally protected persons,LUF,1,173/KPRK
+KPK-2012,153,Krimet e luftës në shkelje të rëndë të ligjeve dhe zakoneve që zbatohen në konfliktet e armatosura që nuk janë të karakterit ndërkombëtar,War crimes in serious violation of the laws and customs applicable in armed conflicts not of an international character,LUF,1,153/KPRK
+KPK-2012,211,Kanosja e kandidatit,Threatening a candidate,ZGJ,1,211/KPRK
+UNMIK-2003/25,25,Ndihma,Assistance,PP,1,25/KPK
+KPK-2012,230,Dhunimi,Rape,SEK,1,230/KPRK
+LPK-KSAK,8.3,Pa emër — për t'u verifikuar,Unnamed — to be verified,PE,0,8.3/LPK
+LPK-KSAK,8.5,Pa emër — për t'u verifikuar,Unnamed — to be verified,PE,0,8.5/LPK
+L-05/L-002,3,Ligji për ndalimin e bashkimit në konflikte të armatosura jashtë territorit të vendit,Law on prohibition of joining armed conflicts outside the country's territory,TER,1,3
+KPK-2012,142,Fshehja ose moslajmërimi i terroristëve dhe grupeve terroriste,Concealing or failing to report terrorists and terrorist groups,TER,1,142/KPRK
+UNMIK-2003/25,143,Marrja e pengjeve,Taking hostages,LIR,1,143/KPK
+KPK-2012,378,Rrezikimi i trafikut publik,Endangering public traffic,TRA,1,378/KPRK
+KPK-2012,321,Lidhja e paautorizuar në shërbime,Unauthorised connection to utility services,PR,1,321/KPRK
+KPK-2012,333,Asgjësimi apo dëmtimi i pasurisë,Destruction or damage of property,PR,1,333/KPRK
+KPK-2012,241,Mundësimi ose detyrimi në prostitucion,Enabling or compelling prostitution,SEK,1,241/KPRK
+UNMIK-2003/25,253,Vjedhja e rëndë,Aggravated theft,PR,1,253/KPK
+KPK-2012,341,Shantazhi,Blackmail,PR,1,341/KPRK
+KPK-2012,221,Cenimi i të drejtave në marrëdhëniet e punës,Violation of rights in employment relations,LIR,1,221/KPRK
+UNMIK-2003/25,252,Vjedhja,Theft,PR,1,252/KPK
+KPK-2012,325,Vjedhja,Theft,PR,1,325/KPRK
+KPK-2012,322,Lejimi i lidhjes së paautorizuar në shërbime,Allowing unauthorised connection to utility services,PR,1,322/KPRK
+UNMIK-2003/25,286,Gjuetia e kundërligjshme,Unlawful hunting,MJ,1,286/KPK
+KPK-2012,235,Keqpërdorimi seksual i personave nën moshën gjashtëmbëdhjetë (16) vjet,Sexual abuse of persons under the age of sixteen (16),SEK,1,235/KPRK
+UNMIK-2003/25,258,Marrja e pasurisë së luajtshme,Appropriation of movable property,PR,1,258/KPK
+KPK-2012,253,Pengimi dhe mosekzekutimi i masave për mbrojtjen e fëmijëve,Obstructing and failing to execute measures for the protection of children,FAM,1,253/KPRK
+UNMIK-2003/25,153,Lëndimi i lehtë trupor,Light bodily injury,JT,1,153/KPK
+KPK-2012,344,Dëmtimi i të drejtave pronësore të personit tjetër,Damaging another person's property rights,PR,1,344/KPRK
+KPK-2012,379,Ngasja në gjendje të paaftë apo të dehur,Driving while unfit or intoxicated,TRA,1,379/KPRK
+UNMIK-2003/25,316,Pengimi i personit zyrtar në kryerjen e detyrave zyrtare,Obstructing an official person in the performance of official duties,RP,1,316/KPK
+KPK-2012,186,Ngacmimi,Harassment,LIR,1,186/KPRK
+KPK-2012,323,Ndryshimi i njehsorit të shërbimeve,Altering a utility meter,PR,1,323/KPRK
+KPK-2012,324,Lejimi i njehsorëve të ndryshuar të shërbimeve,Allowing altered utility meters,PR,1,324/KPRK
+UNMIK-2003/25,242,Mashtrimi i blerësve,Defrauding buyers,E,1,242/KPK
+UNMIK-2003/25,294,Punimet ndërtimore të kundërligjshme,Unlawful construction works,MJ,1,294/KPK
+UNMIK-2003/25,297,Rrezikimi i trafikut publik,Endangering public traffic,TRA,1,297/KPK
+L-03/L-182,25,Ligji për Mbrojtjen nga Dhuna në Familje,Law on protection against domestic violence,FAM,1,25
+LEE,39,Pa emër — për t'u verifikuar,Unnamed — to be verified,PE,0,39/LEE
+UNMIK-2003/25,264,Hyrja në sistemet kompjuterike,Access to computer systems,KOMP,1,264/KPK
+UNMIK-2003/25,186,Rrezikimi i sigurisë në punë,Endangering safety at work,SIG,1,186/KPK
+KPK-2012,402,Mosekzekutimi i vendimeve gjyqësore,Failure to execute court decisions,DRE,1,402/KPRK
+UNMIK-2003/25,250,Pranimi i paarsyetueshëm i dhuratave,Unjustified acceptance of gifts,E,1,250/KPK
+UNMIK-2003/25,251,Dhënia e paarsyetueshme e dhuratave,Unjustified giving of gifts,E,1,251/KPK
+LMM,80,Dënimet Penale për Aktivitet e Jashtëligjshme Minerare,Criminal penalties for illegal mining activities,MJ,1,80/LMM
+KPK-2012,326,Vjedhja e shërbimeve,Theft of services,PR,1,326/KPRK
+KPK-2012,183,Shtytja në vetëvrasje dhe ndihma në vetëvrasje,Incitement to and assistance in suicide,JT,1,183/KPRK
+UNMIK-2003/25,322,Heqja apo dëmtimi i vulave zyrtare ose i shenjave,Removal or damaging of official seals or marks,RP,1,322/KPK
+KPK-2012,366,"Asgjësimi, dëmtimi ose heqja e instalimeve publike","Destruction, damage or removal of public installations",SIG,1,366/KPRK
+UNMIK-2003/25,285,Vjedhja e pyllit,Forest theft,MJ,1,285/KPK
+KPK-2012,334,Zjarrvënia,Arson,SIG,1,334/KPRK
+KPK-2012,401,Mospërfillja e gjykatës,Contempt of court,DRE,1,401/KPRK
+KPK-2012,330,Shpërdorimi i pasurisë së huaj,Misuse of another's property,PR,1,330/KPRK
+KPK-2012,265,Transplantimi i kundërligjshëm dhe trafikimi i organeve dhe qelizave njerëzore,Unlawful transplantation and trafficking of human organs and cells,TNJ,1,265/KPRK
+KPK-2012,214,Keqpërdorim i pozitës zyrtare gjatë zgjedhjeve,Abuse of official position during elections,KORR,1,214 KPRK
+UNMIK-2003/25,180,Mashtrimi në votime,Electoral fraud,ZGJ,1,180/KPK
+UNMIK-2003/25,246,Tregtia e ndaluar,Prohibited trade,KO,1,246/KPK
+UNMIK-2003/25,245,"Prodhimi dhe shfrytëzimi i shenjave të etiketave, masave dhe peshave të rreme","Production and use of false labels, measures and weights",KO,1,245/KPK
+L-03/L-196,32,Ligji për Parandalimin e Pastrimit të Parave dhe Financimit të Terrorizmit,Law on the prevention of money laundering and terrorist financing,SHP,1,32
+KPK-2012,396,Hakmarrja,Revenge,DRE,1,396/KPRK
+UNMIK-2003/25,24/339,Shtytje për keqpërdorim të pozitës zyrtare,Incitement to abuse of official position,KORR,1,24/339/KPK
+UNMIK-2003/25,24/346,Shtytje për nxjerrjen e kundërligjshme të vendimeve gjyqësore,Incitement to unlawful issuance of court decisions,KORR,1,24/346/KPK
+KPK-2012,178/28,Vrasje në tentativë,Attempted murder,JT,1,178/28/KPRK
+KPK-2012,179/28,Vrasje e rëndë në tentativë,Attempted aggravated murder,JT,1,179/28/KPRK
+UNMIK-2003/25,147/20,Vrasje e rëndë në tentativë,Attempted aggravated murder,JT,1,147/20/KPK
+UNMIK-2001/7,8.5,Rregullore e UNMIK-ut për autorizimin e posedimit të armëve në Kosovë,Regulation of UNMIK on the authorisation of possession of weapons in Kosovo,A,1,8.5
+KPK-2012,327,Vjedhja e rëndë,Aggravated theft,PR,1,327/KPRK
+UNMIK-2003/25,129,Përgjegjësia e komandës,Command responsibility,LUF,1,129/KPK
+KPK-2012,198,Keqtrajtimi gjatë ushtrimit të detyrës zyrtare ose autorizimeve publike,Mistreatment in the exercise of official duty or public authority,LIR,1,198/KPRK
+UNMIK-2003/25,161,Kanosje,Threat,LIR,1,161/KPK
+L-03/L-196,56,Ligji për Parandalimin e Pastrimit të Parave dhe Financimit të Terrorizmit,Law on the prevention of money laundering and terrorist financing,SHP,1,56
+UNMIK-2003/25,24/147,Shtytje për kryerjen e vrasjes të rëndë,Incitement to commit aggravated murder,JT,1,24/147/KPPK
+KPK-2012,247,Bashkësia jashtëmartesore me personin nën moshën gjashtëmbëdhjetë (16) vjet,Extramarital community with a person under the age of sixteen (16),SEK,1,247/KPRK
+KPK-2012,193,Shkelja e statusit të barabartë të shtetasve dhe banorëve të Republikës së Kosovës,Violation of the equal status of citizens and residents of the Republic of Kosovo,LIR,1,193/KPRK
+UNMIK-2003/25,146/20,Vrasje në tentativë,Attempted murder,JT,1,146/20/KPK
+KPK-2012,33/170,Ndihma për kontrabandim me migrantë,Assistance in smuggling of migrants,KM,1,33/170/KPRK
+UNMIK-2003/25,305,Dhënia e ndihmës kryerësve pas kryerjes së veprave penale,Assisting perpetrators after the commission of criminal offences,DRE,1,305/KPK
+KDAK,298,Shmangia mashtruese nga taksa e importit dhe akciza,Fraudulent evasion of import duty and excise,E,1,298/KDAK
+KPK-2012,359,Gjuetia e kundërligjshme,Unlawful hunting,MJ,1,359/KPRK
+KPK-2012,362,Peshkimi i kundërligjshëm,Unlawful fishing,MJ,1,362/KPRK
+UNMIK-2003/25,343/25,Marrja e rryshfetit në ndihmë,Assistance in accepting bribes,KORR,1,343/25/KPK
+UNMIK-2003/25,24/343,Shtytje për marrje e ryshfetit,Incitement to accept bribes,KORR,1,24/343/KPK
+KPK-2012,403/28,Legalizimi i përmbajtjes së rreme në tentativë,Attempted certification of false content,FD,1,403/28/KPRK
+L-03/L-196,33,Ligji për Parandalimin e Pastrimit të Parave dhe Financimit të Terrorizmit,Law on the prevention of money laundering and terrorist financing,SHP,1,33
+KPK-2012,180/28,Vrasja në tentativë e kryer në gjendje të tronditjes së fortë mendore,Attempted murder committed in a state of severe mental distress,JT,1,180/28/KPRK
+KPK-2012,357,Shkretërimi i pyjeve,Devastation of forests,MJ,1,357/KPRK
+UNMIK-2003/25,317,Sulmi ndaj personit zyrtar gjatë kryerjes së detyrës zyrtare,Assault on an official person while performing official duties,RP,1,317/KPK
+KPK-2012,33/422,Ndihma në kryerjen e veprës penale keqpërdorimi i pozitës apo autoritetit zyrtar,Assistance in the criminal offence of abuse of official position or authority,KORR,1,33/422/KPRK
+UNMIK-2003/25,222,Përgatitja dhe dhënia e pandërgjegjshme e barnave,Negligent preparation and dispensing of medicines,SH,1,222/KPK
+UNMIK-2003/25,272,Pranimi i mallrave të vjedhura,Receiving stolen goods,PR,1,272/KPK
+KPK-2012,187/28,Sulm në tentativë,Attempted assault,JT,1,187/28/KPRK
+KPK-2012,329/28,Grabitja në tentativë,Attempted robbery,PR,1,329/28/KPRK
+KPK-2012,327/28,Vjedhja e rëndë në tentativë,Attempted aggravated theft,PR,1,327/28/KPRK
+UNMIK-2003/25,156,Mosdhënia e ndihmës,Failure to render assistance,JT,1,156/KPK
+UNMIK-2003/25,212,Shkelja e detyrimeve familjare,Violation of family obligations,FAM,1,212/KPK
+KPK-2012,32/179,Shtytje për vrasje të rëndë,Incitement to aggravated murder,JT,1,32/179/KPRK
+KPK-2012,33/179,Ndihma për vrasje të rëndë,Assistance in aggravated murder,JT,1,33/179/KPRK
+KPK-2012,200,Cenimi i paprekshmërisë së banesave dhe objekteve,Violation of the inviolability of dwellings and premises,LIR,1,200/KPRK
+KPK-2012,205,Fotografimi dhe incizimet tjera të paautorizuara,Unauthorised photographing and other recordings,LIR,1,205/KPRK
+KPK-2012,367,"Asgjësimi, dëmtimi ose heqja e pajisjeve mbrojtëse dhe rrezikimi i sigurisë në vendin e punës","Destruction, damage or removal of protective equipment and endangering safety at the workplace",SIG,1,367/KPRK
+KPK-2012,340/28,Detyrimi në tentativë,Attempted extortion,PR,1,340/28/KPRK
+KPK-2012,419,Dhënia e kundërligjshme e ndihmës juridike,Unlawful provision of legal assistance,DRE,1,419/KPRK
+KPK-2012,381,Mbikëqyrja e pandërgjegjshme e trafikut publik,Negligent supervision of public traffic,TRA,1,381/KPRK
+KPK-2012,33/428,Ndihma për marrje të ryshfetit,Assistance in accepting bribes,KORR,1,33/428/KPRK
+KPK-2012,340/30,Detyrimi në ndihmë,Assistance in extortion,PR,1,340/30/KPRK
+UNMIK-2003/25,25/339,Ndihmë për shpërdorim të pozitës zyrtare ose i autorizimit,Assistance in abuse of official position or authorisation,KORR,1,25/339/KPK
+KPK-2012,341/28,Shantazhi në tentativë,Attempted blackmail,PR,1,341/28/KPRK
+KPK-2012,325/28,Vjedhja në tentativë,Attempted theft,PR,1,325/28/KPRK
+KPK-2012,188/31,Lëndimi i lehtë trupor në bashkëkryerje,Light bodily injury in co-perpetration,JT,1,188/31/KPRK
+KPK-2012,382,Mosdhënia e ndihmës personit të lënduar në fatkeqësinë e trafikut publik,Failure to render assistance to a person injured in a public traffic accident,TRA,1,382/KPRK
+KPK-2012,33/343,Ndihma për fajde,Assistance in usury,PR,1,33/343/KPRK
+UNMIK-2003/25,314,Mundësimi i arratisjes së personit të privuar nga liria,Enabling the escape of a person deprived of liberty,DRE,1,314/KPK
+KPK-2012,33/188,Ndihma për lëndim të lehtë trupor,Assistance in light bodily injury,JT,1,33/188/KPRK
+KPK-2012,32/178,Shtytje për vrasje,Incitement to murder,JT,1,32/178/KPRK
+KPK-2012,33/374,"Ndihma për mbajtje në pronësi, kontroll ose posedim të paautorizuar të armëve","Assistance in unauthorised ownership, control or possession of weapons",A,1,33/374/KPRK
+KPK-2012,202,Cenimi i fshehtësisë së korrespondencës dhe i bazave të të dhënave kompjuterike,Violation of the secrecy of correspondence and computer databases,LIR,1,202/KPRK
+KDAK,297,Dhënia e deklaratës së pavërtetë,Giving a false declaration,E,1,297/KDAK
+UNMIK-2003/25,270,Kontraktimi i përfitimit joproporcional,Contracting disproportionate benefit,E,1,270/KPK
+KPRK-2019,314,Vjedhja e shërbimeve,Theft of services,PR,1,314/KPRKS
+KPK-2012,412,Pjesëmarrja në turmë që kryen vepër penale dhe huliganizmi,"Participation in a crowd committing a criminal offence, and hooliganism",RP,1,412/KPRK
+KPK-2012,33/267,Ndihma për prodhim dhe vënie në qarkullim e artikujve të dëmshëm ushqimor,Assistance in the production and placing on the market of harmful foodstuffs,SH,1,33/267/KPRK
+KPRK-2019,184,Sulmi,Assault,JT,1,184/KPRKS
+UNMIK-2003/25,26,Bashkimi kriminal,Criminal association,PP,1,26/KPK
+KPK-2012,28/302,Falsifikim i parasë në tentativë,Attempted counterfeiting of money,E,1,28/302/KPRK
+UNMIK-2003/25,234,Shkaktimi i falimentimit,Causing bankruptcy,E,1,234/KPK
+KPK-2012,32/422,Shtytje për keqpërdorim të pozitës apo autoritetit zyrtar,Incitement to abuse of official position or authority,KORR,1,32/422/KPRK
+KPK-2012,422/28,Keqpërdorimi i pozitës apo autoritetit zyrtar në tentativë,Attempted abuse of official position or authority,KORR,1,422/28/KPRK
+KPK-2012,421,Dëmtimi i varreve apo kufomave,Damaging graves or corpses,RP,1,421/KPRK
+KPK-2012,242,Ofrimi i lokaleve për prostitucion,Providing premises for prostitution,SEK,1,242/KPRK
+UNMIK-2003/25,149,Vrasja nga pakujdesia,Negligent homicide,JT,1,149/KPK
+UNMIK-2003/25,256,Rastet e rënda të vjedhjes grabitqare apo të grabitjes,Aggravated cases of theft in the nature of robbery or of robbery,PR,1,256/KPK
+KPRK-2019,367,Përdorimi i armës apo mjetit të rrezikshëm,Use of a weapon or dangerous instrument,A,1,367/KPRKS
+KPRK-2019,182,Ngacmimi,Harassment,LIR,1,182/KPRKS
+KPRK-2019,402,Sulmi ndaj personit zyrtar,Assault on an official person,RP,1,402/KPRKS
+LPK-KSAK,138,Rastet e rënda të vjedhjes grabitqare,Aggravated cases of theft in the nature of robbery,PR,1,138/LPK
+KPRK-2019,329,Shantazhi,Blackmail,PR,1,329/KPRKS
+KPRK-2019,185,Lëndimi i lehtë trupor,Light bodily injury,JT,1,185/KPRKS
+KPRK-2019,186,Lëndimi i rëndë trupor,Grievous bodily injury,JT,1,186/KPRKS
+UNMIK-2003/25,300,Mbikëqyrja e pandërgjegjshme e trafikut publik,Negligent supervision of public traffic,TRA,1,300/KPK
+KPRK-2019,267,"Blerja, posedimi, shpërndarja dhe shitja e paautorizuar e narkotikëve, substancave psikotrope dhe analoge","Unauthorised purchase, possession, distribution and sale of narcotic drugs, psychotropic substances and analogues",DR,1,267/KPRKS
+UNMIK-2003/25,257,Shpërdorimi,Embezzlement,PR,1,257/KPK
+KPRK-2019,172/28,Vrasje në tentativë,Attempted murder,JT,1,172/28/KPRKS
+KPRK-2019,313,Vjedhja,Theft,PR,1,313/KPRKS
+KPRK-2019,315,Vjedhja e rëndë,Aggravated theft,PR,1,315/KPRKS
+KPRK-2019,395,Legalizimi i përmbajtjes së rreme,Certifying false content,FD,1,395/KPRKS
+KPRK-2019,366,"Mbajtja në pronësi, kontroll ose posedim të paautorizuar të armëve","Unauthorised ownership, control or possession of weapons",A,1,366/KPRKS
+KPRK-2019,140,Kalimi i paautorizuar i vendkalimeve kufitare ose i vijës kufitare,Unauthorised crossing of border crossing points or the border line,RP,1,140/KPRKS
+UNMIK-2003/25,252/28,Vjedhja në tentativë,Attempted theft,PR,1,252/28/KPK
+KPRK-2019,296,Falsifikimi i parasë,Counterfeiting money,E,1,296/KPRKS
+KPRK-2019,181,Kanosja,Threat,LIR,1,181/KPRKS
+KPRK-2019,382,Lajmërimi apo kallëzimi i rremë,False reporting or false criminal report,DRE,1,382/KPRKS
+KPRK-2019,294,Organizimi i skemave piramidale dhe bixhozit të paligjshëm,Organising pyramid schemes and illegal gambling,E,1,294/KPRKS
+KPRK-2019,401,Pengimi i personit zyrtar në kryerjen e detyrave zyrtare,Obstructing an official person in the performance of official duties,RP,1,401/KPRKS
+KPRK-2019,317,Grabitja,Robbery,PR,1,317/KPRKS
+KPRK-2019,317/28,Grabitja në tentativë,Attempted robbery,PR,1,317/28/KPRKS
+KPRK-2019,370,Rrezikimi i trafikut publik,Endangering public traffic,TRA,1,370/KPRKS
+KPRK-2019,349,Vjedhja e pyllit,Forest theft,MJ,1,349/KPRKS
+KPK-2012,33/433,Ndihma në zbulimin e fshehtësisë zyrtare,Assistance in the disclosure of official secrets,KORR,1,33/433/KPRK
+KPRK-2019,316,Vjedhja grabitqare,Theft in the nature of robbery,PR,1,316/KPRKS
+KPRK-2019,321,Asgjësimi apo dëmtimi i pasurisë,Destruction or damage of property,PR,1,321/KPRKS
+KPRK-2019,414,Keqpërdorimi i pozitës apo autoritetit zyrtar,Abuse of official position or authority,KORR,1,414/KPRKS
+KPRK-2019,323,Mashtrimi,Fraud,PR,1,323/KPRKS
+KPRK-2019,430,"Mos raportimi ose raportimi i rremë i pasurisë, i të ardhurave, i dhuratave, i dobisë tjetër materiale ose i detyrimeve financiare","Failure to report, or false reporting of, assets, income, gifts, other material benefits or financial obligations",KORR,1,430/KPRKS
+KPRK-2019,187,Pjesëmarrja në rrahje,Participation in a brawl,JT,1,187/KPRKS
+KPRK-2019,390,Falsifikimi i dokumenteve,Falsifying documents,FD,1,390/KPRKS
+KPK-2012,269,"Posedimi i paautorizuar i narkotikëve, substancave psikotrope ose analoge","Unauthorised possession of narcotic drugs, psychotropic substances or analogues",DR,1,269/KPRK
+KPRK-2019,410,Vetëgjyqësia,Taking the law into one's own hands,RP,1,410/KPRKS
+KPRK-2019,33/414,Ndihma në kryerjen e veprës penale keqpërdorimi i pozitës apo autoritetit zyrtar,Assistance in the criminal offence of abuse of official position or authority,KORR,1,33/414/KPRKS
+KPRK-2019,234,Mundësimi ose detyrimi në prostitucion,Enabling or compelling prostitution,SEK,1,234/KPRKS
+KPRK-2019,235,Ofrimi i lokaleve për prostitucion,Providing premises for prostitution,SEK,1,235/KPRKS
+KPRK-2019,353,Peshkimi i kundërligjshëm,Unlawful fishing,MJ,1,353/KPRKS
+KPRK-2019,248,Dhuna në familje,Domestic violence,FAM,1,248/KPRKS
+KPRK-2019,356,Shkaktimi i rrezikut të përgjithshëm,Causing general danger,SIG,1,356/KPRKS
+KPRK-2019,421,Marrja e ryshfetit,Accepting bribes,KORR,1,421/KPRKS
+KPRK-2019,406,Heqja apo dëmtimi i vulave zyrtare ose i shenjave,Removal or damaging of official seals or marks,RP,1,406/KPRKS
+KPRK-2019,331,Fajdeja,Usury,PR,1,331/KPRKS
+UNMIK-2003/25,248,Lëshimi i çeqeve pa mbulesë ose të rremë dhe keqpërdorimi i kartelave të bankës apo të kreditit,Issuing uncovered or false cheques and misuse of bank or credit cards,E,1,248/KPK
+UNMIK-2003/25,159,Rrëmbimi i personit,Kidnapping,LIR,1,159/KPK
+LPLKK,13,"Prodhimi, posedimi dhe tentativa e pa autorizuar","Unauthorised production, possession and attempt",PE,1,13/LPLKK
+KPRK-2019,309,Pranimi i rryshfetit në sektorin privat,Accepting bribes in the private sector,E,1,309/KPRKS
+KPRK-2019,336,Vjedhja e identitetit dhe pajisja e qasjes,Identity theft and access devices,KOMP,1,336/KPRKS
+KPRK-2019,307,Shmangia nga tatimi,Tax evasion,E,1,307/KPRKS
+KPRK-2019,164,Kontrabandimi me migrantë,Smuggling of migrants,KM,1,164/KPRKS
+KPRK-2019,173,Vrasja e rëndë,Aggravated murder,JT,1,173/KPRKS
+KPRK-2019,192,Shtrëngimi,Coercion,LIR,1,192/KPRKS
+KPRK-2019,357,"Asgjësimi, dëmtimi ose heqja e instalimeve publike","Destruction, damage or removal of public installations",SIG,1,357/KPRKS
+KPRK-2019,215,Cenimi i fshehtësisë së votimit,Violation of the secrecy of voting,ZGJ,1,215/KPRKS
+KPRK-2019,217,Asgjësimi i dokumenteve të votimit,Destruction of voting documents,ZGJ,1,217/KPRKS
+KPRK-2019,272,"Kultivimi i bimës së hashashit, shkurres së kokainës ose bimëve të kanabisit","Cultivation of the opium poppy, coca bush or cannabis plants",DR,1,272/KPRKS
+KPRK-2019,418,Përvetësimi në detyrë,Misappropriation in office,KORR,1,418/KPRKS
+KPRK-2019,173/28,Vrasje e rëndë në tentativë,Attempted aggravated murder,JT,1,173/28/KPRKS
+KPRK-2019,172/23,Vrasje nga pakujdesia,Negligent homicide,JT,1,172/23/KPRKS
+KPRK-2019,175,Vrasja nga pakujdesia,Negligent homicide,JT,1,175/KPRKS
+KPK-2012,335/28,Mashtrimi në tentativë,Attempted fraud,PR,1,335/28/KPRK
+KPRK-2019,393,Mospërfillja e gjykatës,Contempt of court,DRE,1,393/KPRKS
+KPK-2012,33/178,Ndihma për vrasje,Assistance in murder,JT,1,33/178/KPRK
+KPRK-2019,338,"Ndotja, degradimi ose shkatërrimi i mjedisit","Pollution, degradation or destruction of the environment",MJ,1,338/KPRKS
+KPRK-2019,134,Shtytja për kryerjen e veprave terroriste,Incitement to commit terrorist offences,TER,1,134/KPRKS
+KPRK-2019,172/12,Vrasje në tejkalim të mbrojtjes së nevojshme,Murder exceeding the limits of necessary defence,JT,1,172/12/KPRKS
+KPRK-2019,209,Parandalimi i ushtrimit të së drejtës për të votuar,Preventing the exercise of the right to vote,ZGJ,1,209/KPRKS
+KPRK-2019,144,Krimet e luftës në shkelje të rëndë të konventave të Gjenevës,War crimes in grave breach of the Geneva Conventions,LUF,1,144/KPRKS
+KPK-2012,250,Keqtrajtimi apo braktisja e fëmijës,Mistreatment or abandonment of a child,FAM,1,250/KPRK
+KPRK-2019,264,Ndotja e ujit të pijshëm,Pollution of drinking water,SH,1,264/KPRKS
+KPRK-2019,424,Ushtrimi i ndikimit,Trading in influence,KORR,1,424/KPRKS
+KPRK-2019,277,Pjesëmarrja ose organizimi i grupit kriminal të organizuar,Participation in or organisation of an organised criminal group,KO,1,277/KPRKS
+KPRK-2019,227,Dhunimi,Rape,SEK,1,227/KPRKS
+KPRK-2019,193,Privimi i kundërligjshëm i lirisë,Unlawful deprivation of liberty,LIR,1,193/KPRKS
+KPRK-2019,311,Kontrabandimi i mallrave,Smuggling of goods,E,1,311/KPRKS
+KPRK-2019,146,Krimet e luftës në shkelje të rëndë të nenit 3 të përbashkët të konventave të Gjenevës,War crimes in serious violation of common article 3 of the Geneva Conventions,LUF,1,146/KPRKS
+KPK-2012,33/403,Ndihma në legalizimin e përmbajtjes së rreme,Assistance in certifying false content,FD,1,33/403/KPRK
+KPK-2012,421/31,Dëmtimi i varreve apo kufomave në bashkëkryerje,Damaging graves or corpses in co-perpetration,RP,1,421/31/KPRK
+KPRK-2019,359,Ndërtimi pa leje,Construction without a permit,MJ,1,359/KPRKS
+KPRK-2019,260,Prodhimi dhe shpërndarja e produkteve të dëmshme mjekësore,Production and distribution of harmful medical products,SH,1,260/KPRKS
+KPRK-2019,320,Uzurpimi i paligjshëm i pronës së paluajtshme,Unlawful occupation of immovable property,PR,1,320/KPRKS
+KPK-2012,33/178/28,Ndihma për vrasje në tentativë,Assistance in attempted murder,JT,1,33/178/28/KPRK
+KPRK-2019,328,Detyrimi,Extortion,PR,1,328/KPRKS
+KPRK-2019,371,Ngasja në gjendje të paaftë apo të dehur,Driving while unfit or intoxicated,TRA,1,371/KPRKS
+KPK-2012,409/28,Pengimi i personit zyrtar në kryerjen e detyrave zyrtare në tentativë,Attempted obstruction of an official person in the performance of official duties,RP,1,409/28/KPRK
+KPRK-2019,183,Ngacmimi seksual,Sexual harassment,SEK,1,183/KPRKS
+KPRK-2019,387,Frikësimi gjatë procedurës penale,Intimidation during criminal proceedings,DRE,1,387/KPRKS
+UNMIK-2003/25,23/120,Bashkëkryerja në Krimet e luftës për shkelje të rëndë të nenit 3 të përbashkët me Konventat e Gjenevës,Co-perpetration of war crimes in serious violation of common article 3 of the Geneva Conventions,LUF,1,23/120/KPK
+KPRK-2019,267/28,"Blerja, posedimi, shpërndarja dhe shitja e paautorizuar e narkotikëve, substancave psikotrope dhe analoge në tentativë","Attempted unauthorised purchase, possession, distribution and sale of narcotic drugs, psychotropic substances and analogues",DR,1,267/28/KPRKS
+KPRK-2019,269/28,"Posedimi i paautorizuar i narkotikëve, substancave psikotrope ose analoge në tentativë","Attempted unauthorised possession of narcotic drugs, psychotropic substances or analogues",DR,1,269/28/KPRKS
+KPRK-2019,33/311,Ndihma për kontrabandimin e mallrave,Assistance in smuggling of goods,E,1,33/311/KPRKS
+KPRK-2019,422,Dhënia e ryshfetit,Giving bribes,KORR,1,422/KPRKS
+KPRK-2019,185/31,Lëndimi i lehtë trupor në bashkëkryerje,Light bodily injury in co-perpetration,JT,1,185/31/KPRKS
+KPRK-2019,313/28,Vjedhja në tentativë,Attempted theft,PR,1,313/28/KPRKS
+KPRK-2019,322,Zjarrvënia,Arson,SIG,1,322/KPRKS
+KPRK-2019,384,Deklarimet e rreme,False statements,DRE,1,384/KPRKS
+KPRK-2019,312,Shmangia nga pagesa e tarifave të detyrueshme doganore ose tarifave akcizore,Evasion of mandatory customs duties or excise duties,E,1,312/KPRKS
+KPRK-2019,380,Dhënia e ndihmës kryesve pas kryerjes së veprave penale,Assisting perpetrators after the commission of criminal offences,DRE,1,380/KPRKS
+KPRK-2019,261,Prodhimi dhe vënia në qarkullim e artikujve të dëmshëm ushqimorë,Production and placing on the market of harmful foodstuffs,SH,1,261/KPRKS
+KPRK-2019,299,Tregtia e ndaluar,Prohibited trade,E,1,299/KPRKS
+KPRK-2019,250,Mosveprimi sipas dispozitave shëndetësore gjatë epidemisë,Failure to comply with health regulations during an epidemic,SH,1,250/KPRKS
+KPRK-2019,33/140,Ndihma në kalim i paautorizuar i vendkalimeve kufitare ose i vijës kufitare,Assistance in unauthorised crossing of border crossing points or the border line,RP,1,33/140/KPRKS
+KPRK-2019,202,Fotografimi dhe incizimet tjera të paautorizuara,Unauthorised photographing and other recordings,LIR,1,202/KPRKS
+KPRK-2019,333,"Blerja, pranimi ose fshehja e sendeve të përfituara me kryerjen e veprës penale","Purchasing, receiving or concealing property obtained through a criminal offence",PR,1,333/KPRKS
+KPRK-2019,328/28,Detyrimi në tentativë,Attempted extortion,PR,1,328/28/KPRKS
+KPRK-2019,229,Sulmi seksual,Sexual assault,SEK,1,229/KPRKS
+KPRK-2019,318,Shpërdorimi i pasurisë së huaj,Misuse of another's property,PR,1,318/KPRKS
+KPRK-2019,256,Ushtrimi i kundërligjshëm i veprimtarisë mjekësore ose farmaceutike,Unlawful practice of medicine or pharmacy,SH,1,256/KPRKS
+LPK-KSAK,30,Vrasja,Murder,JT,1,30/Ligji Penal i KSAK
+KPRK-2019,302,Shpërlarja e parave,Money laundering,E,1,302/KPRKS
+KPRK-2019,188,Mosdhënia e ndihmës,Failure to render assistance,JT,1,188/KPRKS
+KPRK-2019,333/31,Asgjësimi apo dëmtimi i pasurisë në bashkëkryerje,Destruction or damage of property in co-perpetration,PR,1,333/31/KPRKS
+KPRK-2019,346,Keqtrajtimi i kafshëve dhe ndotja e ushqimit dhe e ujit të shtazëve,Mistreatment of animals and contamination of animal food and water,MJ,1,346/KPRKS
+KPRK-2019,210,Cenimi i përcaktimit të lirë të votuesve,Violation of the free will of voters,ZGJ,1,210/KPRKS
+KPRK-2019,279,Veprimtaria e pandërgjegjshme ekonomike,Reckless economic activity,E,1,279/KPRKS
+KPRK-2019,354,"Dëmtimi, shkatërrimi dhe nxjerrja e paautorizuar e monumenteve ose objekteve të mbrojtura jashtë Republikës së Kosovës","Damage, destruction and unauthorised removal of protected monuments or objects outside the Republic of Kosovo",MJ,1,354/KPRKS
+KPRK-2019,389,Manipulimi me prova,Tampering with evidence,DRE,1,389/KPRKS
+KPRK-2019,397,Arratisja e personit të privuar nga liria,Escape of a person deprived of liberty,DRE,1,397/KPRKS
+KPK-2012,33/327,Ndihma në vjedhje të rëndë,Assistance in aggravated theft,PR,1,33/327/KPRK
+KPRK-2019,191,Rrëmbimi,Kidnapping,LIR,1,191/KPRKS
+KPRK-2019,197,Cenimi i paprekshmërisë së banesave dhe objekteve,Violation of the inviolability of dwellings and premises,LIR,1,197/KPRKS
+KPRK-2019,269,"Posedimi i paautorizuar i narkotikëve, substancave psikotrope ose analoge","Unauthorised possession of narcotic drugs, psychotropic substances or analogues",DR,1,269/KPRKS
+KPRK-2019,313/31,Vjedhja në bashkëkryerje,Theft in co-perpetration,PR,1,313/31/KPRKS
+KPRK-2019,364,"Importi, eksporti, furnizimi, transportimi, prodhimi, këmbimi, ndërmjetësimi ose shitja e paautorizuar e armëve apo materieve plasëse","Unauthorised import, export, supply, transport, production, exchange, brokering or sale of weapons or explosive substances",A,1,364/KPRKS
+KPRK-2019,195,Keqtrajtimi gjatë ushtrimit të detyrës zyrtare ose autorizimeve publike,Mistreatment in the exercise of official duty or public authority,LIR,1,195/KPRKS
+KPRK-2019,219,Cenimi i të drejtave të punësimit dhe papunësisë,Violation of employment and unemployment rights,LIR,1,219/KPRKS
+KPRK-2019,137,Udhëtimi për qëllime të terrorizmit,Travel for the purpose of terrorism,TER,1,137/KPRKS
+KPRK-2019,348,Shkretërimi i pyjeve,Devastation of forests,MJ,1,348/KPRKS
+KPRK-2019,284,Keqpërdorimi i autorizimeve ekonomike,Abuse of economic authorisations,E,1,284/KPRKS
+KPRK-2019,427,Falsifikimi i dokumentit zyrtar,Falsifying an official document,KORR,1,427/KPRKS
+KPK-2012,327/31,Vjedhja e rëndë në bashkëkryerje,Aggravated theft in co-perpetration,PR,1,327/31/KPRK
+KPRK-2019,350,Gjuetia e kundërligjshme,Unlawful hunting,MJ,1,350/KPRKS
+KPRK-2019,216,Falsifikimi i rezultateve të votimit,Falsifying voting results,ZGJ,1,216/KPRKS
+KPRK-2019,167,Rrezikimi i personave nën mbrojtje ndërkombëtare,Endangering internationally protected persons,LUF,1,167/KPRKS
+KPRK-2019,301,Lëshimi i çeqeve pa mbulesë ose të rremë dhe keqpërdorimi i kartelave të bankës apo të kreditit,Issuing uncovered or false cheques and misuse of bank or credit cards,E,1,301/KPRKS
+KPK-2012,400,Shkelja e fshehtësisë së procedurës,Violation of the secrecy of proceedings,DRE,1,400/KPRK
+KPK-2012,219,Falsifikimi i rezultateve të votimit,Falsifying voting results,ZGJ,1,219/KPRK
+UNMIK-2003/25,138/23,Kontrabandimi me migrantë në bashkëkryerje,Smuggling of migrants in co-perpetration,KM,1,138/23/KPK
+UNMIK-2003/25,138/25,Kontrabandimi me migrantë në ndihmë,Assistance in smuggling of migrants,KM,1,138/25/KPK
+KPRK-2019,413,Dëmtimi i varreve apo kufomave,Damaging graves or corpses,RP,1,413/KPRKS
+KPRK-2019,359/28,Ndërtimi pa leje në tentativë,Attempted construction without a permit,MJ,1,359/28/KPRKS
+KPK-2012,249,Marrja apo mbajtja e kundërligjshme e fëmijës,Unlawful taking or retention of a child,FAM,1,249/KPRK
+KPRK-2019,358,"Asgjësimi, dëmtimi ose heqja e pajisjeve mbrojtëse dhe rrezikimi i sigurisë në vendin e punës","Destruction, damage or removal of protective equipment and endangering safety at the workplace",SIG,1,358/KPRKS
+KPRK-2019,174,Vrasja e kryer në gjendje të tronditjes së fortë mendore,Murder committed in a state of severe mental distress,JT,1,174/KPRKS
+KPRK-2019,31,Bashkëkryerja,Co-perpetration,PP,1,31/KPRKS
+KPRK-2019,35,Marrëveshja për të kryer vepër penale,Agreement to commit a criminal offence,PP,1,35/KPRKS
+KPRK-2019,293,Mashtrimi i blerësve,Defrauding buyers,E,1,293/KPRKS
+KPRK-2019,292,Mashtrimi i konsumatorëve,Consumer fraud,E,1,292/KPRKS
+KPRK-2019,383,Deklarimi i rremë nën betim,False statement under oath,DRE,1,383/KPRKS
+KPK-2012,325/31,Vjedhja në bashkëkryerje,Theft in co-perpetration,PR,1,325/31/KPRK
+KPK-2012,320,Vjedhja e shërbimeve komunale,Theft of utility services,PR,1,320/KPRK
+KPRK-2019,386,Pengimi i të provuarit apo procedurës zyrtare,Obstructing evidence or official proceedings,DRE,1,386/KPRKS
+UNMIK-2003/25,253/20,Vjedhja e rëndë në tentativë,Attempted aggravated theft,PR,1,253/20/KPK
+LPK-KSAK,30/19,Vrasje në tentativë,Attempted murder,JT,1,30/19/LPK
+KPK-2012,178/28/31,Vrasje në tentativë në bashkëkryerje,Attempted murder in co-perpetration,JT,1,178/28/31/KPRK
+KPK-2012,172/28/12,"Vrasje e mbetur në tentativë, në tejkalim të mbrojtjes së nevojshme",Attempted murder exceeding the limits of necessary defence,JT,1,172/28/12/KPRK
+KPK-2012,179/28/31,Vrasje e rëndë në tentativë në bashkëkryerje,Attempted aggravated murder in co-perpetration,JT,1,179/28/31/KPRK
+KPK-2012,273/31,"Blerja, posedimi, shpërndarja dhe shitja e paautorizuar e narkotikëve, substancave psikotrope dhe analoge në bashkëkryerje","Unauthorised purchase, possession, distribution and sale of narcotic drugs, psychotropic substances and analogues in co-perpetration",DR,1,273/31/KPRK
+UNMIK-2003/25,155,Pjesëmarrja në rrahje,Participation in a brawl,JT,1,155/KPK
+KPRK-2019,141,Nxitja e përçarjes dhe mos durimit,Incitement to discord and intolerance,NU,1,141/KPRKS
+KPK-2012,181/28,Vrasja nga pakujdesia në tentativë,Attempted negligent homicide,JT,1,181/28/KPRK
+KPRK-2019,33/267/31,"Ndihma për blerja, posedimi, shpërndarja dhe shitja e paautorizuar e narkotikëve, substancave psikotrope dhe analoge në bashkëkryerje","Assistance in unauthorised purchase, possession, distribution and sale of narcotic drugs, psychotropic substances and analogues in co-perpetration",DR,1,33/267/31/KPRKS
+KPRK-2019,415,Keqpërdorimi dhe mashtrimi në prokurim publik,Abuse and fraud in public procurement,KORR,1,415/KPRKS
+KPK-2012,415,Marrja apo asgjësimi i vulave zyrtare ose i shkresave zyrtare,Taking or destroying official seals or official documents,RP,1,415/KPRK
+KPRK-2019,33,Ndihma,Assistance,PP,1,33/KPRKS
+KPRK-2019,377,Moslajmërimi i përgatitjes së veprave penale,Failure to report the preparation of criminal offences,DRE,1,377/KPRKS
+KPRK-2019,32/172,Shtytja në vrasje,Incitement to murder,JT,1,32/172/KPRKS
+KPRK-2019,330,Keqpërdorimi i besimit,Breach of trust,PR,1,330/KPRKS
+KPRK-2019,394,Mosekzekutimi i vendimeve gjyqësore,Failure to execute court decisions,DRE,1,394/KPRKS
+KPK-2012,380,Rrezikimi i trafikut publik me veprime apo mjete të rrezikshme,Endangering public traffic by dangerous acts or means,TRA,1,380/KPRK
+KPRK-2019,327,Hyrja në sistemet kompjuterike,Access to computer systems,KOMP,1,327/KPRKS
+UNMIK-2003/25,146/20/25,Ndihma në vrasje në tentativë,Assistance in attempted murder,JT,1,146/20/25/KPK
+UNMIK-2003/25,301,Mosdhënia e ndihmës personit të lënduar në fatkeqësitë e trafikut publik,Failure to render assistance to a person injured in a public traffic accident,TRA,1,301/KPK
+KPRK-2019,409,Prezantimi i rremë si person zyrtar,Falsely presenting oneself as an official person,RP,1,409/KPRKS
+KPK-2012,195,Shtrëngimi,Coercion,LIR,1,195/KPRK
+KPRK-2019,172/31,Vrasje në bashkëkryerje,Murder in co-perpetration,JT,1,172/31/KPRKS
+KPRK-2019,378,Moslajmërimi i veprave penale apo kryesve të tyre,Failure to report criminal offences or their perpetrators,DRE,1,378/KPRKS
+KPRK-2019,212,Dhënia ose marrja e ryshfetit në lidhje me votimin,Giving or accepting bribes in relation to voting,ZGJ,1,212/KPRKS
+UNMIK-2003/25,260,Dëmtimi i pasurisë së luajtshme,Damage to movable property,PR,1,260/KPK
+KPRK-2019,315/28,Vjedhja e rëndë në tentativë,Attempted aggravated theft,PR,1,315/28/KPRKS
+KPRK-2019,417,Konflikti i interesit,Conflict of interest,KORR,1,417/KPRKS
+KPRK-2019,172,Vrasja,Murder,JT,1,172/KPRKS
+KPRK-2019,32,Shtytja,Incitement,PP,1,32/KPRKS
+KPK-2012,33,Ndihma,Assistance,PP,1,33/KPRK
+UNMIK-2003/25,166,Cënimi i paprekshmërisë së banesave,Violation of the inviolability of dwellings,LIR,1,166/KPK
+RRMNKPK,259A,Marrja në posedim e tokës në pronësi shoqërore në mënyrë të paligjshme,Unlawful occupation of socially owned land,PR,1,259A/RRMNKPK
+KPRK-2019,360,Punimet ndërtimore të kundërligjshme,Unlawful construction works,MJ,1,360/KPRKS
+KPRK-2019,416,Keqpërdorimi i informatës zyrtare,Misuse of official information,KORR,1,416/KPRKS
+KPRK-2019,125,Zbulimi i informacioneve të klasifikuara dhe mos ruajtja e informacioneve të klasifikuara,Disclosure of classified information and failure to safeguard classified information,TER,1,125/KPRKS
+KPRK-2019,374,Mosdhënia e ndihmës personit të lënduar në fatkeqësinë e trafikut publik,Failure to render assistance to a person injured in a public traffic accident,TRA,1,374/KPRKS
+LPK-KSAK,38,Plagosja e rëndë,Grievous bodily injury,JT,1,38/Ligji Penal i KSAK
+KPRK-2019,324,Mashtrimi me subvencione,Subsidy fraud,E,1,324/KPRKS
+KPRK-2019,421/31,Marrje e ryshfetit në bashkëkryerje,Accepting bribes in co-perpetration,KORR,1,421/31/KPRKS
+KPRK-2019,390/31,Falsifikimi i dokumenteve në bashkëkryerje,Falsifying documents in co-perpetration,FD,1,390/31/KPRKS
+UNMIK-2003/25,25/159,Ndihma në rrëmbimin e personit,Assistance in kidnapping,LIR,1,25/159/KPK
+KPRK-2019,419/31,Mashtrimi në detyrë në bashkëkryerje,Fraud in office in co-perpetration,KORR,1,419/31/KPRKS
+KPRK-2019,33/421,Ndihma në marrjen e ryshfetit,Assistance in accepting bribes,KORR,1,33/421/KPRKS
+KPRK-2019,33/422,Ndihma në dhënien e ryshfetit,Assistance in giving bribes,KORR,1,33/422/KPRKS
+KPRK-2019,265,Ndotja e artikujve ushqimorë që përdoren nga njerëzit apo kafshët,Contamination of foodstuffs used by people or animals,SH,1,265/KPRKS
+KPRK-2019,391,Rastet e posaçme të falsifikimit të dokumenteve,Special cases of falsifying documents,FD,1,391/KPRKS
+KPRK-2019,221,Cenimi i të drejtës në grevë,Violation of the right to strike,LIR,1,221/KPRKS
+KPRK-2019,218,Cenimi i të drejtave në marrëdhëniet e punës,Violation of rights in employment relations,LIR,1,218/KPRKS
+KPRK-2019,28,Tentativa,Attempt,PP,1,28/KPRKS
+RSFJ,142,Krime lufte kundër popullsisë civile,War crimes against the civilian population,LUF,1,142/RSFJ
+KPK-2012,179/31,Vrasje e rëndë në bashkëkryerje,Aggravated murder in co-perpetration,JT,1,179/31/KPRK
+KPRK-2019,213,Keqpërdorimi i të drejtës së votimit,Abuse of the right to vote,ZGJ,1,213/KPRKS
+KPRK-2019,268,"Prodhimi dhe përpunimi i paautorizuar i narkotikëve, substancave psikotrope, analoge apo veglave, pajisjeve apo materialeve narkotike","Unauthorised production and processing of narcotic drugs, psychotropic substances, analogues or narcotic tools, equipment or materials",DR,1,268/KPRKS
+KPRK-2019,33/331,Ndihma për fajde,Assistance in usury,PR,1,33/331/KPRKS
+KPRK-2019,254,Trajtimi i pandërgjegjshëm mjekësor,Negligent medical treatment,SH,1,254/KPRKS
+KPRK-2019,172/21,Vrasje me dashje,Intentional murder,JT,1,172/21/KPRKS
+KPRK-2019,310,Dhënia e ryshfetit në sektorin privat,Giving bribes in the private sector,E,1,310/KPRKS
+KPRK-2019,77,Dënimi për veprat penale në vazhdim,Punishment for continuing criminal offences,PP,1,77/KPRKS
+KPRK-2019,33/173,Ndihma në kryerjen e veprës penale vrasje e rëndë,Assistance in the criminal offence of aggravated murder,JT,1,33/173/KPRKS
+KPRK-2019,138,Përgatitja e veprave terroriste ose veprave penale kundër rendit kushtetues dhe sigurisë së Republikës së Kosovës,Preparing terrorist offences or criminal offences against the constitutional order and security of the Republic of Kosovo,TER,1,138/KPRKS
+KPRK-2019,131,Lehtësimi dhe financimi në kryerjen e terrorizmit,Facilitating and financing the commission of terrorism,TER,1,131/KPRKS
+KPRK-2019,129,Kryerja e veprës terroriste,Commission of a terrorist offence,TER,1,129/KPRKS
+KPRK-2019,129/31,Kryerja e veprës terroriste në bashkëkryerje,Commission of a terrorist offence in co-perpetration,TER,1,129/31/KPRKS
+KPRK-2019,143,Krimet kundër njerëzimit,Crimes against humanity,LUF,1,143/KPRKS
+KPRK-2019,178,Ndërprerja e palejuar e shtatzënësisë,Unlawful termination of pregnancy,JT,1,178/KPRKS
+KPRK-2019,326,Keqpërdorimi i sigurimit,Insurance fraud,E,1,326/KPRKS
+KPRK-2019,168,Rrezikimi i personelit të Organizatës së Kombeve të Bashkuara dhe i personelit në marrëdhënie me to,Endangering United Nations and associated personnel,LUF,1,168/KPRKS
+KPRK-2019,404,Pjesëmarrja në turmë që kryen vepër penale dhe huliganizmi,"Participation in a crowd committing a criminal offence, and hooliganism",RP,1,404/KPRKS
+KPRK-2019,208,Kanosja e kandidatit,Threatening a candidate,ZGJ,1,208/KPRKS
+KPRK-2019,122,Rrezikimi i rendit kushtetues me shkatërrimin apo dëmtimin e instalimeve dhe pajisjeve publike,Endangering the constitutional order by destroying or damaging public installations and equipment,TER,1,122/KPRKS
+KPRK-2019,31/414,Bashkëkryerja në kryerjen e veprës penale keqpërdorimi i pozitës apo autoritetit zyrtar,Co-perpetration of the criminal offence of abuse of official position or authority,KORR,1,31/414/KPRKS
+KPRK-2019,177,Shtytja në vetëvrasje dhe ndihma në vetëvrasje,Incitement to and assistance in suicide,JT,1,177/KPRKS
+KPRK-2019,124,Spiunazhi,Espionage,TER,1,124/KPRKS
+KPRK-2019,420,Përdorimi i paautorizuar i pasurisë,Unauthorised use of property,KORR,1,420/KPRKS
+KPRK-2019,33/415,Ndihma në kryerjen e veprës penale keqpërdorimi dhe mashtrimi në prokurim publik,Assistance in the criminal offence of abuse and fraud in public procurement,KORR,1,33/415/KPRKS
+KPRK-2019,399,Lirimi i kundërligjshëm i personave të privuar nga liria,Unlawful release of persons deprived of liberty,DRE,1,399/KPRKS
+KPRK-2019,228,Shërbimet seksuale të viktimës së trafikimit,Sexual services of a victim of trafficking,TNJ,1,228/KPRKS
+KPRK-2019,127,Bashkimi për veprimtari kundër kushtetuese,Association for anti-constitutional activity,TER,1,127/KPRKS
+KPRK-2019,114,Sulmi kundër rendit kushtetues të Republikës së Kosovës,Attack on the constitutional order of the Republic of Kosovo,TER,1,114/KPRKS

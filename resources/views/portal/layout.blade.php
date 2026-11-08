@@ -16,7 +16,7 @@
     ];
 @endphp
 <!DOCTYPE html>
-<html lang="{{ $locale }}">
+<html lang="{{ $locale }}" data-type="service">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -33,57 +33,104 @@
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:locale" content="{{ $locale === 'sq' ? 'sq_AL' : 'en_GB' }}">
     <meta name="theme-color" content="#0c2a42">
+    <meta name="page-type" content="service">
+    <meta name="site-kind" content="other">
     <link rel="icon" href="{{ asset('icons/favicon.svg') }}" type="image/svg+xml">
     @vite(['resources/css/portal.css', 'resources/js/portal.js'])
     @livewireStyles
+    {{-- The first screen's entrance waits for this mark (portal.css, [data-enter]). --}}
+    <script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
+    @stack('head')
 </head>
 <body class="flex min-h-screen flex-col bg-canvas text-slate-700 antialiased">
-    <a href="#content" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-white focus:px-3 focus:py-2 focus:text-navy-900">{{ __('portal.skip') }}</a>
-
-    <header class="bg-navy-900 text-white" x-data="{ open: false }">
-        <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
-            <a href="{{ route('portal.home') }}" class="flex min-w-0 items-center">
+    <header class="nav sticky top-0 z-40 bg-navy-900 text-white shadow-[inset_0_-1px_0_rgb(255_255_255_/_0.1)]" x-data="{ open: false }" x-on:keydown.escape.window="open = false">
+        <div class="wrap portal-wrap relative flex h-16 items-center justify-between gap-4 lg:h-[72px]">
+            {{-- The skip link: first in the header's wrap, shown over the logo on the first Tab. --}}
+            <a href="#content" class="skip-link sr-only focus:not-sr-only focus:absolute focus:top-1/2 focus:left-0 focus:z-50 focus:-translate-y-1/2 focus:rounded-lg focus:bg-gold-400 focus:px-4 focus:py-2.5 focus:font-bold focus:text-navy-900">{{ __('portal.skip') }}</a>
+            <a href="{{ route('portal.home') }}" class="flex min-w-0 items-center rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-400">
                 @include('partials.brand')
             </a>
-            <nav class="hidden items-center gap-1 xl:flex" aria-label="{{ __('portal.nav.label') }}">
+            <nav class="hidden h-full items-stretch gap-1 xl:flex" aria-label="{{ __('portal.nav.label') }}">
                 @foreach ($nav as $name => $label)
-                    <a href="{{ route($name) }}" @class(['relative rounded-lg px-3 py-2 text-sm font-semibold whitespace-nowrap transition', 'text-white after:absolute after:inset-x-3 after:-bottom-1 after:h-0.5 after:rounded-full after:bg-gold-400' => $routeName === $name, 'text-white/75 hover:bg-white/5 hover:text-white' => $routeName !== $name]) @if ($routeName === $name) aria-current="page" @endif>{{ $label }}</a>
+                    <a href="{{ route($name) }}" @class(['group relative flex items-center px-3 text-[15px] font-semibold whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:-outline-offset-8 focus-visible:outline-gold-400', 'text-white' => $routeName === $name, 'text-white/75 hover:text-white' => $routeName !== $name]) @if ($routeName === $name) aria-current="page" @endif>
+                        {{ $label }}
+                        <span @class(['absolute inset-x-3 bottom-0 h-[3px] rounded-t-full bg-gold-400 transition-transform duration-150 ease-out', 'scale-x-100' => $routeName === $name, 'origin-left scale-x-0 bg-white/40 group-hover:scale-x-100' => $routeName !== $name]) aria-hidden="true"></span>
+                    </a>
                 @endforeach
             </nav>
             <div class="flex items-center gap-2">
-                <div class="flex rounded-full border border-white/30 p-0.5 text-xs" role="navigation" aria-label="{{ __('portal.language') }}">
+                {{-- Sign in: one menu for the two signed-in areas, the staff panel and the researchers' area. --}}
+                <div class="relative hidden sm:block" x-data="{ signIn: false }" x-on:click.outside="signIn = false" x-on:keydown.escape="signIn = false">
+                    <button type="button" class="inline-flex min-h-10 items-center gap-2 rounded-xl border border-white/25 px-3.5 text-[14px] font-semibold text-white transition-colors hover:border-white/50 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-400" x-on:click="signIn = !signIn" :aria-expanded="signIn.toString()" aria-expanded="false" aria-controls="portal-sign-in" aria-haspopup="true">
+                        <svg class="size-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/></svg>
+                        {{ __('portal.nav.sign_in') }}
+                        <svg class="size-3.5 transition-transform duration-150" :class="signIn && 'rotate-180'" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
+                    </button>
+                    <div id="portal-sign-in" class="absolute right-0 z-50 mt-2 w-64 overflow-hidden rounded-xl border border-navy-900/10 bg-white p-1.5 text-navy-900 shadow-[0_16px_40px_-12px_rgb(12_42_66_/_0.35)]" x-show="signIn" x-cloak x-transition.opacity.duration.150ms>
+                        <a href="{{ route('filament.admin.auth.login') }}" class="flex min-h-11 flex-col justify-center rounded-lg px-3 py-2 transition-colors hover:bg-navy-50 focus-visible:bg-navy-50 focus-visible:outline-none">
+                            <span class="text-[15px] font-semibold">{{ __('portal.nav.staff') }}</span>
+                            <span class="text-[13px] text-slate-600">{{ __('portal.nav.staff_hint') }}</span>
+                        </a>
+                        <a href="{{ route('filament.research.auth.login') }}" class="flex min-h-11 flex-col justify-center rounded-lg px-3 py-2 transition-colors hover:bg-navy-50 focus-visible:bg-navy-50 focus-visible:outline-none">
+                            <span class="text-[15px] font-semibold">{{ __('portal.nav.researchers') }}</span>
+                            <span class="text-[13px] text-slate-600">{{ __('portal.nav.researchers_hint') }}</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="flex gap-0.5 rounded-xl border border-white/25 text-[13px]" role="navigation" aria-label="{{ __('portal.language') }}">
                     @foreach ($supported as $code)
-                        <a href="{{ $alternate($code) }}" hreflang="{{ $code }}" lang="{{ $code }}" @class(['rounded-full px-2.5 py-1 font-bold uppercase', 'bg-gold-400 text-navy-900' => $code === $locale, 'text-white/80 hover:text-white' => $code !== $locale])>{{ $code }}</a>
+                        <a href="{{ $alternate($code) }}" hreflang="{{ $code }}" lang="{{ $code }}" @class(['flex min-h-10 min-w-11 items-center justify-center rounded-[11px] px-2.5 font-bold uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-gold-400', 'bg-white/15 text-white' => $code === $locale, 'text-white/70 hover:bg-white/10 hover:text-white' => $code !== $locale]) @if ($code === $locale) aria-current="true" @endif>{{ $code }}</a>
                     @endforeach
                 </div>
-                <button type="button" class="rounded-lg p-2 text-white hover:bg-white/10 xl:hidden" x-on:click="open = !open" :aria-expanded="open" aria-label="{{ __('portal.nav.menu') }}">
-                    <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                <button type="button" class="flex size-11 items-center justify-center rounded-xl border border-white/25 text-white transition-colors hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-400 xl:hidden" x-on:click="open = !open" :aria-expanded="open.toString()" aria-expanded="false" aria-controls="portal-menu" aria-label="{{ __('portal.nav.menu') }}">
+                    <svg class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path x-show="!open" stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"/>
+                        <path x-show="open" x-cloak stroke-linecap="round" d="M6 6l12 12M18 6 6 18"/>
+                    </svg>
                 </button>
             </div>
         </div>
-        <nav class="border-t border-white/10 px-4 pb-3 pt-2 xl:hidden" x-show="open" x-cloak aria-label="{{ __('portal.nav.label') }}">
-            @foreach ($nav as $name => $label)
-                <a href="{{ route($name) }}" @class(['block rounded-lg px-3 py-2 text-sm font-semibold', 'bg-white/10 text-white' => $routeName === $name, 'text-white/80 hover:bg-white/5 hover:text-white' => $routeName !== $name])>{{ $label }}</a>
-            @endforeach
+        <nav id="portal-menu" class="border-t border-white/10 xl:hidden" x-show="open" x-cloak x-transition.opacity.duration.150ms aria-label="{{ __('portal.nav.label') }}">
+            <div class="wrap portal-wrap grid gap-1 py-3">
+                @foreach ($nav as $name => $label)
+                    <a href="{{ route($name) }}" @class(['flex min-h-12 items-center justify-between rounded-xl px-3 text-base font-semibold', 'bg-white/10 text-white' => $routeName === $name, 'text-white/80 hover:bg-white/5 hover:text-white' => $routeName !== $name]) @if ($routeName === $name) aria-current="page" @endif>
+                        {{ $label }}
+                        @if ($routeName === $name)<span class="size-2 rounded-full bg-gold-400" aria-hidden="true"></span>@endif
+                    </a>
+                @endforeach
+                <p class="mt-3 border-t border-white/10 px-3 pt-4 text-[13px] font-semibold text-white/60">{{ __('portal.nav.sign_in') }}</p>
+                <a href="{{ route('filament.admin.auth.login') }}" class="flex min-h-12 items-center rounded-xl px-3 text-base font-semibold text-white/80 hover:bg-white/5 hover:text-white">{{ __('portal.nav.staff') }}</a>
+                <a href="{{ route('filament.research.auth.login') }}" class="flex min-h-12 items-center rounded-xl px-3 text-base font-semibold text-white/80 hover:bg-white/5 hover:text-white">{{ __('portal.nav.researchers') }}</a>
+            </div>
         </nav>
     </header>
 
-    <main id="content" class="flex-1">
+    <main id="content" class="flex-1" tabindex="-1">
         @yield('content')
     </main>
 
-    <footer class="mt-20 bg-navy-900 text-white/75">
-        <div class="mx-auto grid max-w-7xl gap-8 px-4 py-12 text-sm sm:grid-cols-3 sm:px-6">
-            <div>
-                <p class="text-white">@include('partials.brand')</p>
-                <p class="mt-4 leading-relaxed">{{ __('portal.footer.about') }}</p>
+    {{-- footer.closing: one .wrap of two rows, the close (on pages that give one) and the directory. --}}
+    <footer @class(['closing bg-navy-900 text-white/75', 'mt-24' => ! $__env->hasSection('close')])>
+        <div @class(['wrap portal-wrap', 'flex min-h-svh flex-col' => $__env->hasSection('close')])>
+            @hasSection('close')
+                <div class="grid flex-1 content-start items-start gap-10 border-b border-white/10 pt-20 pb-10 lg:grid-cols-12 lg:gap-6">
+                    @yield('close')
+                </div>
+            @endif
+            <div @class(['grid gap-10 pt-12 text-[15px] sm:grid-cols-2 lg:grid-cols-12 lg:gap-6', 'pb-[72px]' => $__env->hasSection('close'), 'pb-12' => ! $__env->hasSection('close')])>
+                <div class="sm:col-span-2 lg:col-span-5">
+                    <a href="{{ route('portal.home') }}" class="inline-flex text-white">@include('partials.brand')</a>
+                    @unless ($__env->hasSection('close'))
+                        <p class="mt-5 max-w-sm leading-relaxed">{{ __('portal.footer.about') }}</p>
+                    @endunless
+                </div>
+                <ul class="space-y-1 lg:col-span-3 lg:col-start-7">
+                    @foreach (['portal.methodology' => 'methodology', 'portal.data-protection' => 'data_protection', 'portal.open-data' => 'open_data'] as $footerRoute => $footerLabel)
+                        <li><a class="inline-flex min-h-10 items-center font-semibold text-white/85 underline decoration-transparent decoration-2 underline-offset-4 transition-colors hover:text-white hover:decoration-gold-400" href="{{ route($footerRoute) }}">{{ __('portal.nav.'.$footerLabel) }}</a></li>
+                    @endforeach
+                </ul>
+                <p class="flex gap-3 self-start leading-relaxed lg:col-span-3 lg:col-start-10"><span class="mt-2 size-2 shrink-0 rounded-full bg-gold-400" aria-hidden="true"></span>{{ __('portal.footer.privacy', ['threshold' => \App\Services\Anonymizer::threshold()]) }}</p>
             </div>
-            <div class="space-y-2">
-                <a class="block font-semibold text-white/85 hover:text-white hover:underline" href="{{ route('portal.methodology') }}">{{ __('portal.nav.methodology') }}</a>
-                <a class="block font-semibold text-white/85 hover:text-white hover:underline" href="{{ route('portal.data-protection') }}">{{ __('portal.nav.data_protection') }}</a>
-                <a class="block font-semibold text-white/85 hover:text-white hover:underline" href="{{ route('portal.open-data') }}">{{ __('portal.nav.open_data') }}</a>
-            </div>
-            <p class="flex gap-3 leading-relaxed"><span class="mt-1.5 size-2 shrink-0 rounded-full bg-gold-400" aria-hidden="true"></span>{{ __('portal.footer.privacy', ['threshold' => \App\Services\Anonymizer::threshold()]) }}</p>
         </div>
     </footer>
     @livewireScripts
