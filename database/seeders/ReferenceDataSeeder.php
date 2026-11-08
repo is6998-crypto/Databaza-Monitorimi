@@ -239,14 +239,14 @@ class ReferenceDataSeeder extends Seeder
             ],
             EconomicStatus::class => [
                 ['I punësuar', 'Employed'], ['I papunë', 'Unemployed'], ['I vetëpunësuar', 'Self-employed'], ['Student', 'Student'],
-                ['Pensionist', 'Retired'], ['Përfitues i ndihmës sociale', 'Receives social assistance'], ['E panjohur', 'Unknown'],
+                ['Pensionist', 'Retired'], ['E panjohur', 'Unknown'],
             ],
             SecurityMeasureType::class => [
                 ['Ftesa', 'Summons'], ['Urdhëresa për arrestim', 'Order for arrest'],
                 ['Premtimi për të mos e lëshuar vendbanimin', 'Promise not to leave place of residence'],
                 ['Ndalimi i afrimit në vend ose person të caktuar', 'Prohibition on approaching a place or person'],
                 ['Paraqitja në stacionin policor', 'Reporting to a police station'], ['Dorëzania', 'Bail'],
-                ['Arresti shtëpiak', 'House detention'], ['Paraburgimi', 'Detention on remand'],
+                ['Arresti shtëpiak', 'House detention'], ['Paraburgimi', 'Detention on remand'], ['Të tjera', 'Other'],
             ],
             Applicant::class => [
                 ['Policia e Kosovës', 'Kosovo Police'], ['Agjencia Kundër Korrupsionit', 'Anti-Corruption Agency'],

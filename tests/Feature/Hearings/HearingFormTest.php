@@ -100,18 +100,18 @@ it('asks for postponement reasons only when the hearing was postponed', function
         ->test(CreateHearing::class)
         ->fillForm(hearingAnswers())
         ->assertFormFieldHidden('postponement_reasons')
-        ->assertFormFieldHidden('delay_cause')
+        ->assertFormFieldHidden('delay_causes')
         ->fillForm(['started_late' => 1])
-        ->assertFormFieldVisible('delay_cause');
+        ->assertFormFieldVisible('delay_causes');
 });
 
 it('clears follow-up answers when the trigger question is answered no', function () {
-    $hearing = Hearing::factory()->create(['started_late' => true, 'delay_minutes' => 40, 'delay_cause' => 'panel', 'was_postponed' => true, 'postponement_reasons' => ['judge']]);
+    $hearing = Hearing::factory()->create(['started_late' => true, 'delay_minutes' => 40, 'delay_causes' => ['panel'], 'was_postponed' => true, 'postponement_reasons' => ['judge']]);
 
     $hearing->update(['started_late' => false, 'was_postponed' => false]);
 
     expect($hearing->fresh()->delay_minutes)->toBeNull()
-        ->and($hearing->fresh()->delay_cause)->toBeNull()
+        ->and($hearing->fresh()->delay_causes)->toBeNull()
         ->and($hearing->fresh()->postponement_reasons)->toBeNull();
 });
 

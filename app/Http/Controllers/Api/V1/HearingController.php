@@ -27,7 +27,7 @@ class HearingController extends ApiController
      * @queryParam page integer Page number. Example: 1
      * @queryParam lang string Language of the labels: sq (default) or en. Example: en
      *
-     * @response 200 scenario="Success" {"data":[{"ref":"01JD8Z6Y5P4S7T6W2Q9R1M3K5N","case_ref":"01JD8Z6Y5P4S7T6W2Q9R1M3K5A","case_type":"criminal_corruption","court":{"id":1,"label":"Basic Court of Prishtina"},"date":"2024-03-12","hearing_type":"main_trial","venue":"courtroom","is_public":true,"started_late":true,"delay_minutes":25,"delay_cause":"panel","was_postponed":true,"postponement_reasons":["defence_lawyer"],"recording":"audio","interpretation_needed":false,"interpretation_provided":null,"phone_used":false,"phone_users":[],"security_adequate":true,"participants":["judge","prosecutor","accused"]}],"links":{},"meta":{"current_page":1,"per_page":50,"total":700}}
+     * @response 200 scenario="Success" {"data":[{"ref":"01JD8Z6Y5P4S7T6W2Q9R1M3K5N","case_ref":"01JD8Z6Y5P4S7T6W2Q9R1M3K5A","case_type":"criminal_corruption","court":{"id":1,"label":"Basic Court of Prishtina"},"date":"2024-03-12","hearing_type":"main_trial","venue":"courtroom","is_public":true,"started_late":true,"delay_minutes":25,"delay_causes":["panel"],"was_postponed":true,"postponement_reasons":["defence_lawyer"],"plea_agreement":false,"recording":"audio","interpretation_needed":false,"interpretation_provided":null,"phone_used":false,"phone_users":[],"security_adequate":true,"participants":["judge","prosecutor","accused"]}],"links":{},"meta":{"current_page":1,"per_page":50,"total":700}}
      */
     public function index(Request $request): AnonymousResourceCollection
     {

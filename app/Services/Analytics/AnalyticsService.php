@@ -219,8 +219,9 @@ class AnalyticsService
 
         $causes = $this->hearings()
             ->where('h.started_late', true)
-            ->whereNotNull('h.delay_cause')
-            ->selectRaw('h.delay_cause as cause, count(*) as total')
+            ->whereNotNull('h.delay_causes')
+            ->crossJoin(DB::raw('jsonb_array_elements_text(h.delay_causes) as cause'))
+            ->selectRaw('cause, count(*) as total')
             ->groupBy('cause')
             ->pluck('total', 'cause');
 

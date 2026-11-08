@@ -196,9 +196,10 @@ class HearingForm
                     ->grouped()
                     ->live()
                     ->required(),
-                ToggleButtons::make('delay_cause')
-                    ->label(__('hearings.fields.delay_cause'))
+                ToggleButtons::make('delay_causes')
+                    ->label(__('hearings.fields.delay_causes'))
                     ->options(DelayCause::options())
+                    ->multiple()
                     ->inline()
                     ->visible(fn (Get $get): bool => $yes($get, 'started_late')),
                 TextInput::make('delay_minutes')
@@ -225,6 +226,11 @@ class HearingForm
                     ->visible(fn (Get $get): bool => $yes($get, 'was_postponed'))
                     ->columnSpanFull(),
 
+                ToggleButtons::make('plea_agreement')
+                    ->label(__('hearings.fields.plea_agreement'))
+                    ->boolean(__('app.yes'), __('app.no'))
+                    ->inline()
+                    ->grouped(),
                 ToggleButtons::make('recording')->label(__('hearings.fields.recording'))->options(Recording::options())->inline()->columnSpanFull(),
 
                 ToggleButtons::make('interpretation_needed')

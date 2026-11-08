@@ -32,7 +32,7 @@ class HearingFactory extends Factory
             'is_public' => $this->faker->boolean(85),
             'started_late' => $late,
             'delay_minutes' => $late ? $this->faker->numberBetween(16, 120) : null,
-            'delay_cause' => $late ? $this->faker->randomElement(['panel', 'prosecutor', 'defence', 'other']) : null,
+            'delay_causes' => $late ? $this->faker->randomElements(['panel', 'prosecutor', 'defence', 'accused', 'witness', 'other'], $this->faker->numberBetween(1, 2)) : null,
             'was_postponed' => $postponed,
             'postponement_reasons' => $postponed ? $this->faker->randomElements(PostponementReason::values(), $this->faker->numberBetween(1, 2)) : null,
             'phone_used' => false,

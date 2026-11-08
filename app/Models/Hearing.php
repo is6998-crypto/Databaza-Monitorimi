@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\DelayCause;
 use App\Enums\HearingType;
 use App\Enums\Recording;
 use App\Enums\Venue;
@@ -43,7 +42,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property bool|null $is_public
  * @property bool $started_late
  * @property int|null $delay_minutes
- * @property DelayCause|null $delay_cause
+ * @property list<string>|null $delay_causes
+ * @property bool|null $plea_agreement
  * @property bool $was_postponed
  * @property list<string>|null $postponement_reasons
  * @property bool $phone_used
@@ -93,7 +93,8 @@ class Hearing extends Model
             'venue' => Venue::class,
             'is_public' => 'boolean',
             'started_late' => 'boolean',
-            'delay_cause' => DelayCause::class,
+            'delay_causes' => 'array',
+            'plea_agreement' => 'boolean',
             'was_postponed' => 'boolean',
             'postponement_reasons' => 'array',
             'phone_used' => 'boolean',
@@ -113,7 +114,7 @@ class Hearing extends Model
         static::saving(function (self $hearing): void {
             if (! $hearing->started_late) {
                 $hearing->delay_minutes = null;
-                $hearing->delay_cause = null;
+                $hearing->delay_causes = null;
             }
 
             if (! $hearing->was_postponed) {

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\CounselType;
+use App\Enums\EconomicCondition;
 use App\Enums\Gender;
 use App\Enums\PartyRole;
 use App\Models\Reference\DefendantPosition;
@@ -34,6 +35,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property Gender|null $gender
  * @property int|null $nationality_id
  * @property int|null $economic_status_id
+ * @property EconomicCondition|null $economic_condition
  * @property int|null $defendant_position_id
  * @property CounselType|null $counsel_type
  * @property bool|null $counsel_at_police
@@ -63,6 +65,7 @@ class CaseParty extends Model
             'name' => 'encrypted',
             'role' => PartyRole::class,
             'gender' => Gender::class,
+            'economic_condition' => EconomicCondition::class,
             'counsel_type' => CounselType::class,
             'counsel_at_police' => 'boolean',
         ];

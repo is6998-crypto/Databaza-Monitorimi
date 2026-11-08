@@ -75,13 +75,14 @@ class HearingInfolist
                         TextEntry::make('venue')->label(__('hearings.fields.venue'))->placeholder('—'),
                         IconEntry::make('is_public')->label(__('hearings.fields.is_public'))->boolean(),
                         IconEntry::make('started_late')->label(__('hearings.fields.started_late'))->boolean()->trueColor('warning')->falseColor('success'),
-                        TextEntry::make('delay')->label(__('hearings.fields.delay_cause'))
-                            ->state(fn (Hearing $record): ?string => $record->started_late ? trim(($record->delay_cause instanceof DelayCause ? $record->delay_cause->getLabel() : '').($record->delay_minutes ? ' · '.$record->delay_minutes.' min' : '')) : null)
+                        TextEntry::make('delay')->label(__('hearings.fields.delay_causes'))
+                            ->state(fn (Hearing $record): ?string => $record->started_late ? trim((static::labels(DelayCause::class, $record->delay_causes) ?? '').($record->delay_minutes ? ' · '.$record->delay_minutes.' min' : ''), ' ·') : null)
                             ->placeholder('—'),
                         IconEntry::make('was_postponed')->label(__('hearings.fields.was_postponed'))->boolean()->trueColor('warning')->falseColor('success'),
                         TextEntry::make('postponement_reasons')->label(__('hearings.fields.postponement_reasons'))
                             ->state(fn (Hearing $record): ?string => static::labels(PostponementReason::class, $record->postponement_reasons))
                             ->placeholder('—'),
+                        IconEntry::make('plea_agreement')->label(__('hearings.fields.plea_agreement'))->boolean()->placeholder('—'),
                         TextEntry::make('recording')->label(__('hearings.fields.recording'))->placeholder('—'),
                         IconEntry::make('interpretation_needed')->label(__('hearings.fields.interpretation_needed'))->boolean(),
                         IconEntry::make('interpretation_provided')->label(__('hearings.fields.interpretation_provided'))->boolean()->visible(fn (Hearing $record): bool => $record->interpretation_needed),

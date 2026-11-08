@@ -46,6 +46,7 @@ All notable changes to this project are documented here. The format follows
 - Full README (setup with Docker, Codespaces or locally, demo logins, commands) and staff user guides in Albanian and English.
 
 ### Changed
+- After the owner's review: the reason for a hearing's delay is multi-choice (trial panel, prosecutor, defence lawyer, accused, witness, other); hearings ask whether there was a plea agreement (staff form and monitor app); the former "economic status" list is now **employment status**, and accused have a separate **economic condition** (no data, poor, average, high, social assistance, other). "Receives social assistance" moved from employment status to economic condition. Security measures gain "Other". In the API and research datasets, `delay_cause` became `delay_causes` (a list) and `economic_status` became `employment_status`, with new `economic_condition` and `plea_agreement` fields.
 - Page titles in the staff panel are no longer Title Cased, so Albanian labels read correctly.
 - The API documentation loads its libraries from this server instead of public CDNs.
 - Development storage: MinIO (whose Docker images are no longer published) is replaced by RustFS, an S3-compatible server with the same API and ports; `php artisan app:ensure-bucket` creates the private bucket.

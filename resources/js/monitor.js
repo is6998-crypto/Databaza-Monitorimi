@@ -51,7 +51,7 @@ export const idb = {
 
 const FIELDS = [
     'client_uuid', 'case_id', 'hearing_date', 'hearing_type', 'venue', 'is_public', 'started_late', 'delay_minutes',
-    'delay_cause', 'was_postponed', 'postponement_reasons', 'recording', 'interpretation_needed', 'interpretation_provided',
+    'delay_causes', 'was_postponed', 'postponement_reasons', 'plea_agreement', 'recording', 'interpretation_needed', 'interpretation_provided',
     'phone_used', 'phone_users', 'security_adequate', 'security_comment', 'participants', 'present_party_ids', 'notes',
 ];
 
@@ -194,9 +194,10 @@ window.monitorApp = function monitorApp(config) {
                 is_public: true,
                 started_late: false,
                 delay_minutes: null,
-                delay_cause: '',
+                delay_causes: [],
                 was_postponed: false,
                 postponement_reasons: [],
+                plea_agreement: null,
                 recording: '',
                 interpretation_needed: false,
                 interpretation_provided: null,

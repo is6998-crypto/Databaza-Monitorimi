@@ -191,7 +191,7 @@ it('maps free text to codes', function () {
         ->and($second->is_public)->toBeTrue()
         ->and($second->started_late)->toBeTrue()
         ->and($second->delay_minutes)->toBe(45)
-        ->and($second->delay_cause)->toBe(DelayCause::Panel)
+        ->and($second->delay_causes)->toBe([DelayCause::Panel->value])
         ->and($second->was_postponed)->toBeFalse()
         ->and($second->recording)->toBe(Recording::AudioVideo)
         ->and($second->notes)->toContain('vonesë');
