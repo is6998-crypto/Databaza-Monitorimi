@@ -154,3 +154,60 @@ it('shows the chart builder to approved researchers only, and logs the CSV downl
 
     Livewire::test(ResearchChart::class, ['result' => ChartBuilder::fromArray([])->build(), 'chartType' => 'line'])->assertOk();
 });
+
+it('splits by the traits of the accused and counts the accused per case', function () {
+    chartFixture();
+
+    // Four verified cases with one accused each (the draft case is left out).
+    $result = ChartBuilder::fromArray(['measure' => 'accused', 'dimension' => 'gender'])->build();
+
+    expect(array_sum($result['series'][0]['values']))->toBe(4)
+        ->and($result['unit'])->toBe('accused');
+
+    $counts = ChartBuilder::fromArray(['measure' => 'cases', 'dimension' => 'accused_count'])->build();
+    expect(array_sum($counts['series'][0]['values']))->toBe(4);
+
+    $average = ChartBuilder::fromArray(['measure' => 'avg_accused', 'dimension' => 'court'])->build();
+    expect($average['series'][0]['values'])->each->toBeFloat();
+
+    foreach (['employment_status', 'economic_condition', 'nationality', 'position', 'counsel', 'role'] as $dimension) {
+        expect(ChartBuilder::fromArray(['measure' => 'hearings', 'dimension' => $dimension, 'compare' => 'year'])->build()['labels'])->not->toBeEmpty();
+    }
+});
+
+it('splits by every hearing and case dimension, and late hearings by cause', function () {
+    chartFixture();
+
+    foreach (array_diff(ChartBuilder::DIMENSIONS, ['reason', 'delay_cause']) as $dimension) {
+        expect(fn () => ChartBuilder::fromArray(['measure' => 'hearings', 'dimension' => $dimension])->build())->not->toThrow(Throwable::class);
+    }
+
+    $public = ChartBuilder::fromArray(['measure' => 'hearings', 'dimension' => 'postponed'])->build();
+    expect(chartValues($public))->toBe([__('research.charts.yes') => 5, __('research.charts.no') => 3]);
+
+    // Delay causes only go with the late hearings.
+    expect(ChartBuilder::fromArray(['measure' => 'hearings', 'dimension' => 'delay_cause'])->build()['measure'])->toBe('late');
+});
+
+it('draws every chart type and logs every download format', function () {
+    chartFixture();
+    Filament::setCurrentPanel(Filament::getPanel('research'));
+    $this->actingAs(researcher());
+
+    $result = ChartBuilder::fromArray(['measure' => 'hearings', 'dimension' => 'court', 'compare' => 'year'])->build();
+    foreach (['bar', 'horizontal', 'stacked', 'stacked_percent', 'line', 'area', 'pie', 'doughnut', 'polar', 'radar'] as $type) {
+        Livewire::test(ResearchChart::class, ['result' => $result, 'chartType' => $type])->assertOk();
+    }
+
+    Livewire::test(Charts::class)
+        ->set('chartType', 'pie')
+        ->assertSee(__('research.charts.download_chart_png'))
+        ->call('download', 'xlsx')->assertFileDownloaded()
+        ->call('download', 'csv')->assertFileDownloaded()
+        ->call('logImage', 'chart')
+        ->call('logImage', 'table')
+        ->set('chartType', 'table')
+        ->assertDontSee('data-chart-download-chart');
+
+    expect(ExportLog::query()->pluck('format')->map(fn ($f) => $f instanceof BackedEnum ? $f->value : $f)->sort()->values()->all())->toBe(['csv', 'png', 'png', 'xlsx']);
+});

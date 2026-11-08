@@ -58,8 +58,8 @@ return [
         'plural' => 'Pozitat e mbajtura',
     ],
     'economic_statuses' => [
-        'singular' => 'Gjendje ekonomike',
-        'plural' => 'Gjendjet ekonomike',
+        'singular' => 'Statusi i punësimit',
+        'plural' => 'Statuset e punësimit',
     ],
     'security_measure_types' => [
         'singular' => 'Lloj i masës së sigurisë',

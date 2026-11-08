@@ -58,8 +58,8 @@ return [
         'plural' => 'Positions held',
     ],
     'economic_statuses' => [
-        'singular' => 'Economic status',
-        'plural' => 'Economic statuses',
+        'singular' => 'Employment status',
+        'plural' => 'Employment statuses',
     ],
     'security_measure_types' => [
         'singular' => 'Security measure type',

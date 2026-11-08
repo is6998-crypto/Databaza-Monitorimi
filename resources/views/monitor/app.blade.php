@@ -194,10 +194,10 @@
                             <button type="button" :class="draft.started_late === false && 'cw-on'" x-on:click="draft.started_late = false">{{ __('hearings.answers.on_time') }}</button>
                         </div>
                         <div x-show="draft.started_late" class="mt-3 space-y-3 rounded-xl bg-canvas p-3.5">
-                            <p class="cw-label">{{ __('hearings.fields.delay_cause') }}</p>
+                            <p class="cw-label">{{ __('hearings.fields.delay_causes') }}</p>
                             <div class="flex flex-wrap gap-2">
                                 <template x-for="(label, value) in data.options.delay_causes" :key="value">
-                                    <button type="button" class="cw-chip" :class="draft.delay_cause === value && 'cw-chip-on'" x-on:click="draft.delay_cause = value" x-text="label"></button>
+                                    <button type="button" class="cw-chip" :class="has('delay_causes', value) && 'cw-chip-on'" x-on:click="toggle('delay_causes', value)" x-text="label"></button>
                                 </template>
                             </div>
                             <label class="block"><span class="cw-label">{{ __('hearings.fields.delay_minutes') }}</span>
@@ -216,6 +216,12 @@
                                     <button type="button" class="cw-chip" :class="has('postponement_reasons', value) && 'cw-chip-on'" x-on:click="toggle('postponement_reasons', value)" x-text="label"></button>
                                 </template>
                             </div>
+                        </div></div>
+
+                    <div><p class="cw-label">{{ __('hearings.fields.plea_agreement') }}</p>
+                        <div class="cw-segment" data-question="plea_agreement">
+                            <button type="button" :class="draft.plea_agreement === true && 'cw-on'" x-on:click="draft.plea_agreement = true">{{ __('app.yes') }}</button>
+                            <button type="button" :class="draft.plea_agreement === false && 'cw-on'" x-on:click="draft.plea_agreement = false">{{ __('app.no') }}</button>
                         </div></div>
 
                     <div><p class="cw-label">{{ __('hearings.fields.recording') }}</p>

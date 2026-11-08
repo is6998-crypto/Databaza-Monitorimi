@@ -607,7 +607,7 @@ class DemoCasesSeeder extends Seeder
                 'is_public' => $this->faker->boolean(88),
                 'started_late' => $late,
                 'delay_minutes' => $late ? $this->faker->numberBetween(16, 95) : null,
-                'delay_cause' => $late ? $this->faker->randomElement([DelayCause::Panel, DelayCause::Panel, DelayCause::Prosecutor, DelayCause::Defence, DelayCause::Other]) : null,
+                'delay_causes' => $late ? array_values(array_unique(array_map(fn (DelayCause $cause): string => $cause->value, $this->faker->randomElements([DelayCause::Panel, DelayCause::Panel, DelayCause::Prosecutor, DelayCause::Defence, DelayCause::Other, DelayCause::Accused, DelayCause::Witness], $this->faker->numberBetween(1, 2))))) : null,
                 'was_postponed' => $postponed,
                 'postponement_reasons' => $postponed ? $this->faker->randomElements([
                     PostponementReason::Accused->value, PostponementReason::DefenceLawyer->value, PostponementReason::DefenceLawyer->value,

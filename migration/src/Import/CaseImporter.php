@@ -491,7 +491,7 @@ final class CaseImporter
             'is_public' => $row->bool('is_public'),
             'started_late' => $startedLate ?? false,
             'delay_minutes' => $delay,
-            'delay_cause' => $row->enum('delay_cause', DelayCause::class),
+            'delay_causes' => ($causes = $row->enums('delay_cause', DelayCause::class)) === [] ? null : $causes,
             'was_postponed' => $postponed ?? false,
             'postponement_reasons' => $reasons === [] ? null : $reasons,
             'phone_used' => $phoneUsed ?? false,

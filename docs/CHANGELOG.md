@@ -1,5 +1,16 @@
 # Changelog
 
+### Researcher charts: everything in the data, more chart types, downloads with the logo
+
+- Split and compare by 29 things in four groups. Time and place: year, month, court, department, prosecution office. Case: type, offence category, offence (article), number of accused, security measure. Hearing: type, venue, public, recording, interpretation, security, phone used, plea agreement, postponed, late, reason for postponement, cause of delay. Accused: gender, nationality, employment status, economic condition, position, defence counsel. Party: role.
+- New things to count: accused persons, parties, and the average number of accused per case.
+- Twelve chart types: automatic, bars, horizontal bars, stacked, 100 % stacked, lines, area, pie, doughnut, polar area, radar, and table only.
+- Downloads:
+  - The chart and the table as pictures (PNG), with the CourtWatch logo in the corner, the title, the filters, the notes and the source.
+  - The table as Excel (XLSX) or CSV, with the same words above and below it.
+  - Every download is recorded in the export log.
+
+
 All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Conventional Commits](https://www.conventionalcommits.org/).
@@ -49,6 +60,7 @@ All notable changes to this project are documented here. The format follows
 - Full README (setup with Docker, Codespaces or locally, demo logins, commands) and staff user guides in Albanian and English.
 
 ### Changed
+- After the owner's review: the reason for a hearing's delay is multi-choice (trial panel, prosecutor, defence lawyer, accused, witness, other); hearings ask whether there was a plea agreement (staff form and monitor app); the former "economic status" list is now **employment status**, and accused have a separate **economic condition** (no data, poor, average, high, social assistance, other). "Receives social assistance" moved from employment status to economic condition. Security measures gain "Other". In the API and research datasets, `delay_cause` became `delay_causes` (a list) and `economic_status` became `employment_status`, with new `economic_condition` and `plea_agreement` fields.
 - Page titles in the staff panel are no longer Title Cased, so Albanian labels read correctly.
 - The API documentation loads its libraries from this server instead of public CDNs.
 - Development storage: MinIO (whose Docker images are no longer published) is replaced by RustFS, an S3-compatible server with the same API and ports; `php artisan app:ensure-bucket` creates the private bucket.

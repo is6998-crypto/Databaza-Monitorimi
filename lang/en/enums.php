@@ -124,9 +124,19 @@ return [
         'office' => 'Judge\'s office',
     ],
     'delay_cause' => [
-        'panel' => 'Judge / panel',
+        'panel' => 'Trial panel',
         'prosecutor' => 'Prosecutor',
-        'defence' => 'Defence',
+        'defence' => 'Defence lawyer',
+        'accused' => 'Accused',
+        'witness' => 'Witness',
+        'other' => 'Other',
+    ],
+    'economic_condition' => [
+        'no_data' => 'No data',
+        'poor' => 'Poor',
+        'average' => 'Average',
+        'high' => 'High',
+        'social_assistance' => 'Social assistance',
         'other' => 'Other',
     ],
     'postponement_reason' => [
@@ -226,6 +236,7 @@ return [
     'export_format' => [
         'csv' => 'CSV',
         'xlsx' => 'Excel (XLSX)',
+        'png' => 'PNG',
     ],
     'researcher_status' => [
         'pending' => 'Pending approval',

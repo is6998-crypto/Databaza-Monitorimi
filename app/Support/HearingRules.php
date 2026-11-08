@@ -32,7 +32,9 @@ final class HearingRules
             'is_public' => ['nullable', 'boolean'],
             'started_late' => ['required', 'boolean'],
             'delay_minutes' => ['nullable', 'integer', 'min:16', 'max:600'],
-            'delay_cause' => ['nullable', Rule::enum(DelayCause::class)],
+            'delay_causes' => ['nullable', 'array'],
+            'delay_causes.*' => [Rule::enum(DelayCause::class)],
+            'plea_agreement' => ['nullable', 'boolean'],
             'was_postponed' => ['required', 'boolean'],
             'postponement_reasons' => ['nullable', 'array', 'required_if_accepted:was_postponed'],
             'postponement_reasons.*' => [Rule::enum(PostponementReason::class)],
@@ -62,8 +64,8 @@ final class HearingRules
     public static function attributes(array $data): array
     {
         return array_intersect_key($data, array_flip([
-            'case_id', 'hearing_date', 'hearing_type', 'venue', 'is_public', 'started_late', 'delay_minutes', 'delay_cause',
-            'was_postponed', 'postponement_reasons', 'recording', 'interpretation_needed', 'interpretation_provided',
+            'case_id', 'hearing_date', 'hearing_type', 'venue', 'is_public', 'started_late', 'delay_minutes', 'delay_causes',
+            'was_postponed', 'postponement_reasons', 'plea_agreement', 'recording', 'interpretation_needed', 'interpretation_provided',
             'phone_used', 'phone_users', 'security_adequate', 'security_comment', 'participants', 'notes', 'client_uuid',
         ]));
     }

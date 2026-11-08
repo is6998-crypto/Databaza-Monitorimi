@@ -45,7 +45,7 @@ function analyticsFixture(): array
 
     $hearing($caseA, ['hearing_date' => '2025-01-10', 'was_postponed' => true, 'postponement_reasons' => ['defence_lawyer', 'expert']]);
     $hearing($caseA, ['hearing_date' => '2025-02-10', 'was_postponed' => true, 'postponement_reasons' => ['defence_lawyer']]);
-    $hearing($caseA, ['hearing_date' => '2025-03-10', 'started_late' => true, 'delay_minutes' => 40, 'delay_cause' => 'panel']);
+    $hearing($caseA, ['hearing_date' => '2025-03-10', 'started_late' => true, 'delay_minutes' => 40, 'delay_causes' => ['panel']]);
     $hearing($caseB, ['hearing_date' => '2025-03-15', 'is_public' => false, 'recording' => 'none', 'interpretation_needed' => true, 'interpretation_provided' => true]);
     $hearing($caseB, ['hearing_date' => '2025-03-20'], WorkflowStatus::Submitted); // not verified
     $hearing($draft, ['hearing_date' => '2025-03-20', 'was_postponed' => true, 'postponement_reasons' => ['judge']]); // case not verified

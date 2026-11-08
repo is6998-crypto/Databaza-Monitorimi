@@ -124,10 +124,20 @@ return [
         'office' => 'Zyra e gjyqtarit',
     ],
     'delay_cause' => [
-        'panel' => 'Gjyqtari / trupi gjykues',
+        'panel' => 'Trupi gjykues',
         'prosecutor' => 'Prokurori',
-        'defence' => 'Mbrojtja',
-        'other' => 'Tjetër',
+        'defence' => 'Avokati',
+        'accused' => 'I akuzuari',
+        'witness' => 'Dëshmitari',
+        'other' => 'Të tjera',
+    ],
+    'economic_condition' => [
+        'no_data' => 'Nuk ka të dhëna',
+        'poor' => 'E dobët',
+        'average' => 'Mesatare',
+        'high' => 'E lartë',
+        'social_assistance' => 'Ndihmë sociale',
+        'other' => 'Të tjera',
     ],
     'postponement_reason' => [
         'prosecutor' => 'Prokurori',
@@ -226,6 +236,7 @@ return [
     'export_format' => [
         'csv' => 'CSV',
         'xlsx' => 'Excel (XLSX)',
+        'png' => 'PNG',
     ],
     'researcher_status' => [
         'pending' => 'Në pritje të aprovimit',

@@ -255,7 +255,8 @@ return [
         ],
         'delay_cause' => [
             'gjyqtari' => 'panel', 'trupi gjykues' => 'panel', 'gjykata' => 'panel',
-            'prokurori' => 'prosecutor', 'mbrojtja' => 'defence', 'mbrojtesi' => 'defence',
+            'prokurori' => 'prosecutor', 'mbrojtja' => 'defence', 'mbrojtesi' => 'defence', 'avokati' => 'defence',
+            'i akuzuari' => 'accused', 'deshmitari' => 'witness', 'tjeter' => 'other', 'te tjera' => 'other',
         ],
         'postponement_reason' => [
             'mungesa e prokurorit' => 'prosecutor', 'prokurori' => 'prosecutor',

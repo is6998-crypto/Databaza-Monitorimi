@@ -3,6 +3,7 @@
 namespace App\Filament\Admin\Resources\Cases\RelationManagers;
 
 use App\Enums\CounselType;
+use App\Enums\EconomicCondition;
 use App\Enums\Gender;
 use App\Enums\PartyRole;
 use App\Filament\Admin\Support\RefSelect;
@@ -78,6 +79,10 @@ class PartiesRelationManager extends RelationManager
                     ->label(__('cases.parties.nationality')),
                 RefSelect::make('economic_status_id', EconomicStatus::class)
                     ->label(__('cases.parties.economic_status'))
+                    ->visible(fn (Get $get): bool => static::role($get('role')) !== PartyRole::LegalEntity),
+                Select::make('economic_condition')
+                    ->label(__('cases.parties.economic_condition'))
+                    ->options(EconomicCondition::options())
                     ->visible(fn (Get $get): bool => static::role($get('role')) !== PartyRole::LegalEntity),
                 RefSelect::make('defendant_position_id', DefendantPosition::class)
                     ->label(__('cases.parties.position'))

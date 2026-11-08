@@ -12,5 +12,7 @@ enum DelayCause: string implements HasLabel
     case Panel = 'panel';
     case Prosecutor = 'prosecutor';
     case Defence = 'defence';
+    case Accused = 'accused';
+    case Witness = 'witness';
     case Other = 'other';
 }

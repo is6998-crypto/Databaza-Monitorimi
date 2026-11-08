@@ -11,4 +11,5 @@ enum ExportFormat: string implements HasLabel
 
     case Csv = 'csv';
     case Xlsx = 'xlsx';
+    case Png = 'png';
 }

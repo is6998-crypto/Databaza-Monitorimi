@@ -7,7 +7,8 @@
     use App\Filament\Research\Pages\Charts;
     use App\Filament\Research\Widgets\ResearchChart;
     use App\Services\Research\ChartBuilder;
-    $reasonAllowed = $measure === 'postponed';
+    // Picking a list of reasons switches the count to the hearings they explain (Charts::updated), so nothing is disabled.
+    $unnestDisabled = [];
     $hasSmall = collect($result['series'])->flatMap(fn ($series) => $series['bases'])->contains(fn ($base) => ChartBuilder::isSmall($base));
 @endphp
 <x-filament-panels::page>
@@ -16,18 +17,30 @@
             <div class="grid gap-x-4 gap-y-5 sm:grid-cols-2 xl:grid-cols-4">
                 @foreach ([
                     ['measure', __('research.charts.fields.measure'), $measures, null, []],
-                    ['dimension', __('research.charts.fields.dimension'), $dimensions, null, $reasonAllowed ? [] : ['reason']],
-                    ['compare', __('research.charts.fields.compare'), collect($dimensions)->except($dimension)->all(), __('research.charts.no_compare'), $reasonAllowed ? [] : ['reason']],
-                    ['chartType', __('research.charts.fields.chart_type'), collect(['auto', 'bar', 'stacked', 'line'])->mapWithKeys(fn ($key) => [$key => __('research.charts.types.'.$key)])->all(), null, $compare ? [] : ['stacked']],
+                    ['dimension', __('research.charts.fields.dimension'), $dimensions, null, $unnestDisabled],
+                    ['compare', __('research.charts.fields.compare'), collect($dimensions)->except($dimension)->all(), __('research.charts.no_compare'), $unnestDisabled],
+                    ['chartType', __('research.charts.fields.chart_type'), $chartTypes, null, $compare ? [] : Charts::NEEDS_COMPARE],
                 ] as [$model, $label, $options, $empty, $disabled])
                     <label class="block">
                         <span class="mb-1.5 block text-sm font-medium text-gray-950 dark:text-white">{{ $label }}</span>
                         <x-filament::input.wrapper>
                             <x-filament::input.select wire:model.live="{{ $model }}">
                                 @if ($empty)<option value="">{{ $empty }}</option>@endif
-                                @foreach ($options as $value => $text)
-                                    <option value="{{ $value }}" @disabled(in_array($value, $disabled, true))>{{ $text }}</option>
-                                @endforeach
+                                @if (in_array($model, ['dimension', 'compare'], true))
+                                    @foreach ($groups as $group => $keys)
+                                        <optgroup label="{{ __('research.charts.groups.'.$group) }}">
+                                            @foreach ($keys as $value)
+                                                @if (isset($options[$value]))
+                                                    <option value="{{ $value }}" @disabled(in_array($value, $disabled, true))>{{ $options[$value] }}</option>
+                                                @endif
+                                            @endforeach
+                                        </optgroup>
+                                    @endforeach
+                                @else
+                                    @foreach ($options as $value => $text)
+                                        <option value="{{ $value }}" @disabled(in_array($value, $disabled, true))>{{ $text }}</option>
+                                    @endforeach
+                                @endif
                             </x-filament::input.select>
                         </x-filament::input.wrapper>
                     </label>
@@ -69,11 +82,23 @@
                 <span class="font-normal text-gray-500 dark:text-gray-400">· {{ __('research.charts.by', ['dimension' => mb_strtolower($dimensions[$result['dimension']])]) }}@if ($result['compare']) {{ __('research.charts.and_by', ['dimension' => mb_strtolower($dimensions[$result['compare']])]) }}@endif</span>
             </x-slot>
             <x-slot name="description">
-                {{ trans_choice('research.charts.based_on_'.($result['measure'] === 'cases' ? 'cases' : 'hearings'), $result['total'], ['count' => number_format($result['total'], 0, ',', '.')]) }}
+                {{ trans_choice('research.charts.based_on_'.$result['unit'], $result['total'], ['count' => number_format($result['total'], 0, ',', '.')]) }}
             </x-slot>
             <x-slot name="afterHeader">
                 @if ($result['labels'] !== [])
-                    <x-filament::button color="gray" icon="heroicon-o-arrow-down-tray" wire:click="download">{{ __('research.charts.download') }}</x-filament::button>
+                    <x-filament::dropdown placement="bottom-end">
+                        <x-slot name="trigger">
+                            <x-filament::button color="gray" icon="heroicon-o-arrow-down-tray" data-chart-download>{{ __('research.charts.download') }}</x-filament::button>
+                        </x-slot>
+                        <x-filament::dropdown.list>
+                            @if ($type !== 'table')
+                                <x-filament::dropdown.list.item icon="heroicon-o-photo" x-on:click="$wire.logImage('chart').then(() => window.cwChartExport.chart())">{{ __('research.charts.download_chart_png') }}</x-filament::dropdown.list.item>
+                            @endif
+                            <x-filament::dropdown.list.item icon="heroicon-o-table-cells" x-on:click="$wire.logImage('table').then(() => window.cwChartExport.table())">{{ __('research.charts.download_table_png') }}</x-filament::dropdown.list.item>
+                            <x-filament::dropdown.list.item icon="heroicon-o-document-text" wire:click="download('xlsx')">{{ __('research.charts.download_xlsx') }}</x-filament::dropdown.list.item>
+                            <x-filament::dropdown.list.item icon="heroicon-o-document-text" wire:click="download('csv')">{{ __('research.charts.download_csv') }}</x-filament::dropdown.list.item>
+                        </x-filament::dropdown.list>
+                    </x-filament::dropdown>
                 @endif
             </x-slot>
 
@@ -81,10 +106,17 @@
                 @if ($result['labels'] === [])
                     <p class="py-10 text-center text-sm text-gray-500 dark:text-gray-400" data-chart-empty>{{ __('research.charts.empty') }}</p>
                 @else
+                    {{-- The words a downloaded picture carries (read by window.cwChartExport). --}}
+                    <script type="application/json" data-chart-caption>@json($caption)</script>
+                    @if ($type !== 'table')
                     @livewire(ResearchChart::class, ['result' => $result, 'chartType' => $type], key('chart-'.md5(json_encode([$result, $type]))))
+                    @endif
 
                     @if ($result['truncated'])
                         <p class="mt-3 text-sm text-gray-500 dark:text-gray-400">{{ __('research.charts.truncated', ['count' => ChartBuilder::MAX_SERIES]) }}</p>
+                    @endif
+                    @if ($result['rows_truncated'])
+                        <p class="mt-3 text-sm text-gray-500 dark:text-gray-400">{{ __('research.charts.rows_truncated', ['count' => ChartBuilder::MAX_ROWS]) }}</p>
                     @endif
 
                     <div class="mt-6 overflow-x-auto rounded-xl ring-1 ring-gray-950/5 dark:ring-white/10">
@@ -118,12 +150,16 @@
                     @if ($hasSmall)
                         <li>* {{ __('research.charts.small_note', ['threshold' => \App\Services\Anonymizer::threshold()]) }}</li>
                     @endif
-                    @if (in_array('category', [$result['dimension'], $result['compare']], true))
+                    @if (array_intersect(['category', 'offence', 'security_measure'], [$result['dimension'], $result['compare']]) !== [])
                         <li>{{ __('research.charts.category_note') }}</li>
+                    @endif
+                    @if (array_intersect(ChartBuilder::ACCUSED_DIMENSIONS, [$result['dimension'], $result['compare']]) !== [])
+                        <li>{{ __('research.charts.accused_note') }}</li>
                     @endif
                     <li>{{ __('research.charts.verified_note') }}</li>
                 </ul>
             </div>
         </x-filament::section>
     </div>
+    @include('filament.research.chart-export')
 </x-filament-panels::page>
