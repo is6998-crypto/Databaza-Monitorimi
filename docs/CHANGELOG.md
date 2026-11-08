@@ -1,5 +1,16 @@
 # Changelog
 
+### Researcher charts: everything in the data, more chart types, downloads with the logo
+
+- Split and compare by 29 things in four groups. Time and place: year, month, court, department, prosecution office. Case: type, offence category, offence (article), number of accused, security measure. Hearing: type, venue, public, recording, interpretation, security, phone used, plea agreement, postponed, late, reason for postponement, cause of delay. Accused: gender, nationality, employment status, economic condition, position, defence counsel. Party: role.
+- New things to count: accused persons, parties, and the average number of accused per case.
+- Twelve chart types: automatic, bars, horizontal bars, stacked, 100 % stacked, lines, area, pie, doughnut, polar area, radar, and table only.
+- Downloads:
+  - The chart and the table as pictures (PNG), with the CourtWatch logo in the corner, the title, the filters, the notes and the source.
+  - The table as Excel (XLSX) or CSV, with the same words above and below it.
+  - Every download is recorded in the export log.
+
+
 All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Conventional Commits](https://www.conventionalcommits.org/).

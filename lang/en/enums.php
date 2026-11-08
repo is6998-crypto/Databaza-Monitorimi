@@ -236,6 +236,7 @@ return [
     'export_format' => [
         'csv' => 'CSV',
         'xlsx' => 'Excel (XLSX)',
+        'png' => 'PNG',
     ],
     'researcher_status' => [
         'pending' => 'Pending approval',

@@ -70,7 +70,7 @@ class OffenceCatalogue
                 $replaced = array_filter(array_map('trim', explode('|', $row['replaces'] ?? '')));
                 if ($replaced !== []) {
                     $old = Category::query()->whereKeyNot($record->id)->whereIn(DB::raw('lower(name_sq)'), array_map('mb_strtolower', $replaced))->get();
-                    $this->merger->merge($record, $old);
+                    $this->merger->merge($record, $old->all());
                 }
             }
 
