@@ -7,6 +7,7 @@ All notable changes to this project are documented here. The format follows
 ## [Unreleased] — v1 build
 
 ### Added
+- Researcher chart builder (`/research/charts`): count verified hearings (postponed, started late, shares, average delay, closed, cases), narrow by years, court, case type and offence category, split by year, month, court, case type, department, offence category or reason for postponement, and compare along a second dimension; bars, stacked bars or lines, a data table with small cells marked, a logged CSV download, and the choice kept in the URL.
 - The full list of criminal offences (558 entries from the owner's "Veprat penale" list across 15 codes and laws, with English titles) and the 28 statistics categories they are sorted into (with codes such as KORR, DR, JT), loaded from `database/data` by a migration; `php artisan reference:sync-offences` re-applies the files. Offences and categories outside the list are set inactive, and the earlier placeholder categories are merged into the new ones.
 - "Cases by offence category" on the public statistics (suppressed under 5, also as an open-data CSV), on the staff dashboard and in the researcher API statistics.
 - Project scaffold: Laravel 13, Filament 5, Livewire 4, Tailwind 4, Pest, Larastan, Pint.

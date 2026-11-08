@@ -45,7 +45,7 @@ _Screenshot placeholders — add images to `docs/screenshots/` and link them her
   actions, logged CSV/XLSX exports and a dashboard with every indicator of the proposal.
 - **Public portal**: statistics and charts by year, court and case type, anonymized case
   search, reports, methodology, open-data CSVs; every number under 5 is suppressed.
-- **Researcher area and API**: registration, approval, data-use agreement, anonymized
+- **Researcher area and API**: registration, approval, data-use agreement, a chart builder, anonymized
   datasets and a read-only, rate-limited REST API; every export is logged.
 - **Legacy migration toolkit**: `php artisan legacy:import` for the old MySQL database
   (idempotent, with a review queue and a reconciliation report) — see
@@ -100,7 +100,7 @@ All demo accounts use the password **`password`**. They are created only outside
 | Monitor | `monitor@courtwatch.test` | Courts of Prishtina and Prizren: new case, hearing form, `/m` on a phone |
 | Monitor | `monitor2@courtwatch.test` | Court of Gjilan (sees only its own courts) |
 | Analyst | `analyst@courtwatch.test` | Read-only dashboard, lists and exports |
-| Researcher (approved) | `researcher@courtwatch.test` | `/research`: datasets, API tokens, `/docs/api` |
+| Researcher (approved) | `researcher@courtwatch.test` | `/research`: chart builder, datasets, API tokens, `/docs/api` |
 | Researcher (pending) | `researcher.pending@courtwatch.test` | Waiting for approval — approve it as the admin |
 
 > [!NOTE]
