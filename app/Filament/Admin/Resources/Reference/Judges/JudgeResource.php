@@ -6,6 +6,7 @@ use App\Filament\Admin\Resources\Reference\Judges\Pages\ManageJudges;
 use App\Filament\Admin\Resources\Reference\ReferenceResource;
 use App\Models\Reference\Court;
 use App\Models\Reference\Judge;
+use App\Models\Reference\ReferenceModel;
 use Filament\Forms\Components\Select;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
@@ -29,21 +30,21 @@ class JudgeResource extends ReferenceResource
     protected static function extraFormFields(): array
     {
         return [
-            Select::make('court_id')->label(__('reference.fields.court'))->relationship('court', 'name_sq')->searchable()->preload(),
+            Select::make('court_id')->label(__('reference.fields.court'))->relationship('court', 'name_sq')->getOptionLabelFromRecordUsing(fn (ReferenceModel $record): string => $record->label())->searchable()->preload(),
         ];
     }
 
     protected static function extraColumns(): array
     {
         return [
-            TextColumn::make('court.name_sq')->label(__('reference.fields.court'))->sortable()->toggleable(),
+            TextColumn::make('court.name_sq')->getStateUsing(fn ($record): ?string => $record->court?->label())->label(__('reference.fields.court'))->sortable()->toggleable(),
         ];
     }
 
     protected static function extraFilters(): array
     {
         return [
-            SelectFilter::make('court_id')->label(__('reference.fields.court'))->relationship('court', 'name_sq')->searchable()->preload(),
+            SelectFilter::make('court_id')->label(__('reference.fields.court'))->relationship('court', 'name_sq')->getOptionLabelFromRecordUsing(fn (ReferenceModel $record): string => $record->label())->searchable()->preload(),
         ];
     }
 

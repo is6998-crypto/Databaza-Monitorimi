@@ -1,11 +1,14 @@
 {{--
-    Error pages (proposal B6.10): no technical details, both languages, no external assets
-    (they must render even when the database, cache or Vite build are unavailable).
+    Error pages (proposal B6.10): no technical details, no external assets (they must render even when the
+    database, cache or Vite build are unavailable). One language, the page's: the /sq or /en prefix of the
+    address, else the visitor's saved choice, else the default (Albanian).
 --}}
 @php
     $code = (string) ($code ?? 500);
-    $locale = in_array(app()->getLocale(), (array) config('courtwatch.supported_locales', ['sq', 'en']), true) ? app()->getLocale() : 'sq';
-    $other = $locale === 'sq' ? 'en' : 'sq';
+    $supported = (array) config('courtwatch.supported_locales', ['sq', 'en']);
+    $fromUrl = request()->segment(1);
+    $fromSession = rescue(fn () => request()->hasSession() ? request()->session()->get('locale') : null, null, false);
+    $locale = collect([$fromUrl, $fromSession, app()->getLocale()])->first(fn ($candidate) => in_array($candidate, $supported, true)) ?? 'sq';
 @endphp
 <!DOCTYPE html>
 <html lang="{{ $locale }}">
@@ -26,7 +29,6 @@
         .code { font-size: 3.5rem; font-weight: 800; letter-spacing: -.03em; line-height: 1; margin: 0; color: var(--accent); }
         h1 { font-size: 1.5rem; font-weight: 800; letter-spacing: -.02em; margin: 14px 0 8px; }
         p { margin: 0 0 8px; line-height: 1.55; }
-        .other { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--muted); font-size: .9375rem; }
         .actions { margin-top: 24px; display: flex; gap: 16px; flex-wrap: wrap; }
         a { color: var(--fg); font-weight: 700; text-decoration: underline; text-decoration-color: var(--mark); text-decoration-thickness: 2px; text-underline-offset: 4px; }
         a:hover, a:focus-visible { text-decoration-color: currentColor; }
@@ -43,11 +45,8 @@
         <p class="code">{{ $code }}</p>
         <h1>{{ __('errors.'.$code.'.title', [], $locale) }}</h1>
         <p>{{ __('errors.'.$code.'.message', [], $locale) }}</p>
-        <div class="other" lang="{{ $other }}">
-            <p><strong>{{ __('errors.'.$code.'.title', [], $other) }}</strong> — {{ __('errors.'.$code.'.message', [], $other) }}</p>
-        </div>
         <p class="actions">
-            <a class="button" href="{{ url('/') }}">{{ __('errors.home', [], $locale) }}</a>
+            <a class="button" href="{{ url('/'.$locale) }}">{{ __('errors.home', [], $locale) }}</a>
         </p>
     </main>
 </body>

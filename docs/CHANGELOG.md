@@ -84,6 +84,13 @@ All notable changes to this project are documented here. The format follows
   - Researcher home: a navy status band (where the account stands, what to do next) and the data rules as numbered cards.
 
 ### Fixed
+- One language per page, everywhere: English pages are fully English and Albanian pages fully Albanian.
+  - Staff panel: reference data (courts, branches, offences, categories, offices, measures and the rest) shows its name in the interface's language in lists, dropdowns and filters (the other languages stay as hidden, toggleable columns); publication titles likewise.
+  - Albanian added for 230+ interface strings that showed in English: Filament's own texts (two-factor set-up and sign-in, search, tables, selects, password fields, pagination, notifications), about 60 missing validation messages, and the public pagination ("Showing … results").
+  - Audit log descriptions are shown in the interface's language (rebuilt from the stored event).
+  - Error pages show one language: English under /en, otherwise the visitor's choice, else Albanian.
+  - The portal's chart no longer adds ECharts' own English description; the monitor app says "Në linjë".
+- Staff panel: the subtitle under the CourtWatch logo is "Monitorimi" / "Monitoring".
 - In GitHub Codespaces the home page could send the browser to `localhost:8000` (the visitor's own computer), because the app saw the forwarded request as coming to localhost. In development, links are now built from `APP_URL` whenever it is an https address (the dev container sets it to the Codespace's address).
 - `TRUSTED_PROXIES` in `.env` was ignored (it was read before `.env` is loaded), so behind a proxy such as GitHub Codespaces the pages linked their styles and scripts over http:// and the browser blocked them. The setting is now read on every request (`config/trustedproxy.php`), and the dev container trusts the Codespaces proxy.
 - The introduction of the API documentation was shown as raw Markdown in a code box (indented text in `config/scribe.php`).

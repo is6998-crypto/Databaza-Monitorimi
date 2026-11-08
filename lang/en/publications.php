@@ -5,6 +5,7 @@ return [
     'plural' => 'Reports & publications',
     'preview' => 'View on portal',
     'fields' => [
+        'title' => 'Title',
         'title_sq' => 'Title (Albanian)',
         'title_en' => 'Title (English)',
         'slug' => 'Web address',

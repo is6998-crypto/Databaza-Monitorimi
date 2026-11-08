@@ -7,6 +7,7 @@ use App\Filament\Admin\Resources\Reference\ReferenceResource;
 use App\Models\Reference\Category;
 use App\Models\Reference\CriminalCode;
 use App\Models\Reference\CriminalOffence;
+use App\Models\Reference\ReferenceModel;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Support\Icons\Heroicon;
@@ -34,7 +35,7 @@ class CriminalOffenceResource extends ReferenceResource
             Select::make('criminal_code_id')->label(__('reference.fields.criminal_code'))->relationship('criminalCode', 'code')->searchable()->preload()->required(),
             TextInput::make('article_number')->label(__('reference.fields.article_number'))->required()->maxLength(32),
             TextInput::make('chapter')->label(__('reference.fields.chapter'))->maxLength(255),
-            Select::make('category_id')->label(__('reference.fields.category'))->relationship('category', 'name_sq')->searchable()->preload(),
+            Select::make('category_id')->label(__('reference.fields.category'))->relationship('category', 'name_sq')->getOptionLabelFromRecordUsing(fn (ReferenceModel $record): string => $record->label())->searchable()->preload(),
         ];
     }
 
@@ -43,7 +44,7 @@ class CriminalOffenceResource extends ReferenceResource
         return [
             TextColumn::make('criminalCode.code')->label(__('reference.fields.criminal_code'))->sortable()->badge(),
             TextColumn::make('article_number')->label(__('reference.fields.article_number'))->searchable()->sortable(),
-            TextColumn::make('category.name_sq')->label(__('reference.fields.category'))->toggleable(),
+            TextColumn::make('category.name_sq')->getStateUsing(fn ($record): ?string => $record->category?->label())->label(__('reference.fields.category'))->toggleable(),
         ];
     }
 
@@ -51,7 +52,7 @@ class CriminalOffenceResource extends ReferenceResource
     {
         return [
             SelectFilter::make('criminal_code_id')->label(__('reference.fields.criminal_code'))->relationship('criminalCode', 'code'),
-            SelectFilter::make('category_id')->label(__('reference.fields.category'))->relationship('category', 'name_sq')->searchable()->preload(),
+            SelectFilter::make('category_id')->label(__('reference.fields.category'))->relationship('category', 'name_sq')->getOptionLabelFromRecordUsing(fn (ReferenceModel $record): string => $record->label())->searchable()->preload(),
         ];
     }
 

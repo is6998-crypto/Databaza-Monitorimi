@@ -6,6 +6,7 @@ use App\Enums\Role;
 use App\Filament\Admin\Resources\Reference\Monitors\Pages\ManageMonitors;
 use App\Filament\Admin\Resources\Reference\ReferenceResource;
 use App\Models\Reference\Monitor;
+use App\Models\Reference\ReferenceModel;
 use App\Models\User;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -40,7 +41,7 @@ class MonitorResource extends ReferenceResource
                 ->required(),
             TextInput::make('code')->label(__('reference.fields.code'))->maxLength(32),
             TextInput::make('phone')->label(__('reference.fields.phone'))->tel()->maxLength(32),
-            Select::make('courts')->label(__('reference.fields.courts'))->relationship('courts', 'name_sq')->multiple()->searchable()->preload()->columnSpanFull(),
+            Select::make('courts')->label(__('reference.fields.courts'))->relationship('courts', 'name_sq')->getOptionLabelFromRecordUsing(fn (ReferenceModel $record): string => $record->label())->multiple()->searchable()->preload()->columnSpanFull(),
         ];
     }
 
@@ -48,7 +49,7 @@ class MonitorResource extends ReferenceResource
     {
         return [
             TextColumn::make('code')->label(__('reference.fields.code'))->searchable()->sortable(),
-            TextColumn::make('courts.name_sq')->label(__('reference.fields.courts'))->badge()->toggleable(),
+            TextColumn::make('courts.name_sq')->getStateUsing(fn ($record): array => $record->courts->map(fn ($court): string => $court->label())->all())->label(__('reference.fields.courts'))->badge()->toggleable(),
         ];
     }
 

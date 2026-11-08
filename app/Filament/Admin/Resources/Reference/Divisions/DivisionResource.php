@@ -6,6 +6,7 @@ use App\Filament\Admin\Resources\Reference\Divisions\Pages\ManageDivisions;
 use App\Filament\Admin\Resources\Reference\ReferenceResource;
 use App\Models\Reference\Department;
 use App\Models\Reference\Division;
+use App\Models\Reference\ReferenceModel;
 use Filament\Forms\Components\Select;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
@@ -28,14 +29,14 @@ class DivisionResource extends ReferenceResource
     protected static function extraFormFields(): array
     {
         return [
-            Select::make('department_id')->label(__('reference.fields.department'))->relationship('department', 'name_sq')->searchable()->preload(),
+            Select::make('department_id')->label(__('reference.fields.department'))->relationship('department', 'name_sq')->getOptionLabelFromRecordUsing(fn (ReferenceModel $record): string => $record->label())->searchable()->preload(),
         ];
     }
 
     protected static function extraColumns(): array
     {
         return [
-            TextColumn::make('department.name_sq')->label(__('reference.fields.department'))->sortable(),
+            TextColumn::make('department.name_sq')->getStateUsing(fn ($record): ?string => $record->department?->label())->label(__('reference.fields.department'))->sortable(),
         ];
     }
 
