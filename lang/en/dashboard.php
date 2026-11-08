@@ -59,6 +59,12 @@ return [
         '37-60' => '3–5 years',
         '61+' => 'Over 5 years',
     ],
+    'welcome' => [
+        'greeting' => 'Welcome back, :name',
+        'new_case' => 'New case',
+        'new_hearing' => 'New hearing',
+        'monitor_app' => 'Monitor app',
+    ],
     'my_work' => [
         'title' => 'My drafts and returned hearings',
         'description' => 'Finish and submit them for review.',

@@ -12,6 +12,7 @@ use App\Models\Reference\Judge;
 use App\Models\Reference\Monitor;
 use App\Services\Export\ExportColumns;
 use App\Services\Search\CaseSearch;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -64,6 +65,8 @@ class HearingsTable
                         ->when($data['from'] ?? null, fn (Builder $query, string $date) => $query->whereDate('hearing_date', '>=', $date))
                         ->when($data['until'] ?? null, fn (Builder $query, string $date) => $query->whereDate('hearing_date', '<=', $date))),
             ], layout: FiltersLayout::AboveContentCollapsible)
+            // A labelled button, so the filter row reads as a control rather than a lone icon.
+            ->filtersTriggerAction(fn (Action $action): Action => $action->button()->outlined())
             ->filtersFormColumns(['default' => 1, 'sm' => 2, 'xl' => 4])
             ->recordActions([
                 ViewAction::make(),
