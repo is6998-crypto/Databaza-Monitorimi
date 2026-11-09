@@ -11,6 +11,7 @@ added at the bottom of each section. Format: **decision** — reason.
 - **No web fonts from third-party CDNs; the system font stack is used.** — Avoids sending visitor IPs to font providers (data-protection) and keeps the PWA offline-capable.
 - **The dev stack uses `php artisan serve` (4 workers) inside a PHP 8.3 CLI image; production uses FrankenPHP behind Caddy.** — Simplest dev loop; one-process production server with auto-TLS in front.
 - **`app:seed-if-empty` seeds only an empty database.** — Makes `docker compose up` and Codespaces re-runnable without wiping data.
+- **Composer resolves dependencies for PHP 8.3 (`config.platform.php = 8.3.0`).** — The project, CI and Docker images run PHP 8.3, but Dependabot resolved its update for `spatie/laravel-activitylog` 5.x on a newer PHP and pulled in packages that need PHP 8.4 (activitylog 5, Symfony 8), so `composer install` failed everywhere. With the pin, updates only pick versions that run on 8.3. Moving to PHP 8.4 is a separate, deliberate change: raise the pin, `composer.json`'s `php` constraint, CI and the Docker images together.
 
 ## Authentication, roles and auditing
 

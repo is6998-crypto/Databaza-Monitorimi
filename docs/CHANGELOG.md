@@ -1,5 +1,9 @@
 # Changelog
 
+### Dependencies stay compatible with PHP 8.3
+
+- Composer now resolves packages for PHP 8.3, the version the project runs on. Automatic dependency updates can no longer pick packages that need PHP 8.4 (such as `spatie/laravel-activitylog` 5 and Symfony 8), which made installs fail.
+
 ### Researcher charts: everything in the data, more chart types, downloads with the logo
 
 - Split and compare by 29 things in four groups. Time and place: year, month, court, department, prosecution office. Case: type, offence category, offence (article), number of accused, security measure. Hearing: type, venue, public, recording, interpretation, security, phone used, plea agreement, postponed, late, reason for postponement, cause of delay. Accused: gender, nationality, employment status, economic condition, position, defence counsel. Party: role.
