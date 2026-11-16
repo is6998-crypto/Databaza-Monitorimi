@@ -889,3 +889,150 @@
 .dark .fi-simple-header .fi-logo {
     color: #fff;
 }
+
+/* ------------------------------------------------------------------ Hearing reports
+ * The report reads like a document: a measured column of text. Under it, the comments are a thread: the
+ * editor's remarks on white, the monitor's answers on a navy tint.
+ */
+
+.cw-report .fi-in-text-item.fi-prose,
+.cw-report .fi-prose {
+    max-width: 68ch;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.75;
+    color: var(--gray-800);
+
+    & h2,
+    & h3 {
+        color: var(--color-navy-900);
+        letter-spacing: -0.01em;
+    }
+
+    & blockquote {
+        border-inline-start: 3px solid var(--primary-400);
+        font-style: normal;
+        color: var(--color-navy-900);
+    }
+
+    & a {
+        color: var(--color-navy-900);
+        text-decoration-color: var(--primary-400);
+        text-decoration-thickness: 2px;
+        text-underline-offset: 3px;
+    }
+}
+
+.dark .cw-report .fi-prose {
+    color: var(--gray-200);
+}
+
+.cw-comments-empty {
+    @apply text-[14.5px] text-gray-500;
+}
+
+.cw-comments-list {
+    @apply flex flex-col gap-4;
+}
+
+.cw-comment {
+    @apply flex items-start gap-3;
+}
+
+.cw-comment-avatar {
+    @apply flex size-9 flex-none items-center justify-center rounded-full text-[13px] font-bold;
+    background-color: var(--color-navy-900);
+    color: #fff;
+}
+
+.cw-comment-author .cw-comment-avatar {
+    background-color: var(--primary-400);
+    color: var(--color-navy-900);
+}
+
+.cw-comment-body {
+    @apply min-w-0 flex-1 rounded-2xl rounded-ss-md px-4 py-3;
+    background-color: #fff;
+    box-shadow: inset 0 0 0 1px rgb(12 42 66 / 0.1);
+}
+
+.cw-comment-author .cw-comment-body {
+    background-color: var(--color-navy-50);
+    box-shadow: none;
+}
+
+.cw-comment-meta {
+    @apply flex flex-wrap items-baseline gap-x-2 gap-y-0.5 text-[13px] text-gray-500;
+}
+
+.cw-comment-name {
+    @apply text-[14px] font-bold;
+    color: var(--color-navy-900);
+}
+
+.cw-comment-role {
+    @apply rounded-full px-2 py-px text-[12px] font-semibold;
+    background-color: var(--gray-100);
+    color: var(--gray-700);
+}
+
+.cw-comment-text {
+    @apply mt-1.5 text-[14.5px] leading-relaxed whitespace-pre-line;
+    color: var(--gray-800);
+    overflow-wrap: anywhere;
+}
+
+.cw-comment-form {
+    @apply mt-5 flex flex-col gap-3 border-t pt-5;
+    border-color: rgb(12 42 66 / 0.08);
+}
+
+.cw-comments-empty + .cw-comment-form {
+    @apply mt-4;
+}
+
+.cw-comment-input {
+    @apply block w-full rounded-xl border-0 px-3.5 py-2.5 text-[14.5px] ring-1 ring-inset;
+    background-color: #fff;
+    color: var(--gray-900);
+    --tw-ring-color: var(--gray-300);
+    transition: box-shadow 150ms;
+
+    &::placeholder {
+        color: var(--gray-400);
+    }
+
+    &:focus {
+        @apply ring-2 outline-none;
+        --tw-ring-color: var(--primary-500);
+    }
+}
+
+.cw-comment-error {
+    @apply text-[13px] font-semibold;
+    color: var(--color-navy-900);
+}
+
+.cw-comment-actions {
+    @apply flex justify-end;
+}
+
+.dark .cw-comment-body {
+    background-color: rgb(255 255 255 / 0.04);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.1);
+}
+
+.dark .cw-comment-author .cw-comment-body {
+    background-color: rgb(255 255 255 / 0.09);
+}
+
+.dark .cw-comment-name,
+.dark .cw-comment-text {
+    color: #fff;
+}
+
+.dark .cw-comment-input {
+    background-color: rgb(255 255 255 / 0.05);
+    color: #fff;
+    --tw-ring-color: rgb(255 255 255 / 0.2);
+}

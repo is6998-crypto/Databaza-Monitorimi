@@ -83,6 +83,7 @@
                         <div class="mt-3 flex gap-2">
                             <button type="button" class="cw-secondary" x-show="item._status !== 'synced'" x-on:click="editDraft(item)">{{ __('monitor.continue') }}</button>
                             <a class="cw-secondary" x-show="item._status === 'synced' && item._server" :href="item._server ? item._server.url : '#'">{{ __('monitor.open_in_panel') }}</a>
+                            <a class="cw-secondary" x-show="item._status === 'synced' && item._server && item._server.report_url" :href="item._server ? item._server.report_url : '#'" x-text="item._server && item._server.has_report ? t.open_report : t.write_report" data-write-report></a>
                             <button type="button" class="cw-ghost" x-show="item._status !== 'pending'" x-on:click="removeDraft(item)">{{ __('monitor.delete') }}</button>
                         </div>
                     </li>
@@ -94,10 +95,17 @@
             <h2 class="cw-heading mb-2">{{ __('monitor.recently_sent') }}</h2>
             <ul class="divide-y divide-slate-100 overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200/80">
                 <template x-for="item in (data ? data.recent : [])" :key="item.id">
-                    <li><a :href="item.url" class="group flex items-center justify-between gap-3 p-4 transition-colors hover:bg-gold-50 focus-visible:bg-gold-50 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-navy-900">
-                        <span class="min-w-0"><span class="block truncate font-bold text-navy-900" x-text="item.case"></span><span class="text-sm text-slate-500" x-text="item.date"></span></span>
-                        <span class="flex shrink-0 items-center gap-2"><span class="cw-badge bg-slate-100 text-slate-700" x-text="item.status_label"></span><svg class="size-4 text-slate-400 transition-transform duration-150 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m9 6 6 6-6 6"/></svg></span>
-                    </a></li>
+                    <li>
+                        <a :href="item.url" class="group flex items-center justify-between gap-3 p-4 transition-colors hover:bg-gold-50 focus-visible:bg-gold-50 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-navy-900">
+                            <span class="min-w-0"><span class="block truncate font-bold text-navy-900" x-text="item.case"></span><span class="text-sm text-slate-500" x-text="item.date"></span></span>
+                            <span class="flex shrink-0 items-center gap-2"><span class="cw-badge bg-slate-100 text-slate-700" x-text="item.status_label"></span><svg class="size-4 text-slate-400 transition-transform duration-150 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m9 6 6 6-6 6"/></svg></span>
+                        </a>
+                        {{-- The written account of the session is written in the panel, where it is kept encrypted. --}}
+                        <a :href="item.report_url" x-show="item.report_url" class="flex min-h-11 items-center gap-2 border-t border-slate-100 px-4 text-[13px] font-bold text-navy-900 transition-colors hover:bg-gold-50 focus-visible:bg-gold-50 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-navy-900" data-recent-report>
+                            <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>
+                            <span x-text="item.has_report ? t.open_report : t.write_report"></span>
+                        </a>
+                    </li>
                 </template>
             </ul>
         </section>

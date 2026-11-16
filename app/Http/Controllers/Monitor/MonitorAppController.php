@@ -10,6 +10,7 @@ use App\Enums\PostponementReason;
 use App\Enums\Recording;
 use App\Enums\Venue;
 use App\Enums\WorkflowStatus;
+use App\Filament\Admin\Resources\HearingReports\HearingReportResource;
 use App\Filament\Admin\Resources\Hearings\HearingResource;
 use App\Http\Controllers\Controller;
 use App\Models\CaseParty;
@@ -79,7 +80,7 @@ class MonitorAppController extends Controller
 
         $recent = Hearing::query()
             ->where('created_by', $user->id)
-            ->with('case.court')
+            ->with(['case.court', 'report'])
             ->latest('id')
             ->limit(10)
             ->get()
@@ -91,6 +92,8 @@ class MonitorAppController extends Controller
                 'status' => $hearing->status->value,
                 'status_label' => $hearing->status->getLabel(),
                 'url' => HearingResource::getUrl('view', ['record' => $hearing], panel: 'admin'),
+                'report_url' => $this->reportUrl($hearing),
+                'has_report' => $hearing->report !== null,
             ]);
 
         return response()->json([
@@ -166,7 +169,19 @@ class MonitorAppController extends Controller
             'status' => $hearing->status->value,
             'status_label' => $hearing->status->getLabel(),
             'url' => HearingResource::getUrl('view', ['record' => $hearing], panel: 'admin'),
+            'report_url' => $this->reportUrl($hearing),
+            'has_report' => $hearing->report !== null,
         ], $status);
+    }
+
+    /**
+     * Where the monitor writes (or reads) the written report of this hearing, in the staff panel.
+     */
+    private function reportUrl(Hearing $hearing): string
+    {
+        return $hearing->report !== null
+            ? HearingReportResource::getUrl('view', ['record' => $hearing->report], panel: 'admin')
+            : HearingReportResource::getUrl('create', ['hearing' => $hearing->id], panel: 'admin');
     }
 
     private function initials(string $name): string

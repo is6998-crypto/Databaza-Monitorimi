@@ -25,7 +25,7 @@ final class Permissions
         'DefendantPosition', 'EconomicStatus', 'SecurityMeasureType',
     ];
 
-    public const CORE_SUBJECTS = ['CourtCase', 'Hearing', 'Attachment'];
+    public const CORE_SUBJECTS = ['CourtCase', 'Hearing', 'Attachment', 'HearingReport'];
 
     public const ADMIN_SUBJECTS = ['User', 'Role', 'Activity', 'ExportLog', 'ResearcherProfile', 'LegacyReviewItem', 'Publication'];
 
@@ -111,9 +111,9 @@ final class Permissions
                 self::EXPORT_DATA, self::ASSIGN_MONITOR, self::VIEW_ANALYTICS,
             ])),
 
-            // Monitor: create cases and hearings, edit own drafts and records under review, no delete.
+            // Monitor: create cases, hearings and hearing reports, edit own drafts and records under review, no delete.
             Role::Monitor->value => array_values(array_unique([
-                ...self::for(['ViewAny', 'View', 'Create', 'Update'], ['CourtCase', 'Hearing', 'Attachment']),
+                ...self::for(['ViewAny', 'View', 'Create', 'Update'], ['CourtCase', 'Hearing', 'Attachment', 'HearingReport']),
             ])),
 
             // Analyst: read-only access to all internal data, dashboards and exports.

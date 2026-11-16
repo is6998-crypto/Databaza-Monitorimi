@@ -3,7 +3,7 @@
  * - App shell (the /m page, built assets, icons) is cached so the app opens offline.
  * - API calls are never cached here: drafts and the case list live in IndexedDB.
  */
-const CACHE = 'courtwatch-monitor-v2';
+const CACHE = 'courtwatch-monitor-v3';
 const STATIC = ['/manifest.webmanifest', '/icons/icon-192.png', '/icons/icon-512.png', '/icons/favicon.svg'];
 
 /**

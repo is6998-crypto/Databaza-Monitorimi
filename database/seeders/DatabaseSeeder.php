@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             DemoUsersSeeder::class,
             DemoReferenceSeeder::class,
             DemoCasesSeeder::class,
+            DemoReportsSeeder::class,
             DemoPublicationsSeeder::class,
         ]);
     }

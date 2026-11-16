@@ -18,6 +18,8 @@ return [
     'fix_errors' => 'Please correct the highlighted answers and send again.',
     'continue' => 'Continue',
     'open_in_panel' => 'Open',
+    'write_report' => 'Write the report',
+    'open_report' => 'Hearing report',
     'delete' => 'Delete',
     'recently_sent' => 'Recently sent',
     'sign_out' => 'Sign out',

@@ -18,6 +18,8 @@ return [
     'fix_errors' => 'Ju lutem korrigjoni përgjigjet e shënuara dhe dërgojeni sërish.',
     'continue' => 'Vazhdo',
     'open_in_panel' => 'Hap',
+    'write_report' => 'Shkruaj raportin',
+    'open_report' => 'Raporti i seancës',
     'delete' => 'Fshij',
     'recently_sent' => 'Të dërguara së fundmi',
     'sign_out' => 'Çkyçu',
