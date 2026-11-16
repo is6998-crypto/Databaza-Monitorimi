@@ -129,7 +129,8 @@ class DeadlinesExceeded extends Notification implements ShouldQueue
 
         return FilamentNotification::make()
             ->title($this->title($locale))
-            ->body(implode("\n", $this->lines($locale)))
+            // One phase per line; the panel shows the body as (sanitised) HTML.
+            ->body(implode('<br>', array_map(fn (string $line): string => e($line), $this->lines($locale))))
             ->icon(Heroicon::OutlinedClock)
             ->iconColor('warning')
             ->actions([
