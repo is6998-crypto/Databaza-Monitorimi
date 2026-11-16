@@ -8,6 +8,7 @@ return [
     'court_branches' => [
         'singular' => 'Court branch or chamber',
         'plural' => 'Court branches and chambers',
+        'navigation' => 'Branches and chambers',
     ],
     'departments' => [
         'singular' => 'Department',

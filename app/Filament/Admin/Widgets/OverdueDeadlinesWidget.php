@@ -11,6 +11,7 @@ use App\Models\CourtCase;
 use App\Models\User;
 use Filament\Actions\Action;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\Column;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget;
 use Illuminate\Database\Eloquent\Builder;
@@ -45,7 +46,8 @@ class OverdueDeadlinesWidget extends TableWidget
             ->defaultSort('due_on')
             ->columns([
                 CaseColumn::make('case_id', fn (Model $record): ?CourtCase => $record instanceof CaseDeadline ? $record->case : null),
-                ...CaseDeadlinesTable::columns(),
+                // Without the start date: the dashboard shows what is late and by how much; the list has the rest.
+                ...array_values(array_filter(CaseDeadlinesTable::columns(), fn (Column $column): bool => $column->getName() !== 'started_on')),
             ])
             ->headerActions([
                 Action::make('allDeadlines')
@@ -57,6 +59,7 @@ class OverdueDeadlinesWidget extends TableWidget
             ])
             ->recordUrl(fn (CaseDeadline $record): string => CourtCaseResource::getUrl('view', ['record' => $record->case_id]))
             ->emptyStateHeading(__('deadlines.widget.empty'))
-            ->paginated([5, 10]);
+            ->paginated([5, 10])
+            ->defaultPaginationPageOption(5);
     }
 }

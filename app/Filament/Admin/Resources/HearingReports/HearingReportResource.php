@@ -239,11 +239,11 @@ class HearingReportResource extends Resource
             ->columns([
                 TextColumn::make('hearing.hearing_date')->label(__('hearings.fields.hearing_date'))->date()->sortable(),
                 CaseColumn::make('hearing_id', fn (Model $record): ?CourtCase => $record instanceof HearingReport ? $record->hearing->case : null),
-                TextColumn::make('title')->label(__('reports.fields.title'))->placeholder('—')->wrap()->limit(70),
+                TextColumn::make('title')->label(__('reports.fields.title'))->placeholder('—')->wrap()->limit(60),
                 TextColumn::make('author.name')->label(__('reports.fields.author'))->placeholder('—')->toggleable(),
                 TextColumn::make('status')->label(__('reports.fields.status'))->badge()->sortable(),
                 TextColumn::make('comments_count')->label(__('reports.fields.comments'))->numeric()->alignEnd()->sortable(),
-                TextColumn::make('updated_at')->label(__('reports.fields.updated_at'))->dateTime()->sortable()->toggleable(),
+                TextColumn::make('updated_at')->label(__('reports.fields.updated_at'))->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 SelectFilter::make('status')->label(__('reports.fields.status'))->options(ReportStatus::options())->multiple(),
@@ -262,8 +262,8 @@ class HearingReportResource extends Resource
             ->filtersTriggerAction(fn (Action $action): Action => $action->button()->outlined())
             ->filtersFormColumns(['default' => 1, 'sm' => 3])
             ->recordActions([
-                ViewAction::make()->label(__('cases.actions.open')),
-                EditAction::make(),
+                ViewAction::make()->label(__('cases.actions.open'))->iconButton()->tooltip(__('cases.actions.open')),
+                EditAction::make()->iconButton()->tooltip(__('filament-actions::edit.single.label')),
             ])
             ->recordUrl(fn (HearingReport $record): string => static::getUrl('view', ['record' => $record]))
             ->emptyStateHeading(__('reports.empty.heading'))

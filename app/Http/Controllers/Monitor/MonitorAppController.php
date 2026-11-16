@@ -89,6 +89,8 @@ class MonitorAppController extends Controller
                 'client_uuid' => $hearing->client_uuid,
                 'date' => $hearing->hearing_date->format('d.m.Y'),
                 'case' => $hearing->case->display_label,
+                'case_number' => $hearing->case->court_case_number ?: '#'.$hearing->case->id,
+                'court' => $hearing->case->court?->label(),
                 'status' => $hearing->status->value,
                 'status_label' => $hearing->status->getLabel(),
                 'url' => HearingResource::getUrl('view', ['record' => $hearing], panel: 'admin'),

@@ -29,9 +29,9 @@ class ReportsAwaitingReview extends TableWidget
             ->columns([
                 TextColumn::make('hearing.hearing_date')->label(__('hearings.fields.hearing_date'))->date()->sortable(),
                 CaseColumn::make('hearing_id', fn (Model $record): ?CourtCase => $record instanceof HearingReport ? $record->hearing->case : null),
-                TextColumn::make('title')->label(__('reports.fields.title'))->placeholder('—')->wrap()->limit(70),
+                TextColumn::make('title')->label(__('reports.fields.title'))->placeholder('—')->wrap()->limit(60),
                 TextColumn::make('author.name')->label(__('reports.fields.author'))->placeholder('—'),
-                TextColumn::make('submitted_at')->label(__('workflow.queue.submitted_at'))->dateTime()->sortable(),
+                TextColumn::make('submitted_at')->label(__('workflow.queue.submitted_at'))->date()->sortable(),
                 TextColumn::make('comments_count')->label(__('reports.fields.comments'))->numeric()->alignEnd(),
             ])
             ->recordUrl(fn (HearingReport $record): string => HearingReportResource::getUrl('view', ['record' => $record]))

@@ -34,7 +34,7 @@ class HearingsAwaitingReview extends TableWidget
                 CaseColumn::make('case_id', fn (Model $record): ?CourtCase => $record instanceof Hearing ? $record->case : null),
                 TextColumn::make('monitor.user.name')->label(__('hearings.fields.monitor'))->placeholder('—'),
                 IconColumn::make('was_postponed')->label(__('hearings.fields.was_postponed_short'))->boolean()->trueColor('warning')->falseColor('success'),
-                TextColumn::make('submitted_at')->label(__('workflow.queue.submitted_at'))->dateTime()->sortable(),
+                TextColumn::make('submitted_at')->label(__('workflow.queue.submitted_at'))->date()->sortable(),
                 TextColumn::make('status')->label(__('cases.fields.status'))->badge(),
             ])
             ->recordUrl(fn (Hearing $record): string => HearingResource::getUrl('view', ['record' => $record]))

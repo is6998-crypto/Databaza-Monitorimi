@@ -22,7 +22,7 @@ return [
         'years' => '{1} :count year|[2,*] :count years',
     ],
     'basis' => [
-        'detention' => 'accused in detention',
+        'detention' => 'in detention',
         'single_judge' => 'single trial judge',
         'panel' => 'trial panel',
         'bench_unknown' => 'bench not recorded',

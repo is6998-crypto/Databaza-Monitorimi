@@ -1036,3 +1036,31 @@
     color: #fff;
     --tw-ring-color: rgb(255 255 255 / 0.2);
 }
+
+/* ------------------------------------------------------------------ Case column
+ * A case is two short lines in every table: its number, and its court under it in grey. Neither line breaks,
+ * so rows keep one height.
+ */
+
+.cw-case-cell .fi-ta-text-item,
+.cw-case-cell .fi-ta-text-description {
+    white-space: nowrap;
+}
+
+.cw-case-cell .fi-ta-text-description {
+    @apply text-[13.5px];
+}
+
+/* Row actions are icons at the end of the row; they must not be squeezed by long cells. */
+.fi-ta-actions {
+    @apply shrink-0 gap-1;
+}
+
+/* On a 13–14 inch laptop the tables keep every column on screen: a little less air between the columns. */
+@media (min-width: 64rem) and (max-width: 89.99rem) {
+    .fi-ta-header-cell,
+    .fi-ta-text,
+    .fi-ta-icon {
+        padding-inline: 0.5rem;
+    }
+}

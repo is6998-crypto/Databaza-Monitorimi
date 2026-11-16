@@ -51,13 +51,7 @@ class CaseDeadlinesTable
             ], layout: FiltersLayout::AboveContentCollapsible)
             ->filtersTriggerAction(fn (Action $action): Action => $action->button()->outlined())
             ->filtersFormColumns(['default' => 1, 'sm' => 3])
-            ->recordActions([
-                Action::make('openCase')
-                    ->label(__('deadlines.actions.open_case'))
-                    ->icon(Heroicon::OutlinedFolderOpen)
-                    ->url(fn (CaseDeadline $record): string => CourtCaseResource::getUrl('view', ['record' => $record->case_id]))
-                    ->visible(fn (CaseDeadline $record): bool => Gate::allows('view', $record->case)),
-            ])
+            // No row action: the row itself opens the case.
             ->recordUrl(fn (CaseDeadline $record): ?string => Gate::allows('view', $record->case) ? CourtCaseResource::getUrl('view', ['record' => $record->case_id]) : null)
             ->emptyStateHeading(__('deadlines.empty.heading'))
             ->emptyStateDescription(__('deadlines.empty.description'))

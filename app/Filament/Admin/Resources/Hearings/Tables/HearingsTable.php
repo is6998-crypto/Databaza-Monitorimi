@@ -42,10 +42,10 @@ class HearingsTable
                 CaseColumn::make('case_id', fn (Model $record): ?CourtCase => $record instanceof Hearing ? $record->case : null)
                     ->searchable(query: fn (Builder $query, string $search): Builder => $query->whereHas('case', fn (Builder $case) => CaseSearch::apply($case, $search))),
                 TextColumn::make('hearing_type')->label(__('hearings.fields.hearing_type'))->badge()->placeholder('—')->toggleable(),
-                TextColumn::make('judge.name')->label(__('hearings.fields.judge'))->placeholder('—')->toggleable(),
+                TextColumn::make('judge.name')->label(__('hearings.fields.judge'))->placeholder('—')->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('monitor.user.name')->label(__('hearings.fields.monitor'))->placeholder('—')->toggleable(),
                 IconColumn::make('was_postponed')->label(__('hearings.fields.was_postponed_short'))->boolean()->trueColor('warning')->falseColor('success'),
-                IconColumn::make('started_late')->label(__('hearings.fields.started_late_short'))->boolean()->trueColor('warning')->falseColor('success')->toggleable(),
+                IconColumn::make('started_late')->label(__('hearings.fields.started_late_short'))->boolean()->trueColor('warning')->falseColor('success')->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('status')->label(__('cases.fields.status'))->badge()->sortable(),
             ])
             ->filters([
@@ -70,8 +70,8 @@ class HearingsTable
             ->filtersTriggerAction(fn (Action $action): Action => $action->button()->outlined())
             ->filtersFormColumns(['default' => 1, 'sm' => 2, 'xl' => 4])
             ->recordActions([
-                ViewAction::make(),
-                EditAction::make(),
+                ViewAction::make()->iconButton()->tooltip(__('cases.actions.open')),
+                EditAction::make()->iconButton()->tooltip(__('filament-actions::edit.single.label')),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

@@ -28,6 +28,14 @@ class CourtBranchResource extends ReferenceResource
         return 'court_branches';
     }
 
+    /**
+     * Short enough for one line of the sidebar; the page title keeps the full name.
+     */
+    public static function getNavigationLabel(): string
+    {
+        return __('reference.court_branches.navigation');
+    }
+
     protected static function extraFormFields(): array
     {
         return [

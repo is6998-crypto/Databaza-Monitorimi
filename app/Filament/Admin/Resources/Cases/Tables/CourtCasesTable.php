@@ -36,23 +36,27 @@ class CourtCasesTable
             ->modifyQueryUsing(fn (Builder $query) => $query->with(['court', 'judge', 'assignedMonitor.user'])->withCount('hearings'))
             ->defaultSort('updated_at', 'desc')
             ->columns([
+                // The case in two short lines: its number, and the court under it.
                 TextColumn::make('court_case_number')
-                    ->label(__('cases.fields.court_case_number'))
+                    ->label(__('hearings.fields.case'))
                     ->placeholder('—')
                     ->searchable(query: fn (Builder $query, string $search): Builder => CaseSearch::apply($query, $search))
                     ->sortable()
                     ->weight('medium')
-                    ->description(fn (CourtCase $record): ?string => $record->indictment_number),
+                    ->description(fn (CourtCase $record): ?string => $record->court?->label())
+                    ->extraCellAttributes(['class' => 'cw-case-cell']),
                 TextColumn::make('status')->label(__('cases.fields.status'))->badge()->sortable(),
                 TextColumn::make('type')->label(__('cases.fields.type'))->badge()->sortable(),
+                TextColumn::make('indictment_number')->label(__('cases.fields.indictment_number'))->placeholder('—')->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('court_id')
                     ->label(__('cases.fields.court'))
                     ->formatStateUsing(fn (CourtCase $record): string => $record->court?->label() ?? '—')
-                    ->sortable(),
-                TextColumn::make('judge.name')->label(__('cases.fields.judge'))->toggleable(),
-                TextColumn::make('assignedMonitor.user.name')->label(__('cases.fields.assigned_monitor'))->toggleable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('judge.name')->label(__('cases.fields.judge'))->placeholder('—')->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('assignedMonitor.user.name')->label(__('hearings.fields.monitor'))->placeholder('—')->toggleable(),
                 TextColumn::make('hearings_count')->label(__('cases.fields.hearings_count'))->numeric()->sortable()->alignEnd(),
-                TextColumn::make('updated_at')->label(__('cases.fields.updated_at'))->dateTime()->sortable()->toggleable(),
+                TextColumn::make('updated_at')->label(__('cases.fields.updated_at'))->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 SelectFilter::make('type')->label(__('cases.fields.type'))->options(CaseType::options())->multiple(),
@@ -81,8 +85,9 @@ class CourtCasesTable
             ->filtersTriggerAction(fn (Action $action): Action => $action->button()->outlined())
             ->filtersFormColumns(['default' => 1, 'sm' => 2, 'xl' => 4])
             ->recordActions([
-                ViewAction::make()->label(__('cases.actions.open')),
-                EditAction::make(),
+                // Icons with a tooltip: the row itself opens the case, and the columns keep the width.
+                ViewAction::make()->label(__('cases.actions.open'))->iconButton()->tooltip(__('cases.actions.open')),
+                EditAction::make()->iconButton()->tooltip(__('filament-actions::edit.single.label')),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

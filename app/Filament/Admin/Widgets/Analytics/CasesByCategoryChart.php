@@ -6,13 +6,13 @@ use App\Models\Reference\Category;
 
 /**
  * Cases per statistics category of the offences charged (the categories of the criminal-offence list).
- * Full width and taller than the others: up to 28 ranked bars.
+ * Full width and taller than the others: up to 28 ranked bars, each with its label (no label is skipped).
  */
 class CasesByCategoryChart extends AnalyticsChart
 {
     protected int|string|array $columnSpan = 'full';
 
-    protected ?string $maxHeight = '560px';
+    protected ?string $maxHeight = '680px';
 
     public function getHeading(): string
     {
@@ -38,7 +38,7 @@ class CasesByCategoryChart extends AnalyticsChart
         return $this->chartOptions([
             'indexAxis' => 'y',
             'plugins' => ['legend' => ['display' => false]],
-            'scales' => ['x' => ['beginAtZero' => true, 'ticks' => ['precision' => 0]], 'y' => ['grid' => ['display' => false]]],
+            'scales' => ['x' => ['beginAtZero' => true, 'ticks' => ['precision' => 0]], 'y' => ['grid' => ['display' => false], 'ticks' => ['autoSkip' => false]]],
         ]);
     }
 }

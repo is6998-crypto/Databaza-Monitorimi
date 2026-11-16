@@ -77,6 +77,8 @@ class AdminPanelProvider extends PanelProvider
             ->databaseNotifications()
             ->databaseNotificationsPolling('60s')
             ->navigationGroups(self::navigationGroups())
+            // 280px instead of 320px: the tables get the width, and they fit a 1366–1440px laptop screen.
+            ->sidebarWidth('17.5rem')
             ->sidebarCollapsibleOnDesktop()
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->unsavedChangesAlerts()

@@ -22,10 +22,10 @@ return [
         'years' => '{1} :count vit|[2,*] :count vjet',
     ],
     'basis' => [
-        'detention' => 'i akuzuari në paraburgim',
+        'detention' => 'në paraburgim',
         'single_judge' => 'gjyqtar i vetëm',
         'panel' => 'trup gjykues',
-        'bench_unknown' => 'përbërja e gjykatës e pashënuar',
+        'bench_unknown' => 'përbërja e pashënuar',
         'extended' => 'afat i zgjatur',
     ],
     'status' => [

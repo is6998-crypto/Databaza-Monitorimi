@@ -8,6 +8,7 @@ return [
     'court_branches' => [
         'singular' => 'Degë ose dhomë e gjykatës',
         'plural' => 'Degët dhe dhomat e gjykatave',
+        'navigation' => 'Degët dhe dhomat',
     ],
     'departments' => [
         'singular' => 'Departament',

@@ -72,13 +72,14 @@ class Dashboard extends BaseDashboard
     }
 
     /**
-     * The welcome band sits above the filters and the analytics.
+     * The welcome band and the person's own work (drafts sent back, legal time limits exceeded) sit above the
+     * filters, which belong to the analytics under them.
      *
      * @return list<class-string>
      */
     protected function getHeaderWidgets(): array
     {
-        return [WelcomeWidget::class];
+        return [WelcomeWidget::class, MyWorkWidget::class, OverdueDeadlinesWidget::class];
     }
 
     public function getHeaderWidgetsColumns(): int|array
@@ -92,8 +93,6 @@ class Dashboard extends BaseDashboard
     public function getWidgets(): array
     {
         return [
-            MyWorkWidget::class,
-            OverdueDeadlinesWidget::class,
             Analytics\AnalyticsOverview::class,
             Analytics\HearingsOverTimeChart::class,
             Analytics\CasesByCategoryChart::class,
