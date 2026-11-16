@@ -31,8 +31,8 @@ Mirë ta dini:
 
 | Roli | Mund të bëjë |
 | --- | --- |
-| Monitorues | Krijon lëndë dhe seanca në gjykatat që i janë caktuar; redakton draftet e veta dhe regjistrat që janë në shqyrtim; nuk fshin |
-| Redaktor | Shqyrton, aprovon ose kthen dorëzimet; redakton çdo lëndë; menaxhon të dhënat referuese; publikon raportet |
+| Monitorues | Krijon lëndë dhe seanca në gjykatat që i janë caktuar; shkruan raportin e çdo seance; redakton draftet e veta dhe regjistrat që janë në shqyrtim; nuk fshin |
+| Redaktor | Shqyrton, aprovon ose kthen dorëzimet; redakton çdo lëndë; lexon, redakton dhe komenton raportet e seancave; menaxhon të dhënat referuese; publikon raportet |
 | Analist | Lexon gjithçka, përdor panelin e analizave dhe eksporton (vetëm lexim) |
 | Super administrator | Gjithçka, përfshirë përdoruesit, rolet, aprovimin e hulumtuesve dhe fshirjet |
 
@@ -43,7 +43,7 @@ Paneli tregon vetëm atë që lejon roli juaj, dhe serveri e kontrollon përsër
 | Grupi | Përmban |
 | --- | --- |
 | **Paneli** (në krye) | Treguesit dhe grafikët, ose draftet dhe seancat tuaja të kthyera |
-| **Monitorimi** | Lëndët, Seancat, Radha e shqyrtimit |
+| **Monitorimi** | Radha e shqyrtimit, Lëndët, Seancat, Raportet e seancave, Afatet ligjore |
 | **Analiza** | Regjistri i eksporteve |
 | **Portali publik** | Raporte dhe publikime |
 | **Të dhënat referuese** | Gjykatat, degët, departamentet, gjyqtarët, prokurorët, veprat penale dhe listat e tjera |
@@ -62,13 +62,18 @@ shkruhen më kurrë përsëri.
 
 1. **Monitorimi → Lëndët → Krijo lëndë**.
 2. Zgjidhni llojin e lëndës (penale — korrupsion, krime të rënda, e përgjithshme, departamenti
-   special; administrative; civile; ekonomike), gjykatën, degën dhe departamentin, gjyqtarin dhe
-   prokurorin, si dhe numrat e lëndës.
-3. Nëse në atë gjykatë ekziston tashmë një lëndë me të njëjtin numër, një paralajmërim ju ofron
+   special; administrative; civile; ekonomike), gjykatën, degën ose dhomën dhe departamentin,
+   gjyqtarin dhe prokurorin, si dhe numrat e lëndës. Te departamenti ofrohen vetëm ata që i ka
+   gjykata e zgjedhur: Departamenti Special vetëm në Prishtinë, kurse degët kanë vetëm
+   Departamentin e Përgjithshëm.
+3. Te lëndët penale, përgjigjuni katër pyetjeve te **Afatet procedurale**: a është i akuzuari në
+   paraburgim, kush e gjykon lëndën (gjyqtar i vetëm apo trup gjykues), a është zgjatur hetimi
+   dhe a është rast i ndërlikuar. Nga to varet cili afat ligjor zbatohet (shih *Afatet ligjore*).
+4. Nëse në atë gjykatë ekziston tashmë një lëndë me të njëjtin numër, një paralajmërim ju ofron
    ta hapni atë: shmangni dublikatat.
-4. Lëndët administrative, civile dhe ekonomike kanë fusha shtesë (vendimi, mjeti juridik, kërkesa,
+5. Lëndët administrative, civile dhe ekonomike kanë fusha shtesë (vendimi, mjeti juridik, kërkesa,
    përfaqësimi…), që shfaqen vetëm për ato lloje.
-5. Shtypni **Krijo**. Lënda fillon si **Draft**.
+6. Shtypni **Krijo**. Lënda fillon si **Draft**.
 
 Vlerat e përdorura së fundi (gjykatat, gjyqtarët…) shfaqen të parat në lista.
 
@@ -80,7 +85,7 @@ Kur hapni një lëndë shihni këto skeda:
 | --- | --- |
 | **Përmbledhje** | Të dhënat e lëndës dhe statusi i saj |
 | **Palët dhe akuzat** | Të akuzuarit dhe personat juridikë, palët e dëmtuara, paditësit dhe të paditurit, me gjininë, kombësinë, pozitën, statusin ekonomik, mbrojtjen; dhe akuzat (neni i kodit penal) në secilën fazë |
-| **Rrjedha e fazave** | Kallëzimi penal → hetimi → aktakuza → shqyrtimi fillestar → shqyrtimi gjyqësor → aktgjykimi → ankesa → Gjykata Supreme, me data dhe rezultate. Datat jashtë radhës refuzohen me shpjegim |
+| **Rrjedha e fazave** | Kallëzimi penal → hetimi → aktakuza → shqyrtimi fillestar → shqyrtimi gjyqësor → aktgjykimi → ankesa → Gjykata Supreme, me data dhe rezultate. Datat jashtë radhës refuzohen me shpjegim. Te lëndët penale, nën-skeda **Afatet ligjore** tregon afatin e secilës fazë |
 | **Masat dhe dënimet** | Masat e sigurisë, sekuestrimi dhe konfiskimi (të kërkuara / të aprovuara), dënimet e kërkuara dhe të shqiptuara |
 | **Seancat** | Të gjitha seancat e monitoruara të lëndës; këtu shtoni një të re (**Krijo seancë**) |
 | **Dokumentet** | Shtojcat (PDF, JPG, PNG deri në 20 MB). Skedarët janë privatë: shkarkimi bëhet me lidhje që skadojnë pas pak minutash |
@@ -90,6 +95,35 @@ Kur hapni një lëndë shihni këto skeda:
 > Emrat e palëve janë të dhëna personale. Ata ruhen të enkriptuar, nuk shfaqen kurrë në portalin
 > publik, në të dhënat për hulumtuesit apo në eksporte, dhe nuk duhet të kopjohen në fusha me tekst
 > të lirë si shënimet.
+
+### Afatet ligjore
+
+Kodi i Procedurës Penale cakton afate për fazat e procedurës. Platforma i llogarit vetë nga datat
+që shënoni te **Rrjedha e fazave** dhe nga përgjigjet te **Afatet procedurale**:
+
+| Faza | Afati | Neni |
+| --- | --- | --- |
+| Hetimi (nga fillimi deri në përfundim) | 2 vjet; 3 vjet kur është zgjatur | 157 |
+| Ngritja e aktakuzës (pas përfundimit të hetimit) | 3 muaj | 234 |
+| Shqyrtimi fillestar (pas ngritjes së aktakuzës) | 30 ditë; 15 ditë me paraburgim | 236 |
+| Caktimi i shqyrtimit gjyqësor (pas konfirmimit të aktakuzës) | 30 ditë | 249 |
+| Shqyrtimi gjyqësor (nga fillimi deri në përfundim) | 90 ditë para gjyqtarit të vetëm; 120 ditë para trupit gjykues | 310 |
+| Shpallja e aktgjykimit (pas përfundimit të shqyrtimit gjyqësor) | 3 ditë | 365 |
+| Përpilimi i aktgjykimit (pas shpalljes) | 15 ditë me paraburgim; 30 ditë në liri; 60 ditë në rast të ndërlikuar | 368 |
+| Procedura ankimore (nga pranimi i shkresave në Apel), vetëm me paraburgim | 3 muaj | 405 |
+
+Për kundërshtimin e provave dhe kërkesat për hedhjen e aktakuzës Kodi nuk cakton afat.
+
+- **Monitorimi → Afatet ligjore** i liston të gjitha: *Të tejkaluara*, *Skadojnë së shpejti*
+  (brenda 7 ditësh), *Në afat* dhe *Përfunduara me vonesë*. Shenja në meny tregon sa afate janë
+  të tejkaluara tani; të njëjtat shfaqen edhe në panel.
+- Një fazë mbyllet kur shënoni datën e fazës pasuese (p.sh. *Aktgjykimi i përpiluar*). Prandaj
+  shënojini datat sapo t'i mësoni.
+- **Njoftimet.** Çdo mëngjes, kur një afat tejkalohet, njoftohen monitoruesi i lëndës, redaktorët
+  dhe administratorët (te zilja dhe me email): një herë për çdo afat, dhe edhe një herë nëse
+  kalon edhe afati më i gjatë që lejon ligji (60 ditë për aktgjykimin, 3 vjet për hetimin).
+- Kur përgjigjet mungojnë, zbatohet afati më i gjatë (pa paraburgim, trup gjykues), që askush të
+  mos njoftohet para kohe. Lista tregon mbi çfarë baze u llogarit afati.
 
 ## 5. Regjistrimi i një seance
 
@@ -103,6 +137,25 @@ Kur hapni një lëndë shihni këto skeda:
    drafti rikthehet.
 5. Ruajeni seancën, pastaj shtypni **Dorëzo për shqyrtim** kur të jetë e plotë.
 
+### Raporti i seancës
+
+Për çdo seancë monitoruesi shkruan një raport: çfarë ndodhi, me fjalët e veta.
+
+1. Te seanca shtypni **Shkruaj raportin** (ose **Monitorimi → Raportet e seancave → Shkruaj
+   raport** dhe zgjidhni seancën). Çdo seancë ka një raport.
+2. Shkruani titullin dhe tekstin: kush ishte i pranishëm, çfarë u tha dhe u vendos, kur është
+   seanca e radhës. Ruajeni; mbetet **Draft** derisa ta dërgoni.
+3. Shtypni **Dërgo te redaktori**. Redaktorët njoftohen dhe raporti shfaqet te **Radha e
+   shqyrtimit**.
+4. **Redaktori** e lexon, mund ta redaktojë vetë tekstin (**Modifiko**), lë komente nën raport
+   dhe pastaj shtyp **Mirato** ose **Kthe me koment**.
+5. Monitoruesi njoftohet për çdo koment dhe mund të përgjigjet në të njëjtin vend. Një raport i
+   kthyer plotësohet dhe dërgohet sërish. Pas miratimit monitoruesi nuk mund ta ndryshojë më.
+
+Monitoruesi sheh vetëm raportet e veta; redaktorët i shohin të gjitha. Teksti dhe komentet
+ruhen të enkriptuara dhe mbeten brenda panelit: nuk shfaqen në portalin publik, te hulumtuesit
+apo në njoftimet me email.
+
 ### Aplikacioni i monitoruesit (celular, punon pa internet)
 
 Menyja nën inicialet tuaja ka **Aplikacioni i monitoruesit (celular)** (`/m`). Në telefon,
@@ -113,6 +166,8 @@ shtojeni në ekranin kryesor ("Install" / "Add to Home Screen").
   lidhja, dhe asnjëherë dy herë.
 - **Ruaj draftin** e mban në telefon; **Dërgo për shqyrtim** e dorëzon.
 - Mos u çkyçni dhe mos i fshini të dhënat e shfletuesit derisa seancat të jenë dërguar.
+- Pasi seanca të jetë dërguar, **Shkruaj raportin** hap faqen e raportit në panel (kërkon
+  internet).
 
 ## 6. Rrjedha e shqyrtimit
 

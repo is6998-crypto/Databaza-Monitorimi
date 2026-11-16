@@ -6,7 +6,7 @@ CourtWatch runs on a single virtual private server (VPS) with Docker Compose:
 | --- | --- |
 | `app` | FrankenPHP: Caddy web server with **automatic HTTPS** (Let's Encrypt) + PHP. Runs the migrations on start. Ports 80 and 443. |
 | `horizon` | Queue worker (e-mails, notifications). |
-| `scheduler` | Scheduled tasks: daily encrypted backups, backup monitoring, housekeeping. |
+| `scheduler` | Scheduled tasks: daily encrypted backups, backup monitoring, the morning check of the legal time limits (`deadlines:check`, which emails staff about limits that were exceeded), housekeeping. |
 | `postgres` | PostgreSQL 16 (not reachable from outside). |
 | `redis` | Redis 7 for sessions, cache and queues (password-protected, not reachable from outside). |
 

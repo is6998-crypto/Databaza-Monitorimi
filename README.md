@@ -39,6 +39,11 @@ _Screenshot placeholders — add images to `docs/screenshots/` and link them her
 - **Review workflow**: draft → submitted → in review → approved → published, or returned with
   a comment; a review queue, a diff of changes and notifications. Only approved data is used
   for dashboards, the portal and research.
+- **Hearing reports**: for every hearing the monitor writes what happened; the editor edits it,
+  comments and approves it or sends it back. Encrypted, and internal to the staff panel.
+- **Legal time limits**: every phase of a criminal case with a limit in the Criminal Procedure
+  Code, counted from the stage dates; the monitor, the editors and the administrators are
+  notified when one is exceeded.
 - **Reference data**: 16 lists (courts, judges, criminal offences…) with full CRUD,
   bilingual names, "merge duplicates" and CSV import.
 - **Search and analytics**: global search with typo tolerance, saved and shared filters, bulk
