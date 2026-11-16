@@ -6,8 +6,8 @@ return [
         'plural' => 'Gjykatat',
     ],
     'court_branches' => [
-        'singular' => 'Degë e gjykatës',
-        'plural' => 'Degët e gjykatave',
+        'singular' => 'Degë ose dhomë e gjykatës',
+        'plural' => 'Degët dhe dhomat e gjykatave',
     ],
     'departments' => [
         'singular' => 'Departament',
@@ -91,9 +91,11 @@ return [
         'category' => 'Kategoria',
         'category_code' => 'Kodi i kategorisë',
         'offences_count' => 'Numri i veprave',
+        'departments' => 'Departamentet',
     ],
     'help' => [
         'serbian' => 'Opsionale — ndërfaqja është e gatshme për serbisht.',
+        'departments' => 'Te lënda ofrohen vetëm këto departamente. Lëreni bosh për të lejuar çdo departament.',
     ],
     'actions' => [
         'deactivate' => 'Çaktivizo të zgjedhurat',

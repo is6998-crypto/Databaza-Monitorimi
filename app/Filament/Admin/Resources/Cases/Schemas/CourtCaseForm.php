@@ -9,6 +9,7 @@ use App\Enums\LegalRemedyType;
 use App\Enums\PlaintiffType;
 use App\Enums\Representation;
 use App\Enums\SecondInstanceOutcome;
+use App\Enums\TrialBench;
 use App\Filament\Admin\Resources\Cases\CourtCaseResource;
 use App\Filament\Admin\Support\RefSelect;
 use App\Models\CourtCase;
@@ -44,6 +45,7 @@ class CourtCaseForm
             ->components([
                 static::classification(),
                 static::numbers(),
+                static::procedure(),
                 static::assignment(),
                 static::administrativeDetails(),
                 static::civilDetails(),
@@ -72,17 +74,23 @@ class CourtCaseForm
                     ->label(__('cases.fields.court'))
                     ->required()
                     ->live()
-                    ->afterStateUpdated(function (Set $set): void {
+                    ->afterStateUpdated(function (Get $get, Set $set): void {
                         $set('court_branch_id', null);
+                        static::resetDepartment($get, $set);
                     }),
                 RefSelect::make('court_branch_id', CourtBranch::class, fn (Builder $query, Get $get) => $query->where('court_id', $get('court_id')))
                     ->label(__('cases.fields.court_branch'))
+                    ->live()
+                    ->afterStateUpdated(fn (Get $get, Set $set) => static::resetDepartment($get, $set))
                     ->visible(fn (Get $get): bool => filled($get('court_id')) && CourtBranch::query()->where('court_id', $get('court_id'))->exists()),
-                RefSelect::make('department_id', Department::class)
+                // Only the departments that exist in the chosen court (or branch) are offered.
+                RefSelect::make('department_id', Department::class, fn (Builder $query, Get $get) => $query->when(Department::idsAvailableIn($get('court_id'), $get('court_branch_id')), fn (Builder $query, array $ids) => $query->whereKey($ids)))
                     ->label(__('cases.fields.department'))
-                    ->live(),
+                    ->live()
+                    ->afterStateUpdated(fn (Set $set) => $set('division_id', null)),
                 RefSelect::make('division_id', Division::class, fn (Builder $query, Get $get) => $query->when($get('department_id'), fn (Builder $query, $id) => $query->where(fn (Builder $query) => $query->where('department_id', $id)->orWhereNull('department_id'))))
-                    ->label(__('cases.fields.division')),
+                    ->label(__('cases.fields.division'))
+                    ->visible(fn (Get $get): bool => blank($get('department_id')) || Division::query()->where('department_id', $get('department_id'))->exists()),
                 RefSelect::make('judge_id', Judge::class, fn (Builder $query, Get $get) => $query->when($get('court_id'), fn (Builder $query, $id) => $query->where('court_id', $id)))
                     ->label(__('cases.fields.judge')),
                 RefSelect::make('prosecution_office_id', ProsecutionOffice::class)
@@ -93,6 +101,19 @@ class CourtCaseForm
                     ->label(__('cases.fields.prosecutor'))
                     ->visible(fn (Get $get): bool => static::isCriminal($get)),
             ]);
+    }
+
+    /**
+     * Clears the department (and its division) when the newly chosen court or branch does not have it.
+     */
+    protected static function resetDepartment(Get $get, Set $set): void
+    {
+        $allowed = Department::idsAvailableIn($get('court_id'), $get('court_branch_id'));
+
+        if ($allowed !== null && filled($get('department_id')) && ! in_array((int) $get('department_id'), $allowed, true)) {
+            $set('department_id', null);
+            $set('division_id', null);
+        }
     }
 
     protected static function numbers(): Section
@@ -146,6 +167,45 @@ class CourtCaseForm
         }
 
         return $query->first();
+    }
+
+    /**
+     * Facts that decide which legal time limit applies to a phase (criminal cases, config/deadlines.php).
+     */
+    protected static function procedure(): Section
+    {
+        return Section::make(__('cases.sections.procedure'))
+            ->description(__('cases.help.procedure'))
+            ->visible(fn (Get $get): bool => static::isCriminal($get))
+            ->columns(['default' => 1, 'md' => 2])
+            ->schema([
+                ToggleButtons::make('in_detention')
+                    ->label(__('cases.fields.in_detention'))
+                    ->helperText(__('cases.help.in_detention'))
+                    ->boolean(__('app.yes'), __('app.no'))
+                    ->inline()
+                    ->grouped(),
+                ToggleButtons::make('trial_bench')
+                    ->label(__('cases.fields.trial_bench'))
+                    ->helperText(__('cases.help.trial_bench'))
+                    ->options(TrialBench::options())
+                    ->inline()
+                    ->grouped(),
+                ToggleButtons::make('investigation_extended')
+                    ->label(__('cases.fields.investigation_extended'))
+                    ->helperText(__('cases.help.investigation_extended'))
+                    ->boolean(__('app.yes'), __('app.no'))
+                    ->default(false)
+                    ->inline()
+                    ->grouped(),
+                ToggleButtons::make('is_complex')
+                    ->label(__('cases.fields.is_complex'))
+                    ->helperText(__('cases.help.is_complex'))
+                    ->boolean(__('app.yes'), __('app.no'))
+                    ->default(false)
+                    ->inline()
+                    ->grouped(),
+            ]);
     }
 
     protected static function assignment(): Section

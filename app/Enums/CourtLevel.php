@@ -12,4 +12,6 @@ enum CourtLevel: string implements HasLabel
     case Basic = 'basic';
     case Appeal = 'appeal';
     case Supreme = 'supreme';
+    case Commercial = 'commercial';
+    case Administrative = 'administrative';
 }

@@ -3,6 +3,7 @@
 namespace App\Models\Reference;
 
 use App\Enums\CourtLevel;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -13,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string|null $code
  * @property string|null $city
  * @property CourtLevel $level
+ * @property-read Collection<int, Department> $departments
  */
 class Court extends ReferenceModel
 {
@@ -32,6 +34,16 @@ class Court extends ReferenceModel
     public function branches(): HasMany
     {
         return $this->hasMany(CourtBranch::class);
+    }
+
+    /**
+     * Departments this court has. A court with none listed is not restricted (any department may be chosen).
+     *
+     * @return BelongsToMany<Department, $this, CourtDepartment>
+     */
+    public function departments(): BelongsToMany
+    {
+        return $this->belongsToMany(Department::class, 'court_department')->using(CourtDepartment::class);
     }
 
     /**
@@ -58,6 +70,7 @@ class Court extends ReferenceModel
             ['cases', 'court_id'],
             ['hearings', 'court_id'],
             ['court_monitor', 'court_id', ['monitor_id']],
+            ['court_department', 'court_id', ['department_id']],
         ];
     }
 }

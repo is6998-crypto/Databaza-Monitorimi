@@ -4,6 +4,7 @@ namespace App\Filament\Admin\Resources\Cases\Schemas;
 
 use App\Enums\CaseType;
 use App\Enums\WorkflowStatus;
+use App\Models\CaseDeadline;
 use App\Models\CaseStage;
 use App\Models\CourtCase;
 use App\Models\Hearing;
@@ -29,6 +30,14 @@ class CourtCaseInfolist
                     ->danger()
                     ->visible(fn (CourtCase $record): bool => $record->status === WorkflowStatus::Returned && filled($record->return_comment)),
 
+                Callout::make(fn (CourtCase $record): string => trans_choice('deadlines.callout.heading', $count = $record->deadlines->filter(fn (CaseDeadline $deadline): bool => $deadline->isOverdue())->count(), ['count' => $count]))
+                    ->description(fn (CourtCase $record): string => $record->deadlines
+                        ->filter(fn (CaseDeadline $deadline): bool => $deadline->isOverdue())
+                        ->map(fn (CaseDeadline $deadline): string => $deadline->rule->getLabel().' ('.$deadline->statusLabel().')')
+                        ->implode(' · '))
+                    ->warning()
+                    ->visible(fn (CourtCase $record): bool => $record->deadlines->contains(fn (CaseDeadline $deadline): bool => $deadline->isOverdue())),
+
                 Grid::make(['default' => 1, 'lg' => 3])->schema([
                     Section::make(__('cases.sections.case'))
                         ->columnSpan(['default' => 1, 'lg' => 2])
@@ -48,6 +57,10 @@ class CourtCaseInfolist
                             TextEntry::make('prosecutionOffice')->label(__('cases.fields.prosecution_office'))->state(fn (CourtCase $record): ?string => $record->prosecutionOffice?->label())->placeholder('—')
                                 ->visible(fn (CourtCase $record): bool => $record->type->isCriminal()),
                             TextEntry::make('prosecutor.name')->label(__('cases.fields.prosecutor'))->placeholder('—')
+                                ->visible(fn (CourtCase $record): bool => $record->type->isCriminal()),
+                            IconEntry::make('in_detention')->label(__('cases.fields.in_detention'))->boolean()->placeholder('—')
+                                ->visible(fn (CourtCase $record): bool => $record->type->isCriminal()),
+                            TextEntry::make('trial_bench')->label(__('cases.fields.trial_bench'))->placeholder('—')
                                 ->visible(fn (CourtCase $record): bool => $record->type->isCriminal()),
                             TextEntry::make('summary')->label(__('cases.fields.summary'))->placeholder('—')->columnSpanFull(),
                         ]),

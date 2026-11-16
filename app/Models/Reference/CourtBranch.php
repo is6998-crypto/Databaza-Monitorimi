@@ -3,6 +3,7 @@
 namespace App\Models\Reference;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property string $name_sq
@@ -23,10 +24,21 @@ class CourtBranch extends ReferenceModel
         return $this->belongsTo(Court::class);
     }
 
+    /**
+     * Departments this branch has (the branches of the basic courts have the General Department only).
+     *
+     * @return BelongsToMany<Department, $this, CourtBranchDepartment>
+     */
+    public function departments(): BelongsToMany
+    {
+        return $this->belongsToMany(Department::class, 'court_branch_department')->using(CourtBranchDepartment::class);
+    }
+
     public static function references(): array
     {
         return [
             ['cases', 'court_branch_id'],
+            ['court_branch_department', 'court_branch_id', ['department_id']],
         ];
     }
 }

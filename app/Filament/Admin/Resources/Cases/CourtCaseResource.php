@@ -10,6 +10,7 @@ use App\Filament\Admin\Resources\Cases\Pages\ViewCourtCase;
 use App\Filament\Admin\Resources\Cases\RelationManagers\ActivitiesRelationManager;
 use App\Filament\Admin\Resources\Cases\RelationManagers\AttachmentsRelationManager;
 use App\Filament\Admin\Resources\Cases\RelationManagers\ChargesRelationManager;
+use App\Filament\Admin\Resources\Cases\RelationManagers\DeadlinesRelationManager;
 use App\Filament\Admin\Resources\Cases\RelationManagers\HearingsRelationManager;
 use App\Filament\Admin\Resources\Cases\RelationManagers\MeasuresRelationManager;
 use App\Filament\Admin\Resources\Cases\RelationManagers\PartiesRelationManager;
@@ -126,7 +127,11 @@ class CourtCaseResource extends Resource
     {
         return [
             RelationGroup::make(__('cases.tabs.parties'), [PartiesRelationManager::class, ChargesRelationManager::class])->icon(Heroicon::OutlinedUsers),
-            StagesRelationManager::class,
+            // The stage dates and, for criminal cases, the legal time limits counted from them.
+            RelationGroup::make(__('cases.tabs.stages'), [StagesRelationManager::class, DeadlinesRelationManager::class])
+                ->icon(Heroicon::OutlinedQueueList)
+                ->badge(fn (Model $ownerRecord): ?string => $ownerRecord instanceof CourtCase && ($overdue = $ownerRecord->deadlines()->overdue()->count()) > 0 ? (string) $overdue : null)
+                ->badgeColor('warning'),
             HearingsRelationManager::class,
             RelationGroup::make(__('cases.tabs.measures'), [MeasuresRelationManager::class, SentencesRelationManager::class])->icon(Heroicon::OutlinedScale),
             AttachmentsRelationManager::class,

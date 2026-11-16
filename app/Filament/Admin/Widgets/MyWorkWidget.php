@@ -4,12 +4,15 @@ namespace App\Filament\Admin\Widgets;
 
 use App\Enums\WorkflowStatus;
 use App\Filament\Admin\Resources\Hearings\HearingResource;
+use App\Filament\Admin\Support\CaseColumn;
+use App\Models\CourtCase;
 use App\Models\Hearing;
 use App\Models\User;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Dashboard for monitors: their hearings that are drafts or were returned for correction.
@@ -39,7 +42,7 @@ class MyWorkWidget extends TableWidget
             ->defaultSort('updated_at', 'desc')
             ->columns([
                 TextColumn::make('hearing_date')->label(__('hearings.fields.hearing_date'))->date(),
-                TextColumn::make('case_id')->label(__('hearings.fields.case'))->formatStateUsing(fn (Hearing $record): string => $record->case->display_label)->wrap(),
+                CaseColumn::make('case_id', fn (Model $record): ?CourtCase => $record instanceof Hearing ? $record->case : null),
                 TextColumn::make('status')->label(__('cases.fields.status'))->badge(),
                 TextColumn::make('return_comment')->label(__('workflow.comment'))->placeholder('—')->wrap()->limit(80),
             ])

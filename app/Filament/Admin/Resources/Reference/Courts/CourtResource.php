@@ -6,6 +6,7 @@ use App\Enums\CourtLevel;
 use App\Filament\Admin\Resources\Reference\Courts\Pages\ManageCourts;
 use App\Filament\Admin\Resources\Reference\ReferenceResource;
 use App\Models\Reference\Court;
+use App\Models\Reference\ReferenceModel;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Support\Icons\Heroicon;
@@ -34,6 +35,14 @@ class CourtResource extends ReferenceResource
             TextInput::make('code')->label(__('reference.fields.code'))->maxLength(32)->unique(ignoreRecord: true),
             Select::make('level')->label(__('reference.fields.level'))->options(CourtLevel::options())->required(),
             TextInput::make('city')->label(__('reference.fields.city'))->maxLength(255),
+            Select::make('departments')
+                ->label(__('reference.fields.departments'))
+                ->helperText(__('reference.help.departments'))
+                ->relationship('departments', 'name_sq')
+                ->getOptionLabelFromRecordUsing(fn (ReferenceModel $record): string => $record->label())
+                ->multiple()
+                ->preload()
+                ->columnSpanFull(),
         ];
     }
 
@@ -43,6 +52,13 @@ class CourtResource extends ReferenceResource
             TextColumn::make('code')->label(__('reference.fields.code'))->searchable()->sortable(),
             TextColumn::make('level')->label(__('reference.fields.level'))->badge()->sortable(),
             TextColumn::make('city')->label(__('reference.fields.city'))->searchable()->toggleable(),
+            TextColumn::make('departments_list')
+                ->label(__('reference.fields.departments'))
+                ->state(fn (Court $record): array => $record->departments->map(fn (ReferenceModel $department): string => $department->label())->all())
+                ->badge()
+                ->color('gray')
+                ->wrap()
+                ->toggleable(),
         ];
     }
 

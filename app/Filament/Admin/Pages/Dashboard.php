@@ -5,6 +5,7 @@ namespace App\Filament\Admin\Pages;
 use App\Enums\CaseType;
 use App\Filament\Admin\Widgets\Analytics;
 use App\Filament\Admin\Widgets\MyWorkWidget;
+use App\Filament\Admin\Widgets\OverdueDeadlinesWidget;
 use App\Filament\Admin\Widgets\WelcomeWidget;
 use App\Models\Reference\Court;
 use App\Support\Permissions;
@@ -92,6 +93,7 @@ class Dashboard extends BaseDashboard
     {
         return [
             MyWorkWidget::class,
+            OverdueDeadlinesWidget::class,
             Analytics\AnalyticsOverview::class,
             Analytics\HearingsOverTimeChart::class,
             Analytics\CasesByCategoryChart::class,

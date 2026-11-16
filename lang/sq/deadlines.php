@@ -1,0 +1,73 @@
+<?php
+
+return [
+    'model' => 'Afat ligjor',
+    'plural' => 'Afatet ligjore',
+    'subheading' => 'Fazat e procedurës penale që kanë afat në Kodin e Procedurës Penale. Afatet llogariten nga datat e fazave të lëndës.',
+    'article' => 'Neni :article i KPP-së',
+    'ended_on' => 'Përfundoi më :date',
+    'last_day' => 'dita e fundit',
+    'case_help' => 'Llogariten nga datat e fazave dhe nga përgjigjet te “Afatet procedurale” të lëndës.',
+    'fields' => [
+        'case' => 'Lënda',
+        'phase' => 'Faza',
+        'started_on' => 'Fillimi',
+        'limit' => 'Afati',
+        'due_on' => 'Skadon më',
+        'status' => 'Gjendja',
+    ],
+    'units' => [
+        'days' => ':count ditë',
+        'months' => ':count muaj',
+        'years' => '{1} :count vit|[2,*] :count vjet',
+    ],
+    'basis' => [
+        'detention' => 'i akuzuari në paraburgim',
+        'single_judge' => 'gjyqtar i vetëm',
+        'panel' => 'trup gjykues',
+        'bench_unknown' => 'përbërja e gjykatës e pashënuar',
+        'extended' => 'afat i zgjatur',
+    ],
+    'status' => [
+        'overdue' => 'Tejkaluar',
+        'due_soon' => 'Skadon së shpejti',
+        'running' => 'Në afat',
+        'met' => 'Përfunduar në afat',
+        'late' => 'Përfunduar me vonesë',
+        'closed' => 'Përfunduar (pa datë)',
+        'paused' => 'Pezulluar',
+    ],
+    'tabs' => [
+        'overdue' => 'Të tejkaluara',
+        'due_soon' => 'Skadojnë së shpejti',
+        'running' => 'Në afat',
+        'late' => 'Përfunduara me vonesë',
+        'all' => 'Të gjitha',
+    ],
+    'actions' => [
+        'open_case' => 'Hap lëndën',
+    ],
+    'empty' => [
+        'heading' => 'Asnjë afat në këtë listë',
+        'description' => 'Afatet shfaqen sapo të regjistrohen datat e fazave te lëndët penale.',
+        'case_heading' => 'Ende nuk ka afate për këtë lëndë',
+        'case_description' => 'Shtoni datat e fazave te “Rrjedha e fazave”: afatet llogariten vetë.',
+    ],
+    'callout' => [
+        'heading' => '{1} Një afat ligjor është tejkaluar|[2,*] :count afate ligjore janë tejkaluar',
+    ],
+    'widget' => [
+        'title' => 'Afatet ligjore të tejkaluara',
+        'description' => 'Fazat që kanë kaluar afatin e Kodit të Procedurës Penale dhe ende nuk kanë përfunduar.',
+        'empty' => 'Asnjë afat i tejkaluar',
+        'all' => 'Shiko të gjitha afatet',
+    ],
+    'notifications' => [
+        'one' => 'Afat ligjor i tejkaluar: :phase',
+        'many' => '{1} :count afat ligjor i tejkaluar|[2,*] :count afate ligjore të tejkaluara',
+        'line' => ':case: :days mbi afatin prej :limit (neni :article i KPP-së), nga data :since.',
+        'line_extended' => ':case: :days mbi afatin më të gjatë që lejon ligji (neni :article i KPP-së), nga data :since.',
+        'more' => '{1} dhe :count tjetër|[2,*] dhe :count të tjera',
+        'open' => 'Hap',
+    ],
+];

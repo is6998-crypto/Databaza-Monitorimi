@@ -6,6 +6,8 @@ use App\Enums\HearingType;
 use App\Enums\WorkflowStatus;
 use App\Filament\Admin\Actions\TableActions;
 use App\Filament\Admin\Resources\Hearings\HearingResource;
+use App\Filament\Admin\Support\CaseColumn;
+use App\Models\CourtCase;
 use App\Models\Hearing;
 use App\Models\Reference\Court;
 use App\Models\Reference\Judge;
@@ -26,6 +28,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class HearingsTable
 {
@@ -36,10 +39,8 @@ class HearingsTable
             ->defaultSort('hearing_date', 'desc')
             ->columns([
                 TextColumn::make('hearing_date')->label(__('hearings.fields.hearing_date'))->date()->sortable(),
-                TextColumn::make('case_id')->label(__('hearings.fields.case'))
-                    ->formatStateUsing(fn (Hearing $record): string => $record->case->display_label)
-                    ->searchable(query: fn (Builder $query, string $search): Builder => $query->whereHas('case', fn (Builder $case) => CaseSearch::apply($case, $search)))
-                    ->wrap(),
+                CaseColumn::make('case_id', fn (Model $record): ?CourtCase => $record instanceof Hearing ? $record->case : null)
+                    ->searchable(query: fn (Builder $query, string $search): Builder => $query->whereHas('case', fn (Builder $case) => CaseSearch::apply($case, $search))),
                 TextColumn::make('hearing_type')->label(__('hearings.fields.hearing_type'))->badge()->placeholder('—')->toggleable(),
                 TextColumn::make('judge.name')->label(__('hearings.fields.judge'))->placeholder('—')->toggleable(),
                 TextColumn::make('monitor.user.name')->label(__('hearings.fields.monitor'))->placeholder('—')->toggleable(),

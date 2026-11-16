@@ -1,0 +1,73 @@
+<?php
+
+return [
+    'model' => 'Legal time limit',
+    'plural' => 'Legal time limits',
+    'subheading' => 'Phases of the criminal procedure that have a time limit in the Criminal Procedure Code. Limits are counted from the stage dates of each case.',
+    'article' => 'Article :article CPC',
+    'ended_on' => 'Ended on :date',
+    'last_day' => 'last day',
+    'case_help' => 'Counted from the stage dates and from the answers under “Procedural time limits” on the case.',
+    'fields' => [
+        'case' => 'Case',
+        'phase' => 'Phase',
+        'started_on' => 'Started',
+        'limit' => 'Limit',
+        'due_on' => 'Ends on',
+        'status' => 'Status',
+    ],
+    'units' => [
+        'days' => '{1} :count day|[2,*] :count days',
+        'months' => '{1} :count month|[2,*] :count months',
+        'years' => '{1} :count year|[2,*] :count years',
+    ],
+    'basis' => [
+        'detention' => 'accused in detention',
+        'single_judge' => 'single trial judge',
+        'panel' => 'trial panel',
+        'bench_unknown' => 'bench not recorded',
+        'extended' => 'extended limit',
+    ],
+    'status' => [
+        'overdue' => 'Exceeded',
+        'due_soon' => 'Ends soon',
+        'running' => 'Within the limit',
+        'met' => 'Finished in time',
+        'late' => 'Finished late',
+        'closed' => 'Finished (no date)',
+        'paused' => 'Suspended',
+    ],
+    'tabs' => [
+        'overdue' => 'Exceeded',
+        'due_soon' => 'Ending soon',
+        'running' => 'Within the limit',
+        'late' => 'Finished late',
+        'all' => 'All',
+    ],
+    'actions' => [
+        'open_case' => 'Open case',
+    ],
+    'empty' => [
+        'heading' => 'No time limits in this list',
+        'description' => 'Limits appear as soon as stage dates are recorded on criminal cases.',
+        'case_heading' => 'No time limits for this case yet',
+        'case_description' => 'Add the stage dates under “Stages”: the limits are worked out for you.',
+    ],
+    'callout' => [
+        'heading' => '{1} One legal time limit has been exceeded|[2,*] :count legal time limits have been exceeded',
+    ],
+    'widget' => [
+        'title' => 'Exceeded legal time limits',
+        'description' => 'Phases that are past the limit of the Criminal Procedure Code and have not finished yet.',
+        'empty' => 'No time limit is exceeded',
+        'all' => 'See all time limits',
+    ],
+    'notifications' => [
+        'one' => 'Legal time limit exceeded: :phase',
+        'many' => '{1} :count legal time limit exceeded|[2,*] :count legal time limits exceeded',
+        'line' => ':case: :days over the limit of :limit (Article :article CPC), counted from :since.',
+        'line_extended' => ':case: :days over the longest limit the law allows (Article :article CPC), counted from :since.',
+        'more' => '{1} and :count more|[2,*] and :count more',
+        'open' => 'Open',
+    ],
+];
