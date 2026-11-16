@@ -10,6 +10,7 @@ return [
     'sections' => [
         'hearing' => 'Hearing',
         'report' => 'Report',
+        'status' => 'About this report',
     ],
     'fields' => [
         'hearing' => 'Hearing',

@@ -19,6 +19,7 @@ use App\Policies\CaseChildPolicy;
 use App\Policies\RolePolicy;
 use App\Support\PublicUrl;
 use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
@@ -124,6 +125,7 @@ class AppServiceProvider extends ServiceProvider
 
         // Design: one yellow call to action per screen; editing is a secondary (white) button.
         EditAction::configureUsing(fn (EditAction $action) => $action->color('gray'));
+        ViewAction::configureUsing(fn (ViewAction $action) => $action->color('gray'));
 
         // Design: a badge is yellow only when its state says so (WorkflowStatus and the other enums with a
         // colour). A category without one (hearing type, court level, a department) used to get Filament's

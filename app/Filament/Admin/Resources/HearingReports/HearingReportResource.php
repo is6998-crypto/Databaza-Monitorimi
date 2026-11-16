@@ -26,6 +26,8 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Livewire;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -185,49 +187,71 @@ class HearingReportResource extends Resource
             ]);
     }
 
+    /**
+     * The report reads like a document: the text and its comment thread in a wide column, the facts about the
+     * report and its hearing in a narrow one beside it (under it on a phone).
+     */
     public static function infolist(Schema $schema): Schema
     {
         return $schema
             ->columns(1)
             ->components([
-                Section::make(__('reports.sections.hearing'))
-                    ->columns(['default' => 1, 'sm' => 2, 'lg' => 4])
-                    ->schema([
-                        TextEntry::make('hearing.hearing_date')
-                            ->label(__('hearings.fields.hearing_date'))
-                            ->date()
-                            ->url(fn (HearingReport $record): ?string => Gate::allows('view', $record->hearing) ? HearingResource::getUrl('view', ['record' => $record->hearing_id]) : null)
-                            ->color('primary'),
-                        TextEntry::make('case')
-                            ->label(__('hearings.fields.case'))
-                            ->state(fn (HearingReport $record): string => $record->hearing->case->display_label)
-                            ->url(fn (HearingReport $record): ?string => Gate::allows('view', $record->hearing->case) ? CourtCaseResource::getUrl('view', ['record' => $record->hearing->case_id]) : null)
-                            ->color('primary'),
-                        TextEntry::make('hearing.hearing_type')->label(__('hearings.fields.hearing_type'))->badge()->placeholder('—'),
-                        TextEntry::make('status')->label(__('reports.fields.status'))->badge(),
-                        TextEntry::make('author.name')->label(__('reports.fields.author'))->placeholder('—'),
-                        TextEntry::make('updated_at')->label(__('reports.fields.updated_at'))->dateTime(),
-                        TextEntry::make('submitted_at')->label(__('reports.fields.submitted_at'))->dateTime()->placeholder('—'),
-                        TextEntry::make('reviewer.name')->label(__('reports.fields.reviewer'))->placeholder('—'),
-                    ]),
+                Grid::make(['default' => 1, 'lg' => 3])->schema([
+                    Group::make([
+                        Section::make(fn (HearingReport $record): string => filled($record->title) ? (string) $record->title : __('reports.sections.report'))
+                            ->description(fn (HearingReport $record): string => collect([
+                                $record->author?->name,
+                                trans_choice('reports.words', $record->wordCount(), ['count' => $record->wordCount()]),
+                            ])->filter()->implode(' · '))
+                            ->extraAttributes(['class' => 'cw-report'])
+                            ->schema([
+                                TextEntry::make('body')
+                                    ->hiddenLabel()
+                                    ->html()
+                                    ->prose()
+                                    ->placeholder(__('reports.empty_body')),
+                            ]),
 
-                Section::make(fn (HearingReport $record): string => filled($record->title) ? (string) $record->title : __('reports.sections.report'))
-                    ->description(fn (HearingReport $record): string => trans_choice('reports.words', $record->wordCount(), ['count' => $record->wordCount()]))
-                    ->extraAttributes(['class' => 'cw-report'])
-                    ->schema([
-                        TextEntry::make('body')
-                            ->hiddenLabel()
-                            ->html()
-                            ->prose()
-                            ->placeholder(__('reports.empty_body')),
-                    ]),
+                        Section::make(__('reports.comments.title'))
+                            ->description(__('reports.comments.description'))
+                            ->schema([
+                                Livewire::make(ReportComments::class, fn (HearingReport $record): array => ['reportId' => $record->id])
+                                    ->key('report-comments'),
+                            ]),
+                    ])->columnSpan(['default' => 1, 'lg' => 2]),
 
-                Section::make(__('reports.comments.title'))
-                    ->description(__('reports.comments.description'))
-                    ->schema([
-                        Livewire::make(ReportComments::class, fn (HearingReport $record): array => ['reportId' => $record->id])
-                            ->key('report-comments'),
-                    ]),
+                    Group::make([
+                        Section::make(__('reports.sections.status'))
+                            ->extraAttributes(['class' => 'cw-aside'])
+                            ->schema([
+                                TextEntry::make('status')->label(__('reports.fields.status'))->badge(),
+                                TextEntry::make('author.name')->label(__('reports.fields.author'))->placeholder('—'),
+                                TextEntry::make('submitted_at')->label(__('reports.fields.submitted_at'))->dateTime()->placeholder('—'),
+                                TextEntry::make('reviewer.name')->label(__('reports.fields.reviewer'))->placeholder('—'),
+                                TextEntry::make('updated_at')->label(__('reports.fields.updated_at'))->dateTime(),
+                            ]),
+
+                        Section::make(__('reports.sections.hearing'))
+                            ->extraAttributes(['class' => 'cw-aside'])
+                            ->schema([
+                                TextEntry::make('hearing.hearing_date')
+                                    ->label(__('hearings.fields.hearing_date'))
+                                    ->date()
+                                    ->url(fn (HearingReport $record): ?string => Gate::allows('view', $record->hearing) ? HearingResource::getUrl('view', ['record' => $record->hearing_id]) : null)
+                                    ->color('primary'),
+                                TextEntry::make('case')
+                                    ->label(__('hearings.fields.case'))
+                                    ->state(fn (HearingReport $record): string => $record->hearing->case->court_case_number ?: '#'.$record->hearing->case_id)
+                                    ->url(fn (HearingReport $record): ?string => Gate::allows('view', $record->hearing->case) ? CourtCaseResource::getUrl('view', ['record' => $record->hearing->case_id]) : null)
+                                    ->color('primary'),
+                                TextEntry::make('court')
+                                    ->label(__('cases.fields.court'))
+                                    ->state(fn (HearingReport $record): ?string => $record->hearing->case->court?->label())
+                                    ->placeholder('—'),
+                                TextEntry::make('hearing.hearing_type')->label(__('hearings.fields.hearing_type'))->badge()->placeholder('—'),
+                            ]),
+                    ])->columnSpan(1),
+                ]),
             ]);
     }
 

@@ -27,6 +27,11 @@ class AnalyticsOverview extends StatsOverviewWidget
     {
         $data = AnalyticsService::for(AnalyticsFilters::fromArray($this->pageFilters ?? []))->overview();
         $rate = fn (int $part, int $total): string => $total > 0 ? number_format($part / $total * 100, 1, ',', '.').' %' : '—';
+        // A share is also drawn as a bar under its figure (theme.css, .cw-stat-rate).
+        $bar = fn (int $part, int $total, bool $watch = false): array => [
+            'class' => 'cw-stat-rate'.($watch ? ' cw-stat-watch' : ''),
+            'style' => '--cw-rate: '.($total > 0 ? round($part / $total * 100, 1) : 0),
+        ];
 
         return [
             Stat::make(__('dashboard.stats.cases'), number_format($data['cases'], 0, ',', '.'))
@@ -37,16 +42,20 @@ class AnalyticsOverview extends StatsOverviewWidget
             Stat::make(__('dashboard.stats.postponement_rate'), $rate($data['postponed'], $data['hearings']))
                 ->description(__('dashboard.stats.postponed_of', ['count' => $data['postponed']]))
                 ->icon(Heroicon::OutlinedArrowPath)
-                ->color('warning'),
+                ->color('warning')
+                ->extraAttributes($bar($data['postponed'], $data['hearings'], watch: true)),
             Stat::make(__('dashboard.stats.late_rate'), $rate($data['late'], $data['hearings']))
                 ->description($data['avg_delay'] ? __('dashboard.stats.avg_delay', ['minutes' => $data['avg_delay']]) : null)
                 ->icon(Heroicon::OutlinedClock)
-                ->color('warning'),
+                ->color('warning')
+                ->extraAttributes($bar($data['late'], $data['hearings'], watch: true)),
             Stat::make(__('dashboard.stats.public_rate'), $rate($data['public'], $data['hearings']))
-                ->icon(Heroicon::OutlinedEye),
+                ->icon(Heroicon::OutlinedEye)
+                ->extraAttributes($bar($data['public'], $data['hearings'])),
             Stat::make(__('dashboard.stats.conviction_rate'), $rate($data['convictions'], $data['judgments']))
                 ->description(__('dashboard.stats.judgments', ['count' => $data['judgments']]))
-                ->icon(Heroicon::OutlinedScale),
+                ->icon(Heroicon::OutlinedScale)
+                ->extraAttributes($bar($data['convictions'], $data['judgments'])),
         ];
     }
 }

@@ -4,29 +4,26 @@ namespace App\Filament\Admin\Widgets;
 
 use App\Filament\Admin\Resources\Cases\CourtCaseResource;
 use App\Filament\Admin\Resources\Deadlines\CaseDeadlineResource;
-use App\Filament\Admin\Resources\Deadlines\Tables\CaseDeadlinesTable;
-use App\Filament\Admin\Support\CaseColumn;
 use App\Models\CaseDeadline;
-use App\Models\CourtCase;
 use App\Models\User;
-use Filament\Actions\Action;
-use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Columns\Column;
-use Filament\Tables\Table;
-use Filament\Widgets\TableWidget;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
+use Filament\Widgets\Widget;
 use Illuminate\Support\Facades\Gate;
 
 /**
- * Dashboard: the legal time limits that are exceeded right now, the longest overdue first. Shown to the people
- * who are notified about them (monitors see their own courts and cases); hidden when there is nothing to show.
+ * Dashboard: the legal time limits that are exceeded right now, the longest overdue first, each with a meter
+ * that sets the days over beside the limit itself. Shown to the people who are notified about them (monitors see
+ * their own courts and cases); hidden when there is nothing to show.
  */
-class OverdueDeadlinesWidget extends TableWidget
+class OverdueDeadlinesWidget extends Widget
 {
     protected static bool $isDiscovered = false;
 
     protected int|string|array $columnSpan = 'full';
+
+    protected string $view = 'filament.admin.widgets.overdue-deadlines';
+
+    /** How many are listed; the rest are one click away. */
+    private const SHOWN = 5;
 
     public static function canView(): bool
     {
@@ -37,29 +34,33 @@ class OverdueDeadlinesWidget extends TableWidget
             && CaseDeadlineResource::getEloquentQuery()->overdue()->exists();
     }
 
-    public function table(Table $table): Table
+    /**
+     * @return array<string, mixed>
+     */
+    protected function getViewData(): array
     {
-        return $table
-            ->heading(__('deadlines.widget.title'))
-            ->description(__('deadlines.widget.description'))
-            ->query(fn (): Builder => CaseDeadlineResource::getEloquentQuery()->overdue()->with('case.court'))
-            ->defaultSort('due_on')
-            ->columns([
-                CaseColumn::make('case_id', fn (Model $record): ?CourtCase => $record instanceof CaseDeadline ? $record->case : null),
-                // Without the start date: the dashboard shows what is late and by how much; the list has the rest.
-                ...array_values(array_filter(CaseDeadlinesTable::columns(), fn (Column $column): bool => $column->getName() !== 'started_on')),
+        $query = CaseDeadlineResource::getEloquentQuery()->overdue();
+        $total = (clone $query)->count();
+
+        $rows = $query->with('case.court')->orderBy('due_on')->limit(self::SHOWN)->get()
+            ->map(fn (CaseDeadline $deadline): array => [
+                'phase' => $deadline->rule->getLabel(),
+                'article' => __('deadlines.article', ['article' => $deadline->rule->article()]),
+                'case' => $deadline->case->court_case_number ?: '#'.$deadline->case->id,
+                'court' => $deadline->case->court?->label(),
+                'limit' => $deadline->limitLabel(),
+                'over' => trans_choice('deadlines.units.days', $deadline->daysOver(), ['count' => $deadline->daysOver()]),
+                // Share of the bar that is the limit itself; the rest is the time over it.
+                'limitShare' => $deadline->limitShare(),
+                'url' => CourtCaseResource::getUrl('view', ['record' => $deadline->case_id]),
             ])
-            ->headerActions([
-                Action::make('allDeadlines')
-                    ->label(__('deadlines.widget.all'))
-                    ->icon(Heroicon::OutlinedArrowRight)
-                    ->iconPosition('after')
-                    ->link()
-                    ->url(CaseDeadlineResource::getUrl('index')),
-            ])
-            ->recordUrl(fn (CaseDeadline $record): string => CourtCaseResource::getUrl('view', ['record' => $record->case_id]))
-            ->emptyStateHeading(__('deadlines.widget.empty'))
-            ->paginated([5, 10])
-            ->defaultPaginationPageOption(5);
+            ->all();
+
+        return [
+            'rows' => $rows,
+            'total' => $total,
+            'more' => max(0, $total - count($rows)),
+            'allUrl' => CaseDeadlineResource::getUrl('index', ['tab' => 'overdue']),
+        ];
     }
 }

@@ -1064,3 +1064,912 @@
         padding-inline: 0.5rem;
     }
 }
+
+/* ==================================================================================================
+ * Fourth design pass (owner: "keep the colours, just do the design better", full creative freedom).
+ * The palette is the same navy and yellow; what changes is what the screens are made of: the dashboard
+ * opens on live counts, a legal time limit is a meter, a case shows its path as a rail, a report reads
+ * as a document. The logo's yellow square is the one recurring mark: it stands before every card title.
+ * ================================================================================================== */
+
+/* ------------------------------------------------------------------ The yellow square before a title */
+
+.fi-section-header-heading,
+.fi-ta-header-heading,
+.cw-panel-title {
+    letter-spacing: -0.01em;
+
+    &::before {
+        content: '';
+        display: inline-block;
+        flex: none;
+        width: 0.5rem;
+        height: 0.5rem;
+        margin-inline-end: 0.6rem;
+        border-radius: 2px;
+        background-color: var(--primary-400);
+        vertical-align: middle;
+        translate: 0 -1px;
+    }
+}
+
+/* ------------------------------------------------------------------ Page header */
+
+.fi-header-heading {
+    font-size: clamp(1.625rem, 1.25rem + 1vw, 2.125rem);
+    font-weight: 800;
+    letter-spacing: -0.032em;
+}
+
+.fi-header-subheading {
+    max-width: 62ch;
+}
+
+/* A list page is named by its heading; "Cases > List" above it only repeats it. */
+.fi-resource-list-records-page .fi-breadcrumbs {
+    display: none;
+}
+
+/* ------------------------------------------------------------------ Cards */
+
+.fi-section:not(.fi-section-not-contained):not(.fi-aside),
+.fi-section.fi-aside > .fi-section-content-ctn,
+.fi-ta-ctn,
+.fi-wi-stats-overview-stat,
+.fi-tabs.fi-contained {
+    border-radius: 1.25rem;
+    --tw-ring-color: rgb(12 42 66 / 0.08);
+    box-shadow: 0 1px 2px rgb(12 42 66 / 0.04), 0 12px 24px -20px rgb(12 42 66 / 0.18);
+}
+
+/* ------------------------------------------------------------------ Tabs: a segmented control
+ * The current tab is a navy pill with white text; its count turns yellow.
+ */
+
+.fi-tabs {
+    @apply gap-1 p-1.5;
+    border-radius: 1rem;
+}
+
+.fi-tabs-item {
+    @apply px-3.5 py-2;
+    border-radius: 0.7rem;
+
+    &.fi-active {
+        background-color: var(--color-navy-900);
+        border-radius: 0.7rem;
+        box-shadow: none;
+
+        & .fi-tabs-item-label,
+        & > .fi-icon {
+            color: #fff;
+        }
+
+        & .fi-badge,
+        & .fi-badge.fi-color {
+            @apply ring-0;
+            background-color: var(--primary-400);
+            color: var(--color-navy-900);
+        }
+    }
+}
+
+.dark .fi-tabs-item.fi-active {
+    background-color: #fff;
+
+    & .fi-tabs-item-label,
+    & > .fi-icon {
+        color: var(--color-navy-900);
+    }
+}
+
+/* ------------------------------------------------------------------ Buttons: a little weight under the yellow one */
+
+.fi-btn.fi-color-primary {
+    box-shadow: inset 0 -2px 0 rgb(12 42 66 / 0.14), 0 1px 2px rgb(12 42 66 / 0.12);
+}
+
+/* ------------------------------------------------------------------ Empty states */
+
+.fi-ta-empty-state-icon-bg,
+.fi-empty-state-icon-bg {
+    background-color: var(--primary-100);
+
+    & .fi-icon {
+        color: var(--color-navy-900);
+    }
+}
+
+/* ------------------------------------------------------------------ Dashboard hero
+ * Who is signed in, what they can start, and what waits for them as numbers. The tile that needs
+ * attention (limits exceeded) is the one solid yellow thing on the band.
+ */
+
+.cw-hero {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1.5rem;
+    padding: 1.75rem 1.25rem 1.25rem;
+    background-color: var(--color-navy-900);
+    color: #fff;
+
+    @media (min-width: 40rem) {
+        padding: 2.25rem 2.25rem 1.75rem;
+    }
+}
+
+.cw-hero-mark {
+    position: absolute;
+    top: -4.5rem;
+    right: -3rem;
+    width: 20rem;
+    height: 20rem;
+    color: rgb(255 255 255 / 0.04);
+    pointer-events: none;
+}
+
+.cw-hero-top {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+
+    @media (min-width: 64rem) {
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: space-between;
+    }
+}
+
+.cw-hero-date {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-gold-400);
+}
+
+.cw-hero-title {
+    margin-top: 0.4rem;
+    font-size: clamp(1.65rem, 1.2rem + 1.3vw, 2.375rem);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+}
+
+.cw-hero-role {
+    margin-top: 0.4rem;
+    font-size: 0.9375rem;
+    color: rgb(255 255 255 / 0.65);
+}
+
+.cw-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+}
+
+.cw-hero-btn {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid rgb(255 255 255 / 0.18);
+    border-radius: 0.875rem;
+    padding: 0 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #fff;
+    transition: background-color 150ms, border-color 150ms, translate 150ms;
+
+    &:hover {
+        border-color: rgb(255 255 255 / 0.4);
+        background-color: rgb(255 255 255 / 0.1);
+        translate: 0 -1px;
+    }
+
+    &:active {
+        translate: 0 1px;
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-gold-400);
+        outline-offset: 2px;
+    }
+}
+
+.cw-hero-btn-primary {
+    border-color: transparent;
+    background-color: var(--color-gold-400);
+    color: var(--color-navy-900);
+    box-shadow: inset 0 -2px 0 rgb(12 42 66 / 0.14);
+
+    &:hover {
+        border-color: transparent;
+        background-color: var(--color-gold-300);
+    }
+}
+
+.cw-pulse {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-top: 1.75rem;
+
+    @media (min-width: 64rem) {
+        grid-template-columns: repeat(var(--cw-pulse-count, 4), minmax(0, 1fr));
+    }
+}
+
+.cw-pulse-tile {
+    display: flex;
+    min-height: 7.25rem;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1rem;
+    border-radius: 1.125rem;
+    padding: 1rem 1.125rem;
+    background-color: rgb(255 255 255 / 0.06);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.09);
+    transition: background-color 180ms, translate 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
+
+    &:hover {
+        background-color: rgb(255 255 255 / 0.11);
+        translate: 0 -2px;
+    }
+
+    &:hover .cw-pulse-arrow {
+        color: var(--color-gold-400);
+        translate: 2px -2px;
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-gold-400);
+        outline-offset: 2px;
+    }
+}
+
+.cw-pulse-head {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.84375rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: rgb(255 255 255 / 0.78);
+}
+
+.cw-pulse-icon {
+    width: 1.125rem;
+    height: 1.125rem;
+    flex: none;
+    color: var(--color-gold-400);
+}
+
+.cw-pulse-foot {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.cw-pulse-value {
+    font-size: 2.375rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums;
+}
+
+.cw-pulse-arrow {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: rgb(255 255 255 / 0.35);
+    transition: color 180ms, translate 180ms;
+}
+
+.cw-pulse-alert {
+    background-color: var(--color-gold-400);
+    color: var(--color-navy-900);
+    box-shadow: inset 0 -3px 0 rgb(12 42 66 / 0.14);
+
+    &:hover {
+        background-color: var(--color-gold-300);
+    }
+
+    & .cw-pulse-head {
+        color: rgb(12 42 66 / 0.85);
+    }
+
+    & .cw-pulse-icon,
+    &:hover .cw-pulse-arrow {
+        color: var(--color-navy-900);
+    }
+
+    & .cw-pulse-arrow {
+        color: rgb(12 42 66 / 0.45);
+    }
+}
+
+/* ------------------------------------------------------------------ A panel made by hand (dashboard lists) */
+
+.cw-panel {
+    overflow: hidden;
+    border-radius: 1.25rem;
+    background-color: #fff;
+    box-shadow: 0 0 0 1px rgb(12 42 66 / 0.08), 0 1px 2px rgb(12 42 66 / 0.04), 0 12px 24px -20px rgb(12 42 66 / 0.18);
+}
+
+.dark .cw-panel {
+    background-color: var(--gray-900);
+    box-shadow: 0 0 0 1px rgb(255 255 255 / 0.1);
+}
+
+.cw-panel-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.75rem 1.5rem;
+    padding: 1.35rem 1.5rem 1rem;
+}
+
+.cw-panel-title {
+    display: flex;
+    align-items: center;
+    font-size: 1.0625rem;
+    font-weight: 800;
+    color: var(--color-navy-900);
+}
+
+.dark .cw-panel-title {
+    color: #fff;
+}
+
+.cw-count {
+    display: inline-flex;
+    min-width: 1.6rem;
+    height: 1.6rem;
+    align-items: center;
+    justify-content: center;
+    margin-inline-start: 0.6rem;
+    border-radius: 9999px;
+    padding: 0 0.45rem;
+    background-color: var(--color-gold-400);
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: var(--color-navy-900);
+    font-variant-numeric: tabular-nums;
+}
+
+.cw-panel-sub {
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    color: var(--gray-600);
+}
+
+.cw-link-arrow {
+    display: inline-flex;
+    min-height: 2.25rem;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    white-space: nowrap;
+    color: var(--color-navy-900);
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 5px;
+    transition: text-decoration-color 150ms;
+
+    &:hover {
+        text-decoration-color: var(--color-gold-400);
+    }
+
+    & .fi-icon {
+        transition: translate 150ms;
+    }
+
+    &:hover .fi-icon {
+        translate: 3px 0;
+    }
+}
+
+.dark .cw-link-arrow {
+    color: #fff;
+}
+
+.cw-panel-more {
+    display: block;
+    border-top: 1px solid rgb(12 42 66 / 0.07);
+    padding: 0.85rem 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--gray-600);
+    transition: color 150ms, background-color 150ms;
+
+    &:hover {
+        background-color: var(--color-navy-50);
+        color: var(--color-navy-900);
+    }
+}
+
+/* Exceeded limits: what, a meter (the limit in navy, the days over it in yellow), and by how much. */
+
+.cw-overdue-list > li {
+    border-top: 1px solid rgb(12 42 66 / 0.07);
+}
+
+.cw-overdue-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: center;
+    gap: 0.65rem;
+    padding: 1rem 1.5rem;
+    transition: background-color 150ms;
+
+    @media (min-width: 48rem) {
+        grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.5fr) auto;
+        gap: 1.75rem;
+    }
+
+    &:hover {
+        background-color: var(--color-navy-50);
+    }
+
+    &:hover .cw-overdue-chevron {
+        color: var(--color-navy-900);
+        translate: 3px 0;
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-navy-900);
+        outline-offset: -2px;
+    }
+}
+
+.dark .cw-overdue-row:hover {
+    background-color: rgb(255 255 255 / 0.05);
+}
+
+.cw-overdue-what {
+    min-width: 0;
+}
+
+.cw-overdue-phase {
+    display: block;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: var(--color-navy-900);
+}
+
+.dark .cw-overdue-phase,
+.dark .cw-overdue-plus {
+    color: #fff;
+}
+
+.cw-overdue-case {
+    display: block;
+    overflow: hidden;
+    margin-top: 0.1rem;
+    font-size: 0.84375rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--gray-500);
+}
+
+.cw-meter-track {
+    display: flex;
+    height: 0.5rem;
+    overflow: hidden;
+    border-radius: 9999px;
+    background-color: var(--color-gold-400);
+}
+
+.cw-meter-limit {
+    flex: none;
+    border-inline-end: 2px solid #fff;
+    background-color: var(--color-navy-900);
+}
+
+.cw-meter-over {
+    flex: 1;
+}
+
+.cw-meter-legend {
+    display: block;
+    margin-top: 0.4rem;
+    font-size: 0.78rem;
+    color: var(--gray-500);
+}
+
+.cw-overdue-days {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.cw-overdue-plus {
+    min-width: 6.25rem;
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    color: var(--color-navy-900);
+    font-variant-numeric: tabular-nums;
+
+    @media (min-width: 48rem) {
+        text-align: right;
+    }
+}
+
+.cw-overdue-chevron {
+    width: 1.125rem;
+    height: 1.125rem;
+    color: var(--gray-400);
+    transition: color 150ms, translate 150ms;
+}
+
+/* ------------------------------------------------------------------ Stats: a share is also a bar */
+
+.fi-wi-stats-overview-stat.cw-stat-rate {
+    padding-bottom: 2.4rem;
+
+    &::after {
+        content: '';
+        position: absolute;
+        right: 1.5rem;
+        bottom: 1.25rem;
+        left: 1.5rem;
+        height: 0.375rem;
+        border-radius: 9999px;
+        background: linear-gradient(90deg, var(--color-navy-900) calc(var(--cw-rate, 0) * 1%), var(--gray-200) 0);
+    }
+
+    &.cw-stat-watch::after {
+        background: linear-gradient(90deg, var(--color-gold-400) calc(var(--cw-rate, 0) * 1%), var(--gray-200) 0);
+    }
+}
+
+.dark .fi-wi-stats-overview-stat.cw-stat-rate::after {
+    background: linear-gradient(90deg, #fff calc(var(--cw-rate, 0) * 1%), rgb(255 255 255 / 0.12) 0);
+}
+
+/* ------------------------------------------------------------------ Legal time limit as a timeline (lists) */
+
+.cw-tl {
+    min-width: 15rem;
+    padding: 0.9rem 0.75rem;
+}
+
+.cw-tl-dates {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--gray-600);
+    font-variant-numeric: tabular-nums;
+}
+
+.cw-tl-track {
+    height: 0.4rem;
+    overflow: hidden;
+    margin-top: 0.35rem;
+    border-radius: 9999px;
+    background-color: var(--gray-200);
+}
+
+.cw-tl-fill {
+    display: block;
+    height: 100%;
+    border-radius: 9999px;
+    background-color: var(--color-navy-900);
+}
+
+.cw-tl-caption {
+    margin-top: 0.35rem;
+    font-size: 0.78rem;
+    color: var(--gray-500);
+}
+
+.cw-tl[data-status='overdue'] .cw-tl-fill,
+.cw-tl[data-status='late'] .cw-tl-fill {
+    background-color: var(--color-gold-400);
+}
+
+.cw-tl[data-status='overdue'] .cw-tl-caption {
+    font-weight: 700;
+    color: var(--color-navy-900);
+}
+
+/* Ending this week: navy with a yellow tip. */
+.cw-tl[data-status='due_soon'] .cw-tl-fill {
+    background: linear-gradient(90deg, var(--color-navy-900) calc(100% - 0.6rem), var(--color-gold-400) 0);
+}
+
+.cw-tl[data-status='met'] .cw-tl-fill {
+    background-color: var(--color-navy-400);
+}
+
+.cw-tl[data-status='closed'] .cw-tl-fill,
+.cw-tl[data-status='paused'] .cw-tl-fill {
+    background-color: var(--gray-400);
+}
+
+.dark .cw-tl-track {
+    background-color: rgb(255 255 255 / 0.12);
+}
+
+.dark .cw-tl[data-status='running'] .cw-tl-fill,
+.dark .cw-tl[data-status='overdue'] .cw-tl-caption {
+    background-color: transparent;
+    color: #fff;
+}
+
+.dark .cw-tl[data-status='running'] .cw-tl-fill {
+    background-color: #fff;
+}
+
+/* ------------------------------------------------------------------ The path of a case (rail)
+ * Eight steps. Behind the case: navy with a tick. Where it stands: yellow. Ahead: an empty ring.
+ * A row on a wide screen, a column on a narrow one.
+ */
+
+.cw-rail {
+    display: grid;
+    gap: 1.1rem;
+
+    @media (min-width: 64rem) {
+        grid-template-columns: repeat(var(--cw-rail-steps, 8), minmax(0, 1fr));
+        gap: 0;
+    }
+}
+
+.cw-rail-step {
+    position: relative;
+    display: flex;
+    gap: 0.85rem;
+
+    @media (min-width: 64rem) {
+        flex-direction: column;
+        gap: 0.7rem;
+        padding-inline-end: 0.75rem;
+    }
+
+    /* The line to the next step. */
+    &::before {
+        content: '';
+        position: absolute;
+        top: 1.75rem;
+        bottom: -1.1rem;
+        left: calc(0.875rem - 1px);
+        width: 2px;
+        background-color: var(--gray-200);
+
+        @media (min-width: 64rem) {
+            top: calc(0.875rem - 1px);
+            right: 0;
+            bottom: auto;
+            left: 1.75rem;
+            width: auto;
+            height: 2px;
+        }
+    }
+
+    &:last-child::before {
+        display: none;
+    }
+
+    &.is-done::before {
+        background-color: var(--color-navy-900);
+    }
+
+    &.is-skipped::before {
+        background-color: var(--color-navy-200);
+    }
+}
+
+.cw-rail-node {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    width: 1.75rem;
+    height: 1.75rem;
+    flex: none;
+    place-items: center;
+    border-radius: 9999px;
+    background-color: #fff;
+    box-shadow: inset 0 0 0 2px var(--gray-300);
+    color: #fff;
+
+    & svg {
+        width: 0.85rem;
+        height: 0.85rem;
+    }
+}
+
+.is-done > .cw-rail-node {
+    background-color: var(--color-navy-900);
+    box-shadow: none;
+}
+
+.is-skipped > .cw-rail-node {
+    background-color: var(--color-navy-50);
+    box-shadow: inset 0 0 0 2px var(--color-navy-200);
+}
+
+.is-current > .cw-rail-node {
+    background-color: var(--color-gold-400);
+    box-shadow: 0 0 0 4px var(--color-gold-100);
+
+    &::after {
+        content: '';
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 2px;
+        background-color: var(--color-navy-900);
+    }
+}
+
+.cw-rail-text {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+.cw-rail-label {
+    font-size: 0.84375rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--color-navy-900);
+}
+
+.is-todo .cw-rail-label,
+.is-skipped .cw-rail-label {
+    font-weight: 600;
+    color: var(--gray-500);
+}
+
+.cw-rail-date {
+    font-size: 0.78rem;
+    color: var(--gray-500);
+    font-variant-numeric: tabular-nums;
+}
+
+.cw-rail-detail {
+    font-size: 0.75rem;
+    line-height: 1.3;
+    color: var(--gray-600);
+}
+
+.cw-rail-alert {
+    align-self: flex-start;
+    margin-top: 0.25rem;
+    border-radius: 9999px;
+    padding: 0.1rem 0.5rem;
+    background-color: var(--color-gold-400);
+    font-size: 0.72rem;
+    font-weight: 800;
+    white-space: nowrap;
+    color: var(--color-navy-900);
+}
+
+.dark .cw-rail-node {
+    background-color: var(--gray-900);
+    box-shadow: inset 0 0 0 2px rgb(255 255 255 / 0.25);
+}
+
+.dark .cw-rail-label {
+    color: #fff;
+}
+
+.dark .is-done > .cw-rail-node {
+    background-color: #fff;
+    color: var(--color-navy-900);
+}
+
+.dark .cw-rail-step.is-done::before {
+    background-color: #fff;
+}
+
+/* ------------------------------------------------------------------ Report page: the side column */
+
+.cw-aside .fi-section-content {
+    @apply gap-4;
+}
+
+.cw-report .fi-section-header-heading {
+    font-size: 1.375rem;
+    font-weight: 800;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+}
+
+.cw-tl-split {
+    height: 0.4rem;
+    margin-top: 0.35rem;
+}
+
+/* ------------------------------------------------------------------ Hearing page: four facts at a glance */
+
+.cw-facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+
+    @media (min-width: 64rem) {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 1rem;
+    }
+}
+
+.cw-fact {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    border-radius: 1.125rem;
+    padding: 1rem 1.125rem;
+    background-color: #fff;
+    box-shadow: 0 0 0 1px rgb(12 42 66 / 0.08), 0 1px 2px rgb(12 42 66 / 0.04);
+}
+
+.cw-fact-icon {
+    display: grid;
+    width: 2.5rem;
+    height: 2.5rem;
+    flex: none;
+    place-items: center;
+    border-radius: 0.8rem;
+    background-color: var(--color-navy-50);
+    color: var(--color-navy-900);
+}
+
+.cw-fact-text {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+}
+
+.cw-fact-label {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--gray-500);
+}
+
+.cw-fact-value {
+    font-size: 1.0625rem;
+    font-weight: 800;
+    letter-spacing: -0.015em;
+    color: var(--color-navy-900);
+}
+
+/* A finding (postponed, late, closed to the public) is the yellow one. */
+.cw-fact.is-alert {
+    background-color: var(--color-gold-100);
+    box-shadow: inset 0 0 0 1px var(--color-gold-300);
+
+    & .cw-fact-icon {
+        background-color: var(--color-gold-400);
+    }
+
+    & .cw-fact-label {
+        color: rgb(12 42 66 / 0.7);
+    }
+}
+
+.dark .cw-fact {
+    background-color: var(--gray-900);
+    box-shadow: 0 0 0 1px rgb(255 255 255 / 0.1);
+}
+
+.dark .cw-fact:not(.is-alert) .cw-fact-value {
+    color: #fff;
+}
+
+.dark .cw-fact:not(.is-alert) .cw-fact-icon {
+    background-color: rgb(255 255 255 / 0.08);
+    color: #fff;
+}

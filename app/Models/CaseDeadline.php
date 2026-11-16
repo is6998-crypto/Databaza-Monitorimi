@@ -182,6 +182,43 @@ class CaseDeadline extends Model
     }
 
     /**
+     * Length of the limit in days (from the day the phase started to the day the limit ends).
+     */
+    public function limitDays(): int
+    {
+        return max(1, (int) $this->started_on->diffInDays($this->due_on, true));
+    }
+
+    /**
+     * Days the phase has run: until today while it is open, until its end once it has one.
+     */
+    public function elapsedDays(): int
+    {
+        $until = $this->ended_on ?? ($this->state === DeadlineState::Open ? static::today() : $this->due_on);
+
+        return max(0, (int) $this->started_on->diffInDays($until, false));
+    }
+
+    /**
+     * How much of the limit is used, in percent (0–100; 100 once it is exceeded).
+     */
+    public function usedPercent(): int
+    {
+        return (int) min(100, round($this->elapsedDays() / $this->limitDays() * 100));
+    }
+
+    /**
+     * For a bar that shows the limit and the days over it side by side: the limit's share of the whole, in
+     * percent (never under 12, so that a short limit stays visible beside a long delay).
+     */
+    public function limitShare(): int
+    {
+        $over = $this->daysOver();
+
+        return $over === 0 ? 100 : (int) max(12, round($this->limitDays() / ($this->limitDays() + $over) * 100));
+    }
+
+    /**
      * Whether the longest limit the law allows has passed too (complex case, extended investigation).
      */
     public function isPastExtension(): bool

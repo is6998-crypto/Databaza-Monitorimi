@@ -355,7 +355,9 @@ it('shows the limits inside the case and nobody can edit them', function () {
 
     $this->get(CourtCaseResource::getUrl('view', ['record' => $case]))
         ->assertOk()
-        ->assertSee('Një afat ligjor është tejkaluar');
+        // On the rail of the case, under the step whose limit passed.
+        ->assertSee('Rrjedha e lëndës')
+        ->assertSee('Tejkaluar +62 ditë');
 
     foreach ([$editor, userWithRole(Role::SuperAdmin)] as $user) {
         // Super administrators pass every gate; the rows are still rebuilt from the stages.

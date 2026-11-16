@@ -14,6 +14,7 @@ return [
         'started_on' => 'Started',
         'limit' => 'Limit',
         'due_on' => 'Ends on',
+        'timeline' => 'From start to the limit',
         'status' => 'Status',
     ],
     'units' => [
@@ -53,14 +54,18 @@ return [
         'case_heading' => 'No time limits for this case yet',
         'case_description' => 'Add the stage dates under “Stages”: the limits are worked out for you.',
     ],
-    'callout' => [
-        'heading' => '{1} One legal time limit has been exceeded|[2,*] :count legal time limits have been exceeded',
-    ],
     'widget' => [
         'title' => 'Exceeded legal time limits',
         'description' => 'Phases that are past the limit of the Criminal Procedure Code and have not finished yet.',
         'empty' => 'No time limit is exceeded',
-        'all' => 'See all time limits',
+        'all' => 'See all',
+        'more' => '{1} and :count more|[2,*] and :count more',
+    ],
+    'meter' => [
+        'limit' => 'limit :limit',
+        'over' => ':over over the limit of :limit',
+        'day_of' => 'day :day of :limit',
+        'took' => 'took :days',
     ],
     'notifications' => [
         'one' => 'Legal time limit exceeded: :phase',

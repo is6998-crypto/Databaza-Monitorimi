@@ -83,7 +83,7 @@ Kur hapni një lëndë shihni këto skeda:
 
 | Skeda | Çfarë bëni aty |
 | --- | --- |
-| **Përmbledhje** | Të dhënat e lëndës dhe statusi i saj |
+| **Përmbledhje** | Të dhënat e lëndës dhe statusi i saj. Te lëndët penale, në krye qëndron **Rrjedha e lëndës**: tetë hapat nga kallëzimi penal deri te ekzekutimi, me hapin ku ndodhet lënda dhe me afatin e tejkaluar, nëse ka |
 | **Palët dhe akuzat** | Të akuzuarit dhe personat juridikë, palët e dëmtuara, paditësit dhe të paditurit, me gjininë, kombësinë, pozitën, statusin ekonomik, mbrojtjen; dhe akuzat (neni i kodit penal) në secilën fazë |
 | **Rrjedha e fazave** | Kallëzimi penal → hetimi → aktakuza → shqyrtimi fillestar → shqyrtimi gjyqësor → aktgjykimi → ankesa → Gjykata Supreme, me data dhe rezultate. Datat jashtë radhës refuzohen me shpjegim. Te lëndët penale, nën-skeda **Afatet ligjore** tregon afatin e secilës fazë |
 | **Masat dhe dënimet** | Masat e sigurisë, sekuestrimi dhe konfiskimi (të kërkuara / të aprovuara), dënimet e kërkuara dhe të shqiptuara |

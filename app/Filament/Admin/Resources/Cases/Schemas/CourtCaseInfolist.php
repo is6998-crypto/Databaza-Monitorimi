@@ -4,7 +4,6 @@ namespace App\Filament\Admin\Resources\Cases\Schemas;
 
 use App\Enums\CaseType;
 use App\Enums\WorkflowStatus;
-use App\Models\CaseDeadline;
 use App\Models\CaseStage;
 use App\Models\CourtCase;
 use App\Models\Hearing;
@@ -13,6 +12,7 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Callout;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\View;
 use Filament\Schemas\Schema;
 
 /**
@@ -30,13 +30,13 @@ class CourtCaseInfolist
                     ->danger()
                     ->visible(fn (CourtCase $record): bool => $record->status === WorkflowStatus::Returned && filled($record->return_comment)),
 
-                Callout::make(fn (CourtCase $record): string => trans_choice('deadlines.callout.heading', $count = $record->deadlines->filter(fn (CaseDeadline $deadline): bool => $deadline->isOverdue())->count(), ['count' => $count]))
-                    ->description(fn (CourtCase $record): string => $record->deadlines
-                        ->filter(fn (CaseDeadline $deadline): bool => $deadline->isOverdue())
-                        ->map(fn (CaseDeadline $deadline): string => $deadline->rule->getLabel().' ('.$deadline->statusLabel().')')
-                        ->implode(' · '))
-                    ->warning()
-                    ->visible(fn (CourtCase $record): bool => $record->deadlines->contains(fn (CaseDeadline $deadline): bool => $deadline->isOverdue())),
+                // Where the case stands on its way from the criminal report to the execution of the judgment.
+                Section::make(__('cases.rail.title'))
+                    ->extraAttributes(['class' => 'cw-rail-section'])
+                    ->visible(fn (CourtCase $record): bool => $record->type->isCriminal())
+                    ->schema([
+                        View::make('filament.admin.cases.stage-rail'),
+                    ]),
 
                 Grid::make(['default' => 1, 'lg' => 3])->schema([
                     Section::make(__('cases.sections.case'))

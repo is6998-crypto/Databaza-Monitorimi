@@ -68,6 +68,17 @@ return [
         'history' => 'History',
         'changes' => 'Changes',
     ],
+    'rail' => [
+        'title' => 'Path of the case',
+        'report' => 'Criminal report',
+        'investigation' => 'Investigation',
+        'indictment' => 'Indictment',
+        'initial' => 'Initial hearing',
+        'trial' => 'Main trial',
+        'judgment' => 'Judgment',
+        'appeal' => 'Appeal',
+        'execution' => 'Execution',
+    ],
     'duplicate' => [
         'heading' => 'Possible duplicate',
         'description' => 'A case with this number already exists in this court. Check it before creating a new one.',

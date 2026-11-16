@@ -68,6 +68,17 @@ return [
         'history' => 'Historiku',
         'changes' => 'Ndryshimet',
     ],
+    'rail' => [
+        'title' => 'Rrjedha e lëndës',
+        'report' => 'Kallëzimi penal',
+        'investigation' => 'Hetimi',
+        'indictment' => 'Aktakuza',
+        'initial' => 'Shqyrtimi fillestar',
+        'trial' => 'Shqyrtimi gjyqësor',
+        'judgment' => 'Aktgjykimi',
+        'appeal' => 'Ankesa',
+        'execution' => 'Ekzekutimi',
+    ],
     'duplicate' => [
         'heading' => 'Dublikatë e mundshme',
         'description' => 'Ekziston tashmë një lëndë me këtë numër në këtë gjykatë. Kontrollojeni para se të krijoni një të re.',

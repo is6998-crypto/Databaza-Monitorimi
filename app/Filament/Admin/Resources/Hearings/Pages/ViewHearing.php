@@ -17,6 +17,22 @@ class ViewHearing extends ViewRecord
 {
     protected static string $resource = HearingResource::class;
 
+    public function getTitle(): string
+    {
+        /** @var Hearing $hearing */
+        $hearing = $this->getRecord();
+
+        return __('hearings.title_short', ['date' => $hearing->hearing_date->format((string) config('courtwatch.date_format'))]);
+    }
+
+    public function getSubheading(): ?string
+    {
+        /** @var Hearing $hearing */
+        $hearing = $this->getRecord();
+
+        return collect([$hearing->case->display_label, $hearing->hearing_type?->getLabel(), $hearing->status->getLabel()])->filter()->implode(' · ');
+    }
+
     protected function getHeaderActions(): array
     {
         return [

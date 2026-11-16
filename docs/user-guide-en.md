@@ -80,7 +80,7 @@ Opening a case shows tabs:
 
 | Tab | What you do there |
 | --- | --- |
-| **Overview** | The case data and its workflow status |
+| **Overview** | The case data and its workflow status. On a criminal case it opens with the **Path of the case**: the eight steps from the criminal report to the execution, the step the case stands on, and the exceeded time limit if there is one |
 | **Parties & charges** | Accused persons and legal entities, injured parties, plaintiffs and respondents, with gender, nationality, position, economic status, counsel; and the charges (criminal code article) at each stage |
 | **Stages timeline** | Criminal report → investigation → indictment → initial hearing → main trial → judgment → appeal → Supreme Court, with dates and outcomes. Dates out of order are refused with an explanation. On a criminal case the **Legal time limits** sub-tab shows the limit of each phase |
 | **Measures & sentences** | Security measures, seizure and confiscation (requested / granted), requested and imposed sentences |

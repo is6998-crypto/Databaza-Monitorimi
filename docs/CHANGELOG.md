@@ -1,5 +1,14 @@
 # Changelog
 
+### Staff panel redesign (same colours)
+
+- **Dashboard**: under the greeting, live counts of what waits for you (review queue, reports, your drafts, legal time limits exceeded and ending this week); each opens its list. Exceeded limits are listed with a meter that sets the days over beside the limit. Shares are drawn as bars under their figures.
+- **Legal time limits**: every row has a timeline from the start of the phase to the end of its limit.
+- **Case page**: the path of a criminal case as a rail of eight steps, with the step it stands on and any exceeded limit marked on it.
+- **Hearing page**: a proper title, four facts at a glance (held or postponed, on time or late, public or closed, recording) and answers in words instead of ticks and crosses.
+- **Hearing report**: laid out as a document, with its details in a side column.
+- **Everywhere**: tabs as a segmented control, the logo's yellow square before card titles, quieter row icons.
+
 ### Court structure, legal time limits, hearing reports and a design pass
 
 From the supervisor's notes ("Të dhënat për platformë") and the owner's requests.

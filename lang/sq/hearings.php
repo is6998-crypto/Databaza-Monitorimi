@@ -4,6 +4,7 @@ return [
     'model' => 'Seancë',
     'plural' => 'Seancat',
     'title' => 'Seanca e :date — :case',
+    'title_short' => 'Seanca e :date',
     'empty' => 'Ende nuk ka seanca të regjistruara',
     'actions' => [
         'add' => 'Shto seancë',
@@ -43,6 +44,16 @@ return [
         'security_adequate' => 'A ishte siguria e mjaftueshme?',
         'security_comment' => 'Koment për sigurinë',
         'notes' => 'Shënime',
+    ],
+    'facts' => [
+        'outcome' => 'Seanca',
+        'held' => 'U mbajt',
+        'postponed' => 'U shty',
+        'start' => 'Fillimi',
+        'on_time' => 'Në kohë',
+        'late' => 'Me vonesë',
+        'access' => 'Publiku',
+        'recording' => 'Incizimi',
     ],
     'answers' => [
         'public' => 'Publike',

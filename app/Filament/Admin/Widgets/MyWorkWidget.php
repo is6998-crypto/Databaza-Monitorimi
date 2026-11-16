@@ -48,6 +48,7 @@ class MyWorkWidget extends TableWidget
             ])
             ->recordUrl(fn (Hearing $record): string => HearingResource::getUrl('edit', ['record' => $record]))
             ->emptyStateHeading(__('dashboard.my_work.empty'))
-            ->paginated([5, 10]);
+            ->paginated([5, 10])
+            ->defaultPaginationPageOption(5);
     }
 }

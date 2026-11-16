@@ -14,6 +14,7 @@ return [
         'started_on' => 'Fillimi',
         'limit' => 'Afati',
         'due_on' => 'Skadon më',
+        'timeline' => 'Nga fillimi deri në skadim',
         'status' => 'Gjendja',
     ],
     'units' => [
@@ -53,14 +54,18 @@ return [
         'case_heading' => 'Ende nuk ka afate për këtë lëndë',
         'case_description' => 'Shtoni datat e fazave te “Rrjedha e fazave”: afatet llogariten vetë.',
     ],
-    'callout' => [
-        'heading' => '{1} Një afat ligjor është tejkaluar|[2,*] :count afate ligjore janë tejkaluar',
-    ],
     'widget' => [
         'title' => 'Afatet ligjore të tejkaluara',
         'description' => 'Fazat që kanë kaluar afatin e Kodit të Procedurës Penale dhe ende nuk kanë përfunduar.',
         'empty' => 'Asnjë afat i tejkaluar',
-        'all' => 'Shiko të gjitha afatet',
+        'all' => 'Shiko të gjitha',
+        'more' => '{1} dhe :count tjetër|[2,*] dhe :count të tjera',
+    ],
+    'meter' => [
+        'limit' => 'afati :limit',
+        'over' => ':over mbi afatin prej :limit',
+        'day_of' => 'dita :day nga :limit',
+        'took' => 'zgjati :days',
     ],
     'notifications' => [
         'one' => 'Afat ligjor i tejkaluar: :phase',

@@ -12,6 +12,7 @@ use Filament\Actions\Action;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ViewColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
@@ -70,19 +71,14 @@ class CaseDeadlinesTable
                 ->label(__('deadlines.fields.phase'))
                 ->description(fn (CaseDeadline $record): string => __('deadlines.article', ['article' => $record->rule->article()]))
                 ->weight('medium'),
-            TextColumn::make('started_on')
-                ->label(__('deadlines.fields.started_on'))
-                ->date()
-                ->description(fn (CaseDeadline $record): string => $record->start_stage->getLabel())
-                ->sortable(),
             TextColumn::make('limit_amount')
                 ->label(__('deadlines.fields.limit'))
                 ->formatStateUsing(fn (CaseDeadline $record): string => $record->limitLabel())
                 ->description(fn (CaseDeadline $record): ?string => $record->basisLabel()),
-            TextColumn::make('due_on')
-                ->label(__('deadlines.fields.due_on'))
-                ->date()
-                ->description(fn (CaseDeadline $record): ?string => $record->ended_on ? __('deadlines.ended_on', ['date' => $record->ended_on->format((string) config('courtwatch.date_format'))]) : null)
+            // From the day the phase started to the day the limit ends, with how much of it is used.
+            ViewColumn::make('due_on')
+                ->label(__('deadlines.fields.timeline'))
+                ->view('filament.admin.deadlines.meter')
                 ->sortable(),
             TextColumn::make('state')
                 ->label(__('deadlines.fields.status'))
