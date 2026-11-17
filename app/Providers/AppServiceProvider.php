@@ -19,12 +19,16 @@ use App\Policies\CaseChildPolicy;
 use App\Policies\RolePolicy;
 use App\Support\PublicUrl;
 use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource as FilamentResource;
 use Filament\Schemas\Schema;
+use Filament\Support\Contracts\HasColor;
 use Filament\Support\Facades\FilamentTimezone;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Auth\Events\Failed;
 use Illuminate\Auth\Events\Login;
@@ -121,6 +125,16 @@ class AppServiceProvider extends ServiceProvider
 
         // Design: one yellow call to action per screen; editing is a secondary (white) button.
         EditAction::configureUsing(fn (EditAction $action) => $action->color('gray'));
+        ViewAction::configureUsing(fn (ViewAction $action) => $action->color('gray'));
+
+        // Design: a badge is yellow only when its state says so (WorkflowStatus and the other enums with a
+        // colour). A category without one (hearing type, court level, a department) used to get Filament's
+        // default, the solid yellow of the page's main button; it is a quiet grey chip instead.
+        TextColumn::configureUsing(fn (TextColumn $column) => $column
+            ->color(fn (mixed $state): ?string => $state instanceof HasColor ? $state->getColor() : ($column->isBadge() ? 'gray' : null)));
+
+        TextEntry::configureUsing(fn (TextEntry $entry) => $entry
+            ->color(fn (mixed $state): ?string => $state instanceof HasColor ? $state->getColor() : ($entry->isBadge() ? 'gray' : null)));
     }
 
     /**

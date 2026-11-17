@@ -1,5 +1,25 @@
 # Changelog
 
+### Staff panel redesign (same colours)
+
+- **Dashboard**: under the greeting, live counts of what waits for you (review queue, reports, your drafts, legal time limits exceeded and ending this week); each opens its list. Exceeded limits are listed with a meter that sets the days over beside the limit. Shares are drawn as bars under their figures.
+- **Legal time limits**: every row has a timeline from the start of the phase to the end of its limit.
+- **Case page**: the path of a criminal case as a rail of eight steps, with the step it stands on and any exceeded limit marked on it.
+- **Hearing page**: a proper title, four facts at a glance (held or postponed, on time or late, public or closed, recording) and answers in words instead of ticks and crosses.
+- **Hearing report**: laid out as a document, with its details in a side column.
+- **Everywhere**: tabs as a segmented control, the logo's yellow square before card titles, quieter row icons.
+
+### Court structure, legal time limits, hearing reports and a design pass
+
+From the supervisor's notes ("Të dhënat për platformë") and the owner's requests.
+
+- **Courts.** The Commercial Court (two chambers) and the Administrative Court; the Special Chamber of the Supreme Court; the Mitrovica division of the Court of Appeals; the branches in Fushë Kosovë and Novobërdë ("Drenas" is now "Gllogoc"). Each court and branch has its own departments (only Prishtina has the Special Department; branches have the General Department only), and the case form offers only those. Existing databases get all of it from a migration.
+- **Legal time limits.** New page **Monitoring → Legal time limits** and a tab inside each criminal case: every phase with a limit in the Criminal Procedure Code (investigation, indictment, initial hearing, scheduling and length of the main trial, announcement and writing of the judgment, appeal), when it started, when it ends and how many days are left or over. Four new questions on the case decide which limit applies (detention, single judge or panel, complex case, extended investigation). Two new stages: "Main trial concluded" and "File received by the Court of Appeals".
+- **Notifications.** Every morning the monitor of the case, the editors and the super administrators are told, in the panel and by email, about each limit that was exceeded: once, and once more if the longest limit the law allows passes too. The dashboard lists the limits exceeded right now.
+- **Hearing reports.** New section **Monitoring → Hearing reports**: for every hearing the monitor writes what happened and sends it to the editor; the editor edits it, comments, and approves it or sends it back. Each side is notified of the other's comments. Reports are encrypted and internal. A hearing links to its report, and so does the monitor phone app; reports waiting for an editor are in the review queue.
+- **Design.** Lists fit the page on a laptop (narrower sidebar, a case in two short lines, icon row actions, rarely used columns hidden by default); only real states are yellow; the dashboard shows your own work first; the category chart labels every bar.
+- **Operations.** New scheduled command `php artisan deadlines:check` (05:30 UTC); the limits are numbers in `config/deadlines.php`.
+
 ### Researcher charts: everything in the data, more chart types, downloads with the logo
 
 - Split and compare by 29 things in four groups. Time and place: year, month, court, department, prosecution office. Case: type, offence category, offence (article), number of accused, security measure. Hearing: type, venue, public, recording, interpretation, security, phone used, plea agreement, postponed, late, reason for postponement, cause of delay. Accused: gender, nationality, employment status, economic condition, position, defence counsel. Party: role.

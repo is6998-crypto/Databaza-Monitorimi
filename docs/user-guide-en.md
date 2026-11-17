@@ -30,8 +30,8 @@ Good to know:
 
 | Role | Can do |
 | --- | --- |
-| Monitor | Create cases and hearings in their assigned courts; edit their own drafts and records that are being reviewed; cannot delete |
-| Editor | Review, approve or return submissions; edit any case; manage reference data; publish reports |
+| Monitor | Create cases and hearings in their assigned courts; write the report of every hearing; edit their own drafts and records that are being reviewed; cannot delete |
+| Editor | Review, approve or return submissions; edit any case; read, edit and comment on hearing reports; manage reference data; publish reports |
 | Analyst | Read everything, use the dashboard and export (read-only) |
 | Super Admin | Everything, including users, roles, researcher approvals and deletions |
 
@@ -42,7 +42,7 @@ The panel shows only what your role allows, and the server checks every action a
 | Group | Contains |
 | --- | --- |
 | **Dashboard** (top) | Indicators and charts, or your own drafts and returned hearings |
-| **Monitoring** | Cases, Hearings, Review queue |
+| **Monitoring** | Review queue, Cases, Hearings, Hearing reports, Legal time limits |
 | **Analytics** | Export log |
 | **Public portal** | Reports & publications |
 | **Reference data** | Courts, branches, departments, judges, prosecutors, criminal offences and other lists |
@@ -59,13 +59,18 @@ A case is entered **once**; every hearing is attached to it, so case data is nev
 
 1. **Monitoring → Cases → New case**.
 2. Choose the case type (criminal — corruption, serious crimes, general, special department;
-   administrative; civil; economic), the court, branch and department, the judge and prosecutor,
-   and the case numbers.
-3. If a case with the same number already exists in that court, a warning offers to open it
+   administrative; civil; economic), the court, branch or chamber and department, the judge and
+   prosecutor, and the case numbers. Only the departments of the chosen court are offered: the
+   Special Department in Prishtina only, and branches have the General Department only.
+3. On a criminal case, answer the four questions under **Procedural time limits**: is the
+   accused in detention, who tries the case (a single judge or a panel), was the investigation
+   extended, and is it a complex case. They decide which legal time limit applies (see *Legal
+   time limits*).
+4. If a case with the same number already exists in that court, a warning offers to open it
    instead: avoid duplicates.
-4. Administrative, civil and economic cases have extra fields (decision, legal remedy, claim,
+5. Administrative, civil and economic cases have extra fields (decision, legal remedy, claim,
    representation…), shown only for those types.
-5. Press **Create**. The case starts as a **Draft**.
+6. Press **Create**. The case starts as a **Draft**.
 
 The most recently used values (courts, judges…) appear first in the lists.
 
@@ -75,9 +80,9 @@ Opening a case shows tabs:
 
 | Tab | What you do there |
 | --- | --- |
-| **Overview** | The case data and its workflow status |
+| **Overview** | The case data and its workflow status. On a criminal case it opens with the **Path of the case**: the eight steps from the criminal report to the execution, the step the case stands on, and the exceeded time limit if there is one |
 | **Parties & charges** | Accused persons and legal entities, injured parties, plaintiffs and respondents, with gender, nationality, position, economic status, counsel; and the charges (criminal code article) at each stage |
-| **Stages timeline** | Criminal report → investigation → indictment → initial hearing → main trial → judgment → appeal → Supreme Court, with dates and outcomes. Dates out of order are refused with an explanation |
+| **Stages timeline** | Criminal report → investigation → indictment → initial hearing → main trial → judgment → appeal → Supreme Court, with dates and outcomes. Dates out of order are refused with an explanation. On a criminal case the **Legal time limits** sub-tab shows the limit of each phase |
 | **Measures & sentences** | Security measures, seizure and confiscation (requested / granted), requested and imposed sentences |
 | **Hearings** | All monitored hearings of the case; add a new one here |
 | **Documents** | Attachments (PDF, JPG, PNG up to 20 MB). Files are private: downloads use links that expire after a few minutes |
@@ -86,6 +91,37 @@ Opening a case shows tabs:
 > [!IMPORTANT]
 > Party names are personal data. They are stored encrypted, never appear on the public portal,
 > in research data or exports, and must not be copied into free-text fields such as notes.
+
+### Legal time limits
+
+The Criminal Procedure Code sets time limits for the phases of the procedure. The platform works
+them out from the dates you enter under **Stages** and from the answers under **Procedural time
+limits**:
+
+| Phase | Limit | Article |
+| --- | --- | --- |
+| Investigation (from its start to its end) | 2 years; 3 years when extended | 157 |
+| Filing of the indictment (after the investigation ends) | 3 months | 234 |
+| Initial hearing (after the indictment is filed) | 30 days; 15 days in detention | 236 |
+| Scheduling of the main trial (after the indictment is confirmed) | 30 days | 249 |
+| Main trial (from its start to its end) | 90 days before a single judge; 120 days before a panel | 310 |
+| Announcement of the judgment (after the main trial ends) | 3 days | 365 |
+| Written judgment (after the announcement) | 15 days in detention; 30 days otherwise; 60 days in a complex case | 368 |
+| Appeal (from the day the Court of Appeals receives the file), detention only | 3 months | 405 |
+
+The Code sets no limit for objections to evidence and requests to dismiss the indictment.
+
+- **Monitoring → Legal time limits** lists them all: *Exceeded*, *Ending soon* (within 7 days),
+  *Within the limit* and *Finished late*. The badge in the menu counts the limits exceeded right
+  now; the dashboard shows the same.
+- A phase closes when you enter the date of the stage that ends it (for example *Judgment
+  drafted*). Enter dates as soon as you learn them.
+- **Notifications.** Every morning, when a limit has been exceeded, the monitor of the case, the
+  editors and the administrators are notified (bell and email): once per limit, and once more if
+  the longest limit the law allows passes too (60 days for the judgment, 3 years for the
+  investigation).
+- When an answer is missing the longer limit applies (no detention, a panel), so that nobody is
+  warned too early. The list shows on what basis a limit was counted.
 
 ## 5. Recording a hearing
 
@@ -99,6 +135,25 @@ Opening a case shows tabs:
    you come back, the draft is restored.
 5. Save the hearing, then press **Submit for review** when it is complete.
 
+### The hearing report
+
+For every hearing the monitor writes a report: what happened, in their own words.
+
+1. On the hearing press **Write the report** (or **Monitoring → Hearing reports → Write report**
+   and choose the hearing). A hearing has one report.
+2. Write the title and the text: who was present, what was said and decided, when the next
+   hearing is. Save it; it stays a **Draft** until you send it.
+3. Press **Send to the editor**. The editors are notified and the report appears in the **Review
+   queue**.
+4. The **editor** reads it, may edit the text (**Edit**), leaves comments under the report, and
+   then presses **Approve** or **Send back with a comment**.
+5. The monitor is notified of every comment and can answer in the same place. A report that was
+   sent back is completed and sent again. After approval the monitor can no longer change it.
+
+A monitor sees only their own reports; editors see all of them. The text and the comments are
+stored encrypted and stay inside the panel: they never appear on the public portal, in the
+researcher area or in email notifications.
+
 ### The monitor app (phone, works offline)
 
 The menu under your initials has **Monitor app (mobile)** (`/m`). On a phone, add it to the home
@@ -109,6 +164,8 @@ screen ("Install" / "Add to Home Screen").
   when the connection returns, and never sent twice.
 - **Save draft** keeps it on the phone; **Send for review** submits it.
 - Do not sign out or clear the browser data while hearings are waiting to be sent.
+- Once a hearing has been sent, **Write the report** opens the report page in the panel (needs a
+  connection).
 
 ## 6. Review workflow
 

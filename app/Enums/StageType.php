@@ -8,6 +8,9 @@ use Filament\Support\Contracts\HasLabel;
 /**
  * Case milestones. Each case has at most one row per stage type (except hearings,
  * which have their own table). Dates must respect the order defined in predecessors().
+ *
+ * The legal time limits between milestones are in App\Enums\DeadlineRule: the end of the main trial and the
+ * day the Court of Appeals received the file exist as milestones because limits are counted from them.
  */
 enum StageType: string implements HasLabel
 {
@@ -24,9 +27,11 @@ enum StageType: string implements HasLabel
     case IndictmentDecision = 'indictment_decision';
     case PleaAgreement = 'plea_agreement';
     case MainHearing = 'main_hearing';
+    case MainHearingConcluded = 'main_hearing_concluded';
     case JudgmentAnnounced = 'judgment_announced';
     case JudgmentDrafted = 'judgment_drafted';
     case AppealFiled = 'appeal_filed';
+    case AppealFilesReceived = 'appeal_files_received';
     case AppealDecision = 'appeal_decision';
     case ProtectionOfLegalityRequested = 'protection_of_legality_requested';
     case SupremeCourtDecision = 'supreme_court_decision';
@@ -51,10 +56,12 @@ enum StageType: string implements HasLabel
             self::IndictmentDecision => [self::IndictmentFiled],
             self::PleaAgreement => [self::IndictmentFiled],
             self::MainHearing => [self::InitialHearing, self::SecondHearing],
-            self::JudgmentAnnounced => [self::MainHearing, self::InitialHearing],
+            self::MainHearingConcluded => [self::MainHearing],
+            self::JudgmentAnnounced => [self::MainHearing, self::MainHearingConcluded, self::InitialHearing],
             self::JudgmentDrafted => [self::JudgmentAnnounced],
             self::AppealFiled => [self::JudgmentAnnounced],
-            self::AppealDecision => [self::AppealFiled],
+            self::AppealFilesReceived => [self::AppealFiled],
+            self::AppealDecision => [self::AppealFiled, self::AppealFilesReceived],
             self::ProtectionOfLegalityRequested => [self::JudgmentAnnounced, self::AppealDecision],
             self::SupremeCourtDecision => [self::ProtectionOfLegalityRequested],
             self::JudgmentExecuted => [self::JudgmentAnnounced, self::AppealDecision],

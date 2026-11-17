@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+use App\Filament\Admin\Resources\Deadlines\CaseDeadlineResource;
 use BezhanSalleh\FilamentShield\Resources\Roles\RoleResource;
 use Filament\Pages\Dashboard;
 use Filament\Widgets\AccountWidget;
@@ -196,7 +197,8 @@ return [
             ],
         ],
         'exclude' => [
-            //
+            // Read-only list derived from the cases: whoever may see a case sees its time limits.
+            CaseDeadlineResource::class,
         ],
     ],
 

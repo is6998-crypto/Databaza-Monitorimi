@@ -5,15 +5,17 @@ namespace App\Filament\Admin\Pages;
 use App\Enums\NavigationGroup;
 use App\Filament\Admin\Widgets\Review\CasesAwaitingReview;
 use App\Filament\Admin\Widgets\Review\HearingsAwaitingReview;
+use App\Filament\Admin\Widgets\Review\ReportsAwaitingReview;
 use App\Models\CourtCase;
 use App\Models\Hearing;
+use App\Models\HearingReport;
 use App\Support\Permissions;
 use Filament\Pages\Page;
 use Filament\Support\Icons\Heroicon;
 use UnitEnum;
 
 /**
- * Editors' review queue: everything submitted for review, oldest first.
+ * Editors' review queue: every case, hearing and hearing report submitted for review, oldest first.
  */
 class ReviewQueue extends Page
 {
@@ -46,7 +48,9 @@ class ReviewQueue extends Page
             return null;
         }
 
-        $count = CourtCase::query()->awaitingReview()->count() + Hearing::query()->awaitingReview()->count();
+        $count = CourtCase::query()->awaitingReview()->count()
+            + Hearing::query()->awaitingReview()->count()
+            + HearingReport::query()->awaitingReview()->count();
 
         return $count > 0 ? (string) $count : null;
     }
@@ -61,6 +65,7 @@ class ReviewQueue extends Page
         return [
             CasesAwaitingReview::class,
             HearingsAwaitingReview::class,
+            ReportsAwaitingReview::class,
         ];
     }
 

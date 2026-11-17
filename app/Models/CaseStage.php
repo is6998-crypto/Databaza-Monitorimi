@@ -7,6 +7,7 @@ use App\Enums\StageOutcome;
 use App\Enums\StageType;
 use App\Models\Reference\Applicant;
 use App\Models\Reference\Prosecutor;
+use App\Services\Deadlines\DeadlineTracker;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
@@ -47,6 +48,21 @@ class CaseStage extends Model
             'date' => 'date',
             'is_direct_indictment' => 'boolean',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        // The legal time limits of the case are counted from its stages.
+        $refresh = function (self $stage): void {
+            $case = CourtCase::query()->find($stage->case_id);
+
+            if ($case !== null) {
+                app(DeadlineTracker::class)->refresh($case);
+            }
+        };
+
+        static::saved($refresh);
+        static::deleted($refresh);
     }
 
     public function getActivitylogOptions(): LogOptions

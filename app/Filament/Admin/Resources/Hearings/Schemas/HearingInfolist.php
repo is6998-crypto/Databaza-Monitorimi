@@ -10,10 +10,10 @@ use App\Enums\WorkflowStatus;
 use App\Filament\Admin\Resources\Cases\CourtCaseResource;
 use App\Models\CaseParty;
 use App\Models\Hearing;
-use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Callout;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\View;
 use Filament\Schemas\Schema;
 use Filament\Support\Contracts\HasLabel;
 
@@ -32,6 +32,23 @@ class HearingInfolist
         return collect($values)->map(fn (string $value): string => (string) ($enum::tryFrom($value)?->getLabel() ?? $value))->implode(', ');
     }
 
+    /**
+     * A yes/no answer as a word in a chip. An answer that is a finding (late, postponed, closed) is yellow.
+     */
+    protected static function answer(string $field, string $label, ?string $yes = null, ?string $no = null, string $yesColor = 'gray', string $noColor = 'gray'): TextEntry
+    {
+        return TextEntry::make($field)
+            ->label($label)
+            ->state(fn (Hearing $record): ?string => match ($record->getAttribute($field)) {
+                true => $yes ?? (string) __('app.yes'),
+                false => $no ?? (string) __('app.no'),
+                default => null,
+            })
+            ->badge()
+            ->color(fn (Hearing $record): string => $record->getAttribute($field) ? $yesColor : $noColor)
+            ->placeholder('—');
+    }
+
     public static function configure(Schema $schema): Schema
     {
         return $schema
@@ -41,6 +58,9 @@ class HearingInfolist
                     ->description(fn (Hearing $record): ?string => $record->return_comment)
                     ->danger()
                     ->visible(fn (Hearing $record): bool => $record->status === WorkflowStatus::Returned && filled($record->return_comment)),
+
+                // What happened, at a glance.
+                View::make('filament.admin.hearings.facts'),
 
                 Section::make(__('hearings.sections.context'))
                     ->columns(['default' => 1, 'sm' => 2, 'lg' => 4])
@@ -73,24 +93,26 @@ class HearingInfolist
                     ->columns(['default' => 1, 'sm' => 2, 'lg' => 3])
                     ->schema([
                         TextEntry::make('venue')->label(__('hearings.fields.venue'))->placeholder('—'),
-                        IconEntry::make('is_public')->label(__('hearings.fields.is_public'))->boolean(),
-                        IconEntry::make('started_late')->label(__('hearings.fields.started_late'))->boolean()->trueColor('warning')->falseColor('success'),
+                        // Answers in words: a tick or a cross does not answer "public or closed?".
+                        static::answer('is_public', __('hearings.fields.is_public'), __('hearings.answers.public'), __('hearings.answers.closed'), noColor: 'warning'),
+                        static::answer('started_late', __('hearings.fields.started_late'), __('hearings.answers.late'), __('hearings.answers.on_time'), yesColor: 'warning'),
                         TextEntry::make('delay')->label(__('hearings.fields.delay_causes'))
                             ->state(fn (Hearing $record): ?string => $record->started_late ? trim((static::labels(DelayCause::class, $record->delay_causes) ?? '').($record->delay_minutes ? ' · '.$record->delay_minutes.' min' : ''), ' ·') : null)
                             ->placeholder('—'),
-                        IconEntry::make('was_postponed')->label(__('hearings.fields.was_postponed'))->boolean()->trueColor('warning')->falseColor('success'),
+                        static::answer('was_postponed', __('hearings.fields.was_postponed'), yesColor: 'warning'),
                         TextEntry::make('postponement_reasons')->label(__('hearings.fields.postponement_reasons'))
                             ->state(fn (Hearing $record): ?string => static::labels(PostponementReason::class, $record->postponement_reasons))
                             ->placeholder('—'),
-                        IconEntry::make('plea_agreement')->label(__('hearings.fields.plea_agreement'))->boolean()->placeholder('—'),
+                        static::answer('plea_agreement', __('hearings.fields.plea_agreement')),
                         TextEntry::make('recording')->label(__('hearings.fields.recording'))->placeholder('—'),
-                        IconEntry::make('interpretation_needed')->label(__('hearings.fields.interpretation_needed'))->boolean(),
-                        IconEntry::make('interpretation_provided')->label(__('hearings.fields.interpretation_provided'))->boolean()->visible(fn (Hearing $record): bool => $record->interpretation_needed),
-                        IconEntry::make('phone_used')->label(__('hearings.fields.phone_used'))->boolean()->trueColor('warning')->falseColor('success'),
+                        static::answer('interpretation_needed', __('hearings.fields.interpretation_needed')),
+                        static::answer('interpretation_provided', __('hearings.fields.interpretation_provided'), noColor: 'warning')
+                            ->visible(fn (Hearing $record): bool => $record->interpretation_needed),
+                        static::answer('phone_used', __('hearings.fields.phone_used'), yesColor: 'warning'),
                         TextEntry::make('phone_users')->label(__('hearings.fields.phone_users'))
                             ->state(fn (Hearing $record): ?string => static::labels(PhoneUser::class, $record->phone_users))
                             ->placeholder('—'),
-                        IconEntry::make('security_adequate')->label(__('hearings.fields.security_adequate'))->boolean(),
+                        static::answer('security_adequate', __('hearings.fields.security_adequate'), noColor: 'warning'),
                         TextEntry::make('security_comment')->label(__('hearings.fields.security_comment'))->placeholder('—')->columnSpanFull(),
                         TextEntry::make('notes')->label(__('hearings.fields.notes'))->placeholder('—')->columnSpanFull(),
                     ]),

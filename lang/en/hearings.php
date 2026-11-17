@@ -4,6 +4,7 @@ return [
     'model' => 'Hearing',
     'plural' => 'Hearings',
     'title' => 'Hearing of :date — :case',
+    'title_short' => 'Hearing of :date',
     'empty' => 'No hearings recorded yet',
     'actions' => [
         'add' => 'Add hearing',
@@ -43,6 +44,16 @@ return [
         'security_adequate' => 'Was security adequate?',
         'security_comment' => 'Security comment',
         'notes' => 'Notes',
+    ],
+    'facts' => [
+        'outcome' => 'Hearing',
+        'held' => 'Held',
+        'postponed' => 'Postponed',
+        'start' => 'Start',
+        'on_time' => 'On time',
+        'late' => 'Late',
+        'access' => 'Public',
+        'recording' => 'Recording',
     ],
     'answers' => [
         'public' => 'Public',

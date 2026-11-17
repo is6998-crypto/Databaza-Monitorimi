@@ -6,8 +6,9 @@ return [
         'plural' => 'Courts',
     ],
     'court_branches' => [
-        'singular' => 'Court branch',
-        'plural' => 'Court branches',
+        'singular' => 'Court branch or chamber',
+        'plural' => 'Court branches and chambers',
+        'navigation' => 'Branches and chambers',
     ],
     'departments' => [
         'singular' => 'Department',
@@ -91,9 +92,11 @@ return [
         'category' => 'Category',
         'category_code' => 'Category code',
         'offences_count' => 'Number of offences',
+        'departments' => 'Departments',
     ],
     'help' => [
         'serbian' => 'Optional — the interface is Serbian-ready.',
+        'departments' => 'Only these departments are offered on a case. Leave empty to allow any department.',
     ],
     'actions' => [
         'deactivate' => 'Deactivate selected',

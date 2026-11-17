@@ -12,6 +12,7 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Callout;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\View;
 use Filament\Schemas\Schema;
 
 /**
@@ -28,6 +29,14 @@ class CourtCaseInfolist
                     ->description(fn (CourtCase $record): ?string => $record->return_comment)
                     ->danger()
                     ->visible(fn (CourtCase $record): bool => $record->status === WorkflowStatus::Returned && filled($record->return_comment)),
+
+                // Where the case stands on its way from the criminal report to the execution of the judgment.
+                Section::make(__('cases.rail.title'))
+                    ->extraAttributes(['class' => 'cw-rail-section'])
+                    ->visible(fn (CourtCase $record): bool => $record->type->isCriminal())
+                    ->schema([
+                        View::make('filament.admin.cases.stage-rail'),
+                    ]),
 
                 Grid::make(['default' => 1, 'lg' => 3])->schema([
                     Section::make(__('cases.sections.case'))
@@ -48,6 +57,10 @@ class CourtCaseInfolist
                             TextEntry::make('prosecutionOffice')->label(__('cases.fields.prosecution_office'))->state(fn (CourtCase $record): ?string => $record->prosecutionOffice?->label())->placeholder('—')
                                 ->visible(fn (CourtCase $record): bool => $record->type->isCriminal()),
                             TextEntry::make('prosecutor.name')->label(__('cases.fields.prosecutor'))->placeholder('—')
+                                ->visible(fn (CourtCase $record): bool => $record->type->isCriminal()),
+                            IconEntry::make('in_detention')->label(__('cases.fields.in_detention'))->boolean()->placeholder('—')
+                                ->visible(fn (CourtCase $record): bool => $record->type->isCriminal()),
+                            TextEntry::make('trial_bench')->label(__('cases.fields.trial_bench'))->placeholder('—')
                                 ->visible(fn (CourtCase $record): bool => $record->type->isCriminal()),
                             TextEntry::make('summary')->label(__('cases.fields.summary'))->placeholder('—')->columnSpanFull(),
                         ]),

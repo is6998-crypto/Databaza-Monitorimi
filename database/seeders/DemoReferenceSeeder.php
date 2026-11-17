@@ -32,6 +32,7 @@ class DemoReferenceSeeder extends Seeder
                 CourtLevel::Basic => 6,
                 CourtLevel::Appeal => 4,
                 CourtLevel::Supreme => 3,
+                CourtLevel::Commercial, CourtLevel::Administrative => 4,
             };
 
             foreach (range(1, $count) as $i) {

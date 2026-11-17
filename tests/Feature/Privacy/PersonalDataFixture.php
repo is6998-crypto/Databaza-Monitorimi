@@ -3,11 +3,14 @@
 namespace Tests\Feature\Privacy;
 
 use App\Enums\PartyRole;
+use App\Enums\ReportStatus;
 use App\Enums\Role;
 use App\Enums\WorkflowStatus;
 use App\Models\CaseParty;
 use App\Models\CourtCase;
 use App\Models\Hearing;
+use App\Models\HearingReport;
+use App\Models\HearingReportComment;
 use App\Models\Publication;
 use App\Models\Reference\Court;
 use App\Models\Reference\Judge;
@@ -77,6 +80,16 @@ final class PersonalDataFixture
                 $hearing->status = WorkflowStatus::Approved;
                 $hearing->save();
                 $hearings[] = $hearing;
+
+                // The written account of the session names people, and so do the comments on it.
+                $report = HearingReport::query()->create([
+                    'hearing_id' => $hearing->id,
+                    'title' => 'Zenel Xhafolli nuk u paraqit',
+                    'body' => '<p>Gjyqtar Fshehtësie e hapi seancën. Mimoza Qorraj dëshmoi kundër Kompania Sekretnica.</p>',
+                    'created_by' => $monitorUser->id,
+                ]);
+                $report->forceFill(['status' => ReportStatus::Approved])->save();
+                HearingReportComment::query()->create(['hearing_report_id' => $report->id, 'user_id' => $monitorUser->id, 'body' => 'Shtova deklaratën e Zenel Xhafolli.']);
             }
 
             $cases[] = $case;

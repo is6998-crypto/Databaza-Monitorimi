@@ -42,7 +42,8 @@ class ViewCourtCase extends ViewRecord
         /** @var CourtCase $case */
         $case = $this->getRecord();
 
-        return $case->display_label;
+        // The number alone: the court and the type stand under it.
+        return $case->court_case_number ?: '#'.$case->id;
     }
 
     public function getSubheading(): ?string
@@ -50,7 +51,7 @@ class ViewCourtCase extends ViewRecord
         /** @var CourtCase $case */
         $case = $this->getRecord();
 
-        return $case->type->getLabel().' · '.$case->status->getLabel();
+        return collect([$case->court?->label(), $case->type->getLabel(), $case->status->getLabel()])->filter()->implode(' · ');
     }
 
     protected function getHeaderActions(): array

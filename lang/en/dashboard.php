@@ -67,6 +67,14 @@ return [
         'new_hearing' => 'New hearing',
         'monitor_app' => 'Monitor app',
     ],
+    'pulse' => [
+        'review' => 'Waiting for review',
+        'reports' => 'Reports to review',
+        'my_drafts' => 'My drafts',
+        'reports_returned' => 'Reports sent back',
+        'overdue' => 'Time limits exceeded',
+        'due_soon' => 'Ending this week',
+    ],
     'my_work' => [
         'title' => 'My drafts and returned hearings',
         'description' => 'Finish and submit them for review.',

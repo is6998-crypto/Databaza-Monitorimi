@@ -28,11 +28,27 @@ class CourtBranchResource extends ReferenceResource
         return 'court_branches';
     }
 
+    /**
+     * Short enough for one line of the sidebar; the page title keeps the full name.
+     */
+    public static function getNavigationLabel(): string
+    {
+        return __('reference.court_branches.navigation');
+    }
+
     protected static function extraFormFields(): array
     {
         return [
             Select::make('court_id')->label(__('reference.fields.court'))->relationship('court', 'name_sq')->getOptionLabelFromRecordUsing(fn (ReferenceModel $record): string => $record->label())->searchable()->preload()->required(),
             TextInput::make('city')->label(__('reference.fields.city'))->maxLength(255),
+            Select::make('departments')
+                ->label(__('reference.fields.departments'))
+                ->helperText(__('reference.help.departments'))
+                ->relationship('departments', 'name_sq')
+                ->getOptionLabelFromRecordUsing(fn (ReferenceModel $record): string => $record->label())
+                ->multiple()
+                ->preload()
+                ->columnSpanFull(),
         ];
     }
 
@@ -41,6 +57,13 @@ class CourtBranchResource extends ReferenceResource
         return [
             TextColumn::make('court.name_sq')->getStateUsing(fn ($record): ?string => $record->court?->label())->label(__('reference.fields.court'))->sortable()->searchable(),
             TextColumn::make('city')->label(__('reference.fields.city'))->toggleable(),
+            TextColumn::make('departments_list')
+                ->label(__('reference.fields.departments'))
+                ->state(fn (CourtBranch $record): array => $record->departments->map(fn (ReferenceModel $department): string => $department->label())->all())
+                ->badge()
+                ->color('gray')
+                ->wrap()
+                ->toggleable(),
         ];
     }
 

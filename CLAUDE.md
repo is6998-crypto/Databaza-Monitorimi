@@ -36,6 +36,7 @@ composer check                    # all three
 php artisan app:seed-if-empty     # seed reference + demo data when the DB is empty
 php artisan migrate:fresh --seed  # rebuild the dev database
 php artisan app:create-admin you@example.org   # first Super Admin (production has no demo accounts)
+php artisan deadlines:check       # recompute the legal time limits and notify about the ones exceeded (scheduled daily)
 php artisan legacy:inspect --connection=legacy  # compare the legacy schema with migration/config/legacy.php
 php artisan legacy:import --connection=legacy   # legacy MySQL import (see docs/MIGRATION.md)
 php artisan legacy:fixture        # fake legacy database (SQLite) for trying the importer
@@ -48,9 +49,9 @@ docker compose -f docker-compose.prod.yml up -d --build   # production stack (do
 ## Layout
 
 - `app/Enums` — all enumerations (case type, workflow status, stage types, hearing options…). Labels come from `lang/*/enums.php`.
-- `app/Models` — `CourtCase` (table `cases`; `Case` is a PHP keyword), `CaseParty`, `Charge`, `CaseStage`, `Hearing`, `Measure`, `Sentence`, details tables, reference models under `app/Models/Reference`.
+- `app/Models` — `CourtCase` (table `cases`; `Case` is a PHP keyword), `CaseParty`, `Charge`, `CaseStage`, `Hearing`, `HearingReport` (+ comments), `CaseDeadline`, `Measure`, `Sentence`, details tables, reference models under `app/Models/Reference`.
 - `app/Policies` — server-side authorisation for every model. Never rely on hiding buttons.
-- `app/Services` — `Analytics`, `Search`, `Export`, `Workflow`, `Anonymizer`, `Merge`, `CsvImport`.
+- `app/Services` — `Analytics`, `Search`, `Export`, `Workflow`, `Anonymizer`, `Merge`, `CsvImport`, `Deadlines` (legal time limits: calculator, tracker, notifier; numbers in `config/deadlines.php`), `HearingReportService`, `Reference/CourtStructure` (the courts, branches, chambers and their departments).
 - `app/Filament/Admin` — staff panel resources/pages/widgets; `app/Filament/Research` — researcher panel.
 - `app/Http/Controllers/Api/V1` — researcher API (anonymized resources only).
 - `app/Livewire/Portal` + `resources/views/portal` — public portal.
@@ -60,7 +61,7 @@ docker compose -f docker-compose.prod.yml up -d --build   # production stack (do
 ## Rules (from the proposal — must always hold)
 
 1. **Fake data only.** Never add real names of judges, prosecutors, monitors or accused persons. Seeders use Faker; only the public court structure and public criminal-code articles are real.
-2. **Personal names are encrypted at rest** (`encrypted` casts) and **never** reach public routes, the researcher area or the API. `tests/Feature/Privacy/NoPersonalNamesTest.php` enforces this — keep it green and extend it when adding routes.
+2. **Personal names are encrypted at rest** (`encrypted` casts) and **never** reach public routes, the researcher area or the API. `tests/Feature/Privacy/NoPersonalNamesTest.php` enforces this — keep it green and extend it when adding routes. Hearing reports and their comments are free text that names people: they are encrypted too, stay in the staff panel, and their text never goes into the audit log, a notification or an email.
 3. **Suppress public aggregate cells under 5** (`App\Services\Anonymizer::suppress`).
 4. **Permissions are enforced with policies on the server** for every action. Monitors: create cases/hearings, edit own drafts and records under review, scoped to assigned courts, no delete. Analysts: read-only. Delete is admin-only and soft.
 5. **Audit everything**: models use `LogsActivity`; logins, exports and permission changes are logged explicitly.

@@ -2,26 +2,22 @@
 
 namespace Database\Seeders;
 
-use App\Enums\CourtLevel;
 use App\Enums\ProsecutionLevel;
 use App\Models\Reference\Applicant;
-use App\Models\Reference\Court;
-use App\Models\Reference\CourtBranch;
 use App\Models\Reference\DefendantPosition;
-use App\Models\Reference\Department;
-use App\Models\Reference\Division;
 use App\Models\Reference\EconomicStatus;
 use App\Models\Reference\Nationality;
 use App\Models\Reference\ProsecutionOffice;
 use App\Models\Reference\ReferenceModel;
 use App\Models\Reference\SecurityMeasureType;
+use App\Services\Reference\CourtStructure;
 use App\Services\Reference\OffenceCatalogue;
 use Illuminate\Database\Seeder;
 
 /**
  * Public, non-personal reference structure (safe for production):
- * the 7 basic courts and their branches, the Court of Appeals and the Supreme Court,
- * court departments, prosecution offices, criminal codes with the full list of criminal offences
+ * every court with its branches, chambers and departments (App\Services\Reference\CourtStructure),
+ * prosecution offices, criminal codes with the full list of criminal offences
  * and their statistics categories. Editors can correct or extend everything in the staff panel or by CSV import.
  * Idempotent: rows are matched by code / Albanian name.
  */
@@ -29,78 +25,10 @@ class ReferenceDataSeeder extends Seeder
 {
     public function run(): void
     {
-        $this->courts();
-        $this->departments();
+        (new CourtStructure)->sync();
         $this->prosecutionOffices();
         $this->criminalCodes();
         $this->simpleLists();
-    }
-
-    private function courts(): void
-    {
-        $basic = [
-            'GJTH-PR' => ['Prishtinës', 'Prishtina', 'Prishtina', ['Podujevë' => 'Podujevo', 'Lipjan' => 'Lipljan', 'Drenas' => 'Drenas', 'Graçanicë' => 'Gračanica']],
-            'GJTH-PZ' => ['Prizrenit', 'Prizren', 'Prizren', ['Dragash' => 'Dragash', 'Suharekë' => 'Suhareka']],
-            'GJTH-PE' => ['Pejës', 'Peja', 'Peja', ['Deçan' => 'Deçan', 'Istog' => 'Istog', 'Klinë' => 'Klina']],
-            'GJTH-GJK' => ['Gjakovës', 'Gjakova', 'Gjakova', ['Malishevë' => 'Malisheva', 'Rahovec' => 'Rahovec']],
-            'GJTH-MI' => ['Mitrovicës', 'Mitrovica', 'Mitrovica', ['Skenderaj' => 'Skenderaj', 'Vushtrri' => 'Vushtrri', 'Leposaviq' => 'Leposavić', 'Zubin Potok' => 'Zubin Potok']],
-            'GJTH-FE' => ['Ferizajt', 'Ferizaj', 'Ferizaj', ['Kaçanik' => 'Kaçanik', 'Shtërpcë' => 'Štrpce']],
-            'GJTH-GJ' => ['Gjilanit', 'Gjilan', 'Gjilan', ['Kamenicë' => 'Kamenica', 'Viti' => 'Vitia']],
-        ];
-
-        foreach ($basic as $code => [$sq, $en, $city, $branches]) {
-            $court = $this->upsert(Court::class, ['code' => $code], [
-                'name_sq' => "Gjykata Themelore e {$sq}",
-                'name_en' => "Basic Court of {$en}",
-                'level' => CourtLevel::Basic,
-                'city' => $city,
-            ]);
-
-            foreach ($branches as $branchSq => $branchEn) {
-                $this->upsert(CourtBranch::class, ['court_id' => $court->id, 'name_sq' => "Dega në {$branchSq}"], [
-                    'name_en' => "{$branchEn} branch",
-                    'city' => $branchSq,
-                ]);
-            }
-        }
-
-        $this->upsert(Court::class, ['code' => 'GJA'], [
-            'name_sq' => 'Gjykata e Apelit',
-            'name_en' => 'Court of Appeals',
-            'level' => CourtLevel::Appeal,
-            'city' => 'Prishtina',
-        ]);
-
-        $this->upsert(Court::class, ['code' => 'GJS'], [
-            'name_sq' => 'Gjykata Supreme',
-            'name_en' => 'Supreme Court',
-            'level' => CourtLevel::Supreme,
-            'city' => 'Prishtina',
-        ]);
-    }
-
-    private function departments(): void
-    {
-        $departments = [
-            'GEN' => ['Departamenti i Përgjithshëm', 'General Department', [
-                ['Divizioni Penal', 'Criminal Division'],
-                ['Divizioni Civil', 'Civil Division'],
-                ['Divizioni për Kundërvajtje', 'Minor Offences Division'],
-            ]],
-            'SER' => ['Departamenti për Krime të Rënda', 'Serious Crimes Department', []],
-            'SPE' => ['Departamenti Special', 'Special Department', []],
-            'JUV' => ['Departamenti për të Mitur', 'Juvenile Department', []],
-            'COM' => ['Departamenti për Çështje Ekonomike', 'Department for Commercial Matters', []],
-            'ADM' => ['Departamenti për Çështje Administrative', 'Department for Administrative Matters', []],
-        ];
-
-        foreach ($departments as $code => [$sq, $en, $divisions]) {
-            $department = $this->upsert(Department::class, ['code' => $code], ['name_sq' => $sq, 'name_en' => $en]);
-
-            foreach ($divisions as [$divisionSq, $divisionEn]) {
-                $this->upsert(Division::class, ['department_id' => $department->id, 'name_sq' => $divisionSq], ['name_en' => $divisionEn]);
-            }
-        }
     }
 
     private function prosecutionOffices(): void

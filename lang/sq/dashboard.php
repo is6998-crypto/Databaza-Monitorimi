@@ -67,6 +67,14 @@ return [
         'new_hearing' => 'Seancë e re',
         'monitor_app' => 'Aplikacioni i monitoruesit',
     ],
+    'pulse' => [
+        'review' => 'Në pritje të shqyrtimit',
+        'reports' => 'Raporte për shqyrtim',
+        'my_drafts' => 'Draftet e mia',
+        'reports_returned' => 'Raporte të kthyera',
+        'overdue' => 'Afate të tejkaluara',
+        'due_soon' => 'Skadojnë këtë javë',
+    ],
     'my_work' => [
         'title' => 'Draftet dhe seancat e mia të kthyera',
         'description' => 'Përfundojini dhe dorëzojini për shqyrtim.',

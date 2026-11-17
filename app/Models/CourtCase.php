@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\CaseType;
 use App\Enums\StageType;
+use App\Enums\TrialBench;
 use App\Models\Concerns\HasWorkflow;
 use App\Models\Reference\Court;
 use App\Models\Reference\CourtBranch;
@@ -13,6 +14,7 @@ use App\Models\Reference\Judge;
 use App\Models\Reference\Monitor;
 use App\Models\Reference\ProsecutionOffice;
 use App\Models\Reference\Prosecutor;
+use App\Services\Deadlines\DeadlineTracker;
 use Database\Factories\CourtCaseFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -46,6 +48,10 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property string|null $indictment_number
  * @property string|null $police_case_number
  * @property string|null $summary
+ * @property bool|null $in_detention
+ * @property TrialBench|null $trial_bench
+ * @property bool $is_complex
+ * @property bool $investigation_extended
  * @property string|null $legacy_module
  * @property string|null $legacy_id
  * @property Carbon|null $created_at
@@ -57,6 +63,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property-read Collection<int, CaseStage> $stages
  * @property-read Collection<int, Hearing> $hearings
  * @property-read Collection<int, Charge> $charges
+ * @property-read Collection<int, CaseDeadline> $deadlines
  * @property-read AdministrativeCaseDetail|null $administrativeDetails
  * @property-read CivilCaseDetail|null $civilDetails
  */
@@ -91,8 +98,22 @@ class CourtCase extends Model
     {
         return [
             'type' => CaseType::class,
+            'in_detention' => 'boolean',
+            'trial_bench' => TrialBench::class,
+            'is_complex' => 'boolean',
+            'investigation_extended' => 'boolean',
             ...$this->workflowCasts(),
         ];
+    }
+
+    protected static function booted(): void
+    {
+        // The facts that decide which legal time limit applies.
+        static::updated(function (self $case): void {
+            if ($case->wasChanged(['type', 'in_detention', 'trial_bench', 'is_complex', 'investigation_extended'])) {
+                app(DeadlineTracker::class)->refresh($case);
+            }
+        });
     }
 
     protected static function newFactory(): CourtCaseFactory
@@ -270,6 +291,16 @@ class CourtCase extends Model
     public function stages(): HasMany
     {
         return $this->hasMany(CaseStage::class, 'case_id');
+    }
+
+    /**
+     * Legal time limits of the phases this case has reached (criminal cases).
+     *
+     * @return HasMany<CaseDeadline, $this>
+     */
+    public function deadlines(): HasMany
+    {
+        return $this->hasMany(CaseDeadline::class, 'case_id');
     }
 
     /**

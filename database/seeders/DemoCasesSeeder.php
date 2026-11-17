@@ -8,6 +8,7 @@ use App\Enums\ChargeStage;
 use App\Enums\CivilOutcome;
 use App\Enums\ClaimType;
 use App\Enums\CounselType;
+use App\Enums\CourtLevel;
 use App\Enums\DelayCause;
 use App\Enums\Gender;
 use App\Enums\HearingType;
@@ -26,6 +27,7 @@ use App\Enums\SecondInstanceOutcome;
 use App\Enums\SentenceKind;
 use App\Enums\StageOutcome;
 use App\Enums\StageType;
+use App\Enums\TrialBench;
 use App\Enums\Venue;
 use App\Enums\WorkflowStatus;
 use App\Models\AdministrativeCaseDetail;
@@ -116,7 +118,9 @@ class DemoCasesSeeder extends Seeder
     private function seedCase(int $index): void
     {
         $type = $this->pickType();
-        $court = $this->pickCourt();
+        $court = $this->pickCourt($type);
+        $departmentId = $this->departmentFor($type);
+        $general = $departmentId !== null && $departmentId === Department::query()->where('code', 'GEN')->value('id');
         $monitor = $this->monitorFor($court);
         $openedAt = Carbon::instance($this->faker->dateTimeBetween('-6 years', '-2 months'))->startOfDay();
 
@@ -124,8 +128,13 @@ class DemoCasesSeeder extends Seeder
         $case->fill([
             'type' => $type,
             'court_id' => $court->id,
-            'court_branch_id' => $this->faker->boolean(20) ? $court->branches()->inRandomOrder()->value('id') : null,
-            'department_id' => $this->departmentFor($type),
+            // Branches of the basic courts have the General Department only; the Commercial Court sits in chambers.
+            'court_branch_id' => match (true) {
+                $court->level === CourtLevel::Commercial => $court->branches()->orderBy('id')->value('id'),
+                $general && $this->faker->boolean(25) => $court->branches()->inRandomOrder()->value('id'),
+                default => null,
+            },
+            'department_id' => $departmentId,
             'judge_id' => Judge::query()->where('court_id', $court->id)->inRandomOrder()->value('id'),
             'assigned_monitor_id' => $monitor?->id,
             'court_case_number' => $this->kosovo->courtCaseNumber($type->isCriminal() ? 'PKR' : ($type === CaseType::Administrative ? 'A' : ($type === CaseType::Economic ? 'C.EK' : 'C')), (int) $openedAt->format('Y')),
@@ -138,6 +147,13 @@ class DemoCasesSeeder extends Seeder
                 'prosecutor_id' => $office ? Prosecutor::query()->where('prosecution_office_id', $office->id)->inRandomOrder()->value('id') : null,
                 'indictment_number' => $this->kosovo->indictmentNumber((int) $openedAt->format('Y')),
                 'police_case_number' => $this->faker->boolean(70) ? $this->kosovo->policeCaseNumber((int) $openedAt->format('Y')) : null,
+                // Facts that decide the legal time limits (left unanswered on some cases, as in real use).
+                'in_detention' => $this->faker->randomElement([true, false, false, false, null]),
+                'trial_bench' => $this->faker->randomElement($type === CaseType::CriminalGeneral
+                    ? [TrialBench::SingleJudge, TrialBench::SingleJudge, TrialBench::Panel, null]
+                    : [TrialBench::Panel, TrialBench::Panel, TrialBench::SingleJudge, null]),
+                'is_complex' => $this->faker->boolean(10),
+                'investigation_extended' => $this->faker->boolean(10),
             ]);
         }
 
@@ -174,10 +190,22 @@ class DemoCasesSeeder extends Seeder
         ]);
     }
 
-    private function pickCourt(): Court
+    private function pickCourt(CaseType $type): Court
     {
+        // Administrative and commercial matters have their own courts; only Prishtina has the Special Department.
+        $code = match ($type) {
+            CaseType::Administrative => 'GJAD',
+            CaseType::Economic => 'GJK',
+            CaseType::CriminalSpecial => 'GJTH-PR',
+            default => null,
+        };
+
+        if ($code !== null && ($court = Court::query()->where('code', $code)->first()) !== null) {
+            return $court;
+        }
+
         // Prishtina handles the largest share of monitored cases.
-        return $this->faker->boolean(35) ? $this->courts->first() : $this->courts->random();
+        return $this->faker->boolean(35) ? $this->courts->firstOrFail(fn (Court $court): bool => $court->code === 'GJTH-PR') : $this->courts->random();
     }
 
     private function monitorFor(Court $court): ?Monitor
@@ -196,10 +224,14 @@ class DemoCasesSeeder extends Seeder
         $code = match ($type) {
             CaseType::CriminalCorruption, CaseType::CriminalSerious => 'SER',
             CaseType::CriminalSpecial => 'SPE',
-            CaseType::Administrative => 'ADM',
-            CaseType::Economic => 'COM',
+            // The Administrative Court and the Commercial Court have no departments.
+            CaseType::Administrative, CaseType::Economic => null,
             default => 'GEN',
         };
+
+        if ($code === null) {
+            return null;
+        }
 
         return Department::query()->where('code', $code)->value('id');
     }
@@ -373,7 +405,11 @@ class DemoCasesSeeder extends Seeder
 
         $verdict = $this->faker->randomElement([StageOutcome::Convicting, StageOutcome::Convicting, StageOutcome::Convicting, StageOutcome::Acquitting, StageOutcome::Acquitting, StageOutcome::Rejecting, StageOutcome::Mixed]);
 
-        if (! $add(StageType::JudgmentAnnounced, 60, 500, ['outcome' => $verdict])) {
+        if (! $add(StageType::MainHearingConcluded, 45, 420)) {
+            return $timeline;
+        }
+
+        if (! $add(StageType::JudgmentAnnounced, 0, 6, ['outcome' => $verdict])) {
             return $timeline;
         }
 

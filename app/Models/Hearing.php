@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
@@ -61,6 +62,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property-read Court|null $court
  * @property-read Judge|null $judge
  * @property-read Prosecutor|null $prosecutor
+ * @property-read HearingReport|null $report
  */
 class Hearing extends Model
 {
@@ -213,6 +215,16 @@ class Hearing extends Model
     public function presentParties(): BelongsToMany
     {
         return $this->belongsToMany(CaseParty::class, 'hearing_party');
+    }
+
+    /**
+     * The monitor's written account of this session.
+     *
+     * @return HasOne<HearingReport, $this>
+     */
+    public function report(): HasOne
+    {
+        return $this->hasOne(HearingReport::class);
     }
 
     /**
