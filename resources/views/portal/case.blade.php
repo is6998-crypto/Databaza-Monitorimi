@@ -49,7 +49,7 @@
                                     </span>
                                 @endif
                                 <div class="pt-1">
-                                    <p class="font-bold text-navy-900">{{ $step['stage'] }}@if ($step['outcome']) — {{ $step['outcome'] }}@endif</p>
+                                    <p class="font-bold text-navy-900">{{ $step['stage'] }}</p>
                                     <p class="portal-meta mt-0.5 tabular-nums">{{ $step['date'] ?? '—' }}</p>
                                 </div>
                             </li>
@@ -67,10 +67,9 @@
 
             <section class="card portal-card overflow-hidden lg:sticky lg:top-24" aria-labelledby="case-hearings">
                 <h2 id="case-hearings" class="p-6 pb-0 text-xl font-bold text-navy-900">{{ __('portal.cases.monitored_hearings') }}</h2>
-                <dl class="mx-6 mt-5 grid grid-cols-2 gap-px overflow-hidden rounded-xl bg-navy-900/10 ring-1 ring-navy-900/10">
-                    @foreach (['total', 'postponed', 'late', 'public'] as $key)
-                        <div class="flex flex-col bg-white p-4"><dt class="portal-meta order-2 mt-1">{{ __('portal.cases.hearing_'.$key) }}</dt><dd class="order-1 text-3xl leading-none font-extrabold text-navy-900 tabular-nums">{{ $case['hearing_summary'][$key] }}</dd></div>
-                    @endforeach
+                <dl class="mx-6 mt-5 flex flex-col rounded-xl bg-gold-100 p-5">
+                    <dt class="portal-meta order-2 mt-1.5 text-navy-900/75">{{ __('portal.cases.hearing_total') }}</dt>
+                    <dd class="order-1 text-5xl leading-none font-extrabold tracking-tight text-navy-900 tabular-nums" data-hearings-total>{{ $case['hearing_summary']['total'] }}</dd>
                 </dl>
                 @if ($case['hearing_summary']['first'])
                     <p class="mt-5 flex gap-2 border-t border-navy-900/10 bg-canvas px-6 py-4 text-[15px] text-slate-700">

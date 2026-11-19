@@ -73,7 +73,7 @@
                                         @endif
                                         <dl class="mt-4 grid grid-cols-2 gap-px overflow-hidden rounded-xl bg-navy-900/10 ring-1 ring-navy-900/10">
                                             <div class="bg-white p-3"><dt class="portal-meta">{{ __('portal.cases.hearings') }}</dt><dd class="mt-1 text-2xl font-extrabold tabular-nums">{{ Anonymizer::display(null) }}</dd></div>
-                                            <div class="bg-white p-3"><dt class="portal-meta">{{ __('portal.cases.postponed') }}</dt><dd class="mt-1 text-2xl font-extrabold tabular-nums">{{ Anonymizer::display(null) }}</dd></div>
+                                            <div class="bg-white p-3"><dt class="portal-meta">{{ __('portal.cases.stage') }}</dt><dd class="mt-1 text-[15px] leading-snug font-bold">{{ $sample['stage'] ?? '—' }}</dd></div>
                                         </dl>
                                 @endswitch
                             </div>

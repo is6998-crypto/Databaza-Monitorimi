@@ -1,5 +1,10 @@
 # Changelog
 
+### Public case pages without findings; upload messages in Albanian
+
+- The public case search and case pages no longer show judgment outcomes or postponed, late or closed hearings, and the search no longer filters by judgment. A case shows its court, type, year, offences, the stages it has passed (month and year) and the number of monitored hearings.
+- The upload box is fully in Albanian: "Duke u ngarkuar", "Ngarkimi përfundoi", "prekni për ta zhbërë", "Skedari është shumë i madh"…
+
 ### Fixed: uploading documents
 
 - PDFs and images could not be uploaded to cases and hearings ("Ngarkimi i skedarit … dështoi") wherever files are stored on S3, as in Docker and production: the browser was sent to the storage server directly, at an address it cannot reach. Uploads now go through the application. The same fix applies to publication PDFs and CSV imports.

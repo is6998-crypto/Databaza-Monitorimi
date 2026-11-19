@@ -14,9 +14,6 @@
         <label class="text-sm"><span class="portal-label">{{ __('portal.filters.category') }}</span>
             <select wire:model.live="category" class="portal-input"><option value="">{{ __('portal.filters.all') }}</option>
                 @foreach ($categories as $id => $label)<option value="{{ $id }}">{{ $label }}</option>@endforeach</select></label>
-        <label class="text-sm"><span class="portal-label">{{ __('portal.filters.outcome') }}</span>
-            <select wire:model.live="outcome" class="portal-input"><option value="">{{ __('portal.filters.all') }}</option>
-                @foreach ($outcomes as $value => $label)<option value="{{ $value }}">{{ $label }}</option>@endforeach</select></label>
         <label class="text-sm"><span class="portal-label">{{ __('portal.filters.year') }}</span>
             <select wire:model.live="year" class="portal-input"><option value="">{{ __('portal.filters.all_years') }}</option>
                 @foreach ($years as $option)<option value="{{ $option }}">{{ $option }}</option>@endforeach</select></label>
@@ -39,9 +36,7 @@
                     <p class="mt-2 mb-5 line-clamp-2 text-[15px] leading-relaxed text-slate-700">{{ implode('; ', $item['offences']) ?: __('portal.cases.no_offence') }}</p>
                     <dl class="mt-auto grid grid-cols-2 gap-x-4 gap-y-3 border-t border-navy-900/10 pt-4 text-[15px]">
                         <div><dt class="portal-meta">{{ __('portal.cases.stage') }}</dt><dd class="mt-0.5 font-semibold text-navy-900">{{ $item['stage'] ?? '—' }}</dd></div>
-                        <div><dt class="portal-meta">{{ __('portal.cases.outcome') }}</dt><dd class="mt-0.5 font-semibold text-navy-900">{{ $item['outcome'] ?? '—' }}</dd></div>
                         <div><dt class="portal-meta">{{ __('portal.cases.hearings') }}</dt><dd class="mt-0.5 font-semibold text-navy-900 tabular-nums">{{ $item['hearings'] }}</dd></div>
-                        <div><dt class="portal-meta">{{ __('portal.cases.postponed') }}</dt><dd class="mt-0.5 font-semibold text-navy-900 tabular-nums">{{ $item['postponed'] }}</dd></div>
                     </dl>
                 </li>
             @endforeach
