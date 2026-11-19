@@ -6,14 +6,15 @@ use App\Enums\CaseType;
 use App\Enums\PostponementReason;
 use App\Enums\StageOutcome;
 use App\Models\Reference\Category;
-use App\Models\Reference\Court;
 use App\Services\Analytics\AnalyticsFilters;
 use App\Services\Analytics\AnalyticsService;
 use App\Services\Anonymizer;
 
 /**
- * Public statistics: verified data only (AnalyticsService) with small-cell suppression
- * (Anonymizer). Never broken down by judge, prosecutor or monitor.
+ * The statistics summary of the researcher API (`/api/v1/statistics`): verified data only (AnalyticsService)
+ * with small-cell suppression (Anonymizer), never broken down by judge, prosecutor or monitor.
+ *
+ * The public portal does not use it: it shows only an overview of the monitored cases (PortalOverview).
  */
 class PortalStatistics
 {
@@ -131,80 +132,5 @@ class PortalStatistics
             'median' => Anonymizer::statistic($row['median'], $row['cases']),
             'cases' => Anonymizer::suppress($row['cases']),
         ], $this->analytics->stageDurations());
-    }
-
-    // ------------------------------------------------------------------ open data
-
-    /**
-     * @return array<string, string> key => translated title
-     */
-    public static function datasets(): array
-    {
-        $keys = ['hearings-by-year-and-court', 'postponement-by-court', 'postponement-reasons', 'cases-by-type', 'cases-by-category', 'verdicts', 'stage-durations'];
-
-        return collect($keys)->mapWithKeys(fn (string $key): array => [$key => __('portal.open_data.datasets.'.$key)])->all();
-    }
-
-    /**
-     * @return array{header: list<string>, rows: list<list<string|int|float|null>>}
-     */
-    public function dataset(string $key): array
-    {
-        $suppressed = fn (int|float|null $value): string|int|float => $value ?? '<'.Anonymizer::threshold();
-
-        return match ($key) {
-            'hearings-by-year-and-court' => $this->hearingsByYearAndCourt(),
-            'postponement-by-court' => [
-                'header' => [__('portal.columns.court'), __('portal.columns.hearings'), __('portal.columns.postponed'), __('portal.columns.rate')],
-                'rows' => array_map(fn (array $row): array => [$row['court'], $suppressed($row['hearings']), $suppressed($row['postponed']), $suppressed($row['rate'])], $this->postponementByCourt()),
-            ],
-            'postponement-reasons' => [
-                'header' => [__('portal.columns.reason'), __('portal.columns.count')],
-                'rows' => collect($this->postponementReasons())->map(fn ($count, $reason): array => [(string) $reason, $suppressed($count)])->values()->all(),
-            ],
-            'cases-by-type' => [
-                'header' => [__('portal.columns.case_type'), __('portal.columns.cases')],
-                'rows' => collect($this->casesByType())->map(fn ($count, $type): array => [(string) $type, $suppressed($count)])->values()->all(),
-            ],
-            'cases-by-category' => [
-                'header' => [__('portal.columns.category'), __('portal.columns.cases')],
-                'rows' => collect($this->casesByCategory())->map(fn ($count, $category): array => [(string) $category, $suppressed($count)])->values()->all(),
-            ],
-            'verdicts' => [
-                'header' => [__('portal.columns.outcome'), __('portal.columns.count')],
-                'rows' => collect($this->verdicts())->map(fn ($count, $outcome): array => [(string) $outcome, $suppressed($count)])->values()->all(),
-            ],
-            'stage-durations' => [
-                'header' => [__('portal.columns.stages'), __('portal.columns.median_days'), __('portal.columns.cases')],
-                'rows' => array_map(fn (array $row): array => [$row['label'], $suppressed($row['median']), $suppressed($row['cases'])], $this->stageDurations()),
-            ],
-            default => abort(404),
-        };
-    }
-
-    /**
-     * @return array{header: list<string>, rows: list<list<string|int|float|null>>}
-     */
-    private function hearingsByYearAndCourt(): array
-    {
-        $courts = Court::selectOptions(false);
-
-        $rows = $this->analytics->hearings()
-            ->selectRaw('extract(year from h.hearing_date)::int as year, c.court_id as court, count(*) as total, count(*) filter (where h.was_postponed) as postponed')
-            ->groupBy('year', 'court')
-            ->orderBy('year')
-            ->orderBy('court')
-            ->get();
-
-        return [
-            'header' => [__('portal.columns.year'), __('portal.columns.court'), __('portal.columns.hearings'), __('portal.columns.postponed'), __('portal.columns.rate')],
-            'rows' => $rows->map(fn ($row): array => [
-                (int) $row->year,
-                (string) ($courts[$row->court] ?? '—'),
-                Anonymizer::suppress((int) $row->total) ?? '<'.Anonymizer::threshold(),
-                Anonymizer::suppress((int) $row->postponed) ?? '<'.Anonymizer::threshold(),
-                Anonymizer::rate((int) $row->postponed, (int) $row->total) ?? '<'.Anonymizer::threshold(),
-            ])->values()->all(),
-        ];
     }
 }

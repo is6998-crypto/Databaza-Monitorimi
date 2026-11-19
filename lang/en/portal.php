@@ -2,11 +2,10 @@
 
 return [
     'tagline' => 'Independent monitoring of Kosovo courts',
-    'meta_description' => 'Statistics and anonymized case information from the independent monitoring of court hearings in Kosovo: postponements, punctuality, transparency, outcomes and sentences.',
+    'meta_description' => 'An anonymized overview of the court cases and hearings monitored in Kosovo: how many cases were monitored, by year, court and type of case.',
     'skip' => 'Skip to content',
     'language' => 'Language',
     'show_data' => 'Show data',
-    'days' => 'days',
     'suppression_note' => 'To protect privacy, every number below :threshold is hidden and shown as “<:threshold”. Only data verified by our editors is published.',
     'nav' => [
         'label' => 'Main navigation',
@@ -34,7 +33,7 @@ return [
         'intro' => 'Our monitors attend court hearings across Kosovo and record how they are run. Explore the verified results by year, court and type of case.',
         'cta_cases' => 'Search monitored cases',
         'cta_data' => 'Download open data',
-        'statistics' => 'Statistics',
+        'statistics' => 'Overview of monitored cases',
         'latest_reports' => 'Latest reports',
         'all_reports' => 'All reports',
         'updated' => 'Last update',
@@ -55,19 +54,13 @@ return [
     'stats' => [
         'cases' => 'Monitored cases',
         'hearings' => 'Hearings monitored',
-        'postponement_rate' => 'Hearings postponed',
-        'late_rate' => 'Started over 15 min late',
-        'public_rate' => 'Public hearings',
-        'conviction_rate' => 'Convictions in judgments',
+        'courts' => 'Courts covered',
     ],
     'charts' => [
-        'hearings_by_year' => 'Hearings monitored per year',
+        'cases_by_year' => 'Monitored cases per year',
+        'cases_by_court' => 'Monitored cases by court',
         'cases_by_type' => 'Monitored cases by type',
         'cases_by_category' => 'Monitored cases by offence category',
-        'postponement_by_court' => 'Share of hearings postponed, by court (%)',
-        'postponement_reasons' => 'Reasons for postponement',
-        'verdicts' => 'First-instance judgments',
-        'durations' => 'Median days between stages',
     ],
     'cases' => [
         'title' => 'Search monitored cases',
@@ -101,29 +94,19 @@ return [
         'download' => 'Download CSV',
         'licence' => 'You may reuse the data with attribution to the court-monitoring programme.',
         'datasets' => [
-            'hearings-by-year-and-court' => 'Hearings and postponements by year and court',
-            'postponement-by-court' => 'Postponement rate by court',
-            'postponement-reasons' => 'Reasons for postponement',
+            'cases-by-year-and-court' => 'Monitored cases and hearings by year and court',
+            'cases-by-court' => 'Monitored cases by court',
             'cases-by-type' => 'Monitored cases by type',
             'cases-by-category' => 'Monitored cases by offence category',
-            'verdicts' => 'First-instance judgments by outcome',
-            'stage-durations' => 'Median days between case stages',
         ],
     ],
     'columns' => [
         'year' => 'Year',
         'court' => 'Court',
         'hearings' => 'Hearings',
-        'postponed' => 'Postponed',
-        'rate' => 'Rate (%)',
-        'reason' => 'Reason',
-        'count' => 'Count',
         'case_type' => 'Type of case',
         'category' => 'Offence category',
         'cases' => 'Cases',
-        'outcome' => 'Outcome',
-        'stages' => 'Stages',
-        'median_days' => 'Median days',
     ],
     'pages' => [
         'methodology' => [
@@ -140,19 +123,20 @@ return [
                 [
                     'heading' => 'Verification',
                     'paragraphs' => [
-                        'Every case and every hearing goes through a review: the monitor submits it, an editor checks it and either approves it or returns it with a comment. Only approved records are included in statistics, the case search and open data.',
+                        'Every case and every hearing goes through a review: the monitor submits it, an editor checks it and either approves it or returns it with a comment. Only approved records are included in the overview, the case search and open data.',
                     ],
                 ],
                 [
-                    'heading' => 'Indicators',
+                    'heading' => 'The overview',
                     'paragraphs' => [
-                        'Rates are calculated over monitored hearings, not over all hearings held in Kosovo courts. Durations are medians of the number of days between two recorded stages of the same case.',
+                        'The portal publishes an overview of the monitored cases: how many cases and hearings were monitored, and how they split by year, court, type of case and offence category. A case counts in every year in which at least one of its hearings was monitored.',
+                        'The findings of the monitoring (postponements, delays, transparency, decisions) are analysed in our reports and made available to approved researchers.',
                     ],
                 ],
                 [
                     'heading' => 'Privacy protection',
                     'paragraphs' => [
-                        'Statistics never show names. Every number below five is hidden, and percentages and medians based on fewer than five records are not shown, so that individuals cannot be identified.',
+                        'The overview never shows names. Every count of cases or hearings below five is hidden, so that individuals cannot be identified.',
                     ],
                 ],
             ],

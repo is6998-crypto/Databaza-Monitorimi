@@ -52,6 +52,26 @@ class AnalyticsService
     }
 
     /**
+     * Verified cases monitored within the date range: with at least one verified hearing in it. Without a range,
+     * every verified case (also one whose hearings are not recorded yet). The public overview counts these.
+     */
+    public function monitoredCases(string $alias = 'c'): Builder
+    {
+        $from = $this->filters->from;
+        $until = $this->filters->until;
+
+        return $this->cases($alias)->when($from !== null || $until !== null, fn (Builder $query) => $query->whereExists(
+            fn (Builder $hearing) => $hearing->selectRaw('1')
+                ->from('hearings as mh')
+                ->whereColumn('mh.case_id', "{$alias}.id")
+                ->whereIn('mh.status', WorkflowStatus::verifiedValues())
+                ->whereNull('mh.deleted_at')
+                ->when($from, fn (Builder $query, Carbon $from) => $query->where('mh.hearing_date', '>=', $from->toDateString()))
+                ->when($until, fn (Builder $query, Carbon $until) => $query->where('mh.hearing_date', '<=', $until->toDateString())),
+        ));
+    }
+
+    /**
      * Verified hearings of verified cases, within the date range.
      */
     public function hearings(): Builder
@@ -146,6 +166,23 @@ class AnalyticsService
     {
         return $this->hearings()
             ->selectRaw('extract(year from h.hearing_date)::int as year, count(*) as total')
+            ->groupBy('year')
+            ->orderBy('year')
+            ->pluck('total', 'year')
+            ->mapWithKeys(fn ($total, $year): array => [(string) $year => (int) $total])
+            ->all();
+    }
+
+    /**
+     * Cases monitored per year: a case counts in every year in which at least one of its hearings was monitored, so
+     * a case followed over two years counts in both.
+     *
+     * @return array<string, int> year => cases
+     */
+    public function monitoredCasesByYear(): array
+    {
+        return $this->hearings()
+            ->selectRaw('extract(year from h.hearing_date)::int as year, count(distinct c.id) as total')
             ->groupBy('year')
             ->orderBy('year')
             ->pluck('total', 'year')
@@ -437,9 +474,17 @@ class AnalyticsService
      */
     public function casesByType(): array
     {
-        $rows = $this->cases()->selectRaw('c.type as type, count(*) as total')->groupBy('type')->pluck('total', 'type');
+        return $this->countByType($this->cases());
+    }
 
-        return $this->ordered(CaseType::values(), $rows->all());
+    /**
+     * Cases monitored in the date range per case type (public overview).
+     *
+     * @return array<string, int>
+     */
+    public function monitoredCasesByType(): array
+    {
+        return $this->countByType($this->monitoredCases());
     }
 
     /**
@@ -449,7 +494,47 @@ class AnalyticsService
      */
     public function casesByCategory(): array
     {
-        return $this->cases()
+        return $this->countByCategory($this->cases());
+    }
+
+    /**
+     * Cases monitored in the date range per statistics category of the offences charged (public overview).
+     *
+     * @return array<string, int> category id => count, largest first
+     */
+    public function monitoredCasesByCategory(): array
+    {
+        return $this->countByCategory($this->monitoredCases());
+    }
+
+    /**
+     * Cases monitored in the date range per court (public overview).
+     *
+     * @return array<string, int> court id => count, largest first
+     */
+    public function monitoredCasesByCourt(): array
+    {
+        return $this->countByCourt($this->monitoredCases());
+    }
+
+    // ------------------------------------------------------------------ helpers
+
+    /**
+     * @return array<string, int>
+     */
+    private function countByType(Builder $cases): array
+    {
+        $rows = $cases->selectRaw('c.type as type, count(*) as total')->groupBy('type')->pluck('total', 'type');
+
+        return $this->ordered(CaseType::values(), $rows->all());
+    }
+
+    /**
+     * @return array<string, int>
+     */
+    private function countByCategory(Builder $cases): array
+    {
+        return $cases
             ->join('charges as ch', 'ch.case_id', '=', 'c.id')
             ->join('criminal_offences as o', 'o.id', '=', 'ch.criminal_offence_id')
             ->whereNotNull('o.category_id')
@@ -462,13 +547,11 @@ class AnalyticsService
     }
 
     /**
-     * Cases per court (portal).
-     *
-     * @return array<string, int> court id => count
+     * @return array<string, int> court id => count, largest first
      */
-    public function casesByCourt(): array
+    private function countByCourt(Builder $cases): array
     {
-        return $this->cases()
+        return $cases
             ->whereNotNull('c.court_id')
             ->selectRaw('c.court_id as court, count(*) as total')
             ->groupBy('court')
@@ -477,8 +560,6 @@ class AnalyticsService
             ->mapWithKeys(fn ($total, $court): array => [(string) $court => (int) $total])
             ->all();
     }
-
-    // ------------------------------------------------------------------ helpers
 
     /**
      * @return array<string, int>

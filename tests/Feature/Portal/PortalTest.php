@@ -82,7 +82,7 @@ it('hides small numbers in the public statistics', function () {
     }
 
     Livewire::test(Statistics::class)
-        ->assertViewHas('headline', fn (array $headline) => $headline['hearings'] === null && $headline['cases'] === null)
+        ->assertViewHas('headline', fn (array $headline) => $headline['hearings'] === null && $headline['cases'] === null && $headline['courts'] === 1)
         ->assertSeeHtml('data-stat="hearings">&lt;5<');
 });
 

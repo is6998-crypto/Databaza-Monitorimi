@@ -2,11 +2,10 @@
 
 return [
     'tagline' => 'Monitorim i pavarur i gjykatave të Kosovës',
-    'meta_description' => 'Statistika dhe informata anonime nga monitorimi i pavarur i seancave gjyqësore në Kosovë: shtyrjet, përpikëria, transparenca, rezultatet dhe dënimet.',
+    'meta_description' => 'Pasqyrë anonime e lëndëve dhe e seancave gjyqësore të monitoruara në Kosovë: sa lëndë janë monitoruar, sipas vitit, gjykatës dhe llojit të lëndës.',
     'skip' => 'Kalo te përmbajtja',
     'language' => 'Gjuha',
     'show_data' => 'Shfaq të dhënat',
-    'days' => 'ditë',
     'suppression_note' => 'Për të mbrojtur privatësinë, çdo numër nën :threshold fshihet dhe shfaqet si “<:threshold”. Publikohen vetëm të dhënat e verifikuara nga redaktorët tanë.',
     'nav' => [
         'label' => 'Navigimi kryesor',
@@ -34,7 +33,7 @@ return [
         'intro' => 'Monitoruesit tanë ndjekin seancat gjyqësore në të gjithë Kosovën dhe regjistrojnë si zhvillohen ato. Shfletoni rezultatet e verifikuara sipas vitit, gjykatës dhe llojit të lëndës.',
         'cta_cases' => 'Kërko lëndët e monitoruara',
         'cta_data' => 'Shkarko të dhënat e hapura',
-        'statistics' => 'Statistikat',
+        'statistics' => 'Pasqyra e lëndëve të monitoruara',
         'latest_reports' => 'Raportet e fundit',
         'all_reports' => 'Të gjitha raportet',
         'updated' => 'Përditësimi i fundit',
@@ -55,19 +54,13 @@ return [
     'stats' => [
         'cases' => 'Lëndë të monitoruara',
         'hearings' => 'Seanca të monitoruara',
-        'postponement_rate' => 'Seanca të shtyra',
-        'late_rate' => 'Filluan mbi 15 min vonë',
-        'public_rate' => 'Seanca publike',
-        'conviction_rate' => 'Dënime në aktgjykime',
+        'courts' => 'Gjykata të përfshira',
     ],
     'charts' => [
-        'hearings_by_year' => 'Seanca të monitoruara për vit',
+        'cases_by_year' => 'Lëndët e monitoruara për vit',
+        'cases_by_court' => 'Lëndët e monitoruara sipas gjykatës',
         'cases_by_type' => 'Lëndët e monitoruara sipas llojit',
         'cases_by_category' => 'Lëndët e monitoruara sipas kategorisë së veprës penale',
-        'postponement_by_court' => 'Pjesa e seancave të shtyra, sipas gjykatës (%)',
-        'postponement_reasons' => 'Arsyet e shtyrjes',
-        'verdicts' => 'Aktgjykimet e shkallës së parë',
-        'durations' => 'Mediana e ditëve ndërmjet fazave',
     ],
     'cases' => [
         'title' => 'Kërko lëndët e monitoruara',
@@ -101,29 +94,19 @@ return [
         'download' => 'Shkarko CSV',
         'licence' => 'Të dhënat mund t\'i ripërdorni duke cituar programin e monitorimit të gjykatave.',
         'datasets' => [
-            'hearings-by-year-and-court' => 'Seancat dhe shtyrjet sipas vitit dhe gjykatës',
-            'postponement-by-court' => 'Shkalla e shtyrjes sipas gjykatës',
-            'postponement-reasons' => 'Arsyet e shtyrjes',
+            'cases-by-year-and-court' => 'Lëndët dhe seancat e monitoruara sipas vitit dhe gjykatës',
+            'cases-by-court' => 'Lëndët e monitoruara sipas gjykatës',
             'cases-by-type' => 'Lëndët e monitoruara sipas llojit',
             'cases-by-category' => 'Lëndët e monitoruara sipas kategorisë së veprës penale',
-            'verdicts' => 'Aktgjykimet e shkallës së parë sipas rezultatit',
-            'stage-durations' => 'Mediana e ditëve ndërmjet fazave të lëndës',
         ],
     ],
     'columns' => [
         'year' => 'Viti',
         'court' => 'Gjykata',
         'hearings' => 'Seanca',
-        'postponed' => 'Të shtyra',
-        'rate' => 'Shkalla (%)',
-        'reason' => 'Arsyeja',
-        'count' => 'Numri',
         'case_type' => 'Lloji i lëndës',
         'category' => 'Kategoria e veprës penale',
         'cases' => 'Lëndë',
-        'outcome' => 'Rezultati',
-        'stages' => 'Fazat',
-        'median_days' => 'Mediana e ditëve',
     ],
     'pages' => [
         'methodology' => [
@@ -140,19 +123,20 @@ return [
                 [
                     'heading' => 'Verifikimi',
                     'paragraphs' => [
-                        'Çdo lëndë dhe çdo seancë kalon nëpër shqyrtim: monitoruesi e dorëzon, një redaktor e kontrollon dhe ose e aprovon ose e kthen me koment. Vetëm regjistrat e aprovuar përfshihen në statistika, në kërkimin e lëndëve dhe në të dhënat e hapura.',
+                        'Çdo lëndë dhe çdo seancë kalon nëpër shqyrtim: monitoruesi e dorëzon, një redaktor e kontrollon dhe ose e aprovon ose e kthen me koment. Vetëm regjistrat e aprovuar përfshihen në pasqyrë, në kërkimin e lëndëve dhe në të dhënat e hapura.',
                     ],
                 ],
                 [
-                    'heading' => 'Treguesit',
+                    'heading' => 'Pasqyra',
                     'paragraphs' => [
-                        'Shkallët llogariten mbi seancat e monitoruara, jo mbi të gjitha seancat e mbajtura në gjykatat e Kosovës. Kohëzgjatjet janë mediana e numrit të ditëve ndërmjet dy fazave të regjistruara të së njëjtës lëndë.',
+                        'Portali publikon një pasqyrë të lëndëve të monitoruara: sa lëndë dhe seanca janë monitoruar, dhe si ndahen sipas vitit, gjykatës, llojit të lëndës dhe kategorisë së veprës penale. Një lëndë numërohet në çdo vit në të cilin është monitoruar të paktën një seancë e saj.',
+                        'Gjetjet e monitorimit (shtyrjet, vonesat, transparenca, vendimet) analizohen në raportet tona dhe u vihen në dispozicion hulumtuesve të aprovuar.',
                     ],
                 ],
                 [
                     'heading' => 'Mbrojtja e privatësisë',
                     'paragraphs' => [
-                        'Statistikat nuk shfaqin kurrë emra. Çdo numër nën pesë fshihet, ndërsa përqindjet dhe medianat që bazohen në më pak se pesë regjistra nuk shfaqen, në mënyrë që individët të mos identifikohen.',
+                        'Pasqyra nuk shfaq kurrë emra. Çdo numër lëndësh ose seancash nën pesë fshihet, në mënyrë që individët të mos identifikohen.',
                     ],
                 ],
             ],

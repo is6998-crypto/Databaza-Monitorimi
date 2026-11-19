@@ -227,9 +227,11 @@ sigurisë).
 ## 10. Përmbajtja e portalit publik (redaktorët)
 
 **Portali publik → Raporte dhe publikime**: ngarkoni raportet e organizatës (PDF) me titull dhe
-përmbledhje në të dy gjuhët dhe shënoni **Publikuar** për t'i shfaqur në portal. Statistikat dhe
-lëndët e anonimizuara të portalit përditësohen vetë nga të dhënat e aprovuara; numrat nën 5
-shfaqen si "<5" për të mbrojtur privatësinë.
+përmbledhje në të dy gjuhët dhe shënoni **Publikuar** për t'i shfaqur në portal. Pasqyra e
+lëndëve të monitoruara (sa lëndë e seanca, sipas vitit, gjykatës, llojit dhe kategorisë së
+veprës) dhe lëndët e anonimizuara të portalit përditësohen vetë nga të dhënat e aprovuara; numrat
+nën 5 shfaqen si "<5" për të mbrojtur privatësinë. Gjetjet e monitorimit (shtyrjet, vonesat,
+aktgjykimet, kohëzgjatjet) nuk publikohen në portal: ato mbeten në panel dhe te hulumtuesit.
 
 ## 11. Administrimi (Super administratori)
 
