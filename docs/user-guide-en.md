@@ -221,8 +221,11 @@ categories, nationalities, positions, economic statuses, security measure types)
 
 **Public portal → Reports & publications**: upload the organization's reports (PDF) with a
 title and summary in both languages, and tick **Published** to show them on the portal. The
-portal's statistics and anonymized cases update by themselves from approved data; numbers below
-5 are shown as "<5" to protect privacy.
+portal's overview of monitored cases (how many cases and hearings, by year, court, type and
+offence category) and its anonymized cases update by themselves from approved data; numbers
+below 5 are shown as "<5" to protect privacy. The findings of the monitoring (postponements,
+delays, judgments, durations) are not published on the portal: they stay in the panel and the
+researcher area.
 
 ## 11. Administration (Super Admin)
 

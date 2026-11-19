@@ -1,5 +1,11 @@
 # Changelog
 
+### Public portal: an overview of the monitored cases only
+
+- The home page now shows how many cases and hearings were monitored and in how many courts, with the cases per year, by court, by type and by offence category (the year, court and type filters stay).
+- Removed from the public portal: postponement and late-start rates, reasons for postponement, public/closed hearings, conviction rate, first-instance judgments and median days between stages. They are still in the staff dashboard and, for approved researchers, in the research area and the API.
+- Open data: new tables "cases and hearings by year and court" and "cases by court"; the tables of postponements, reasons, judgments and durations are gone.
+
 ### Staff panel redesign (same colours)
 
 - **Dashboard**: under the greeting, live counts of what waits for you (review queue, reports, your drafts, legal time limits exceeded and ending this week); each opens its list. Exceeded limits are listed with a meter that sets the days over beside the limit. Shares are drawn as bars under their figures.

@@ -5,7 +5,7 @@ use App\Filament\Research\Pages\Datasets;
 use App\Livewire\Portal\CaseSearch;
 use App\Livewire\Portal\Statistics;
 use App\Services\Export\ResearchExportColumns;
-use App\Services\Portal\PortalStatistics;
+use App\Services\Portal\PortalOverview;
 use Illuminate\Routing\Route as RoutingRoute;
 use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
@@ -24,7 +24,7 @@ function publicUrls(array $fixture): array
     $values = [
         'publicRef' => array_map(fn ($case) => $case->public_ref, $fixture['cases']),
         'slug' => [$fixture['publication']->slug],
-        'dataset' => array_keys(PortalStatistics::datasets()),
+        'dataset' => array_keys(PortalOverview::datasets()),
     ];
 
     $urls = [];

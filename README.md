@@ -48,8 +48,10 @@ _Screenshot placeholders — add images to `docs/screenshots/` and link them her
   bilingual names, "merge duplicates" and CSV import.
 - **Search and analytics**: global search with typo tolerance, saved and shared filters, bulk
   actions, logged CSV/XLSX exports and a dashboard with every indicator of the proposal.
-- **Public portal**: statistics and charts by year, court and case type, anonymized case
-  search, reports, methodology, open-data CSVs; every number under 5 is suppressed.
+- **Public portal**: an overview of the monitored cases (how many, by year, court, case type
+  and offence category), anonymized case search, reports, methodology, open-data CSVs; every
+  number under 5 is suppressed. The findings (postponements, delays, judgments…) stay in the
+  staff panel and the researcher area.
 - **Researcher area and API**: registration, approval, data-use agreement, a chart builder, anonymized
   datasets and a read-only, rate-limited REST API; every export is logged.
 - **Legacy migration toolkit**: `php artisan legacy:import` for the old MySQL database

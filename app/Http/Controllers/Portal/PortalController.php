@@ -8,7 +8,7 @@ use App\Models\ExportLog;
 use App\Models\Publication;
 use App\Services\Analytics\AnalyticsFilters;
 use App\Services\Export\ExportService;
-use App\Services\Portal\PortalStatistics;
+use App\Services\Portal\PortalOverview;
 use App\Services\Portal\PublicCasePresenter;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -37,7 +37,9 @@ class PortalController extends Controller
         $recent = CourtCase::query()->verified()->with(PublicCasePresenter::relations())->latest('updated_at')->limit(3)->get();
 
         return view('portal.home', [
-            'headline' => PortalStatistics::for(new AnalyticsFilters)->headline(),
+            // For the methodology steps: the overview as the public sees it.
+            'headline' => PortalOverview::for(new AnalyticsFilters)->headline(),
+            'topCourts' => array_slice(PortalOverview::for(new AnalyticsFilters)->casesByCourt(), 0, 3, true),
             'publications' => Publication::query()->published()->latest('published_on')->limit(3)->get(),
             // The hero shows the real product: the latest verified cases as the case search lists them
             // (anonymized by the same presenter), and the month of the latest update (month and year only).
@@ -84,7 +86,7 @@ class PortalController extends Controller
 
     public function openData(): View
     {
-        return view('portal.open-data', ['datasets' => PortalStatistics::datasets()]);
+        return view('portal.open-data', ['datasets' => PortalOverview::datasets()]);
     }
 
     /**
@@ -92,9 +94,9 @@ class PortalController extends Controller
      */
     public function dataset(string $locale, string $dataset, ExportService $exports): Response
     {
-        abort_unless(array_key_exists($dataset, PortalStatistics::datasets()), 404);
+        abort_unless(array_key_exists($dataset, PortalOverview::datasets()), 404);
 
-        $data = PortalStatistics::for(new AnalyticsFilters)->dataset($dataset);
+        $data = PortalOverview::for(new AnalyticsFilters)->dataset($dataset);
         $exports->log('open-data:'.$dataset, 'csv', ExportLog::CONTEXT_PUBLIC, null, ['locale' => $locale], count($data['rows']));
 
         $handle = fopen('php://temp', 'r+');

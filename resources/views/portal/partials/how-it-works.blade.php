@@ -1,7 +1,7 @@
 {{--
     The page's dealt moment, pinned-chapters (the skill's references/moments.md): the methodology steps, each a
     title and its first sentence from the methodology page, beside one frame that shows the matching part of the
-    real platform (the hearing form, the review workflow, the indicators, the anonymized record).
+    real platform (the hearing form, the review workflow, the overview, the anonymized record).
     The kit's moment.js holds the section on screen while the steps open; at rest, on a phone and under reduced
     motion every step stands with its picture.
 --}}
@@ -53,11 +53,14 @@
                                         </ol>
                                         @break
                                     @case(2)
-                                        {{-- The indicators: rates over monitored hearings. --}}
-                                        @foreach (['postponement_rate', 'late_rate', 'public_rate'] as $key)
-                                            <div @class(['mt-4' => ! $loop->first])>
-                                                <p class="flex items-baseline justify-between gap-3 text-[15px] font-semibold"><span>{{ __('portal.stats.'.$key) }}</span><span class="tabular-nums">{{ Anonymizer::display($headline[$key], ' %') }}</span></p>
-                                                <span class="mt-2 block h-2.5 overflow-hidden rounded-full bg-navy-50"><span class="block h-full rounded-full {{ $loop->first ? 'bg-gold-400' : 'bg-navy-900' }}" style="width: {{ min(100, max(0, (float) ($headline[$key] ?? 0))) }}%"></span></span>
+                                        {{-- The overview: the cases monitored, and the courts with the most of them. --}}
+                                        <p class="text-[15px] font-semibold text-slate-600">{{ __('portal.stats.cases') }}</p>
+                                        <p class="mt-1 text-4xl leading-none font-extrabold tracking-tight tabular-nums">{{ Anonymizer::display($headline['cases']) }}</p>
+                                        @php $most = max(1, (int) collect($topCourts)->filter()->max()); @endphp
+                                        @foreach ($topCourts as $court => $count)
+                                            <div class="mt-4">
+                                                <p class="flex items-baseline justify-between gap-3 text-[15px] font-semibold"><span class="min-w-0 truncate">{{ $court }}</span><span class="tabular-nums">{{ Anonymizer::display($count) }}</span></p>
+                                                <span class="mt-2 block h-2.5 overflow-hidden rounded-full bg-navy-50"><span class="block h-full rounded-full {{ $loop->first ? 'bg-gold-400' : 'bg-navy-900' }}" style="width: {{ $count ? round($count / $most * 100, 1) : 0 }}%"></span></span>
                                             </div>
                                         @endforeach
                                         @break
