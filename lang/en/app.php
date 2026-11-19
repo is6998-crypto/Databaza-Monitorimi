@@ -20,4 +20,7 @@ return [
         'logout' => 'Sign out now',
         'timed_out' => 'You were signed out after a period of inactivity. Your drafts were saved.',
     ],
+    'file_upload' => [
+        'idle' => 'Drag a file here or <span class="filepond--label-action">browse</span>',
+    ],
 ];

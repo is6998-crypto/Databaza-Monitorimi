@@ -20,4 +20,7 @@ return [
         'logout' => 'Çkyçu tani',
         'timed_out' => 'U çkyçët pas një periudhe mosaktiviteti. Draftet tuaja u ruajtën.',
     ],
+    'file_upload' => [
+        'idle' => 'Tërhiqni skedarin këtu ose <span class="filepond--label-action">zgjidhni një</span>',
+    ],
 ];

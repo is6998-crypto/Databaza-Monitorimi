@@ -23,6 +23,7 @@ use Filament\Actions\ViewAction;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource as FilamentResource;
 use Filament\Schemas\Schema;
@@ -126,6 +127,11 @@ class AppServiceProvider extends ServiceProvider
         // Design: one yellow call to action per screen; editing is a secondary (white) button.
         EditAction::configureUsing(fn (EditAction $action) => $action->color('gray'));
         ViewAction::configureUsing(fn (ViewAction $action) => $action->color('gray'));
+
+        // The upload widget (FilePond) has no Albanian translation and showed "Drag & Drop your files or Browse"
+        // on Albanian pages. A disabled field keeps Filament's own "no files uploaded" text.
+        FileUpload::configureUsing(fn (FileUpload $upload) => $upload
+            ->placeholder(fn (FileUpload $component): ?string => $component->isDisabled() ? null : (string) __('app.file_upload.idle')));
 
         // Design: a badge is yellow only when its state says so (WorkflowStatus and the other enums with a
         // colour). A category without one (hearing type, court level, a department) used to get Filament's

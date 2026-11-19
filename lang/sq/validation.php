@@ -155,7 +155,7 @@ return [
     'timezone' => 'Fusha :attribute duhet të jetë zonë kohore e vlefshme.',
     'ulid' => 'Fusha :attribute duhet të jetë ULID i vlefshëm.',
     'unique' => ':attribute është marrë tashmë.',
-    'uploaded' => 'Ngarkimi i :attribute dështoi.',
+    'uploaded' => ':attribute nuk u ngarkua. Provoni përsëri.',
     'uppercase' => 'Fusha :attribute duhet të jetë me shkronja të mëdha.',
     'url' => 'Fusha :attribute duhet të jetë URL e vlefshme.',
     'uuid' => 'Fusha :attribute duhet të jetë UUID e vlefshme.',
