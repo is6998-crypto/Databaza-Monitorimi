@@ -114,6 +114,7 @@ class AdminPanelProvider extends PanelProvider
                 'subtitle' => __('app.brand_subtitle'),
                 'note' => __('portal.footer.privacy', ['threshold' => Anonymizer::threshold()]),
             ]))
+            ->renderHook(PanelsRenderHook::HEAD_END, fn () => view('partials.filepond-labels'))
             ->renderHook(PanelsRenderHook::BODY_END, fn () => view('partials.idle-timeout', [
                 'logoutUrl' => route('filament.admin.auth.logout'),
                 'loginUrl' => route('filament.admin.auth.login'),

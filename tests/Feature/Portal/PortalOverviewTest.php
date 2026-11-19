@@ -5,6 +5,7 @@ use App\Enums\PostponementReason;
 use App\Enums\StageOutcome;
 use App\Enums\StageType;
 use App\Enums\WorkflowStatus;
+use App\Livewire\Portal\CaseSearch;
 use App\Livewire\Portal\Statistics;
 use App\Models\CaseStage;
 use App\Models\CourtCase;
@@ -167,4 +168,30 @@ it('still gives approved researchers the full statistics through the API', funct
     $this->withToken($token)->getJson('/api/v1/statistics')
         ->assertOk()
         ->assertJsonStructure(['headline' => ['postponement_rate', 'late_rate', 'public_rate', 'conviction_rate'], 'postponement_by_court', 'postponement_reasons', 'verdicts', 'stage_durations']);
+});
+
+it('shows no findings on the public case cards and case pages either', function () {
+    [$case] = monitoredCases(basicCourt(), 1);
+    verifiedHearings($case, ['2026-02-02', '2026-03-03', '2026-04-04'], ['was_postponed' => true, 'postponement_reasons' => [PostponementReason::Judge->value], 'started_late' => true, 'delay_minutes' => 30, 'is_public' => false]);
+    CaseStage::query()->create(['case_id' => $case->id, 'stage' => StageType::IndictmentFiled, 'date' => '2025-10-01']);
+    CaseStage::query()->create(['case_id' => $case->id, 'stage' => StageType::JudgmentAnnounced, 'date' => '2026-05-01', 'outcome' => StageOutcome::Acquitting]);
+
+    app()->setLocale('sq');
+
+    $card = Livewire::test(CaseSearch::class)->html();
+    $page = (string) $this->get('/sq/cases/'.$case->public_ref)->assertOk()->getContent();
+
+    foreach ([$card, $page] as $html) {
+        expect($html)->toContain(StageType::JudgmentAnnounced->getLabel())  // where the case stands: yes
+            ->and($html)->not->toContain(StageOutcome::Acquitting->getLabel()) // the verdict: no
+            ->and($html)->not->toContain('Të shtyra')
+            ->and($html)->not->toContain('Me vonesë');
+    }
+
+    // The number of monitored hearings stays.
+    expect($page)->toContain('data-hearings-total>3<');
+
+    // There is no filter by judgment any more; an old link with one is simply ignored.
+    expect(property_exists(CaseSearch::class, 'outcome'))->toBeFalse();
+    $this->get('/sq/cases?outcome=acquitting')->assertOk();
 });

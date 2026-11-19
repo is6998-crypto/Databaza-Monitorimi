@@ -3,7 +3,6 @@
 namespace App\Services\Portal;
 
 use App\Enums\ChargeStage;
-use App\Enums\StageType;
 use App\Models\CaseStage;
 use App\Models\Charge;
 use App\Models\CourtCase;
@@ -12,6 +11,9 @@ use App\Models\Hearing;
 /**
  * Anonymized public view of a verified case: no names, no case numbers, no judges or
  * prosecutors, and dates reduced to month and year.
+ *
+ * Like the rest of the portal it describes the case, not the findings of the monitoring: no
+ * judgment outcomes and no postponed, late or closed hearings (staff panel and researchers only).
  */
 final class PublicCasePresenter
 {
@@ -36,7 +38,6 @@ final class PublicCasePresenter
     {
         /** @var CaseStage|null $latest */
         $latest = $case->stages->sortBy(fn (CaseStage $stage): int => $stage->stage->order())->last();
-        $judgment = $case->stages->first(fn (CaseStage $stage): bool => $stage->stage === StageType::JudgmentAnnounced);
         $first = $case->stages->whereNotNull('date')->sortBy('date')->first();
 
         return [
@@ -48,9 +49,7 @@ final class PublicCasePresenter
             'year' => (int) ($first?->date?->format('Y') ?? $case->created_at?->format('Y')),
             'offences' => self::offences($case),
             'stage' => $latest?->stage->getLabel(),
-            'outcome' => $judgment?->outcome?->getLabel(),
             'hearings' => $case->hearings->count(),
-            'postponed' => $case->hearings->where('was_postponed', true)->count(),
         ];
     }
 
@@ -66,15 +65,11 @@ final class PublicCasePresenter
                 ->map(fn (CaseStage $stage): array => [
                     'stage' => $stage->stage->getLabel(),
                     'date' => $stage->date?->format('m.Y'),
-                    'outcome' => $stage->outcome?->getLabel(),
                 ])
                 ->values()
                 ->all(),
             'hearing_summary' => [
                 'total' => $case->hearings->count(),
-                'postponed' => $case->hearings->where('was_postponed', true)->count(),
-                'late' => $case->hearings->where('started_late', true)->count(),
-                'public' => $case->hearings->where('is_public', true)->count(),
                 'first' => $case->hearings->min(fn (Hearing $hearing) => $hearing->hearing_date)?->format('m.Y'),
                 'last' => $case->hearings->max(fn (Hearing $hearing) => $hearing->hearing_date)?->format('m.Y'),
             ],

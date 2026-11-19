@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\Role;
+use App\Filament\Admin\Resources\Cases\CourtCaseResource;
 use App\Filament\Admin\Resources\Cases\Pages\ViewCourtCase;
 use App\Filament\Admin\Resources\Cases\RelationManagers\AttachmentsRelationManager;
 use App\Models\Attachment;
@@ -89,3 +90,15 @@ it('shows the drop zone in the page language', function (string $locale, string 
     'Albanian' => ['sq', 'Tërhiqni skedarin këtu'],
     'English' => ['en', 'Drag a file here'],
 ]);
+
+it('gives the upload widget its status messages in the page language', function () {
+    $this->actingAs(userWithRole(Role::Editor));
+
+    $this->get('/locale/sq');
+    $html = (string) $this->get(CourtCaseResource::getUrl('view', ['record' => CourtCase::factory()->create()]))->assertOk()->getContent();
+
+    expect($html)->toContain("addEventListener('FilePond:init'")
+        // Sent as JSON, so letters such as ë are escaped: an ASCII message is checked.
+        ->and($html)->toContain('Duke u ngarkuar')
+        ->and($html)->toContain('labelFileProcessingComplete');
+});
