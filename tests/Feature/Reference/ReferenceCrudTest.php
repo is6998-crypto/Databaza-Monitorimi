@@ -40,7 +40,10 @@ it('lists reference data for editors and analysts', function (Role $role) {
 
     Livewire::test(ManageCourts::class)
         ->assertOk()
-        ->assertCanSeeTableRecords(Court::query()->limit(5)->get());
+        // The first rows of the list as it sorts them (by name): with more courts than fit on one page, five
+        // courts picked in no particular order may include one from the second page (it did on CI, whose
+        // database sorts names in another collation).
+        ->assertCanSeeTableRecords(Court::query()->orderBy('name_sq')->limit(5)->get());
 })->with([Role::Editor, Role::Analyst, Role::SuperAdmin]);
 
 it('hides reference management from monitors', function () {
