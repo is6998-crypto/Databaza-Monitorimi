@@ -1,5 +1,11 @@
 # Changelog
 
+### Fixed: uploading documents
+
+- PDFs and images could not be uploaded to cases and hearings ("Ngarkimi i skedarit … dështoi") wherever files are stored on S3, as in Docker and production: the browser was sent to the storage server directly, at an address it cannot reach. Uploads now go through the application. The same fix applies to publication PDFs and CSV imports.
+- Documents between 12 and 20 MB (and publications up to 50 MB) are accepted, as the forms say.
+- The drop zone reads "Tërhiqni skedarin këtu ose zgjidhni një" in Albanian instead of English.
+
 ### Public portal: an overview of the monitored cases only
 
 - The home page now shows how many cases and hearings were monitored and in how many courts, with the cases per year, by court, by type and by offence category (the year, court and type filters stay).
