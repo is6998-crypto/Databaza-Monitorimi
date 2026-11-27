@@ -57,7 +57,7 @@ docker compose -f docker-compose.prod.yml up -d --build   # production stack (do
 - `app/Http/Controllers/Api/V1` — researcher API (anonymized resources only).
 - `app/Livewire/Portal` + `resources/views/portal` — public portal.
 - `migration/` — legacy importer (`Migration\` namespace), config and fake fixture.
-- `lang/sq`, `lang/en` — every user-facing string. `lang/sr` exists but is not translated yet.
+- `lang/sq`, `lang/en`, `lang/sr` (Serbian, Latin script) — every user-facing string, same keys in all three (`tests/Feature/TranslationsTest.php`). Filament's own Serbian strings come from its `sr_Latn` files (`App\Support\Translation\LocaleAliasLoader`).
 
 ## Rules (from the proposal — must always hold)
 
@@ -66,7 +66,7 @@ docker compose -f docker-compose.prod.yml up -d --build   # production stack (do
 3. **Suppress public aggregate cells under 5** (`App\Services\Anonymizer::suppress`).
 4. **Permissions are enforced with policies on the server** for every action. Monitors: create cases/hearings, edit own drafts and records under review, scoped to assigned courts, no delete. Analysts: read-only. Delete is admin-only and soft.
 5. **Audit everything**: models use `LogsActivity`; logins, exports and permission changes are logged explicitly.
-6. **Every user-facing string goes in translation files** (`__('...')`), Albanian default.
+6. **Every user-facing string goes in translation files** (`__('...')`) — Albanian (default), English and Serbian.
 7. **Dates**: stored in UTC, displayed in `Europe/Belgrade` as `dd.mm.yyyy`.
 8. **Workflow**: `draft → submitted → in_review → approved → published`, plus `returned` (with comment). Only approved/published data feeds dashboards, the public portal and researchers.
 9. **Exports are always logged** in `export_logs` (admin, researcher and API).

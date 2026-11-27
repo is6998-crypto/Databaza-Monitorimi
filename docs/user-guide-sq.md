@@ -20,7 +20,7 @@ programit), **analistët** dhe **administratorët**. Versioni në anglisht ësht
 
 Mirë ta dini:
 
-- Gjuha (Shqip / English) gjendet në menynë nën inicialet tuaja, lart djathtas.
+- Gjuha (Shqip / English / Srpski) gjendet në menynë nën inicialet tuaja, lart djathtas.
 - Pas **30 minutash pa aktivitet** çkyçeni automatikisht. Dy minuta para kësaj, një dritare ju
   pyet nëse doni të qëndroni të kyçur; aktiviteti në cilëndo skedë i mban të gjitha skedat aktive.
   Formularët ruhen si draft para çkyçjes, që të mos humbni punën.

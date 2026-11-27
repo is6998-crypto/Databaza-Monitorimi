@@ -18,6 +18,7 @@ use App\Policies\ActivityPolicy;
 use App\Policies\CaseChildPolicy;
 use App\Policies\RolePolicy;
 use App\Support\PublicUrl;
+use App\Support\Translation\LocaleAliasLoader;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\CheckboxList;
@@ -53,7 +54,13 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        //
+        // Package strings for "sr" come from their "sr_Latn" files (Filament has no plain "sr"). The translation
+        // provider is deferred and binds its own loader later, so the loader is replaced when it is first built.
+        $this->app->extend('translation.loader', fn ($loader, $app) => new LocaleAliasLoader(
+            $app['files'],
+            [base_path('vendor/laravel/framework/src/Illuminate/Translation/lang'), $app['path.lang']],
+            ['sr' => 'sr_Latn'],
+        ));
     }
 
     public function boot(): void

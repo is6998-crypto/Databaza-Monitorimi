@@ -89,7 +89,7 @@ it('never shows personal names or case numbers on any public page', function () 
 it('never shows personal names in the interactive portal components', function () {
     PersonalDataFixture::create();
 
-    foreach (['sq', 'en'] as $locale) {
+    foreach (['sq', 'en', 'sr'] as $locale) {
         app()->setLocale($locale);
         PersonalDataFixture::assertClean(Livewire::test(Statistics::class)->html(), 'statistics component');
         PersonalDataFixture::assertClean(Livewire::test(CaseSearch::class)->html(), 'case search');

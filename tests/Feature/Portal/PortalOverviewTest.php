@@ -113,7 +113,7 @@ it('publishes no finding of the monitoring on the portal', function () {
         CaseStage::query()->create(['case_id' => $case->id, 'stage' => StageType::JudgmentAnnounced, 'date' => '2026-04-01', 'outcome' => StageOutcome::Convicting]);
     }
 
-    foreach (['sq', 'en'] as $locale) {
+    foreach (['sq', 'en', 'sr'] as $locale) {
         app()->setLocale($locale);
 
         $html = Livewire::test(Statistics::class)->html();

@@ -10,7 +10,7 @@ return [
     | structure is Serbian-ready (reference data has nullable name_sr columns).
     */
 
-    'supported_locales' => array_values(array_filter(explode(',', (string) env('APP_SUPPORTED_LOCALES', 'sq,en')))),
+    'supported_locales' => array_values(array_filter(explode(',', (string) env('APP_SUPPORTED_LOCALES', 'sq,en,sr')))),
 
     'locale_labels' => [
         'sq' => 'Shqip',

@@ -19,7 +19,7 @@ This guide is for the organization's staff: **monitors**, **editors** (program m
 
 Good to know:
 
-- The language (Shqip / English) is in the menu under your initials, top right.
+- The language (Shqip / English / Srpski) is in the menu under your initials, top right.
 - After **30 minutes without activity** you are signed out. Two minutes before, a window asks
   whether you want to stay signed in; activity in any tab keeps all tabs alive. Forms are
   saved as drafts before the sign-out, so you do not lose your work.

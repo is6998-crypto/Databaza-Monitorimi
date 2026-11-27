@@ -129,6 +129,10 @@ added at the bottom of each section. Format: **decision** — reason.
 - **ECharts is tree-shaken and loaded on demand only on pages with charts; every chart has a "show data" table for accessibility.** The ECharts instance is kept outside Alpine's reactive state (a reactive proxy breaks ECharts).
 - **No cookies other than Laravel's session/CSRF cookies, no analytics or third-party fonts/scripts on the portal.** — Data protection by default.
 - **Publications are managed by Editors in the staff panel; their PDFs live on private storage and are streamed by the portal only while published.**
+- **Serbian is the third language, in Latin script, under the code `sr` (URLs `/sr/...`, files `lang/sr`, columns `name_sr`).** — The proposal asked for a Serbian-ready structure; the courts of the north (Leposavić, Zubin Potok) and Serbian-speaking users need it. Latin script follows the usage of the Kosovo institutions' websites and keeps one script per language. Filament ships Serbian only as `sr_Latn`/`sr_Cyrl`, so `App\Support\Translation\LocaleAliasLoader` reads a package's `sr_Latn` strings for `sr`, with our own `lang/vendor` files still on top.
+- **Serbian names of the court structure follow the Serbian text of the Law on Courts: "Osnovni sud u Prištini", branch = "ogranak", department = "odeljenje", division = "odsek".** — Set by `CourtStructure` (and a migration for existing databases). Other reference data without a Serbian name shows its Albanian name, as before.
+- **`APP_SUPPORTED_LOCALES` now defaults to `sq,en,sr`.** — An existing `.env` that lists `sq,en` keeps Serbian switched off until `,sr` is added.
+
 
 ## Researcher area and API
 

@@ -14,14 +14,16 @@ use Livewire\Livewire;
 it('redirects the root to the preferred language', function () {
     $this->get('/', ['Accept-Language' => 'en-GB,en;q=0.9'])->assertRedirect('/en');
     $this->get('/', ['Accept-Language' => 'de'])->assertRedirect('/sq');
+    $this->get('/', ['Accept-Language' => 'sr-Latn-RS,sr;q=0.9'])->assertRedirect('/sr');
 });
 
-it('serves every page in Albanian and English with SEO tags', function (string $locale, string $path, string $text) {
+it('serves every page in Albanian, English and Serbian with SEO tags', function (string $locale, string $path, string $text) {
     $this->get("/{$locale}{$path}")
         ->assertOk()
         ->assertSee('<link rel="canonical"', false)
         ->assertSee('hreflang="sq"', false)
         ->assertSee('hreflang="en"', false)
+        ->assertSee('hreflang="sr"', false)
         ->assertSee('<meta name="description"', false)
         ->assertSee($text);
 })->with([
@@ -33,6 +35,10 @@ it('serves every page in Albanian and English with SEO tags', function (string $
     ['en', '/about', 'About the programme'],
     ['sq', '/data-protection', '06/L-082'],
     ['en', '/open-data', 'Open data'],
+    ['sr', '', 'Monitoring sudova na Kosovu'],
+    ['sr', '/cases', 'Pretraga praćenih predmeta'],
+    ['sr', '/methodology', 'Metodologija'],
+    ['sr', '/data-protection', '06/L-082'],
 ]);
 
 it('rejects unknown languages', function () {

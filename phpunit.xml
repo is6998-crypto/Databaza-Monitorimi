@@ -20,6 +20,7 @@
     </source>
     <php>
         <env name="APP_ENV" value="testing"/>
+        <env name="APP_SUPPORTED_LOCALES" value="sq,en,sr"/>
         <env name="APP_DEBUG" value="true"/>
         <env name="APP_LOCALE" value="sq"/>
         <env name="APP_MAINTENANCE_DRIVER" value="file"/>

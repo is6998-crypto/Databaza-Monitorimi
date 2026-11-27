@@ -1,5 +1,12 @@
 # Changelog
 
+### Serbian
+
+- The whole platform is available in **Serbian** (Latin script): the staff panel, the monitor app, the researcher area, the public portal (`/sr/...`), notifications, documents and validation messages. Pick **Srpski** in the language menu or on the portal.
+- Courts, branches, chambers, departments and divisions have their Serbian names (e.g. "Osnovni sud u Prištini", "Ogranak u Kosovu Polju").
+- A check keeps the Albanian, English and Serbian texts in step: same keys and placeholders in all three.
+- Existing installations: add `,sr` to `APP_SUPPORTED_LOCALES` in `.env` (new ones have it by default).
+
 ### Period reports for funders
 
 - New page **Analytics → Period reports**: a monitoring report for a quarter, half year, year or chosen dates, optionally for one court or case type, as Word or PDF. It covers the cases and hearings monitored, breakdowns by court, type and offence, postponements and their reasons, punctuality, openness, recording and interpretation, court decisions and legal time limits, with a short method. Approved data only; numbers under 5 are hidden unless you turn that off. Every download is logged.

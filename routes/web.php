@@ -38,7 +38,7 @@ Route::get('/docs/api.postman', [ApiDocsController::class, 'postman'])->name('sc
 
 /*
 |--------------------------------------------------------------------------
-| Public portal — /sq/... and /en/... (proposal B6.7)
+| Public portal — /sq/..., /en/... and /sr/... (proposal B6.7)
 |--------------------------------------------------------------------------
 */
 
@@ -46,7 +46,7 @@ Route::get('/', [PortalController::class, 'redirect'])->name('portal.root');
 Route::get('/sitemap.xml', [PortalController::class, 'sitemap'])->name('portal.sitemap');
 
 Route::prefix('{locale}')
-    ->where(['locale' => 'sq|en'])
+    ->where(['locale' => implode('|', array_map(preg_quote(...), (array) config('courtwatch.supported_locales')))])
     ->middleware(SetPortalLocale::class)
     ->name('portal.')
     ->group(function (): void {

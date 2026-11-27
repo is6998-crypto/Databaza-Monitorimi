@@ -95,7 +95,7 @@ return [
         'departments' => 'Departamentet',
     ],
     'help' => [
-        'serbian' => 'Opsionale — ndërfaqja është e gatshme për serbisht.',
+        'serbian' => 'Shfaqet kur ndërfaqja është në serbisht; pa të shfaqet emri shqip.',
         'departments' => 'Te lënda ofrohen vetëm këto departamente. Lëreni bosh për të lejuar çdo departament.',
     ],
     'actions' => [
