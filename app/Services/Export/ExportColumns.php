@@ -28,6 +28,8 @@ final class ExportColumns
             __('cases.fields.police_case_number') => fn (CourtCase $case) => $case->police_case_number,
             __('cases.fields.type') => fn (CourtCase $case) => $case->type,
             __('cases.fields.status') => fn (CourtCase $case) => $case->status,
+            __('cases.fields.priority') => fn (CourtCase $case) => $case->priority,
+            __('cases.fields.priority_note') => fn (CourtCase $case) => $case->priority_note,
             __('cases.fields.court') => fn (CourtCase $case) => $case->court?->label(),
             __('cases.fields.court_branch') => fn (CourtCase $case) => $case->courtBranch?->label(),
             __('cases.fields.department') => fn (CourtCase $case) => $case->department?->label(),

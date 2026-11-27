@@ -42,6 +42,8 @@ return [
         'trial_bench' => 'Kush e gjykon lëndën?',
         'investigation_extended' => 'A është zgjatur hetimi?',
         'is_complex' => 'A është rast i ndërlikuar?',
+        'priority' => 'Prioriteti',
+        'priority_note' => 'Arsyeja e prioritetit',
     ],
     'help' => [
         'summary' => 'Vetëm për përdorim të brendshëm. Mos shkruani të dhëna personale që nuk nevojiten.',
@@ -51,6 +53,13 @@ return [
         'trial_bench' => 'Shqyrtimi gjyqësor duhet të përfundojë brenda 90 ditësh para gjyqtarit të vetëm dhe brenda 120 ditësh para trupit gjykues. Pa përgjigje zbatohet afati 120 ditë.',
         'investigation_extended' => 'Hetimi zgjat deri në 2 vjet; në raste të ndërlikuara mund të zgjatet edhe 1 vit.',
         'is_complex' => 'Në raste të ndërlikuara aktgjykimi mund të përpilohet brenda 60 ditësh.',
+        'priority' => 'Lëndët me prioritet të lartë dalin të parat në listën e lëndëve, në radhën e shqyrtimit dhe në aplikacionin e monitoruesve. Prioriteti është vetëm për ekipin: nuk shfaqet në portalin publik, te hulumtuesit apo në API.',
+        'priority_note' => 'P.sh. interes i lartë publik, i akuzuari në paraburgim, seancat shtyhen vazhdimisht…',
+    ],
+    'priority' => [
+        'action' => 'Cakto prioritetin',
+        'done' => '{1} Prioriteti u ndryshua për 1 lëndë.|[0,*] Prioriteti u ndryshua për :count lëndë.',
+        'high_short' => 'Prioritet i lartë',
     ],
     'filters' => [
         'mine' => 'Lëndët e mia',

@@ -32,7 +32,7 @@ Mirë ta dini:
 | Roli | Mund të bëjë |
 | --- | --- |
 | Monitorues | Krijon lëndë dhe seanca në gjykatat që i janë caktuar; shkruan raportin e çdo seance; redakton draftet e veta dhe regjistrat që janë në shqyrtim; nuk fshin |
-| Redaktor | Shqyrton, aprovon ose kthen dorëzimet; redakton çdo lëndë; lexon, redakton dhe komenton raportet e seancave; menaxhon të dhënat referuese; publikon raportet |
+| Redaktor | Shqyrton, aprovon ose kthen dorëzimet; redakton çdo lëndë; cakton prioritetin e lëndëve; lexon, redakton dhe komenton raportet e seancave; menaxhon të dhënat referuese; publikon raportet |
 | Analist | Lexon gjithçka, përdor panelin e analizave dhe eksporton (vetëm lexim) |
 | Super administrator | Gjithçka, përfshirë përdoruesit, rolet, aprovimin e hulumtuesve dhe fshirjet |
 
@@ -95,6 +95,18 @@ Kur hapni një lëndë shihni këto skeda:
 > Emrat e palëve janë të dhëna personale. Ata ruhen të enkriptuar, nuk shfaqen kurrë në portalin
 > publik, në të dhënat për hulumtuesit apo në eksporte, dhe nuk duhet të kopjohen në fusha me tekst
 > të lirë si shënimet.
+
+### Prioriteti i lëndës
+
+Redaktorët mund ta shënojnë një lëndë me prioritet **të lartë**, normal ose **të ulët** dhe të shkruajnë
+arsyen (p.sh. "I akuzuari në paraburgim"). Prioriteti caktohet në formularin e lëndës, me butonin
+**Cakto prioritetin** në faqen e lëndës (edhe kur lënda është publikuar) ose për shumë lëndë njëherësh:
+zgjidhni lëndët në listë dhe hapni veprimet për të zgjedhurat.
+
+Lëndët me prioritet të lartë dalin të parat në listën e lëndëve, në radhën e shqyrtimit dhe në
+aplikacionin e monitoruesit, ku kanë një etiketë të verdhë. Lista ka edhe një filtër sipas prioritetit.
+Monitoruesit e shohin prioritetin, por nuk e ndryshojnë. Ndryshimi i prioritetit nuk e rihap shqyrtimin
+dhe nuk shfaqet kurrë në portalin publik, te hulumtuesit apo në API.
 
 ### Afatet ligjore
 

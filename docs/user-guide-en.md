@@ -31,7 +31,7 @@ Good to know:
 | Role | Can do |
 | --- | --- |
 | Monitor | Create cases and hearings in their assigned courts; write the report of every hearing; edit their own drafts and records that are being reviewed; cannot delete |
-| Editor | Review, approve or return submissions; edit any case; read, edit and comment on hearing reports; manage reference data; publish reports |
+| Editor | Review, approve or return submissions; edit any case; set the priority of cases; read, edit and comment on hearing reports; manage reference data; publish reports |
 | Analyst | Read everything, use the dashboard and export (read-only) |
 | Super Admin | Everything, including users, roles, researcher approvals and deletions |
 
@@ -91,6 +91,17 @@ Opening a case shows tabs:
 > [!IMPORTANT]
 > Party names are personal data. They are stored encrypted, never appear on the public portal,
 > in research data or exports, and must not be copied into free-text fields such as notes.
+
+### Case priority
+
+Editors can mark a case as **high**, normal or **low** priority and write the reason (e.g. "accused in
+detention"). The priority is set in the case form, with **Set priority** on the case page (also when the
+case is published), or for many cases at once: select the cases in the list and open the bulk actions.
+
+High-priority cases come first in the case list, the review queue and the monitor app, where they carry a
+yellow label. The list also has a priority filter. Monitors see the priority but cannot change it.
+Changing the priority does not reopen the review, and it never appears on the public portal, to
+researchers or in the API.
 
 ### Legal time limits
 

@@ -42,6 +42,8 @@ return [
         'trial_bench' => 'Who tries the case?',
         'investigation_extended' => 'Was the investigation extended?',
         'is_complex' => 'Is this a complex case?',
+        'priority' => 'Priority',
+        'priority_note' => 'Reason for the priority',
     ],
     'help' => [
         'summary' => 'Internal only. Do not write personal details that are not needed.',
@@ -51,6 +53,13 @@ return [
         'trial_bench' => 'The main trial must end within 90 days before a single trial judge and within 120 days before a trial panel. Without an answer the 120-day limit applies.',
         'investigation_extended' => 'An investigation lasts up to 2 years; in complex cases it can be extended by 1 year.',
         'is_complex' => 'In complex cases the written judgment may take up to 60 days.',
+        'priority' => 'High-priority cases come first in the case list, the review queue and the monitor app. Priority is for the team only: it is not shown on the public portal, to researchers or in the API.',
+        'priority_note' => 'E.g. strong public interest, accused in detention, hearings keep being postponed…',
+    ],
+    'priority' => [
+        'action' => 'Set priority',
+        'done' => '{1} Priority changed for 1 case.|[0,*] Priority changed for :count cases.',
+        'high_short' => 'High priority',
     ],
     'filters' => [
         'mine' => 'My cases',

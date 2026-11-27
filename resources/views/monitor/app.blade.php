@@ -132,7 +132,10 @@
                             <ul class="mt-2 max-h-72 divide-y divide-slate-100 overflow-y-auto rounded-xl border border-slate-200">
                                 <template x-for="item in cases" :key="item.id">
                                     <li><button type="button" class="w-full p-3 text-left hover:bg-gold-50" x-on:click="selectCase(item.id)">
-                                        <span class="block font-semibold text-navy-900" x-text="item.label"></span>
+                                        <span class="flex items-start justify-between gap-2">
+                                            <span class="block font-semibold text-navy-900" x-text="item.label"></span>
+                                            <span x-show="item.priority" class="shrink-0 rounded-full px-2 py-0.5 text-[12px] font-bold" :class="item.priority === 'high' ? 'bg-gold-300 text-navy-900' : 'bg-slate-100 text-slate-600'" x-text="item.priority_label" data-case-priority></span>
+                                        </span>
                                         <span class="text-[13px] text-slate-600" x-text="item.type"></span>
                                     </button></li>
                                 </template>

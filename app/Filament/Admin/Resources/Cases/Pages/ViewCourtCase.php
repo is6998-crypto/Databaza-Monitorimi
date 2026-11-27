@@ -2,6 +2,8 @@
 
 namespace App\Filament\Admin\Resources\Cases\Pages;
 
+use App\Enums\CasePriority;
+use App\Filament\Admin\Actions\CasePriorityAction;
 use App\Filament\Admin\Actions\WorkflowActions;
 use App\Filament\Admin\Resources\Cases\CourtCaseResource;
 use App\Filament\Admin\Resources\Hearings\HearingResource;
@@ -51,7 +53,12 @@ class ViewCourtCase extends ViewRecord
         /** @var CourtCase $case */
         $case = $this->getRecord();
 
-        return collect([$case->court?->label(), $case->type->getLabel(), $case->status->getLabel()])->filter()->implode(' · ');
+        return collect([
+            $case->court?->label(),
+            $case->type->getLabel(),
+            $case->status->getLabel(),
+            $case->priority === CasePriority::High ? __('cases.priority.high_short') : null,
+        ])->filter()->implode(' · ');
     }
 
     protected function getHeaderActions(): array
@@ -66,6 +73,7 @@ class ViewCourtCase extends ViewRecord
                 ->url(HearingResource::getUrl('create', ['case' => $case->getKey()]))
                 ->visible(fn (): bool => Gate::allows('create', Hearing::class) && Gate::allows('view', $case)),
             EditAction::make(),
+            CasePriorityAction::make(),
             ...WorkflowActions::all(),
         ];
     }

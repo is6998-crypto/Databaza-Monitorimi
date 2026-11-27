@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Resources\Cases\Schemas;
 
+use App\Enums\CasePriority;
 use App\Enums\CaseType;
 use App\Enums\WorkflowStatus;
 use App\Models\CaseStage;
@@ -69,6 +70,9 @@ class CourtCaseInfolist
                         ->columnSpan(1)
                         ->schema([
                             TextEntry::make('status')->label(__('cases.fields.status'))->badge(),
+                            TextEntry::make('priority')->label(__('cases.fields.priority'))->badge(),
+                            TextEntry::make('priority_note')->label(__('cases.fields.priority_note'))
+                                ->visible(fn (CourtCase $record): bool => filled($record->priority_note) && $record->priority !== CasePriority::Normal),
                             TextEntry::make('public_code')->label(__('cases.fields.public_code'))->helperText(__('cases.help.public_code')),
                             TextEntry::make('assignedMonitor.user.name')->label(__('cases.fields.assigned_monitor'))->placeholder('—'),
                             TextEntry::make('creator.name')->label(__('cases.fields.created_by'))->placeholder('—'),

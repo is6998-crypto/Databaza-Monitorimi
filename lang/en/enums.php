@@ -24,6 +24,11 @@ return [
         'civil' => 'Civil',
         'economic' => 'Economic',
     ],
+    'case_priority' => [
+        'high' => 'High',
+        'normal' => 'Normal',
+        'low' => 'Low',
+    ],
     'workflow_status' => [
         'draft' => 'Draft',
         'submitted' => 'Submitted',
