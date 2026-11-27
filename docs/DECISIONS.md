@@ -178,6 +178,10 @@ added at the bottom of each section. Format: **decision** — reason.
 - **Proxies are configured in `config/trustedproxy.php` (`TRUSTED_PROXIES`), which Laravel's `TrustProxies` middleware reads on every request.** — Reading it in `bootstrap/app.php` happened before `.env` is loaded, so it only worked as a real environment variable. The Docker dev container sets `*`, because GitHub Codespaces forwards the app through an HTTPS proxy.
 - **Production never seeds demo accounts; the first Super Admin is created with `php artisan app:create-admin` and must set up 2FA at the first sign-in.**
 - **Page titles use the labels as written (no Title Case)** — Albanian does not capitalise the articles "e", "i", "të" ("Degët e gjykatave", not "Degët E Gjykatave").
+- **Error alerts are built in (`App\Services\Monitoring\ErrorAlerts`): every logged error is e-mailed to `ERROR_ALERT_EMAIL`, at most once an hour per error and 20 an hour in all.** — An outside error tracker would receive request data from a system full of personal data; an e-mail of our own carries only the error class, the file and line, the page, the user id and a message with quoted text, e-mail addresses and SQL values removed. Expected responses (404, 403, validation, …) are not reported, as Laravel does not log them.
+- **A monthly restore check (`backup:restore-check`) loads the newest backup into a temporary database with `psql` and checks tables, users and that a name decrypts with the current `APP_KEY`.** — A backup nobody has restored is a hope, not a backup; the most common failure, a lost `APP_KEY`, only shows when the names are read. The check needs a database user that can create databases.
+- **The browser smoke tests already run in CI** (`.github/workflows/docker.yml`, job "docker compose up (development) + end-to-end tests").
+
 
 ## Visual design
 

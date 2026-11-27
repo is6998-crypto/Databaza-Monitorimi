@@ -10,4 +10,18 @@ return [
     '429' => ['title' => 'Previše zahteva', 'message' => 'Poslali ste previše zahteva. Sačekajte trenutak i pokušajte ponovo.'],
     '500' => ['title' => 'Nešto nije u redu', 'message' => 'Problem je zabeležen. Pokušajte ponovo kasnije.'],
     '503' => ['title' => 'Održavanje u toku', 'message' => 'Platforma se ažurira. Pokušajte ponovo za nekoliko minuta.'],
+    'alert' => [
+        'subject' => 'Greška na platformi: :error',
+        'intro' => 'Platforma je naišla na grešku. Detalji ispod ne sadrže lične podatke; ista greška se prijavljuje najviše jednom na sat.',
+        'outro' => 'Pogledajte dnevnik aplikacije (storage/logs) za sve detalje.',
+        'fields' => [
+            'error' => 'Greška',
+            'message' => 'Poruka',
+            'where' => 'Gde u kodu',
+            'page' => 'Stranica',
+            'user' => 'Korisnik',
+            'environment' => 'Okruženje',
+            'time' => 'Vreme',
+        ],
+    ],
 ];

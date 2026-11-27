@@ -1,5 +1,10 @@
 # Changelog
 
+### Error alerts and backup restore check
+
+- When the platform runs into an error, the administrators get an e-mail (`ERROR_ALERT_EMAIL`) with the kind of error, where in the code and on which page — never personal data. The same error is sent at most once an hour. On by default in production.
+- Once a month the newest backup is restored into a temporary database and checked (tables, users, and that names can be decrypted with the server's key); the administrators are e-mailed if it fails. Run it by hand with `php artisan backup:restore-check`.
+
 ### Serbian
 
 - The whole platform is available in **Serbian** (Latin script): the staff panel, the monitor app, the researcher area, the public portal (`/sr/...`), notifications, documents and validation messages. Pick **Srpski** in the language menu or on the portal.

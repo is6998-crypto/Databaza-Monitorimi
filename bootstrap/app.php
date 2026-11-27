@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\SecurityHeaders;
+use App\Services\Monitoring\ErrorAlerts;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -23,6 +24,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectGuestsTo(fn (Request $request): string => $request->is('research', 'research/*') ? '/research/login' : '/admin/login');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+        // Errors that are logged also reach the administrators by e-mail (ERROR_ALERT_EMAIL), without personal data.
+        $exceptions->report(fn (Throwable $exception) => app(ErrorAlerts::class)->report($exception));
+
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );

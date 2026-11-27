@@ -6,7 +6,7 @@ CourtWatch runs on a single virtual private server (VPS) with Docker Compose:
 | --- | --- |
 | `app` | FrankenPHP: Caddy web server with **automatic HTTPS** (Let's Encrypt) + PHP. Runs the migrations on start. Ports 80 and 443. |
 | `horizon` | Queue worker (e-mails, notifications). |
-| `scheduler` | Scheduled tasks: daily encrypted backups, backup monitoring, the morning check of the legal time limits (`deadlines:check`, which emails staff about limits that were exceeded), housekeeping. |
+| `scheduler` | Scheduled tasks: daily encrypted backups, backup monitoring, a monthly restore check, the morning check of the legal time limits (`deadlines:check`, which emails staff about limits that are running out or exceeded), the hearing reminders (`hearings:remind`), housekeeping. |
 | `postgres` | PostgreSQL 16 (not reachable from outside). |
 | `redis` | Redis 7 for sessions, cache and queues (password-protected, not reachable from outside). |
 
@@ -139,6 +139,7 @@ The scheduler runs every night (times in UTC):
 | 01:30 | `backup:clean`: keeps every backup for 7 days, then daily ones for 30 days, weekly for 8 weeks, monthly for 12 months, yearly for 2 years |
 | 02:00 | `backup:run`: PostgreSQL dump (gzip) + private files, in a zip **encrypted with AES-256** (`BACKUP_ARCHIVE_PASSWORD`), uploaded to the off-site `backups` disk |
 | 07:00 | `backup:monitor`: e-mails `BACKUP_NOTIFICATION_EMAIL` if the newest backup is older than a day or too large |
+| 03:30 on the 1st | `backup:restore-check`: restores the newest backup into a temporary database and checks it (see below); e-mails `BACKUP_NOTIFICATION_EMAIL` if it fails |
 
 Run a backup by hand and list the backups:
 
@@ -149,6 +150,22 @@ docker compose -f docker-compose.prod.yml exec app php artisan backup:run
 ```bash
 docker compose -f docker-compose.prod.yml exec app php artisan backup:list
 ```
+
+### Restore check (automatic)
+
+Once a month `backup:restore-check` proves that the newest backup can be restored, without
+touching the live database: it downloads the archive, unpacks it with `BACKUP_ARCHIVE_PASSWORD`,
+loads the dump with `psql` into a temporary database (`<database>_restore_check`), checks that the
+main tables are there, that there are users and that a party name decrypts with this server's
+`APP_KEY`, compares the row counts with the live database, and drops the temporary database. Run
+it by hand at any time:
+
+```bash
+docker compose -f docker-compose.prod.yml exec app php artisan backup:restore-check
+```
+
+The database user must be allowed to create databases (the `POSTGRES_USER` of the bundled
+PostgreSQL is). `--keep` leaves the temporary database for inspection.
 
 ### Restore
 
@@ -212,6 +229,10 @@ pull requests after CI is green.
   uptime service.
 - Logs: `docker compose -f docker-compose.prod.yml logs -f app` (web and application),
   `horizon` and `scheduler` likewise.
+- Errors: with `ERROR_ALERTS_ENABLED=true` (the default in production) every error that is
+  logged is e-mailed to `ERROR_ALERT_EMAIL` (or `BACKUP_NOTIFICATION_EMAIL`): the kind of error,
+  where in the code and which page — no personal data, no request data, no SQL values. The same
+  error is sent at most once an hour, and at most 20 errors an hour in all.
 - Queues: `/horizon`, for Super Admins with 2FA only.
 - Audit: **Administration → Audit log** (logins, failed logins, changes, exports, permission
   changes) and **Analytics → Export log**.

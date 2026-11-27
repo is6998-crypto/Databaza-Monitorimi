@@ -10,4 +10,18 @@ return [
     '429' => ['title' => 'Too many requests', 'message' => 'You sent too many requests. Wait a moment and try again.'],
     '500' => ['title' => 'Something went wrong', 'message' => 'The problem has been logged. Please try again later.'],
     '503' => ['title' => 'Under maintenance', 'message' => 'The platform is being updated. Please try again in a few minutes.'],
+    'alert' => [
+        'subject' => 'Error on the platform: :error',
+        'intro' => 'The platform ran into an error. The details below contain no personal data; the same error is reported at most once an hour.',
+        'outro' => 'See the application log (storage/logs) for the full details.',
+        'fields' => [
+            'error' => 'Error',
+            'message' => 'Message',
+            'where' => 'Where in the code',
+            'page' => 'Page',
+            'user' => 'User',
+            'environment' => 'Environment',
+            'time' => 'Time',
+        ],
+    ],
 ];

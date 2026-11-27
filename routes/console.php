@@ -14,6 +14,10 @@ Schedule::command('backup:clean')->dailyAt('01:30')->onOneServer();
 Schedule::command('backup:run')->dailyAt('02:00')->onOneServer()->withoutOverlapping();
 Schedule::command('backup:monitor')->dailyAt('07:00')->onOneServer();
 
+// Once a month, prove that the newest backup can be restored (temporary database, removed afterwards).
+Schedule::command('backup:restore-check')->monthlyOn(1, '03:30')->onOneServer()->withoutOverlapping()
+    ->emailOutputOnFailure((string) config('backup.notifications.mail.to'));
+
 // Legal time limits of criminal cases: recompute and notify about the ones exceeded (07:30 in Kosovo, 06:30 in winter).
 Schedule::command('deadlines:check')->dailyAt('05:30')->onOneServer()->withoutOverlapping();
 

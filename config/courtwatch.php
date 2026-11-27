@@ -21,6 +21,18 @@ return [
     // Dates are stored in UTC and displayed in Kosovo time.
     'display_timezone' => env('APP_DISPLAY_TIMEZONE', 'Europe/Belgrade'),
 
+    // backup:restore-check fails when the newest backup is older than this.
+    'backups' => [
+        'restore_check_max_age_days' => (int) env('BACKUP_RESTORE_CHECK_MAX_AGE_DAYS', 2),
+    ],
+
+    // E-mail to the administrators when the application fails (no personal data; each error at most once an hour).
+    'error_alerts' => [
+        'enabled' => (bool) env('ERROR_ALERTS_ENABLED', env('APP_ENV') === 'production'),
+        'email' => env('ERROR_ALERT_EMAIL', env('BACKUP_NOTIFICATION_EMAIL')),
+        'per_hour' => (int) env('ERROR_ALERTS_PER_HOUR', 20),
+    ],
+
     // Hearing calendar: editors hear about hearings of high-priority cases that nobody attends within this many days.
     'calendar' => [
         'unstaffed_warning_days' => 7,
