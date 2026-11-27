@@ -72,6 +72,14 @@ return [
     // Phases that end within this many days are listed as "due soon".
     'due_soon_days' => 7,
 
+    // A warning before a limit runs out, once per phase: when this share of the limit is used (80: day 48 of
+    // 60), but never more than max_days_before days ahead. Limits shorter than min_limit_days get no warning.
+    'warning' => [
+        'used_percent' => 80,
+        'max_days_before' => 30,
+        'min_limit_days' => 7,
+    ],
+
     // Up to this many exceeded limits are named in one notification; the rest are counted.
     'notification_lines' => 5,
 ];

@@ -131,6 +131,9 @@ The Code sets no limit for objections to evidence and requests to dismiss the in
   editors and the administrators are notified (bell and email): once per limit, and once more if
   the longest limit the law allows passes too (60 days for the judgment, 3 years for the
   investigation).
+- **Warning.** The same people are warned once when 80% of a limit is used (e.g. day 48 of 60),
+  but never more than a month before it ends, so that there is still time to follow the case.
+  Limits shorter than a week get no warning.
 - When an answer is missing the longer limit applies (no detention, a panel), so that nobody is
   warned too early. The list shows on what basis a limit was counted.
 

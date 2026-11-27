@@ -16,6 +16,7 @@ use App\Models\CaseDeadline;
 use App\Models\CaseParty;
 use App\Models\CaseStage;
 use App\Models\CourtCase;
+use App\Notifications\DeadlinesApproaching;
 use App\Notifications\DeadlinesExceeded;
 use App\Services\Deadlines\DeadlineNotifier;
 use Filament\Facades\Filament;
@@ -380,4 +381,86 @@ it('reads the limits from the configuration', function () {
     expect(deadline($case, DeadlineRule::JudgmentDrafting)->due_on->toDateString())->toBe('2026-02-24')
         ->and(deadline($case, DeadlineRule::JudgmentDrafting)->limitLabel('sq'))->toBe('45 ditë')
         ->and(DeadlineRule::JudgmentDrafting->article())->toBe('368');
+});
+
+it('warns the same people once when most of a limit is used', function () {
+    Notification::fake();
+
+    $court = basicCourt();
+    $monitor = monitorUser([$court->id]);
+    $editor = userWithRole(Role::Editor);
+    $admin = userWithRole(Role::SuperAdmin);
+    $analyst = userWithRole(Role::Analyst);
+
+    $case = criminalCase(['court_id' => $court->id, 'assigned_monitor_id' => $monitor->monitor->id]);
+    CaseParty::factory()->create(['case_id' => $case->id, 'name' => 'Zenel Xhafolli']);
+    // Written judgment due 7 September (30 days): 80% is used on 1 September, today.
+    stage($case, StageType::JudgmentAnnounced, '2026-08-08');
+
+    expect(deadline($case, DeadlineRule::JudgmentDrafting)->warnOn()->toDateString())->toBe('2026-09-01')
+        ->and(app(DeadlineNotifier::class)->warn())->toBe(['deadlines' => 1, 'recipients' => 3]);
+
+    foreach ([$monitor, $editor, $admin] as $user) {
+        Notification::assertSentTo($user, DeadlinesApproaching::class, function (DeadlinesApproaching $notification) use ($user, $case): bool {
+            $text = json_encode($notification->toDatabase($user), JSON_UNESCAPED_UNICODE).' '.implode(' ', $notification->lines('sq'));
+
+            return str_contains($notification->title('sq'), 'po mbaron: Përpilimi i aktgjykimit')
+                && str_contains($text, (string) $case->court_case_number)
+                && str_contains($text, 'mbeten 6 ditë')
+                && str_contains($text, '07.09.2026')
+                && ! str_contains($text, 'Xhafolli');
+        });
+    }
+
+    Notification::assertNotSentTo($analyst, DeadlinesApproaching::class);
+
+    // Not again the next day, and the limit itself is reported once it is exceeded.
+    Carbon::setTestNow(Carbon::parse('2026-09-02 10:00:00', 'Europe/Belgrade'));
+    expect(app(DeadlineNotifier::class)->warn()['deadlines'])->toBe(0);
+
+    Carbon::setTestNow(Carbon::parse('2026-09-08 10:00:00', 'Europe/Belgrade'));
+    expect(app(DeadlineNotifier::class)->warn()['deadlines'])->toBe(0)
+        ->and(app(DeadlineNotifier::class)->notify()['deadlines'])->toBe(1);
+    Notification::assertSentToTimes($editor, DeadlinesApproaching::class, 1);
+    Notification::assertSentToTimes($editor, DeadlinesExceeded::class, 1);
+});
+
+it('does not warn too early, after the limit, or about very short limits', function () {
+    Notification::fake();
+    userWithRole(Role::Editor);
+
+    $early = criminalCase();
+    stage($early, StageType::JudgmentAnnounced, '2026-08-20');      // due 19 September, warning from 13 September
+    $over = criminalCase();
+    stage($over, StageType::JudgmentAnnounced, '2026-07-20');       // already exceeded: that is the other notification
+
+    expect(deadline($early, DeadlineRule::JudgmentDrafting)->warnOn()->toDateString())->toBe('2026-09-13')
+        ->and(app(DeadlineNotifier::class)->warn())->toBe(['deadlines' => 0, 'recipients' => 0]);
+    Notification::assertNothingSent();
+
+    $short = new CaseDeadline(['started_on' => '2026-08-30', 'due_on' => '2026-09-02', 'state' => DeadlineState::Open]);
+    expect($short->warnOn())->toBeNull();
+});
+
+it('warns at most a month ahead about long limits', function () {
+    $case = criminalCase();
+    stage($case, StageType::InvestigationOpened, '2025-01-15');     // two years: until 15 January 2027
+
+    expect(deadline($case, DeadlineRule::Investigation)->warnOn()->toDateString())->toBe('2026-12-16');
+});
+
+it('warns again when a corrected date moves the limit, and from the scheduled command', function () {
+    Notification::fake();
+    $editor = userWithRole(Role::Editor);
+
+    $case = criminalCase();
+    $announced = stage($case, StageType::JudgmentAnnounced, '2026-08-08');
+    $this->artisan('deadlines:check')->assertSuccessful();
+    Notification::assertSentToTimes($editor, DeadlinesApproaching::class, 1);
+
+    $announced->update(['date' => '2026-08-07']);
+    expect(deadline($case, DeadlineRule::JudgmentDrafting)->warned_at)->toBeNull();
+
+    $this->artisan('deadlines:check')->assertSuccessful();
+    Notification::assertSentToTimes($editor, DeadlinesApproaching::class, 2);
 });

@@ -134,6 +134,9 @@ Për kundërshtimin e provave dhe kërkesat për hedhjen e aktakuzës Kodi nuk c
 - **Njoftimet.** Çdo mëngjes, kur një afat tejkalohet, njoftohen monitoruesi i lëndës, redaktorët
   dhe administratorët (te zilja dhe me email): një herë për çdo afat, dhe edhe një herë nëse
   kalon edhe afati më i gjatë që lejon ligji (60 ditë për aktgjykimin, 3 vjet për hetimin).
+- **Paralajmërimi.** Të njëjtët njerëz paralajmërohen një herë kur është përdorur 80% e afatit
+  (p.sh. dita e 48-të nga 60), por jo më herët se një muaj para fundit, që të ketë ende kohë për ta
+  ndjekur lëndën. Afatet më të shkurtra se një javë nuk paralajmërohen.
 - Kur përgjigjet mungojnë, zbatohet afati më i gjatë (pa paraburgim, trup gjykues), që askush të
   mos njoftohet para kohe. Lista tregon mbi çfarë baze u llogarit afati.
 

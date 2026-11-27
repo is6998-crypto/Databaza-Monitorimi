@@ -74,5 +74,9 @@ return [
         'line_extended' => ':case: :days mbi afatin më të gjatë që lejon ligji (neni :article i KPP-së), nga data :since.',
         'more' => '{1} dhe :count tjetër|[2,*] dhe :count të tjera',
         'open' => 'Hap',
+        'warning_one' => 'Afati ligjor po mbaron: :phase',
+        'warning_many' => '{1} :count afat ligjor po mbaron|[2,*] :count afate ligjore po mbarojnë',
+        'warning_line' => ':case: mbeten :days nga afati prej :limit (neni :article i KPP-së), deri më :due.',
+        'warning_line_today' => ':case: afati prej :limit (neni :article i KPP-së) mbaron sot, :due.',
     ],
 ];

@@ -1,5 +1,9 @@
 # Changelog
 
+### Warning before a legal time limit runs out
+
+- The monitor of the case, the editors and the administrators are now warned once when 80% of a legal time limit is used (day 48 of 60, day 24 of 30), at most a month ahead, so there is still time to act. The notification names the case, the phase, the days left and the end date. Limits shorter than a week get no warning. The numbers are in `config/deadlines.php`.
+
 ### Case priority
 
 - Editors can mark a case as **high**, normal or **low** priority, with a short reason ("I akuzuari në paraburgim", "Interes i lartë publik"…): in the case form, with **Cakto prioritetin** on the case page (also for published cases), or for many cases at once from the list.
