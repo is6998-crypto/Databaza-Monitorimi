@@ -17,6 +17,7 @@ use App\Http\Controllers\Controller;
 use App\Models\CaseParty;
 use App\Models\CourtCase;
 use App\Models\Hearing;
+use App\Models\ScheduledHearing;
 use App\Models\User;
 use App\Services\WorkflowService;
 use App\Support\HearingRules;
@@ -104,12 +105,38 @@ class MonitorAppController extends Controller
                 'has_report' => $hearing->report !== null,
             ]);
 
+        // The calendar for the next two weeks: hearings this person attends, and the ones in their courts nobody attends.
+        $today = ScheduledHearing::today();
+        $upcoming = ScheduledHearing::query()
+            ->visibleTo($user)
+            ->upcoming()
+            ->whereDate('scheduled_on', '<=', $today->copy()->addDays(14)->toDateString())
+            ->where(fn ($query) => $query->whereNull('monitor_id')->orWhere('monitor_id', $monitor?->id))
+            ->with('case.court')
+            ->chronological()
+            ->limit(30)
+            ->get()
+            ->map(fn (ScheduledHearing $scheduled): array => [
+                'id' => $scheduled->id,
+                'case_id' => $scheduled->case_id,
+                'date' => $scheduled->scheduled_on->toDateString(),
+                'day' => $scheduled->scheduled_on->format('d'),
+                'month' => mb_substr((string) $scheduled->scheduled_on->copy()->locale(app()->getLocale())->translatedFormat('M'), 0, 3),
+                'time' => $scheduled->scheduled_time,
+                'case' => $scheduled->case->display_label,
+                'court' => $scheduled->case->court?->label(),
+                'courtroom' => $scheduled->courtroom,
+                'mine' => $monitor !== null && $scheduled->monitor_id === $monitor->id,
+                'today' => $scheduled->scheduled_on->isSameDay($today),
+            ]);
+
         return response()->json([
             'user' => ['name' => $user->name, 'monitor_id' => $monitor?->id],
             'today' => Carbon::now((string) config('courtwatch.display_timezone'))->toDateString(),
             'csrf' => csrf_token(),
             'cases' => $cases,
             'recent' => $recent,
+            'upcoming' => $upcoming,
             'options' => [
                 'hearing_types' => HearingType::options(),
                 'venues' => Venue::options(),

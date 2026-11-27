@@ -15,6 +15,7 @@ return [
         'attendance' => 'Who was present',
         'session' => 'How the session went',
         'notes' => 'Notes',
+        'next_hearing' => 'Next hearing',
     ],
     'fields' => [
         'case' => 'Case',
@@ -44,6 +45,8 @@ return [
         'security_adequate' => 'Was security adequate?',
         'security_comment' => 'Security comment',
         'notes' => 'Notes',
+        'next_hearing_on' => 'Date of the next hearing',
+        'next_hearing_time' => 'Time',
     ],
     'facts' => [
         'outcome' => 'Hearing',
@@ -65,5 +68,6 @@ return [
         'prefilled' => 'Pre-filled from the case. Change only if different at this hearing.',
         'started_late' => 'Late means more than 15 minutes after the scheduled time.',
         'notes' => 'Do not write names of private persons.',
+        'next_hearing' => 'If the court set the next session, note it here: it is added to the hearing calendar and the monitor is reminded the day before.',
     ],
 ];

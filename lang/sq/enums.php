@@ -29,6 +29,12 @@ return [
         'normal' => 'Normale',
         'low' => 'E ulët',
     ],
+    'scheduled_hearing_status' => [
+        'upcoming' => 'Në vijim',
+        'attended' => 'E ndjekur',
+        'missed' => 'E pandjekur',
+        'cancelled' => 'E anuluar',
+    ],
     'workflow_status' => [
         'draft' => 'Draft',
         'submitted' => 'Dorëzuar',

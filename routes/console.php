@@ -17,6 +17,9 @@ Schedule::command('backup:monitor')->dailyAt('07:00')->onOneServer();
 // Legal time limits of criminal cases: recompute and notify about the ones exceeded (07:30 in Kosovo, 06:30 in winter).
 Schedule::command('deadlines:check')->dailyAt('05:30')->onOneServer()->withoutOverlapping();
 
+// Hearing calendar: tomorrow's hearings to the monitors who attend them, unattended high-priority ones to editors.
+Schedule::command('hearings:remind')->timezone((string) config('courtwatch.display_timezone'))->dailyAt('14:00')->onOneServer()->withoutOverlapping();
+
 // Queue metrics for Horizon.
 Schedule::command('horizon:snapshot')->everyFiveMinutes();
 

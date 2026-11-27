@@ -20,6 +20,11 @@ return [
 
     // Dates are stored in UTC and displayed in Kosovo time.
     'display_timezone' => env('APP_DISPLAY_TIMEZONE', 'Europe/Belgrade'),
+
+    // Hearing calendar: editors hear about hearings of high-priority cases that nobody attends within this many days.
+    'calendar' => [
+        'unstaffed_warning_days' => 7,
+    ],
     'date_format' => 'd.m.Y',
     'datetime_format' => 'd.m.Y H:i',
 

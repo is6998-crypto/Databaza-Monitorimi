@@ -48,6 +48,7 @@ class HearingForm
                 static::court(),
                 static::attendance(),
                 static::session(),
+                static::nextHearing(),
                 Section::make(__('hearings.sections.notes'))
                     ->schema([
                         Textarea::make('notes')->label(__('hearings.fields.notes'))->rows(4)->helperText(__('hearings.help.notes')),
@@ -134,6 +135,28 @@ class HearingForm
                     ->searchable()
                     ->disabled(fn (): bool => auth()->user() instanceof User && auth()->user()->isMonitorOnly())
                     ->dehydrated(),
+            ]);
+    }
+
+    /**
+     * The date the court announced for the next session: it goes into the hearing calendar.
+     */
+    protected static function nextHearing(): Section
+    {
+        return Section::make(__('hearings.sections.next_hearing'))
+            ->description(__('hearings.help.next_hearing'))
+            ->columns(['default' => 1, 'md' => 2])
+            ->schema([
+                DatePicker::make('next_hearing_on')
+                    ->label(__('hearings.fields.next_hearing_on'))
+                    ->after('hearing_date')
+                    ->live(),
+                TextInput::make('next_hearing_time')
+                    ->label(__('hearings.fields.next_hearing_time'))
+                    ->type('time')
+                    ->regex('/^([01]\d|2[0-3]):[0-5]\d$/')
+                    ->placeholder('10:00')
+                    ->visible(fn (Get $get): bool => filled($get('next_hearing_on'))),
             ]);
     }
 

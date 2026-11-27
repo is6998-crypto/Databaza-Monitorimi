@@ -341,6 +341,24 @@ class CourtCase extends Model
     }
 
     /**
+     * The hearing calendar of the case.
+     *
+     * @return HasMany<ScheduledHearing, $this>
+     */
+    public function scheduledHearings(): HasMany
+    {
+        return $this->hasMany(ScheduledHearing::class, 'case_id');
+    }
+
+    /**
+     * The next planned hearing that is still open, from today on.
+     */
+    public function nextScheduledHearing(): ?ScheduledHearing
+    {
+        return $this->scheduledHearings()->upcoming()->chronological()->first();
+    }
+
+    /**
      * @return HasMany<Measure, $this>
      */
     public function measures(): HasMany

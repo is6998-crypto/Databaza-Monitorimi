@@ -147,7 +147,33 @@ The Code sets no limit for objections to evidence and requests to dismiss the in
 3. The hearing date cannot be in the future.
 4. The form **saves a draft automatically** every 20 seconds and when you are signed out; when
    you come back, the draft is restored.
-5. Save the hearing, then press **Submit for review** when it is complete.
+5. If the court set the next session, note it under **Next hearing** (date and time). It is added
+   to the hearing calendar.
+6. Save the hearing, then press **Submit for review** when it is complete.
+
+### The hearing calendar
+
+**Monitoring → Hearing calendar** shows the month with the hearings coming up: time, case and who
+attends. On a phone the same month is a list of days. Filter by court or show only the hearings you
+attend; **List** gives the same with tabs (*Coming up*, *Not monitored*, *Monitored*, *Cancelled*).
+
+- Hearings are added from the **Next hearing** noted at each hearing (also in the monitor app), or
+  by hand: **Create** in the calendar, **+** on a day, or **Add to calendar** on the case page
+  (from the court's published schedule, say).
+- **Who attends.** The monitor of the case is set automatically. Editors can choose someone else;
+  a monitor can take a hearing nobody attends with **I will attend**.
+- **Reminder.** The day before (at 14:00) the monitor who attends gets a reminder with the time,
+  the case and the courtroom.
+- **High priority, no monitor.** Hearings of high-priority cases in the next 7 days that nobody
+  attends are shown in yellow, and editors and administrators are notified once.
+- When the hearing of that day is recorded for that case, the planned hearing is marked
+  **Monitored**. A day that passed without a recorded hearing shows as **Not monitored**; from there
+  **Record the hearing** opens the form at once.
+- If the court cancels or postpones the hearing, use **Cancel** and add the new date as a new
+  hearing.
+
+The calendar is for the team only: it is not shown on the public portal, to researchers or in the
+API.
 
 ### The hearing report
 

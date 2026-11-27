@@ -52,6 +52,7 @@ use App\Models\Reference\Nationality;
 use App\Models\Reference\ProsecutionOffice;
 use App\Models\Reference\Prosecutor;
 use App\Models\Reference\SecurityMeasureType;
+use App\Models\ScheduledHearing;
 use App\Models\Sentence;
 use App\Models\User;
 use App\Models\WorkflowTransition;
@@ -112,6 +113,8 @@ class DemoCasesSeeder extends Seeder
         for ($i = 0; $i < $count; $i++) {
             $this->seedCase($i);
         }
+
+        $this->seedCalendar();
 
         activity()->enableLogging();
     }
@@ -185,6 +188,41 @@ class DemoCasesSeeder extends Seeder
 
         $this->seedHearings($case, $monitor, $timeline, $status, $accused);
         $this->seedWorkflow($case, $status, $monitor);
+    }
+
+    /**
+     * The hearing calendar: the coming weeks for about a third of the open cases, a few with nobody attending yet,
+     * and a few days that passed without a monitored hearing.
+     */
+    private function seedCalendar(): void
+    {
+        $cases = CourtCase::query()
+            ->whereNotIn('status', [WorkflowStatus::Published->value])
+            ->inRandomOrder($this->faker->numberBetween(1, 1000))
+            ->get();
+
+        foreach ($cases as $case) {
+            if (! $this->faker->boolean(35)) {
+                continue;
+            }
+
+            $day = $this->today->copy()->addDays($this->faker->numberBetween(-10, 35));
+
+            // Courts sit on working days.
+            while ($day->isWeekend()) {
+                $day->addDay();
+            }
+
+            $scheduled = new ScheduledHearing([
+                'case_id' => $case->id,
+                'scheduled_on' => $day->toDateString(),
+                'scheduled_time' => $this->faker->randomElement(['08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '13:00', '14:00', null]),
+                'courtroom' => $this->faker->boolean(60) ? (string) $this->faker->numberBetween(1, 24) : null,
+                'monitor_id' => $this->faker->boolean(80) ? $case->assigned_monitor_id : null,
+            ]);
+            $scheduled->created_by = $this->editor?->id;
+            $scheduled->save();
+        }
     }
 
     private function pickType(): CaseType

@@ -1,5 +1,15 @@
 # Changelog
 
+### Hearing calendar
+
+- New **Hearing calendar** (Monitoring menu): the month with the hearings coming up, who attends each one, and which days passed without a monitored hearing. On a phone it is a list of days. A list view has tabs for coming up, not monitored, monitored and cancelled hearings.
+- The hearing form and the monitor app have a **Next hearing** field (date and time): the date goes straight into the calendar, for the monitor of the case. Hearings can also be added by hand from the calendar or the case page (**Add to calendar**).
+- Monitors can take a hearing nobody attends (**I will attend**); editors choose who attends.
+- The monitor who attends gets a **reminder the day before**. Editors and administrators are told about **high-priority hearings in the next 7 days that nobody attends**.
+- When a hearing is recorded for that case and day, the planned hearing is marked monitored. **Record the hearing** opens the form on the planned day.
+- The dashboard shows the hearings of the coming week, and the case page shows the next planned hearing. The monitor app lists your hearings for the next two weeks and the ones in your courts that nobody attends.
+- The demo data includes planned hearings for the coming weeks.
+
 ### Warning before a legal time limit runs out
 
 - The monitor of the case, the editors and the administrators are now warned once when 80% of a legal time limit is used (day 48 of 60, day 24 of 30), at most a month ahead, so there is still time to act. The notification names the case, the phase, the days left and the end date. Limits shorter than a week get no warning. The numbers are in `config/deadlines.php`.

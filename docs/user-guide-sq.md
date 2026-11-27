@@ -150,7 +150,34 @@ Për kundërshtimin e provave dhe kërkesat për hedhjen e aktakuzës Kodi nuk c
 3. Data e seancës nuk mund të jetë në të ardhmen.
 4. Formulari **ruan automatikisht një draft** çdo 20 sekonda dhe kur çkyçeni; kur ktheheni,
    drafti rikthehet.
-5. Ruajeni seancën, pastaj shtypni **Dorëzo për shqyrtim** kur të jetë e plotë.
+5. Nëse gjykata e caktoi seancën e radhës, shënojeni te **Seanca e radhës** (data dhe ora). Ajo
+   shtohet në kalendarin e seancave.
+6. Ruajeni seancën, pastaj shtypni **Dorëzo për shqyrtim** kur të jetë e plotë.
+
+### Kalendari i seancave
+
+**Monitorimi → Kalendari i seancave** tregon muajin me seancat që vijnë: ora, lënda dhe kush e
+ndjek. Në celular i njëjti muaj shfaqet si listë ditësh. Filtroni sipas gjykatës ose shikoni vetëm
+seancat që i ndiqni ju; **Lista** i jep të njëjtat me skeda (*Në vijim*, *Të pandjekura*, *Të
+ndjekura*, *Të anuluara*).
+
+- Seancat shtohen vetë nga **Seanca e radhës** që shënohet te çdo seancë (edhe në aplikacionin e
+  monitoruesit), ose me dorë: **Krijo** në kalendar, **+** në një ditë, ose **Shto në kalendar**
+  në faqen e lëndës (p.sh. nga orari që publikon gjykata).
+- **Kush e ndjek.** Monitoruesi i lëndës caktohet vetë. Redaktorët mund të zgjedhin një tjetër;
+  një monitorues mund të marrë një seancë që s'e ndjek askush me **Do ta ndjek unë**.
+- **Kujtesa.** Një ditë më parë (në orën 14:00) monitoruesi që e ndjek merr një kujtesë me orën,
+  lëndën dhe sallën.
+- **Prioritet i lartë pa monitorues.** Seancat e lëndëve me prioritet të lartë që s'i ndjek
+  askush në 7 ditët e ardhshme dalin me të verdhë, dhe redaktorët e administratorët njoftohen
+  një herë.
+- Kur regjistrohet seanca e asaj dite për atë lëndë, seanca e planifikuar shënohet **E ndjekur**.
+  Një ditë që kaloi pa seancë të regjistruar shfaqet si **E pandjekur**; prej saj mund ta hapni
+  menjëherë **Regjistro seancën**.
+- Nëse gjykata e anulon ose e shtyn seancën, përdorni **Anulo** dhe shtoni datën e re si seancë
+  të re.
+
+Kalendari është vetëm për ekipin: nuk shfaqet në portalin publik, te hulumtuesit apo në API.
 
 ### Raporti i seancës
 

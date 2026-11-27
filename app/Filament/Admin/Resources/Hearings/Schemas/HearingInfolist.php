@@ -8,6 +8,7 @@ use App\Enums\PhoneUser;
 use App\Enums\PostponementReason;
 use App\Enums\WorkflowStatus;
 use App\Filament\Admin\Resources\Cases\CourtCaseResource;
+use App\Filament\Admin\Resources\ScheduledHearings\ScheduledHearingResource;
 use App\Models\CaseParty;
 use App\Models\Hearing;
 use Filament\Infolists\Components\TextEntry;
@@ -114,6 +115,12 @@ class HearingInfolist
                             ->placeholder('—'),
                         static::answer('security_adequate', __('hearings.fields.security_adequate'), noColor: 'warning'),
                         TextEntry::make('security_comment')->label(__('hearings.fields.security_comment'))->placeholder('—')->columnSpanFull(),
+                        TextEntry::make('next_hearing_on')->label(__('hearings.sections.next_hearing'))
+                            ->state(fn (Hearing $record): ?string => $record->next_hearing_on === null ? null
+                                : trim($record->next_hearing_on->format((string) config('courtwatch.date_format')).' '.($record->next_hearing_time ?? '')))
+                            ->url(fn (Hearing $record): ?string => $record->nextScheduled !== null && auth()->user()?->can('view', $record->nextScheduled)
+                                ? ScheduledHearingResource::getUrl('edit', ['record' => $record->nextScheduled]) : null)
+                            ->placeholder('—'),
                         TextEntry::make('notes')->label(__('hearings.fields.notes'))->placeholder('—')->columnSpanFull(),
                     ]),
             ]);

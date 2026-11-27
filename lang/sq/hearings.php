@@ -15,6 +15,7 @@ return [
         'attendance' => 'Kush ishte i pranishëm',
         'session' => 'Si rrodhi seanca',
         'notes' => 'Shënime',
+        'next_hearing' => 'Seanca e radhës',
     ],
     'fields' => [
         'case' => 'Lënda',
@@ -44,6 +45,8 @@ return [
         'security_adequate' => 'A ishte siguria e mjaftueshme?',
         'security_comment' => 'Koment për sigurinë',
         'notes' => 'Shënime',
+        'next_hearing_on' => 'Data e seancës së radhës',
+        'next_hearing_time' => 'Ora',
     ],
     'facts' => [
         'outcome' => 'Seanca',
@@ -65,5 +68,6 @@ return [
         'prefilled' => 'Plotësuar nga lënda. Ndryshojeni vetëm nëse ndryshon në këtë seancë.',
         'started_late' => 'Vonesë do të thotë më shumë se 15 minuta pas kohës së caktuar.',
         'notes' => 'Mos shkruani emra të personave privatë.',
+        'next_hearing' => 'Nëse gjykata e caktoi seancën e radhës, shënojeni këtu: ajo shtohet në kalendarin e seancave dhe monitoruesi kujtohet një ditë më parë.',
     ],
 ];

@@ -7,8 +7,10 @@ use App\Filament\Admin\Actions\CasePriorityAction;
 use App\Filament\Admin\Actions\WorkflowActions;
 use App\Filament\Admin\Resources\Cases\CourtCaseResource;
 use App\Filament\Admin\Resources\Hearings\HearingResource;
+use App\Filament\Admin\Resources\ScheduledHearings\ScheduledHearingResource;
 use App\Models\CourtCase;
 use App\Models\Hearing;
+use App\Models\ScheduledHearing;
 use Filament\Actions\Action;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
@@ -72,6 +74,12 @@ class ViewCourtCase extends ViewRecord
                 ->icon(Heroicon::OutlinedPlusCircle)
                 ->url(HearingResource::getUrl('create', ['case' => $case->getKey()]))
                 ->visible(fn (): bool => Gate::allows('create', Hearing::class) && Gate::allows('view', $case)),
+            Action::make('scheduleHearing')
+                ->label(__('calendar.actions.schedule'))
+                ->icon(Heroicon::OutlinedCalendar)
+                ->color('gray')
+                ->url(ScheduledHearingResource::getUrl('create', ['case' => $case->getKey()]))
+                ->visible(fn (): bool => Gate::allows('create', ScheduledHearing::class) && Gate::allows('view', $case)),
             EditAction::make(),
             CasePriorityAction::make(),
             ...WorkflowActions::all(),
