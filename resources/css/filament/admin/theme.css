@@ -1973,3 +1973,688 @@
     background-color: rgb(255 255 255 / 0.08);
     color: #fff;
 }
+
+/* ------------------------------------------------------------------ Hearing calendar
+ * A month on a white sheet: weekday heads, one cell per day, each hearing a small card (time, case number, who
+ * attends). High-priority hearings that nobody attends yet are yellow; missed ones are outlined in yellow;
+ * attended and cancelled ones are quiet. On a phone the grid gives way to a list of days.
+ */
+
+.cw-cal {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.cw-cal-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1.25rem;
+}
+
+.cw-cal-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.cw-cal-month {
+    min-width: 11rem;
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--color-navy-900);
+}
+
+.dark .cw-cal-month {
+    color: #fff;
+}
+
+.cw-cal-step,
+.cw-cal-today {
+    display: inline-flex;
+    height: 2.25rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.75rem;
+    background-color: #fff;
+    box-shadow: 0 0 0 1px rgb(12 42 66 / 0.12);
+    color: var(--color-navy-900);
+    font-size: 0.875rem;
+    font-weight: 700;
+    transition: background-color 120ms;
+
+    &:hover,
+    &:focus-visible {
+        background-color: var(--color-gold-50);
+    }
+}
+
+.cw-cal-step {
+    width: 2.25rem;
+}
+
+.cw-cal-today {
+    padding: 0 0.9rem;
+}
+
+.cw-cal-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.85rem;
+}
+
+.cw-cal-summary {
+    font-size: 0.875rem;
+    color: var(--gray-600);
+}
+
+.cw-cal-summary-alert {
+    color: var(--color-navy-900);
+    background: linear-gradient(transparent 55%, var(--color-gold-300) 55%);
+}
+
+.cw-cal-select {
+    height: 2.25rem;
+    max-width: 16rem;
+    border-radius: 0.75rem;
+    border: 0;
+    box-shadow: 0 0 0 1px rgb(12 42 66 / 0.12);
+    padding: 0 2rem 0 0.75rem;
+    font-size: 0.875rem;
+    color: var(--color-navy-900);
+    background-color: #fff;
+}
+
+.cw-cal-check {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-navy-900);
+
+    & input {
+        border-radius: 0.3rem;
+        color: var(--color-navy-900);
+    }
+}
+
+.cw-cal-grid {
+    display: none;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    overflow: hidden;
+    border-radius: 1.25rem;
+    background-color: rgb(12 42 66 / 0.08);
+    gap: 1px;
+    box-shadow: 0 0 0 1px rgb(12 42 66 / 0.08), 0 12px 24px -20px rgb(12 42 66 / 0.18);
+
+    @media (min-width: 768px) {
+        display: grid;
+    }
+}
+
+.cw-cal-head {
+    padding: 0.6rem 0.75rem;
+    background-color: var(--color-navy-900);
+    color: rgb(255 255 255 / 0.85);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.cw-cal-day {
+    display: flex;
+    min-height: 7.5rem;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 0.45rem;
+    background-color: #fff;
+
+    &.is-out {
+        background-color: var(--gray-50);
+
+        & .cw-cal-date {
+            color: var(--gray-400);
+        }
+    }
+
+    &.is-past:not(.is-out) {
+        background-color: #fcfcfd;
+    }
+
+    &.is-today .cw-cal-date {
+        background-color: var(--color-gold-400);
+        color: var(--color-navy-900);
+    }
+}
+
+.dark .cw-cal-day {
+    background-color: var(--gray-900);
+
+    &.is-out {
+        background-color: var(--gray-950);
+    }
+}
+
+.cw-cal-day-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cw-cal-date {
+    display: inline-flex;
+    width: 1.75rem;
+    height: 1.75rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    font-size: 0.8125rem;
+    font-weight: 800;
+    color: var(--color-navy-900);
+    font-variant-numeric: tabular-nums;
+}
+
+.dark .cw-cal-date {
+    color: #fff;
+}
+
+.cw-cal-add {
+    display: inline-flex;
+    width: 1.5rem;
+    height: 1.5rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    color: var(--gray-400);
+    font-size: 1rem;
+    font-weight: 700;
+    opacity: 0;
+    transition: opacity 120ms, background-color 120ms;
+
+    &:hover,
+    &:focus-visible {
+        background-color: var(--color-gold-100);
+        color: var(--color-navy-900);
+        opacity: 1;
+    }
+}
+
+.cw-cal-day:hover .cw-cal-add {
+    opacity: 1;
+}
+
+.cw-cal-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.cw-cal-item {
+    display: block;
+    border-radius: 0.6rem;
+    border-inline-start: 3px solid var(--color-navy-900);
+    padding: 0.3rem 0.45rem;
+    background-color: var(--color-navy-50);
+    color: var(--color-navy-900);
+    font-size: 0.75rem;
+    line-height: 1.25;
+    transition: transform 120ms, box-shadow 120ms;
+
+    &:is(a):hover,
+    &:is(a):focus-visible {
+        box-shadow: 0 4px 10px -4px rgb(12 42 66 / 0.35);
+        transform: translateY(-1px);
+    }
+
+    &.needs-monitor {
+        border-inline-start-color: var(--color-gold-500);
+        background-color: var(--color-gold-50);
+    }
+
+    &.needs-monitor.is-high {
+        border-inline-start-color: var(--color-navy-900);
+        background-color: var(--color-gold-300);
+    }
+
+    &.is-missed {
+        border-inline-start-color: var(--color-gold-500);
+        background-color: #fff;
+        box-shadow: inset 0 0 0 1px var(--color-gold-400);
+    }
+
+    &.is-attended {
+        border-inline-start-color: var(--color-navy-300);
+        background-color: var(--gray-50);
+        color: var(--gray-600);
+    }
+
+    &.is-cancelled {
+        border-inline-start-color: var(--gray-300);
+        background-color: var(--gray-50);
+        color: var(--gray-500);
+
+        & .cw-cal-case {
+            text-decoration: line-through;
+        }
+    }
+}
+
+.cw-cal-item-line {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    min-width: 0;
+}
+
+.cw-cal-time {
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+}
+
+.cw-cal-case {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 600;
+}
+
+.cw-cal-flag {
+    width: 0.8rem;
+    height: 0.8rem;
+    flex-shrink: 0;
+}
+
+.cw-cal-meta {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    opacity: 0.75;
+}
+
+.cw-cal-agenda {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    @media (min-width: 768px) {
+        display: none;
+    }
+}
+
+.cw-cal-agenda-day {
+    border-radius: 1rem;
+    padding: 0.75rem;
+    background-color: #fff;
+    box-shadow: 0 0 0 1px rgb(12 42 66 / 0.08);
+
+    &.is-today {
+        box-shadow: 0 0 0 2px var(--color-gold-400);
+    }
+
+    & .cw-cal-item {
+        font-size: 0.875rem;
+        padding: 0.5rem 0.65rem;
+    }
+}
+
+.cw-cal-agenda-date {
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 800;
+    color: var(--color-navy-900);
+}
+
+.cw-cal-empty {
+    padding: 2rem 1rem;
+    text-align: center;
+    color: var(--gray-500);
+}
+
+.cw-cal-legend {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem 0.6rem;
+    font-size: 0.8125rem;
+    color: var(--gray-600);
+}
+
+.cw-cal-key {
+    display: inline-block;
+    width: 0.85rem;
+    height: 0.85rem;
+    margin-inline-start: 0.5rem;
+    border-radius: 0.25rem;
+
+    &.is-high {
+        background-color: var(--color-gold-300);
+        box-shadow: inset 3px 0 0 var(--color-navy-900);
+    }
+
+    &.is-missed {
+        background-color: #fff;
+        box-shadow: inset 0 0 0 1px var(--color-gold-400), inset 3px 0 0 var(--color-gold-500);
+    }
+
+    &.is-attended {
+        background-color: var(--gray-100);
+        box-shadow: inset 3px 0 0 var(--color-navy-300);
+    }
+}
+
+/* Dashboard: hearings of the next seven days, each with a date tile. */
+.cw-upcoming-list {
+    border-top: 1px solid rgb(12 42 66 / 0.06);
+}
+
+.cw-upcoming-row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.7rem 1.5rem;
+    border-bottom: 1px solid rgb(12 42 66 / 0.06);
+    transition: background-color 120ms;
+
+    &:hover,
+    &:focus-visible {
+        background-color: var(--color-gold-50);
+    }
+}
+
+.cw-upcoming-date {
+    display: flex;
+    width: 2.9rem;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 0.75rem;
+    padding: 0.3rem 0;
+    background-color: var(--color-navy-900);
+    color: #fff;
+    line-height: 1.05;
+}
+
+.cw-upcoming-row.is-unstaffed.is-high .cw-upcoming-date {
+    background-color: var(--color-gold-400);
+    color: var(--color-navy-900);
+}
+
+.cw-upcoming-day {
+    font-size: 1.05rem;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+}
+
+.cw-upcoming-month {
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+.cw-upcoming-what {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+}
+
+.cw-upcoming-case {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-weight: 700;
+    color: var(--color-navy-900);
+}
+
+.dark .cw-upcoming-case {
+    color: #fff;
+}
+
+.cw-upcoming-court {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.8125rem;
+    color: var(--gray-600);
+}
+
+.cw-upcoming-who {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-navy-700);
+    text-align: end;
+}
+
+.cw-upcoming-nobody {
+    border-radius: 9999px;
+    padding: 0.15rem 0.55rem;
+    background-color: var(--color-gold-100);
+    color: var(--color-navy-900);
+    white-space: nowrap;
+}
+
+.cw-upcoming-empty {
+    padding: 0 1.5rem 1.35rem;
+    font-size: 0.875rem;
+    color: var(--gray-500);
+}
+
+/* ------------------------------------------------------------------ Coverage page
+ * A row of tiles (one per check, yellow while something needs doing) and a list under each check.
+ */
+.cw-coverage {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.cw-coverage-tiles {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+
+    @media (min-width: 768px) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    @media (min-width: 1280px) {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+}
+
+.cw-coverage-tile {
+    display: flex;
+    min-height: 6.5rem;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.5rem;
+    border-radius: 1rem;
+    padding: 0.9rem 1rem;
+    background-color: var(--color-gold-400);
+    color: var(--color-navy-900);
+    transition: transform 120ms, box-shadow 120ms;
+
+    &:hover,
+    &:focus-visible {
+        box-shadow: 0 8px 18px -10px rgb(12 42 66 / 0.45);
+        transform: translateY(-1px);
+    }
+
+    &.is-clear {
+        background-color: #fff;
+        box-shadow: 0 0 0 1px rgb(12 42 66 / 0.08);
+        color: var(--color-navy-700);
+    }
+}
+
+.cw-coverage-tile-value {
+    font-size: 1.9rem;
+    font-weight: 800;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.cw-coverage-tile-label {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.cw-count.is-zero {
+    background-color: var(--gray-100);
+    color: var(--gray-600);
+}
+
+.cw-coverage-list {
+    border-top: 1px solid rgb(12 42 66 / 0.06);
+}
+
+.cw-coverage-row {
+    display: grid;
+    grid-template-columns: minmax(0, 14rem) minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.7rem 1.5rem;
+    border-bottom: 1px solid rgb(12 42 66 / 0.06);
+    transition: background-color 120ms;
+
+    &:hover,
+    &:focus-visible {
+        background-color: var(--color-gold-50);
+    }
+
+    @media (max-width: 640px) {
+        grid-template-columns: minmax(0, 1fr) auto;
+
+        & .cw-coverage-detail {
+            grid-column: 1;
+            grid-row: 2;
+        }
+    }
+}
+
+.cw-coverage-what {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+}
+
+.cw-coverage-case {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-weight: 700;
+    color: var(--color-navy-900);
+}
+
+.dark .cw-coverage-case {
+    color: #fff;
+}
+
+.cw-coverage-court {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.8125rem;
+    color: var(--gray-600);
+}
+
+.cw-coverage-detail {
+    font-size: 0.875rem;
+    color: var(--color-navy-700);
+}
+
+.cw-coverage-clear {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0 1.5rem 1.35rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-navy-700);
+}
+
+button.cw-panel-more {
+    width: 100%;
+    text-align: start;
+}
+
+/* ------------------------------------------------------------------ Period reports
+ * The form on a white sheet, and beside it a navy card with the period and what it covers.
+ */
+.cw-period {
+    display: grid;
+    gap: 1.25rem;
+    align-items: start;
+
+    @media (min-width: 1024px) {
+        grid-template-columns: minmax(0, 1fr) 20rem;
+    }
+}
+
+.cw-period-form {
+    padding: 1.5rem;
+}
+
+.cw-period-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+}
+
+.cw-period-preview {
+    padding: 1.5rem;
+    background-color: var(--color-navy-900);
+    color: #fff;
+}
+
+.cw-period-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-gold-400);
+}
+
+.cw-period-name {
+    margin-top: 0.35rem;
+    font-size: 1.6rem;
+    font-weight: 800;
+    line-height: 1.15;
+}
+
+.cw-period-figures {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+
+    & div {
+        border-radius: 0.9rem;
+        padding: 0.75rem 0.85rem;
+        background-color: rgb(255 255 255 / 0.08);
+    }
+
+    & dt {
+        font-size: 0.75rem;
+        color: rgb(255 255 255 / 0.7);
+    }
+
+    & dd {
+        font-size: 1.5rem;
+        font-weight: 800;
+        font-variant-numeric: tabular-nums;
+    }
+}
+
+.cw-period-note {
+    margin-top: 1rem;
+    font-size: 0.8125rem;
+    color: rgb(255 255 255 / 0.65);
+}

@@ -5,6 +5,7 @@ namespace App\Filament\Admin\Resources\Cases\Schemas;
 use App\Enums\CasePriority;
 use App\Enums\CaseType;
 use App\Enums\WorkflowStatus;
+use App\Filament\Admin\Resources\ScheduledHearings\ScheduledHearingResource;
 use App\Models\CaseStage;
 use App\Models\CourtCase;
 use App\Models\Hearing;
@@ -71,6 +72,14 @@ class CourtCaseInfolist
                         ->schema([
                             TextEntry::make('status')->label(__('cases.fields.status'))->badge(),
                             TextEntry::make('priority')->label(__('cases.fields.priority'))->badge(),
+                            TextEntry::make('next_hearing')->label(__('calendar.fields.next_hearing'))
+                                ->state(function (CourtCase $record): ?string {
+                                    $next = $record->nextScheduledHearing();
+
+                                    return $next === null ? null : collect([$next->whenLabel(), $next->monitor?->user->name ?? __('calendar.nobody')])->implode(' · ');
+                                })
+                                ->url(fn (): string => ScheduledHearingResource::getUrl())
+                                ->placeholder('—'),
                             TextEntry::make('priority_note')->label(__('cases.fields.priority_note'))
                                 ->visible(fn (CourtCase $record): bool => filled($record->priority_note) && $record->priority !== CasePriority::Normal),
                             TextEntry::make('public_code')->label(__('cases.fields.public_code'))->helperText(__('cases.help.public_code')),

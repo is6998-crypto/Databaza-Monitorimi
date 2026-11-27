@@ -32,8 +32,9 @@ class DeadlineTracker
             $dueOn = $values['due_on']->toDateString();
             $extendedDueOn = $values['extended_due_on']?->toDateString();
 
-            // A limit that moved (a corrected date, detention recorded) may be exceeded anew: notify again then.
+            // A limit that moved (a corrected date, detention recorded) may run out or be exceeded anew: tell people again then.
             if ($deadline->exists && $deadline->due_on->toDateString() !== $dueOn) {
+                $deadline->warned_at = null;
                 $deadline->notified_at = null;
             }
 

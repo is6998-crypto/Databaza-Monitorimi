@@ -185,11 +185,7 @@ return [
     'stage_chronology' => 'The date of ":stage" (:date) cannot be before ":previous" (:previous_date).',
     'non_negative' => 'The :attribute cannot be negative.',
 
-    'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
-        ],
-    ],
+    'custom' => [],
 
     /*
     |--------------------------------------------------------------------------

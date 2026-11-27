@@ -6,13 +6,17 @@ use App\Enums\ReportStatus;
 use App\Filament\Admin\Resources\HearingReports\HearingReportResource;
 use App\Models\HearingReport;
 use App\Models\User;
+use App\Services\Documents\HearingReportDocument;
 use App\Services\HearingReportService;
 use Closure;
 use Filament\Actions\Action;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\ToggleButtons;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
 
@@ -37,6 +41,31 @@ class ViewHearingReport extends ViewRecord
     {
         return [
             EditAction::make(),
+
+            Action::make('download')
+                ->label(__('documents.download'))
+                ->icon(Heroicon::OutlinedArrowDownTray)
+                ->color('gray')
+                ->modalHeading(__('documents.download'))
+                ->modalDescription(__('documents.download_help'))
+                ->modalSubmitActionLabel(__('documents.download'))
+                ->schema([
+                    ToggleButtons::make('format')
+                        ->label(__('documents.format'))
+                        ->options((array) __('documents.formats'))
+                        ->default('docx')
+                        ->inline()
+                        ->grouped()
+                        ->required(),
+                    Toggle::make('comments')->label(__('documents.with_comments')),
+                ])
+                ->visible(fn (HearingReport $record): bool => Gate::allows('export', $record))
+                ->action(function (HearingReport $record, array $data, HearingReportDocument $documents) {
+                    Gate::authorize('export', $record);
+                    $user = auth()->user();
+
+                    return $documents->download($record, $data['format'] === 'pdf' ? 'pdf' : 'docx', (bool) ($data['comments'] ?? false), $user instanceof User ? $user : null);
+                }),
 
             Action::make('submitReport')
                 ->label(__('reports.actions.submit'))

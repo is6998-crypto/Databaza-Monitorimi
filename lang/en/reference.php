@@ -95,7 +95,7 @@ return [
         'departments' => 'Departments',
     ],
     'help' => [
-        'serbian' => 'Optional — the interface is Serbian-ready.',
+        'serbian' => 'Shown when the interface is in Serbian; without it the Albanian name is shown.',
         'departments' => 'Only these departments are offered on a case. Leave empty to allow any department.',
     ],
     'actions' => [

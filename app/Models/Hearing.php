@@ -10,6 +10,7 @@ use App\Models\Reference\Court;
 use App\Models\Reference\Judge;
 use App\Models\Reference\Monitor;
 use App\Models\Reference\Prosecutor;
+use App\Services\Calendar\HearingSchedule;
 use Database\Factories\HearingFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
@@ -57,12 +58,15 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property list<string>|null $participants
  * @property string|null $notes
  * @property string|null $client_uuid
+ * @property Carbon|null $next_hearing_on
+ * @property string|null $next_hearing_time
  * @property-read CourtCase $case
  * @property-read Monitor|null $monitor
  * @property-read Court|null $court
  * @property-read Judge|null $judge
  * @property-read Prosecutor|null $prosecutor
  * @property-read HearingReport|null $report
+ * @property-read ScheduledHearing|null $nextScheduled
  */
 class Hearing extends Model
 {
@@ -91,6 +95,7 @@ class Hearing extends Model
     {
         return [
             'hearing_date' => 'date',
+            'next_hearing_on' => 'date',
             'hearing_type' => HearingType::class,
             'venue' => Venue::class,
             'is_public' => 'boolean',
@@ -130,7 +135,15 @@ class Hearing extends Model
             if (! $hearing->interpretation_needed) {
                 $hearing->interpretation_provided = null;
             }
+
+            if ($hearing->next_hearing_on === null) {
+                $hearing->next_hearing_time = null;
+            }
         });
+
+        // The hearing calendar follows: the next hearing noted here, and the planned hearing this one attended.
+        static::saved(fn (self $hearing) => app(HearingSchedule::class)->hearingSaved($hearing));
+        static::deleted(fn (self $hearing) => app(HearingSchedule::class)->hearingDeleted($hearing));
     }
 
     protected static function newFactory(): HearingFactory
@@ -225,6 +238,16 @@ class Hearing extends Model
     public function report(): HasOne
     {
         return $this->hasOne(HearingReport::class);
+    }
+
+    /**
+     * The planned hearing created from the "next hearing" date noted here.
+     *
+     * @return HasOne<ScheduledHearing, $this>
+     */
+    public function nextScheduled(): HasOne
+    {
+        return $this->hasOne(ScheduledHearing::class, 'source_hearing_id');
     }
 
     /**

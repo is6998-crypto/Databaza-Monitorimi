@@ -28,6 +28,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon $due_on
  * @property Carbon|null $extended_due_on
  * @property Carbon|null $ended_on
+ * @property Carbon|null $warned_at
  * @property Carbon|null $notified_at
  * @property Carbon|null $extended_notified_at
  * @property-read CourtCase $case
@@ -56,6 +57,7 @@ class CaseDeadline extends Model
             'due_on' => 'date',
             'extended_due_on' => 'date',
             'ended_on' => 'date',
+            'warned_at' => 'datetime',
             'notified_at' => 'datetime',
             'extended_notified_at' => 'datetime',
         ];
@@ -216,6 +218,39 @@ class CaseDeadline extends Model
         $over = $this->daysOver();
 
         return $over === 0 ? 100 : (int) max(12, round($this->limitDays() / ($this->limitDays() + $over) * 100));
+    }
+
+    /**
+     * The day from which the people responsible are warned that the limit is running out: when the share of the
+     * limit in config deadlines.warning.used_percent is used, but never more than warning.max_days_before days
+     * ahead. Null for limits too short to warn about (warning.min_limit_days).
+     */
+    public function warnOn(): ?Carbon
+    {
+        $limit = $this->limitDays();
+
+        if ($limit < (int) config('deadlines.warning.min_limit_days', 7)) {
+            return null;
+        }
+
+        $percent = min(99, max(1, (int) config('deadlines.warning.used_percent', 80)));
+        $before = min((int) config('deadlines.warning.max_days_before', 30), max(1, (int) round($limit * (100 - $percent) / 100)));
+
+        return $this->due_on->copy()->subDays($before);
+    }
+
+    /**
+     * Still running, not yet over the limit, and past the day of the warning.
+     */
+    public function needsWarning(): bool
+    {
+        $warnOn = $this->warnOn();
+        $today = static::today();
+
+        return $this->state === DeadlineState::Open
+            && $warnOn !== null
+            && $today->gte($warnOn)
+            && $this->due_on->gte($today);
     }
 
     /**

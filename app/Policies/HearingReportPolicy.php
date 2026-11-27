@@ -67,6 +67,14 @@ class HearingReportPolicy extends PermissionPolicy
     }
 
     /**
+     * Download as Word or PDF: whoever may read it (the file is logged as an export).
+     */
+    public function export(User $user, HearingReport $report): bool
+    {
+        return $this->view($user, $report);
+    }
+
+    /**
      * Comments are a conversation between the editors and the monitor who wrote the report.
      */
     public function comment(User $user, HearingReport $report): bool

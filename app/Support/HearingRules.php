@@ -51,6 +51,8 @@ final class HearingRules
             'present_party_ids' => ['nullable', 'array'],
             'present_party_ids.*' => ['integer'],
             'notes' => ['nullable', 'string', 'max:10000'],
+            'next_hearing_on' => ['nullable', 'date_format:Y-m-d', 'after:hearing_date'],
+            'next_hearing_time' => ['nullable', 'date_format:H:i'],
             'submit' => ['sometimes', 'boolean'],
         ];
     }
@@ -67,6 +69,7 @@ final class HearingRules
             'case_id', 'hearing_date', 'hearing_type', 'venue', 'is_public', 'started_late', 'delay_minutes', 'delay_causes',
             'was_postponed', 'postponement_reasons', 'plea_agreement', 'recording', 'interpretation_needed', 'interpretation_provided',
             'phone_used', 'phone_users', 'security_adequate', 'security_comment', 'participants', 'notes', 'client_uuid',
+            'next_hearing_on', 'next_hearing_time',
         ]));
     }
 }

@@ -48,7 +48,15 @@ class CreateHearing extends CreateRecord
         $draft = $this->restoreDraft();
         $case = $this->caseId ? CourtCase::query()->find($this->caseId) : null;
 
-        $this->form->fill($draft ?? HearingForm::defaultsFor($case, $user instanceof User ? $user : null));
+        $defaults = HearingForm::defaultsFor($case, $user instanceof User ? $user : null);
+
+        // Opened from the hearing calendar: the day of the planned hearing (never a day still to come).
+        $date = request()->string('date')->toString();
+        if ($date !== '' && preg_match('/^\d{4}-\d{2}-\d{2}$/', $date) === 1 && $date <= $defaults['hearing_date']) {
+            $defaults['hearing_date'] = $date;
+        }
+
+        $this->form->fill($draft ?? $defaults);
 
         $this->callHook('afterFill');
     }

@@ -19,7 +19,7 @@ This guide is for the organization's staff: **monitors**, **editors** (program m
 
 Good to know:
 
-- The language (Shqip / English) is in the menu under your initials, top right.
+- The language (Shqip / English / Srpski) is in the menu under your initials, top right.
 - After **30 minutes without activity** you are signed out. Two minutes before, a window asks
   whether you want to stay signed in; activity in any tab keeps all tabs alive. Forms are
   saved as drafts before the sign-out, so you do not lose your work.
@@ -131,6 +131,9 @@ The Code sets no limit for objections to evidence and requests to dismiss the in
   editors and the administrators are notified (bell and email): once per limit, and once more if
   the longest limit the law allows passes too (60 days for the judgment, 3 years for the
   investigation).
+- **Warning.** The same people are warned once when 80% of a limit is used (e.g. day 48 of 60),
+  but never more than a month before it ends, so that there is still time to follow the case.
+  Limits shorter than a week get no warning.
 - When an answer is missing the longer limit applies (no detention, a panel), so that nobody is
   warned too early. The list shows on what basis a limit was counted.
 
@@ -144,7 +147,33 @@ The Code sets no limit for objections to evidence and requests to dismiss the in
 3. The hearing date cannot be in the future.
 4. The form **saves a draft automatically** every 20 seconds and when you are signed out; when
    you come back, the draft is restored.
-5. Save the hearing, then press **Submit for review** when it is complete.
+5. If the court set the next session, note it under **Next hearing** (date and time). It is added
+   to the hearing calendar.
+6. Save the hearing, then press **Submit for review** when it is complete.
+
+### The hearing calendar
+
+**Monitoring → Hearing calendar** shows the month with the hearings coming up: time, case and who
+attends. On a phone the same month is a list of days. Filter by court or show only the hearings you
+attend; **List** gives the same with tabs (*Coming up*, *Not monitored*, *Monitored*, *Cancelled*).
+
+- Hearings are added from the **Next hearing** noted at each hearing (also in the monitor app), or
+  by hand: **Create** in the calendar, **+** on a day, or **Add to calendar** on the case page
+  (from the court's published schedule, say).
+- **Who attends.** The monitor of the case is set automatically. Editors can choose someone else;
+  a monitor can take a hearing nobody attends with **I will attend**.
+- **Reminder.** The day before (at 14:00) the monitor who attends gets a reminder with the time,
+  the case and the courtroom.
+- **High priority, no monitor.** Hearings of high-priority cases in the next 7 days that nobody
+  attends are shown in yellow, and editors and administrators are notified once.
+- When the hearing of that day is recorded for that case, the planned hearing is marked
+  **Monitored**. A day that passed without a recorded hearing shows as **Not monitored**; from there
+  **Record the hearing** opens the form at once.
+- If the court cancels or postpones the hearing, use **Cancel** and add the new date as a new
+  hearing.
+
+The calendar is for the team only: it is not shown on the public portal, to researchers or in the
+API.
 
 ### The hearing report
 
@@ -164,6 +193,10 @@ For every hearing the monitor writes a report: what happened, in their own words
 A monitor sees only their own reports; editors see all of them. The text and the comments are
 stored encrypted and stay inside the panel: they never appear on the public portal, in the
 researcher area or in email notifications.
+
+**Download** on the report page gives the report as **Word** (to edit, e.g. for a publication) or
+**PDF** (to print), with or without the comments. The file is marked "Internal — contains personal
+data"; every download is logged in the **Export log**.
 
 ### The monitor app (phone, works offline)
 
@@ -215,6 +248,36 @@ postponements (rate and reasons, by court, judge and case type), punctuality and
 public and closed hearings, recording and interpretation, median days between stages, indictment
 outcomes, convictions and acquittals, sentences, plea agreements, appeal outcomes, and seizure
 and confiscation requested and granted. Monitors see their drafts and returned hearings instead.
+
+### Period reports (editors and analysts)
+
+**Analytics → Period reports** writes a monitoring report for a quarter, half year, year or other
+dates, for funders and partners, as **Word** or **PDF**. Choose the period (and a court or case type
+if you like); the card beside it shows how many cases and hearings it covers.
+
+The report has: the summary (cases, hearings, courts, postponements, delays, openness, judgments),
+cases by court, type and offence category, postponement reasons, punctuality and delay causes,
+openness, recording and interpretation, court decisions, the legal time limits that ended and how
+many were exceeded, and the method. Only approved data is counted. **Hide numbers under 5** is on:
+keep it on for every report that leaves the team. Every download is logged.
+
+### Monitoring coverage (editors and analysts)
+
+**Monitoring → Coverage** shows where the monitoring has gaps, with a tile for each (yellow while
+something needs doing) and a list under it:
+
+- **Active cases not followed**: cases with a legal time limit still running or a high priority,
+  with no monitored hearing in the last 60 days;
+- **High priority, no monitor**;
+- **Planned hearings not monitored** in the last 30 days (from the calendar);
+- **Hearings without a report**: hearings of the last 90 days, older than 3 days, with no written
+  report;
+- **Missing answers for the time limits**: criminal cases where detention or who tries the case
+  is unknown;
+- **Forgotten drafts**: cases and hearings in draft or returned, untouched for 14 days.
+
+Each row opens the case or hearing. The numbers of days are in `config/courtwatch.php`
+(`coverage`).
 
 ## 9. Reference data (editors and administrators)
 

@@ -35,6 +35,54 @@ class CourtStructure
     ];
 
     /**
+     * Serbian names (name_sr), as in the Serbian text of the Law on Courts: code => court; town (sq) => the town
+     * in the locative ("u Prištini"); chamber, department and division (sq) => (sr).
+     *
+     * @var array<string, string>
+     */
+    private const COURTS_SR = [
+        'GJTH-PR' => 'Osnovni sud u Prištini',
+        'GJTH-MI' => 'Osnovni sud u Mitrovici',
+        'GJTH-PE' => 'Osnovni sud u Peći',
+        'GJTH-PZ' => 'Osnovni sud u Prizrenu',
+        'GJTH-FE' => 'Osnovni sud u Uroševcu',
+        'GJTH-GJ' => 'Osnovni sud u Gnjilanu',
+        'GJTH-GJK' => 'Osnovni sud u Đakovici',
+        'GJS' => 'Vrhovni sud',
+        'GJA' => 'Apelacioni sud',
+        'GJK' => 'Privredni sud',
+        'GJAD' => 'Upravni sud',
+    ];
+
+    /** @var array<string, string> */
+    private const TOWNS_SR = [
+        'Podujevë' => 'Podujevu', 'Graçanicë' => 'Gračanici', 'Lipjan' => 'Lipljanu', 'Gllogoc' => 'Glogovcu', 'Fushë Kosovë' => 'Kosovu Polju',
+        'Leposaviq' => 'Leposaviću', 'Vushtrri' => 'Vučitrnu', 'Zubin Potok' => 'Zubinom Potoku', 'Skenderaj' => 'Srbici',
+        'Istog' => 'Istoku', 'Klinë' => 'Klini', 'Deçan' => 'Dečanima',
+        'Dragash' => 'Dragašu', 'Suharekë' => 'Suvoj Reci',
+        'Kaçanik' => 'Kačaniku', 'Shtërpcë' => 'Štrpcu',
+        'Kamenicë' => 'Kamenici', 'Viti' => 'Vitini', 'Novobërdë' => 'Novom Brdu',
+        'Malishevë' => 'Mališevu', 'Rahovec' => 'Orahovcu',
+    ];
+
+    /** @var array<string, string> */
+    private const NAMES_SR = [
+        'Dhoma e Posaçme' => 'Posebna komora',
+        'Divizioni në Mitrovicë' => 'Odeljenje u Mitrovici',
+        'Dhoma e Shkallës së Parë' => 'Prvostepeno veće',
+        'Dhoma e Shkallës së Dytë' => 'Drugostepeno veće',
+        'Departamenti i Përgjithshëm' => 'Opšte odeljenje',
+        'Departamenti për të Mitur' => 'Odeljenje za maloletnike',
+        'Departamenti për Krime të Rënda' => 'Odeljenje za teška krivična dela',
+        'Departamenti Special' => 'Specijalno odeljenje',
+        'Departamenti për Çështje Ekonomike' => 'Odeljenje za privredna pitanja',
+        'Departamenti për Çështje Administrative' => 'Odeljenje za upravna pitanja',
+        'Divizioni Civil' => 'Građanski odsek',
+        'Divizioni Penal' => 'Krivični odsek',
+        'Divizioni për Kundërvajtje' => 'Prekršajni odsek',
+    ];
+
+    /**
      * Branches that were seeded under another name of the same town: old Albanian name => new Albanian name.
      *
      * @var array<string, string>
@@ -91,6 +139,7 @@ class CourtStructure
             $court = $this->upsert(Court::class, ['code' => $code], [
                 'name_sq' => "Gjykata Themelore e {$sq}",
                 'name_en' => "Basic Court of {$en}",
+                'name_sr' => self::COURTS_SR[$code],
                 'level' => CourtLevel::Basic,
                 'city' => $city,
             ]);
@@ -101,6 +150,7 @@ class CourtStructure
             foreach ($branches as $branchSq => $branchEn) {
                 $branch = $this->upsert(CourtBranch::class, ['court_id' => $court->id, 'name_sq' => "Dega në {$branchSq}"], [
                     'name_en' => "{$branchEn} branch",
+                    'name_sr' => 'Ogranak u '.self::TOWNS_SR[$branchSq],
                     'city' => $branchSq,
                 ]);
 
@@ -112,6 +162,7 @@ class CourtStructure
             $court = $this->upsert(Court::class, ['code' => $code], [
                 'name_sq' => $sq,
                 'name_en' => $en,
+                'name_sr' => self::COURTS_SR[$code],
                 'level' => $level,
                 'city' => 'Prishtina',
             ]);
@@ -120,6 +171,7 @@ class CourtStructure
                 // No city: a chamber is not a place, and the legacy importer recognises branches by their town.
                 $this->upsert(CourtBranch::class, ['court_id' => $court->id, 'name_sq' => $chamberSq], [
                     'name_en' => $chamberEn,
+                    'name_sr' => self::NAMES_SR[$chamberSq],
                 ]);
             }
         }
@@ -133,10 +185,10 @@ class CourtStructure
         $departments = [];
 
         foreach (self::DEPARTMENTS as $code => [$sq, $en, $divisions]) {
-            $department = $this->upsert(Department::class, ['code' => $code], ['name_sq' => $sq, 'name_en' => $en]);
+            $department = $this->upsert(Department::class, ['code' => $code], ['name_sq' => $sq, 'name_en' => $en, 'name_sr' => self::NAMES_SR[$sq]]);
 
             foreach ($divisions as [$divisionSq, $divisionEn]) {
-                $this->upsert(Division::class, ['department_id' => $department->id, 'name_sq' => $divisionSq], ['name_en' => $divisionEn]);
+                $this->upsert(Division::class, ['department_id' => $department->id, 'name_sq' => $divisionSq], ['name_en' => $divisionEn, 'name_sr' => self::NAMES_SR[$divisionSq]]);
             }
 
             $departments[$code] = $department;

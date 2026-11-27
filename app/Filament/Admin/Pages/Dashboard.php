@@ -6,6 +6,7 @@ use App\Enums\CaseType;
 use App\Filament\Admin\Widgets\Analytics;
 use App\Filament\Admin\Widgets\MyWorkWidget;
 use App\Filament\Admin\Widgets\OverdueDeadlinesWidget;
+use App\Filament\Admin\Widgets\UpcomingHearingsWidget;
 use App\Filament\Admin\Widgets\WelcomeWidget;
 use App\Models\Reference\Court;
 use App\Support\Permissions;
@@ -79,7 +80,7 @@ class Dashboard extends BaseDashboard
      */
     protected function getHeaderWidgets(): array
     {
-        return [WelcomeWidget::class, MyWorkWidget::class, OverdueDeadlinesWidget::class];
+        return [WelcomeWidget::class, MyWorkWidget::class, UpcomingHearingsWidget::class, OverdueDeadlinesWidget::class];
     }
 
     public function getHeaderWidgetsColumns(): int|array

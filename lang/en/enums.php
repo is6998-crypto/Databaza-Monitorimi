@@ -29,6 +29,12 @@ return [
         'normal' => 'Normal',
         'low' => 'Low',
     ],
+    'scheduled_hearing_status' => [
+        'upcoming' => 'Coming up',
+        'attended' => 'Monitored',
+        'missed' => 'Not monitored',
+        'cancelled' => 'Cancelled',
+    ],
     'workflow_status' => [
         'draft' => 'Draft',
         'submitted' => 'Submitted',

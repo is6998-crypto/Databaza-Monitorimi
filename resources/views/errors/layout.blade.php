@@ -5,7 +5,7 @@
 --}}
 @php
     $code = (string) ($code ?? 500);
-    $supported = (array) config('courtwatch.supported_locales', ['sq', 'en']);
+    $supported = (array) config('courtwatch.supported_locales', ['sq', 'en', 'sr']);
     $fromUrl = request()->segment(1);
     $fromSession = rescue(fn () => request()->hasSession() ? request()->session()->get('locale') : null, null, false);
     $locale = collect([$fromUrl, $fromSession, app()->getLocale()])->first(fn ($candidate) => in_array($candidate, $supported, true)) ?? 'sq';

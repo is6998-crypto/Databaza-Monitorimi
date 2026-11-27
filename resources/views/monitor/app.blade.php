@@ -58,6 +58,26 @@
         </button>
         <p x-show="!data" class="rounded-2xl bg-white p-4 text-sm text-slate-600 ring-1 ring-slate-200/80">{{ __('monitor.first_time_online') }}</p>
 
+        <section x-show="data && data.upcoming && data.upcoming.length" data-upcoming>
+            <h2 class="cw-heading mb-2">{{ __('monitor.upcoming') }}</h2>
+            <ul class="divide-y divide-slate-100 overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200/80">
+                <template x-for="item in (data && data.upcoming ? data.upcoming : [])" :key="item.id">
+                    <li class="flex items-center gap-3 p-4">
+                        <span class="flex w-12 shrink-0 flex-col items-center rounded-xl py-1 leading-tight" :class="item.mine ? 'bg-navy-900 text-white' : 'bg-gold-300 text-navy-900'">
+                            <span class="text-lg font-extrabold" x-text="item.day"></span>
+                            <span class="text-[11px] font-bold uppercase tracking-wider" x-text="item.month"></span>
+                        </span>
+                        <span class="min-w-0 flex-1">
+                            <span class="block truncate font-bold text-navy-900" x-text="item.case"></span>
+                            <span class="block truncate text-sm text-slate-500" x-text="[item.time, item.court, item.courtroom].filter(Boolean).join(' · ')"></span>
+                            <span x-show="!item.mine" class="mt-0.5 block text-[13px] font-semibold text-navy-900">{{ __('calendar.nobody') }}</span>
+                        </span>
+                        <button type="button" class="cw-secondary shrink-0" x-show="item.today" x-on:click="startPlanned(item)" data-start-planned>{{ __('monitor.start') }}</button>
+                    </li>
+                </template>
+            </ul>
+        </section>
+
         <section>
             <div class="mb-2 flex items-center justify-between">
                 <h2 class="cw-heading">{{ __('monitor.on_this_device') }}</h2>
@@ -276,6 +296,17 @@
                         </div>
                         <label class="mt-3 block"><span class="cw-label">{{ __('hearings.fields.security_comment') }}</span>
                             <textarea x-model="draft.security_comment" rows="2" class="cw-input"></textarea></label></div>
+                </section>
+
+                <section class="cw-card">
+                    <h2 class="cw-card-title">{{ __('hearings.sections.next_hearing') }}</h2>
+                    <p class="-mt-2 mb-3 text-[13px] text-slate-600">{{ __('monitor.next_hearing_help') }}</p>
+                    <div class="grid grid-cols-2 gap-3">
+                        <label class="block"><span class="cw-label">{{ __('hearings.fields.next_hearing_on') }}</span>
+                            <input type="date" x-model="draft.next_hearing_on" class="cw-input" :min="draft.hearing_date" data-next-hearing-on></label>
+                        <label class="block"><span class="cw-label">{{ __('hearings.fields.next_hearing_time') }}</span>
+                            <input type="time" x-model="draft.next_hearing_time" class="cw-input" :disabled="!draft.next_hearing_on"></label>
+                    </div>
                 </section>
 
                 <section class="cw-card">

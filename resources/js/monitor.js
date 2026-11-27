@@ -53,6 +53,7 @@ const FIELDS = [
     'client_uuid', 'case_id', 'hearing_date', 'hearing_type', 'venue', 'is_public', 'started_late', 'delay_minutes',
     'delay_causes', 'was_postponed', 'postponement_reasons', 'plea_agreement', 'recording', 'interpretation_needed', 'interpretation_provided',
     'phone_used', 'phone_users', 'security_adequate', 'security_comment', 'participants', 'present_party_ids', 'notes',
+    'next_hearing_on', 'next_hearing_time',
 ];
 
 function uuid() {
@@ -184,11 +185,11 @@ window.monitorApp = function monitorApp(config) {
 
         // ---------------------------------------------------------------- drafts
 
-        newDraft(caseId = '') {
+        newDraft(caseId = '', hearingDate = null) {
             this.draft = {
                 client_uuid: uuid(),
                 case_id: caseId,
-                hearing_date: (this.data && this.data.today) || new Date().toISOString().slice(0, 10),
+                hearing_date: hearingDate || (this.data && this.data.today) || new Date().toISOString().slice(0, 10),
                 hearing_type: '',
                 venue: 'courtroom',
                 is_public: true,
@@ -208,6 +209,8 @@ window.monitorApp = function monitorApp(config) {
                 participants: [],
                 present_party_ids: [],
                 notes: '',
+                next_hearing_on: '',
+                next_hearing_time: '',
                 _status: 'draft',
                 _errors: {},
                 _submit: false,
@@ -219,6 +222,12 @@ window.monitorApp = function monitorApp(config) {
                 this.selectCase(caseId);
             }
             window.scrollTo(0, 0);
+        },
+
+        // A hearing from the calendar: today's (or a past one) can be recorded straight away.
+        startPlanned(item) {
+            const today = (this.data && this.data.today) || new Date().toISOString().slice(0, 10);
+            this.newDraft(item.case_id, item.date <= today ? item.date : today);
         },
 
         editDraft(draft) {

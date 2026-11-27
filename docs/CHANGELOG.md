@@ -1,5 +1,43 @@
 # Changelog
 
+### Error alerts and backup restore check
+
+- When the platform runs into an error, the administrators get an e-mail (`ERROR_ALERT_EMAIL`) with the kind of error, where in the code and on which page — never personal data. The same error is sent at most once an hour. On by default in production.
+- Once a month the newest backup is restored into a temporary database and checked (tables, users, and that names can be decrypted with the server's key); the administrators are e-mailed if it fails. Run it by hand with `php artisan backup:restore-check`.
+
+### Serbian
+
+- The whole platform is available in **Serbian** (Latin script): the staff panel, the monitor app, the researcher area, the public portal (`/sr/...`), notifications, documents and validation messages. Pick **Srpski** in the language menu or on the portal.
+- Courts, branches, chambers, departments and divisions have their Serbian names (e.g. "Osnovni sud u Prištini", "Ogranak u Kosovu Polju").
+- A check keeps the Albanian, English and Serbian texts in step: same keys and placeholders in all three.
+- Existing installations: add `,sr` to `APP_SUPPORTED_LOCALES` in `.env` (new ones have it by default).
+
+### Period reports for funders
+
+- New page **Analytics → Period reports**: a monitoring report for a quarter, half year, year or chosen dates, optionally for one court or case type, as Word or PDF. It covers the cases and hearings monitored, breakdowns by court, type and offence, postponements and their reasons, punctuality, openness, recording and interpretation, court decisions and legal time limits, with a short method. Approved data only; numbers under 5 are hidden unless you turn that off. Every download is logged.
+
+### Hearing reports as Word and PDF
+
+- **Download** on a hearing report gives it as Word (to edit) or PDF (to print), in the CourtWatch colours, with the case, court, date, author and review status at the top and, if you choose, the comments. The file is marked as internal because it names people, and every download is logged in the export log.
+
+### Monitoring coverage page
+
+- New page **Monitoring → Coverage** for editors and analysts: active cases with no monitored hearing in 60 days, high-priority cases without a monitor, planned hearings that were missed, recent hearings without a report, criminal cases missing the answers that decide their time limits, and drafts untouched for two weeks. Each has a tile with its count and a list that opens the case or hearing.
+
+### Hearing calendar
+
+- New **Hearing calendar** (Monitoring menu): the month with the hearings coming up, who attends each one, and which days passed without a monitored hearing. On a phone it is a list of days. A list view has tabs for coming up, not monitored, monitored and cancelled hearings.
+- The hearing form and the monitor app have a **Next hearing** field (date and time): the date goes straight into the calendar, for the monitor of the case. Hearings can also be added by hand from the calendar or the case page (**Add to calendar**).
+- Monitors can take a hearing nobody attends (**I will attend**); editors choose who attends.
+- The monitor who attends gets a **reminder the day before**. Editors and administrators are told about **high-priority hearings in the next 7 days that nobody attends**.
+- When a hearing is recorded for that case and day, the planned hearing is marked monitored. **Record the hearing** opens the form on the planned day.
+- The dashboard shows the hearings of the coming week, and the case page shows the next planned hearing. The monitor app lists your hearings for the next two weeks and the ones in your courts that nobody attends.
+- The demo data includes planned hearings for the coming weeks.
+
+### Warning before a legal time limit runs out
+
+- The monitor of the case, the editors and the administrators are now warned once when 80% of a legal time limit is used (day 48 of 60, day 24 of 30), at most a month ahead, so there is still time to act. The notification names the case, the phase, the days left and the end date. Limits shorter than a week get no warning. The numbers are in `config/deadlines.php`.
+
 ### Case priority
 
 - Editors can mark a case as **high**, normal or **low** priority, with a short reason ("I akuzuari në paraburgim", "Interes i lartë publik"…): in the case form, with **Cakto prioritetin** on the case page (also for published cases), or for many cases at once from the list.

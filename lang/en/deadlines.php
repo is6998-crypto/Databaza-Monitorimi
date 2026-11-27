@@ -74,5 +74,9 @@ return [
         'line_extended' => ':case: :days over the longest limit the law allows (Article :article CPC), counted from :since.',
         'more' => '{1} and :count more|[2,*] and :count more',
         'open' => 'Open',
+        'warning_one' => 'Legal time limit running out: :phase',
+        'warning_many' => '{1} :count legal time limit running out|[2,*] :count legal time limits running out',
+        'warning_line' => ':case: :days left of the limit of :limit (Article :article CPC), until :due.',
+        'warning_line_today' => ':case: the limit of :limit (Article :article CPC) ends today, :due.',
     ],
 ];

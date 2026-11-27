@@ -10,7 +10,7 @@ return [
     | structure is Serbian-ready (reference data has nullable name_sr columns).
     */
 
-    'supported_locales' => array_values(array_filter(explode(',', (string) env('APP_SUPPORTED_LOCALES', 'sq,en')))),
+    'supported_locales' => array_values(array_filter(explode(',', (string) env('APP_SUPPORTED_LOCALES', 'sq,en,sr')))),
 
     'locale_labels' => [
         'sq' => 'Shqip',
@@ -20,6 +20,32 @@ return [
 
     // Dates are stored in UTC and displayed in Kosovo time.
     'display_timezone' => env('APP_DISPLAY_TIMEZONE', 'Europe/Belgrade'),
+
+    // backup:restore-check fails when the newest backup is older than this.
+    'backups' => [
+        'restore_check_max_age_days' => (int) env('BACKUP_RESTORE_CHECK_MAX_AGE_DAYS', 2),
+    ],
+
+    // E-mail to the administrators when the application fails (no personal data; each error at most once an hour).
+    'error_alerts' => [
+        'enabled' => (bool) env('ERROR_ALERTS_ENABLED', env('APP_ENV') === 'production'),
+        'email' => env('ERROR_ALERT_EMAIL', env('BACKUP_NOTIFICATION_EMAIL')),
+        'per_hour' => (int) env('ERROR_ALERTS_PER_HOUR', 20),
+    ],
+
+    // Hearing calendar: editors hear about hearings of high-priority cases that nobody attends within this many days.
+    'calendar' => [
+        'unstaffed_warning_days' => 7,
+    ],
+
+    // Coverage page (editors): the numbers of days behind each check.
+    'coverage' => [
+        'not_followed_days' => 60,      // active case with no monitored hearing for this long
+        'report_after_days' => 3,       // hearing held this long ago and still no report…
+        'report_window_days' => 90,     // …within this many days (older ones are history, not a task)
+        'missed_hearings_days' => 30,   // planned hearings missed within this many days
+        'stale_draft_days' => 14,       // draft or returned record untouched for this long
+    ],
     'date_format' => 'd.m.Y',
     'datetime_format' => 'd.m.Y H:i',
 

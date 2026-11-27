@@ -20,6 +20,7 @@ spec was silent. Read both before changing behaviour.
 | Audit | spatie/laravel-activitylog |
 | 2FA | Filament built-in app (TOTP) MFA, mandatory in `/admin` |
 | API | Sanctum tokens, `/api/v1`, Scribe docs at `/docs/api` |
+| Documents | Word via PhpOffice PhpWord, PDF via dompdf (`App\Services\Documents`) |
 | Tests | Pest 4 (PostgreSQL), Playwright smoke tests in `e2e/` |
 | Quality | Pint (laravel preset), Larastan level 6 |
 | Design | Navy `#0c2a42` and yellow `#f8c33a` only, on white/light grey (no red, orange or green); Plus Jakarta Sans (self-hosted). Tokens: `resources/css/brand.css` (Tailwind) and `App\Support\Brand` (Filament, charts) |
@@ -56,16 +57,16 @@ docker compose -f docker-compose.prod.yml up -d --build   # production stack (do
 - `app/Http/Controllers/Api/V1` — researcher API (anonymized resources only).
 - `app/Livewire/Portal` + `resources/views/portal` — public portal.
 - `migration/` — legacy importer (`Migration\` namespace), config and fake fixture.
-- `lang/sq`, `lang/en` — every user-facing string. `lang/sr` exists but is not translated yet.
+- `lang/sq`, `lang/en`, `lang/sr` (Serbian, Latin script) — every user-facing string, same keys in all three (`tests/Feature/TranslationsTest.php`). Filament's own Serbian strings come from its `sr_Latn` files (`App\Support\Translation\LocaleAliasLoader`).
 
 ## Rules (from the proposal — must always hold)
 
 1. **Fake data only.** Never add real names of judges, prosecutors, monitors or accused persons. Seeders use Faker; only the public court structure and public criminal-code articles are real.
-2. **Personal names are encrypted at rest** (`encrypted` casts) and **never** reach public routes, the researcher area or the API. `tests/Feature/Privacy/NoPersonalNamesTest.php` enforces this — keep it green and extend it when adding routes. Hearing reports and their comments are free text that names people: they are encrypted too, stay in the staff panel, and their text never goes into the audit log, a notification or an email.
+2. **Personal names are encrypted at rest** (`encrypted` casts) and **never** reach public routes, the researcher area or the API. `tests/Feature/Privacy/NoPersonalNamesTest.php` enforces this — keep it green and extend it when adding routes. Hearing reports and their comments are free text that names people: they are encrypted too, stay in the staff panel (staff who may read one can download it as Word/PDF, marked internal and logged in `export_logs`), and their text never goes into the audit log, a notification or an email.
 3. **Suppress public aggregate cells under 5** (`App\Services\Anonymizer::suppress`).
 4. **Permissions are enforced with policies on the server** for every action. Monitors: create cases/hearings, edit own drafts and records under review, scoped to assigned courts, no delete. Analysts: read-only. Delete is admin-only and soft.
 5. **Audit everything**: models use `LogsActivity`; logins, exports and permission changes are logged explicitly.
-6. **Every user-facing string goes in translation files** (`__('...')`), Albanian default.
+6. **Every user-facing string goes in translation files** (`__('...')`) — Albanian (default), English and Serbian.
 7. **Dates**: stored in UTC, displayed in `Europe/Belgrade` as `dd.mm.yyyy`.
 8. **Workflow**: `draft → submitted → in_review → approved → published`, plus `returned` (with comment). Only approved/published data feeds dashboards, the public portal and researchers.
 9. **Exports are always logged** in `export_logs` (admin, researcher and API).
