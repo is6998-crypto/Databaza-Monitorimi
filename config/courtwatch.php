@@ -25,6 +25,15 @@ return [
     'calendar' => [
         'unstaffed_warning_days' => 7,
     ],
+
+    // Coverage page (editors): the numbers of days behind each check.
+    'coverage' => [
+        'not_followed_days' => 60,      // active case with no monitored hearing for this long
+        'report_after_days' => 3,       // hearing held this long ago and still no report…
+        'report_window_days' => 90,     // …within this many days (older ones are history, not a task)
+        'missed_hearings_days' => 30,   // planned hearings missed within this many days
+        'stale_draft_days' => 14,       // draft or returned record untouched for this long
+    ],
     'date_format' => 'd.m.Y',
     'datetime_format' => 'd.m.Y H:i',
 

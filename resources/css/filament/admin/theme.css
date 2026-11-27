@@ -2444,3 +2444,143 @@
     font-size: 0.875rem;
     color: var(--gray-500);
 }
+
+/* ------------------------------------------------------------------ Coverage page
+ * A row of tiles (one per check, yellow while something needs doing) and a list under each check.
+ */
+.cw-coverage {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.cw-coverage-tiles {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+
+    @media (min-width: 768px) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    @media (min-width: 1280px) {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+}
+
+.cw-coverage-tile {
+    display: flex;
+    min-height: 6.5rem;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.5rem;
+    border-radius: 1rem;
+    padding: 0.9rem 1rem;
+    background-color: var(--color-gold-400);
+    color: var(--color-navy-900);
+    transition: transform 120ms, box-shadow 120ms;
+
+    &:hover,
+    &:focus-visible {
+        box-shadow: 0 8px 18px -10px rgb(12 42 66 / 0.45);
+        transform: translateY(-1px);
+    }
+
+    &.is-clear {
+        background-color: #fff;
+        box-shadow: 0 0 0 1px rgb(12 42 66 / 0.08);
+        color: var(--color-navy-700);
+    }
+}
+
+.cw-coverage-tile-value {
+    font-size: 1.9rem;
+    font-weight: 800;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.cw-coverage-tile-label {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.cw-count.is-zero {
+    background-color: var(--gray-100);
+    color: var(--gray-600);
+}
+
+.cw-coverage-list {
+    border-top: 1px solid rgb(12 42 66 / 0.06);
+}
+
+.cw-coverage-row {
+    display: grid;
+    grid-template-columns: minmax(0, 14rem) minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.7rem 1.5rem;
+    border-bottom: 1px solid rgb(12 42 66 / 0.06);
+    transition: background-color 120ms;
+
+    &:hover,
+    &:focus-visible {
+        background-color: var(--color-gold-50);
+    }
+
+    @media (max-width: 640px) {
+        grid-template-columns: minmax(0, 1fr) auto;
+
+        & .cw-coverage-detail {
+            grid-column: 1;
+            grid-row: 2;
+        }
+    }
+}
+
+.cw-coverage-what {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+}
+
+.cw-coverage-case {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-weight: 700;
+    color: var(--color-navy-900);
+}
+
+.dark .cw-coverage-case {
+    color: #fff;
+}
+
+.cw-coverage-court {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.8125rem;
+    color: var(--gray-600);
+}
+
+.cw-coverage-detail {
+    font-size: 0.875rem;
+    color: var(--color-navy-700);
+}
+
+.cw-coverage-clear {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0 1.5rem 1.35rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-navy-700);
+}
+
+button.cw-panel-more {
+    width: 100%;
+    text-align: start;
+}

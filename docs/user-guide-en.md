@@ -245,6 +245,24 @@ public and closed hearings, recording and interpretation, median days between st
 outcomes, convictions and acquittals, sentences, plea agreements, appeal outcomes, and seizure
 and confiscation requested and granted. Monitors see their drafts and returned hearings instead.
 
+### Monitoring coverage (editors and analysts)
+
+**Monitoring → Coverage** shows where the monitoring has gaps, with a tile for each (yellow while
+something needs doing) and a list under it:
+
+- **Active cases not followed**: cases with a legal time limit still running or a high priority,
+  with no monitored hearing in the last 60 days;
+- **High priority, no monitor**;
+- **Planned hearings not monitored** in the last 30 days (from the calendar);
+- **Hearings without a report**: hearings of the last 90 days, older than 3 days, with no written
+  report;
+- **Missing answers for the time limits**: criminal cases where detention or who tries the case
+  is unknown;
+- **Forgotten drafts**: cases and hearings in draft or returned, untouched for 14 days.
+
+Each row opens the case or hearing. The numbers of days are in `config/courtwatch.php`
+(`coverage`).
+
 ## 9. Reference data (editors and administrators)
 
 **Reference data** holds the lists used in the forms (courts, branches, departments, divisions,

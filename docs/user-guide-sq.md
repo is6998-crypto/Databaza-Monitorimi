@@ -253,6 +253,21 @@ marrëveshjet për pranimin e fajësisë, rezultatet e ankesave, si dhe sekuestr
 e kërkuar dhe të aprovuar. Monitoruesit shohin në vend të kësaj draftet dhe seancat e tyre të
 kthyera.
 
+### Mbulimi i monitorimit (redaktorët dhe analistët)
+
+**Monitorimi → Mbulimi** tregon ku ka zbrazëtira, me një pllakë për secilën (e verdhë kur ka diçka
+për të bërë) dhe një listë poshtë:
+
+- **Lëndë aktive të pandjekura**: lëndë me një afat ligjor që ende rrjedh ose me prioritet të
+  lartë, pa seancë të monitoruar në 60 ditët e fundit;
+- **Prioritet i lartë pa monitorues**;
+- **Seanca të planifikuara të pandjekura** në 30 ditët e fundit (nga kalendari);
+- **Seanca pa raport**: seanca të 90 ditëve të fundit, më të vjetra se 3 ditë, pa raport të shkruar;
+- **Përgjigje që mungojnë për afatet**: lëndë penale ku nuk dihet paraburgimi ose kush e gjykon;
+- **Drafte të harruara**: lëndë dhe seanca në draft ose të kthyera, të paprekura prej 14 ditësh.
+
+Çdo rresht hap lëndën ose seancën. Numrat e ditëve janë në `config/courtwatch.php` (`coverage`).
+
 ## 9. Të dhënat referuese (redaktorët dhe administratorët)
 
 **Të dhënat referuese** përmbajnë listat që përdoren në formularë (gjykatat, degët,

@@ -105,6 +105,10 @@ added at the bottom of each section. Format: **decision** — reason.
 - **Dashboard indicators count only approved/published hearings of approved/published cases.** — Unreviewed data must not reach reports. The dashboard filters (date range, court, case type) are shared by all widgets and kept in the session.
 - **Charts are Filament chart widgets (Chart.js) in the staff panel; the public portal uses Apache ECharts.** — Both are allowed by B2; Filament widgets integrate with the dashboard filters.
 - **Postponement analysis can be grouped by judge in the staff dashboard only; the public portal never uses the judge dimension.** — Judges' names are personal data and the portal shows no names.
+- **Coverage page (editors and analysts, `Review:Workflow` or `View:Analytics`): six checks, each a query in `App\Services\Coverage\CoverageChecks`, thresholds in `config/courtwatch.php` → `coverage`.** — The supervisor's request was to stay on top of things; the dashboard shows the person's own work, this page the team's gaps.
+- **An "active" case is one with a legal time limit still running, or a high priority.** — Cases have no "closed" flag, and a case without a hearing for 60 days is normal once it has ended. A running limit means a criminal case is mid-procedure; a high priority is the editors' own word that it matters. Civil and administrative cases show up here through their priority or the calendar.
+- **"Hearings without a report" looks at the last 90 days only.** — Hearing reports are new; hundreds of older hearings without one are history, not a task.
+
 
 ## Public portal
 
