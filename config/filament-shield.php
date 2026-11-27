@@ -262,6 +262,7 @@ return [
         'Import:Reference' => 'Import reference data from CSV',
         'Export:Data' => 'Export data (CSV/XLSX)',
         'Assign:Monitor' => 'Assign monitors to cases',
+        'Prioritize:Case' => 'Set the priority of cases',
         'View:Analytics' => 'View analytics dashboards',
         'Approve:Researcher' => 'Approve researcher accounts',
         'Manage:Settings' => 'Manage system settings',

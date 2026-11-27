@@ -83,6 +83,15 @@ class CourtCasePolicy extends PermissionPolicy
         return $user->checkPermissionTo(Permissions::ASSIGN_MONITOR);
     }
 
+    /**
+     * Set a case's priority. Priority is planning, not monitoring data, so it may change whatever the case's
+     * workflow status (also on a published case, which is otherwise locked).
+     */
+    public function prioritize(User $user): bool
+    {
+        return $user->checkPermissionTo(Permissions::PRIORITIZE_CASES);
+    }
+
     public function export(User $user): bool
     {
         return $user->checkPermissionTo(Permissions::EXPORT_DATA);

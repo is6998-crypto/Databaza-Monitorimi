@@ -2,8 +2,10 @@
 
 namespace App\Filament\Admin\Resources\Cases\Tables;
 
+use App\Enums\CasePriority;
 use App\Enums\CaseType;
 use App\Enums\WorkflowStatus;
+use App\Filament\Admin\Actions\CasePriorityAction;
 use App\Filament\Admin\Actions\TableActions;
 use App\Filament\Admin\Resources\Cases\CourtCaseResource;
 use App\Models\CourtCase;
@@ -34,7 +36,8 @@ class CourtCasesTable
     {
         return $table
             ->modifyQueryUsing(fn (Builder $query) => $query->with(['court', 'judge', 'assignedMonitor.user'])->withCount('hearings'))
-            ->defaultSort('updated_at', 'desc')
+            // High-priority cases first, then the most recently changed. A column the user sorts by comes first.
+            ->defaultSort(fn (Builder $query): Builder => $query->orderByRaw(CasePriority::orderSql('cases.priority'))->orderByDesc('cases.updated_at'))
             ->columns([
                 // The case in two short lines: its number, and the court under it.
                 TextColumn::make('court_case_number')
@@ -45,6 +48,12 @@ class CourtCasesTable
                     ->weight('medium')
                     ->description(fn (CourtCase $record): ?string => $record->court?->label())
                     ->extraCellAttributes(['class' => 'cw-case-cell']),
+                // Only high and low show a badge; a normal case leaves the cell empty.
+                TextColumn::make('priority')
+                    ->label(__('cases.fields.priority'))
+                    ->state(fn (CourtCase $record): ?CasePriority => $record->priority === CasePriority::Normal ? null : $record->priority)
+                    ->badge()
+                    ->sortable(query: fn (Builder $query, string $direction): Builder => $query->orderByRaw(CasePriority::orderSql('cases.priority').' '.($direction === 'desc' ? 'desc' : 'asc'))),
                 TextColumn::make('status')->label(__('cases.fields.status'))->badge()->sortable(),
                 TextColumn::make('type')->label(__('cases.fields.type'))->badge()->sortable(),
                 TextColumn::make('indictment_number')->label(__('cases.fields.indictment_number'))->placeholder('—')->toggleable(isToggledHiddenByDefault: true),
@@ -61,6 +70,7 @@ class CourtCasesTable
             ->filters([
                 SelectFilter::make('type')->label(__('cases.fields.type'))->options(CaseType::options())->multiple(),
                 SelectFilter::make('status')->label(__('cases.fields.status'))->options(WorkflowStatus::options())->multiple(),
+                SelectFilter::make('priority')->label(__('cases.fields.priority'))->options(CasePriority::options())->multiple(),
                 SelectFilter::make('court_id')->label(__('cases.fields.court'))->options(fn (): array => Court::selectOptions(false))->multiple()->searchable(),
                 SelectFilter::make('judge_id')->label(__('cases.fields.judge'))->options(fn (): array => Judge::selectOptions(false))->searchable(),
                 SelectFilter::make('assigned_monitor_id')->label(__('cases.fields.assigned_monitor'))->options(fn (): array => Monitor::selectOptions(false))->searchable(),
@@ -92,6 +102,7 @@ class CourtCasesTable
             ->toolbarActions([
                 BulkActionGroup::make([
                     TableActions::assignMonitor(),
+                    CasePriorityAction::bulk(),
                     TableActions::changeStatus(),
                     TableActions::exportSelected('cases', fn (): array => ExportColumns::cases(), ExportColumns::caseRelations()),
                     DeleteBulkAction::make(),

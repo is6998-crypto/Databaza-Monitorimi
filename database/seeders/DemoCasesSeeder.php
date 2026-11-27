@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enums\Appellant;
+use App\Enums\CasePriority;
 use App\Enums\CaseType;
 use App\Enums\ChargeStage;
 use App\Enums\CivilOutcome;
@@ -156,6 +157,15 @@ class DemoCasesSeeder extends Seeder
                 'investigation_extended' => $this->faker->boolean(10),
             ]);
         }
+
+        // About one case in eight is a priority for the team, a few are set aside.
+        $priority = $this->faker->randomElement([...array_fill(0, 2, CasePriority::High), CasePriority::Low, ...array_fill(0, 13, CasePriority::Normal)]);
+        $case->priority = $priority;
+        $case->priority_note = match ($priority) {
+            CasePriority::High => $this->faker->randomElement(['Interes i lartë publik.', 'I akuzuari në paraburgim, afatet janë të shkurtra.', 'Rast i korrupsionit të nivelit të lartë.', 'Seancat shtyhen vazhdimisht.']),
+            CasePriority::Low => $this->faker->randomElement(['Monitorohet vetëm shqiptimi i aktgjykimit.', 'Procedura është pezulluar.']),
+            default => null,
+        };
 
         $status = $this->pickStatus();
         $case->status = $status;

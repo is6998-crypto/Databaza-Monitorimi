@@ -24,6 +24,11 @@ return [
         'civil' => 'Civile',
         'economic' => 'Ekonomike',
     ],
+    'case_priority' => [
+        'high' => 'E lartë',
+        'normal' => 'Normale',
+        'low' => 'E ulët',
+    ],
     'workflow_status' => [
         'draft' => 'Draft',
         'submitted' => 'Dorëzuar',

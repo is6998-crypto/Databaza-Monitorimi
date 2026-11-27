@@ -1,5 +1,11 @@
 # Changelog
 
+### Case priority
+
+- Editors can mark a case as **high**, normal or **low** priority, with a short reason ("I akuzuari në paraburgim", "Interes i lartë publik"…): in the case form, with **Cakto prioritetin** on the case page (also for published cases), or for many cases at once from the list.
+- High-priority cases come first in the case list, the review queue (cases, hearings and reports) and the monitor app, where they carry a yellow label. The list has a priority column and filter, and the staff export a priority column.
+- Monitors see the priority but cannot change it. It is internal: it never appears on the public portal, to researchers or in the API.
+
 ### Public case pages without findings; upload messages in Albanian
 
 - The public case search and case pages no longer show judgment outcomes or postponed, late or closed hearings, and the search no longer filters by judgment. A case shows its court, type, year, offences, the stages it has passed (month and year) and the number of monitored hearings.

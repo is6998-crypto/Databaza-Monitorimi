@@ -42,6 +42,8 @@ final class Permissions
 
     public const ASSIGN_MONITOR = 'Assign:Monitor';
 
+    public const PRIORITIZE_CASES = 'Prioritize:Case';
+
     public const VIEW_ANALYTICS = 'View:Analytics';
 
     public const APPROVE_RESEARCHERS = 'Approve:Researcher';
@@ -50,7 +52,7 @@ final class Permissions
 
     public const CUSTOM = [
         self::REVIEW, self::PUBLISH, self::MERGE_REFERENCE, self::IMPORT_REFERENCE,
-        self::EXPORT_DATA, self::ASSIGN_MONITOR, self::VIEW_ANALYTICS,
+        self::EXPORT_DATA, self::ASSIGN_MONITOR, self::PRIORITIZE_CASES, self::VIEW_ANALYTICS,
         self::APPROVE_RESEARCHERS, self::MANAGE_SETTINGS,
     ];
 
@@ -108,7 +110,7 @@ final class Permissions
                 ...self::for(['ViewAny', 'View', 'Update'], ['LegacyReviewItem']),
                 ...self::for(self::READ, ['ExportLog']),
                 self::REVIEW, self::PUBLISH, self::MERGE_REFERENCE, self::IMPORT_REFERENCE,
-                self::EXPORT_DATA, self::ASSIGN_MONITOR, self::VIEW_ANALYTICS,
+                self::EXPORT_DATA, self::ASSIGN_MONITOR, self::PRIORITIZE_CASES, self::VIEW_ANALYTICS,
             ])),
 
             // Monitor: create cases, hearings and hearing reports, edit own drafts and records under review, no delete.

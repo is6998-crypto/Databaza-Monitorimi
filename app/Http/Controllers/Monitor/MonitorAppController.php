@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Monitor;
 
+use App\Enums\CasePriority;
 use App\Enums\DelayCause;
 use App\Enums\HearingType;
 use App\Enums\Participant;
@@ -54,8 +55,10 @@ class MonitorAppController extends Controller
         $user = $request->user();
         $monitor = $user->monitor;
 
+        // High-priority cases first, then (for a monitor) the cases assigned to them, then the most recently changed.
         $cases = CourtCase::query()
             ->visibleTo($user)
+            ->orderByPriority()
             ->when($user->isMonitorOnly() && $monitor !== null, fn ($query) => $query->orderByRaw('CASE WHEN assigned_monitor_id = ? THEN 0 ELSE 1 END', [$monitor->id]))
             ->whereNotIn('status', [WorkflowStatus::Published->value])
             ->with(['court', 'judge', 'prosecutor', 'parties'])
@@ -67,6 +70,9 @@ class MonitorAppController extends Controller
                 'label' => $case->display_label,
                 'type' => $case->type->getLabel(),
                 'court' => $case->court?->label(),
+                // Only a high or low priority is shown; a normal case has none.
+                'priority' => $case->priority === CasePriority::Normal ? null : $case->priority->value,
+                'priority_label' => $case->priority === CasePriority::Normal ? null : $case->priority->getLabel(),
                 'judge' => $case->judge?->name,
                 'prosecutor' => $case->prosecutor?->name,
                 'parties' => $case->parties->map(fn (CaseParty $party): array => [

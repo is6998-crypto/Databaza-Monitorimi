@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Resources\Cases\Schemas;
 
+use App\Enums\CasePriority;
 use App\Enums\CaseType;
 use App\Enums\CivilOutcome;
 use App\Enums\ClaimType;
@@ -220,12 +221,39 @@ class CourtCaseForm
                     ->default(fn (): ?int => auth()->user() instanceof User ? auth()->user()->monitor?->id : null)
                     ->disabled(fn (): bool => ! Gate::allows('assignMonitor', CourtCase::class))
                     ->dehydrated(),
+                // Set by editors; for everyone else it is shown but not saved (a disabled field is not dehydrated).
+                ToggleButtons::make('priority')
+                    ->label(__('cases.fields.priority'))
+                    ->helperText(__('cases.help.priority'))
+                    ->options(CasePriority::options())
+                    ->colors([CasePriority::High->value => 'primary', CasePriority::Normal->value => 'gray', CasePriority::Low->value => 'gray'])
+                    ->icons([CasePriority::High->value => CasePriority::High->getIcon(), CasePriority::Normal->value => CasePriority::Normal->getIcon(), CasePriority::Low->value => CasePriority::Low->getIcon()])
+                    ->default(CasePriority::Normal->value)
+                    ->inline()
+                    ->grouped()
+                    ->live()
+                    ->disabled(fn (): bool => ! Gate::allows('prioritize', CourtCase::class)),
+                Textarea::make('priority_note')
+                    ->label(__('cases.fields.priority_note'))
+                    ->placeholder(__('cases.help.priority_note'))
+                    ->rows(2)
+                    ->maxLength(500)
+                    ->visible(fn (Get $get): bool => static::priority($get) !== CasePriority::Normal)
+                    ->disabled(fn (): bool => ! Gate::allows('prioritize', CourtCase::class))
+                    ->columnSpanFull(),
                 Textarea::make('summary')
                     ->label(__('cases.fields.summary'))
                     ->helperText(__('cases.help.summary'))
                     ->rows(3)
                     ->columnSpanFull(),
             ]);
+    }
+
+    public static function priority(Get $get): CasePriority
+    {
+        $priority = $get('priority');
+
+        return $priority instanceof CasePriority ? $priority : (CasePriority::tryFrom((string) $priority) ?? CasePriority::Normal);
     }
 
     protected static function administrativeDetails(): Section

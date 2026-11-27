@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\CasePriority;
 use App\Enums\CaseType;
 use App\Enums\StageType;
 use App\Enums\TrialBench;
@@ -44,6 +45,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property int|null $prosecutor_id
  * @property int|null $prosecution_office_id
  * @property int|null $assigned_monitor_id
+ * @property CasePriority $priority
+ * @property string|null $priority_note
  * @property string|null $court_case_number
  * @property string|null $indictment_number
  * @property string|null $police_case_number
@@ -73,7 +76,9 @@ class CourtCase extends Model
     use HasFactory;
 
     use HasUlids;
-    use HasWorkflow;
+    use HasWorkflow {
+        workflowSnapshot as traitWorkflowSnapshot;
+    }
     use LogsActivity;
     use SoftDeletes;
 
@@ -98,6 +103,7 @@ class CourtCase extends Model
     {
         return [
             'type' => CaseType::class,
+            'priority' => CasePriority::class,
             'in_detention' => 'boolean',
             'trial_bench' => TrialBench::class,
             'is_complex' => 'boolean',
@@ -129,6 +135,29 @@ class CourtCase extends Model
             ->logExcept(['created_at', 'updated_at', 'public_ref'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
+    }
+
+    /**
+     * Priority is planning, not monitoring data: changing it is not a change for the reviewer to look at.
+     *
+     * @return array<string, mixed>
+     */
+    public function workflowSnapshot(): array
+    {
+        $attributes = $this->traitWorkflowSnapshot();
+        unset($attributes['priority'], $attributes['priority_note']);
+
+        return $attributes;
+    }
+
+    /**
+     * Highest priority first.
+     *
+     * @param  Builder<static>  $query
+     */
+    public function scopeOrderByPriority(Builder $query): void
+    {
+        $query->orderByRaw(CasePriority::orderSql($this->qualifyColumn('priority')));
     }
 
     /**
