@@ -257,6 +257,18 @@ marrëveshjet për pranimin e fajësisë, rezultatet e ankesave, si dhe sekuestr
 e kërkuar dhe të aprovuar. Monitoruesit shohin në vend të kësaj draftet dhe seancat e tyre të
 kthyera.
 
+### Raportet periodike (redaktorët dhe analistët)
+
+**Analiza → Raportet periodike** krijon një raport të monitorimit për një tremujor, gjashtëmujor,
+vit ose data të tjera, për donatorët dhe partnerët, si **Word** ose **PDF**. Zgjidhni periudhën
+(edhe gjykatën ose llojin e lëndës, nëse doni); karta anash tregon sa lëndë dhe seanca përfshin.
+
+Raporti ka: përmbledhjen (lëndë, seanca, gjykata, shtyrje, vonesa, publicitet, aktgjykime), lëndët
+sipas gjykatës, llojit dhe kategorisë së veprës, arsyet e shtyrjes, përpikërinë dhe shkaqet e
+vonesave, publicitetin, incizimin dhe përkthimin, vendimet e gjykatave, afatet ligjore që skaduan
+dhe sa u tejkaluan, dhe metodologjinë. Numërohen vetëm të dhënat e aprovuara. **Fshih numrat nën
+5** është i ndezur: lëreni kështu për çdo raport që del jashtë ekipit. Çdo shkarkim regjistrohet.
+
 ### Mbulimi i monitorimit (redaktorët dhe analistët)
 
 **Monitorimi → Mbulimi** tregon ku ka zbrazëtira, me një pllakë për secilën (e verdhë kur ka diçka

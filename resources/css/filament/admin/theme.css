@@ -2584,3 +2584,77 @@ button.cw-panel-more {
     width: 100%;
     text-align: start;
 }
+
+/* ------------------------------------------------------------------ Period reports
+ * The form on a white sheet, and beside it a navy card with the period and what it covers.
+ */
+.cw-period {
+    display: grid;
+    gap: 1.25rem;
+    align-items: start;
+
+    @media (min-width: 1024px) {
+        grid-template-columns: minmax(0, 1fr) 20rem;
+    }
+}
+
+.cw-period-form {
+    padding: 1.5rem;
+}
+
+.cw-period-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+}
+
+.cw-period-preview {
+    padding: 1.5rem;
+    background-color: var(--color-navy-900);
+    color: #fff;
+}
+
+.cw-period-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-gold-400);
+}
+
+.cw-period-name {
+    margin-top: 0.35rem;
+    font-size: 1.6rem;
+    font-weight: 800;
+    line-height: 1.15;
+}
+
+.cw-period-figures {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+
+    & div {
+        border-radius: 0.9rem;
+        padding: 0.75rem 0.85rem;
+        background-color: rgb(255 255 255 / 0.08);
+    }
+
+    & dt {
+        font-size: 0.75rem;
+        color: rgb(255 255 255 / 0.7);
+    }
+
+    & dd {
+        font-size: 1.5rem;
+        font-weight: 800;
+        font-variant-numeric: tabular-nums;
+    }
+}
+
+.cw-period-note {
+    margin-top: 1rem;
+    font-size: 0.8125rem;
+    color: rgb(255 255 255 / 0.65);
+}

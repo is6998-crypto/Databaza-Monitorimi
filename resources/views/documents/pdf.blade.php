@@ -32,7 +32,7 @@
         table.data td { padding: 3.5pt 6pt; border-bottom: 0.6pt solid #e5e7eb; font-size: 8.5pt; }
         table.data tr:nth-child(even) td { background: #f9fafb; }
         table.data th.num, table.data td.num { text-align: right; }
-        table.figures { width: 100%; border-collapse: separate; border-spacing: 5pt 0; margin: 4pt -5pt 8pt; }
+        table.figures { width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 5pt 0; margin: 4pt -5pt 8pt; }
         table.figures td { background: #f3f4f6; padding: 8pt 9pt; vertical-align: top; }
         table.figures .value { display: block; font-size: 17pt; font-weight: bold; color: {{ $navy }}; }
         table.figures .label { display: block; font-size: 7.5pt; color: #4b5563; }

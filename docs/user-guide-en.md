@@ -249,6 +249,18 @@ public and closed hearings, recording and interpretation, median days between st
 outcomes, convictions and acquittals, sentences, plea agreements, appeal outcomes, and seizure
 and confiscation requested and granted. Monitors see their drafts and returned hearings instead.
 
+### Period reports (editors and analysts)
+
+**Analytics → Period reports** writes a monitoring report for a quarter, half year, year or other
+dates, for funders and partners, as **Word** or **PDF**. Choose the period (and a court or case type
+if you like); the card beside it shows how many cases and hearings it covers.
+
+The report has: the summary (cases, hearings, courts, postponements, delays, openness, judgments),
+cases by court, type and offence category, postponement reasons, punctuality and delay causes,
+openness, recording and interpretation, court decisions, the legal time limits that ended and how
+many were exceeded, and the method. Only approved data is counted. **Hide numbers under 5** is on:
+keep it on for every report that leaves the team. Every download is logged.
+
 ### Monitoring coverage (editors and analysts)
 
 **Monitoring → Coverage** shows where the monitoring has gaps, with a tile for each (yellow while

@@ -1,5 +1,9 @@
 # Changelog
 
+### Period reports for funders
+
+- New page **Analytics → Period reports**: a monitoring report for a quarter, half year, year or chosen dates, optionally for one court or case type, as Word or PDF. It covers the cases and hearings monitored, breakdowns by court, type and offence, postponements and their reasons, punctuality, openness, recording and interpretation, court decisions and legal time limits, with a short method. Approved data only; numbers under 5 are hidden unless you turn that off. Every download is logged.
+
 ### Hearing reports as Word and PDF
 
 - **Download** on a hearing report gives it as Word (to edit) or PDF (to print), in the CourtWatch colours, with the case, court, date, author and review status at the top and, if you choose, the comments. The file is marked as internal because it names people, and every download is logged in the export log.
