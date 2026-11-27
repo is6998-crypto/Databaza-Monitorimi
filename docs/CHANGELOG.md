@@ -1,5 +1,9 @@
 # Changelog
 
+### Hearing reports as Word and PDF
+
+- **Download** on a hearing report gives it as Word (to edit) or PDF (to print), in the CourtWatch colours, with the case, court, date, author and review status at the top and, if you choose, the comments. The file is marked as internal because it names people, and every download is logged in the export log.
+
 ### Monitoring coverage page
 
 - New page **Monitoring → Coverage** for editors and analysts: active cases with no monitored hearing in 60 days, high-priority cases without a monitor, planned hearings that were missed, recent hearings without a report, criminal cases missing the answers that decide their time limits, and drafts untouched for two weeks. Each has a tile with its count and a list that opens the case or hearing.

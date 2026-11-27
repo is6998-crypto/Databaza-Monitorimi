@@ -194,6 +194,10 @@ A monitor sees only their own reports; editors see all of them. The text and the
 stored encrypted and stay inside the panel: they never appear on the public portal, in the
 researcher area or in email notifications.
 
+**Download** on the report page gives the report as **Word** (to edit, e.g. for a publication) or
+**PDF** (to print), with or without the comments. The file is marked "Internal — contains personal
+data"; every download is logged in the **Export log**.
+
 ### The monitor app (phone, works offline)
 
 The menu under your initials has **Monitor app (mobile)** (`/m`). On a phone, add it to the home

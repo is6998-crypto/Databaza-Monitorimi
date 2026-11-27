@@ -198,6 +198,10 @@ Monitoruesi sheh vetëm raportet e veta; redaktorët i shohin të gjitha. Teksti
 ruhen të enkriptuara dhe mbeten brenda panelit: nuk shfaqen në portalin publik, te hulumtuesit
 apo në njoftimet me email.
 
+**Shkarko** në faqen e raportit e jep raportin si **Word** (për ta redaktuar, p.sh. për një
+publikim) ose **PDF** (për ta printuar), me ose pa komentet. Skedari shënohet "I brendshëm —
+përmban të dhëna personale"; çdo shkarkim regjistrohet në **Regjistri i eksporteve**.
+
 ### Aplikacioni i monitoruesit (celular, punon pa internet)
 
 Menyja nën inicialet tuaja ka **Aplikacioni i monitoruesit (celular)** (`/m`). Në telefon,
